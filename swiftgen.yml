@@ -1,0 +1,6 @@
+xcassets:
+  inputs:
+    - Shared/Resource/Assets.xcassets
+  outputs:
+    - templateName: swift4
+      output: Shared/Resource/Assets.swift
