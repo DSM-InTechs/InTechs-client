@@ -32,4 +32,8 @@ enum SFImage: String {
     case chat = "message.fill"
     case project = "square.grid.2x2"
     case calendar = "calendar"
+    case question = "questionmark"
+    case plusSquare = "plus.app.fill"
+    case emailFill = "envelope.fill"
+    case lockFill = "lock.fill"
 }

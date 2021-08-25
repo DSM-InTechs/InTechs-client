@@ -31,12 +31,6 @@ struct ChatDetailView: View {
                         Spacer()
                         
                         Button(action: {}, label: {
-                            Image(system: .dot)
-                                .font(.title2)
-                        })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        Button(action: {}, label: {
                             Image(system: .search)
                                 .font(.title2)
                         })

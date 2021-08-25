@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "Download_on_the_App_Store_Badge_KR_blk_100317.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}

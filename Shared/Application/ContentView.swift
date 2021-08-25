@@ -19,9 +19,25 @@ struct ContentView: View {
     @ObservedObject var homeViewModel = HomeViewModel()
     var body: some View {
         
-        Home()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .environmentObject(homeViewModel)
+        ZStack {
+            Home()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .environmentObject(homeViewModel)
+            
+            if homeViewModel.toast != nil {
+                switch homeViewModel.toast {
+                case .channelInfo:
+                    ChannelInfoView()
+                case .channelSearch:
+                    ChannelSearchView()
+                case .none:
+                    Text("")
+                        .opacity(0)
+                }
+            }
+        }
+        
+        
     }
     #endif
 }

@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "Download_on_the_Mac_App_Store_Badge_KR_RGB_blk_100317.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}

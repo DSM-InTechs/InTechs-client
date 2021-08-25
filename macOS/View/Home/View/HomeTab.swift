@@ -12,7 +12,6 @@ enum HomeTab: String {
     case Projects
     case Calendar
     case Teams
-    case Help
     case Mypage
 }
 
@@ -27,8 +26,6 @@ extension HomeTab {
             return "calendar"
         case .Teams:
             return "person.2"
-        case .Help:
-            return "questionmark"
         case .Mypage:
             return "person.circle"
         }

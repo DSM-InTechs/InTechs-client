@@ -23,9 +23,18 @@ struct HomeTabButton: View {
                 }
             }, label: {
                 VStack(spacing: 7) {
-                    Image(systemName: tab.getImage())
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(selectedTab == tab ? .white : .gray)
+                    if tab == .Mypage {
+                        ZStack(alignment: .bottomTrailing) {
+                            Circle()
+                                .frame(width: 30, height: 30)
+                            
+                            ActiveView()
+                        }
+                    } else {
+                        Image(systemName: tab.getImage())
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(selectedTab == tab ? .white : .gray)
+                    }
                 }
                 .padding(.vertical, 8)
                 .frame(width: 50)
@@ -65,5 +74,13 @@ struct HomeTabButton: View {
             }
         }
         
+    }
+}
+
+
+struct HomeTabButton_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        HomeTabButton(tab: .Mypage, selectedTab: .constant(.Mypage))
     }
 }

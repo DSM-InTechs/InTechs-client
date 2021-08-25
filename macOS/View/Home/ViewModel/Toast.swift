@@ -8,6 +8,6 @@
 import SwiftUI
 
 enum Toast {
-    case search
-    case info
+    case channelSearch
+    case channelInfo
 }

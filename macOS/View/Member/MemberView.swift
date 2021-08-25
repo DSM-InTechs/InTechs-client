@@ -27,7 +27,11 @@ struct MemberView: View {
                         .font(.title)
                     
                     Spacer()
-//                    SystemImageView(
+                    Button(action: {}, label: {
+                        SystemImage(system: .plus)
+                            .frame(width: 15, height: 15)
+                            .padding(.vertical)
+                    })
                 }
                 
                 Text("7 Members")
@@ -35,25 +39,7 @@ struct MemberView: View {
                 ScrollView {
                     LazyVStack(alignment: .leading) {
                         ForEach(members, id: \.self) { member in
-                            HStack {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .frame(width: 100, height: 100)
-                                VStack(alignment: .leading) {
-                                  
-                                    Text(member.name)
-                                    Spacer()
-                                    Text("Chat with 재원")
-                                }
-                                
-                                Spacer()
-                            }.padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 10).foregroundColor(Color(NSColor.windowBackgroundColor))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .strokeBorder(Color.gray.opacity(0.3))
-                            )
+                            MemberRow(member: member)
                         }.padding(.vertical, 5)
                     }
                 }
@@ -67,6 +53,40 @@ struct MemberView: View {
             }
         }.ignoresSafeArea(.all, edges: .all)
         .padding(.trailing, 70)
+    }
+}
+
+struct MemberRow: View {
+    let member: Member
+    var body: some View {
+        HStack {
+            ZStack(alignment: .bottomTrailing) {
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 100, height: 100)
+                
+                if member.status {
+                   ActiveView()
+                } else {
+                    InActiveView()
+                }
+            }
+            
+            VStack(alignment: .leading) {
+              
+                Text(member.name)
+                Spacer()
+                Text("Chat with 재원")
+            }
+            
+            Spacer()
+        }.padding()
+        .background(
+            RoundedRectangle(cornerRadius: 10).foregroundColor(Color(NSColor.windowBackgroundColor))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .strokeBorder(Color.gray.opacity(0.3))
+        )
     }
 }
 

@@ -24,6 +24,11 @@ internal enum Asset {
   internal static let accentColor = ColorAsset(name: "AccentColor")
   internal static let black = ColorAsset(name: "black")
   internal static let white = ColorAsset(name: "white")
+  internal static let inTechs = ImageAsset(name: "InTechs")
+  internal static let inTechsLeft = ColorAsset(name: "InTechsLeft")
+  internal static let inTechsRight = ColorAsset(name: "InTechsRight")
+  internal static let appstore = ImageAsset(name: "appstore")
+  internal static let macAppstore = ImageAsset(name: "macAppstore")
   internal static let placeholder = ImageAsset(name: "placeholder")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

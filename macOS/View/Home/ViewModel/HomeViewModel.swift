@@ -9,6 +9,7 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     @Published var selectedTab: HomeTab = HomeTab.Chats
+    @Published var toast: Toast? = nil
     
     @Published var selectedRecentMsg: String? = recentMsgs.first?.id
     @Published var msgs: [RecentMessage] = recentMsgs

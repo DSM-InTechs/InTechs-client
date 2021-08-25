@@ -21,6 +21,15 @@ struct InTechsApp: App {
             ContentView()
         }
         .windowStyle(HiddenTitleBarWindowStyle())
+        WindowGroup {
+            LoginView()
+        }.handlesExternalEvents(matching: Set(arrayLiteral: "LoginView"))
+        .windowStyle(HiddenTitleBarWindowStyle())
+        
+        WindowGroup {
+            RegisterView()
+        }.handlesExternalEvents(matching: Set(arrayLiteral: "RegisterView"))
+        .windowStyle(HiddenTitleBarWindowStyle())
         #endif
     }
 }
