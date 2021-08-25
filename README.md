@@ -1,15 +1,13 @@
-# InTechs
-
-[![Generic badge](https://img.shields.io/badge/ OS - iOS | macOS | watchOS -<COLOR>.svg)](https://shields.io/)
+# InTechs ![Generic badge](https://img.shields.io/badge/ OS - iOS | macOS | watchOS -<COLOR>.svg)
 
 프로젝트 관리 어플리케이션입니다.
 
 ## Getting Started
 
 ```
-$ git clone https://github.com/DSM-DMS/PMS-iOS-V2
-$ cd PMS-iOS-V2
-$ xcodegen
+$ git clone https://github.com/DSM-InTechs/InTechs-iOS
+$ cd InTechs-iOS
+$ pod install
 ```
 
 ## Requirements
