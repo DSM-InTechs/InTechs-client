@@ -1,4 +1,6 @@
-# InTechs ![Generic badge](https://img.shields.io/badge/ OS - iOS | macOS | watchOS -<COLOR>.svg)
+# InTechs 
+
+![Generic badge](https://img.shields.io/badge/OS-%20iOS%20%7C%20macOS%20%7C%20watchOS%20-svg)
 
 프로젝트 관리 어플리케이션입니다.
 
