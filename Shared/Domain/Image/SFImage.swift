@@ -36,4 +36,10 @@ enum SFImage: String {
     case plusSquare = "plus.app.fill"
     case emailFill = "envelope.fill"
     case lockFill = "lock.fill"
+    case leftArrow = "chevron.left"
+    case rightArrow = "chevron.right"
+    case minus = "minus"
+    case upAndDownArrow = "arrow.up.arrow.down"
+    case DM = "envelope"
+    case house = "house.fill"
 }

@@ -16,20 +16,19 @@ struct ProjectListView: View {
             HStack {
                 ZStack {
                     VStack(alignment: .leading, spacing: 0) {
-                        HStack(spacing: 15) {
-                            Text("Project")
-                                .font(.title)
-                            
-                            Spacer()
-                        }.padding()
-                        
                         HStack {
                             Rectangle().foregroundColor(.blue)
                                 .frame(width: 30, height: 30)
                             Text("InTechs")
                             
                             Spacer()
-                        }.padding()
+                            
+                            Image(system: .upAndDownArrow)
+                        }.padding(.horizontal)
+                        .padding(.top, 10)
+                        
+                        Divider()
+                            .padding(.vertical)
                         
                         VStack(alignment: .leading) {
                             ProjectList(tab: .DashBoard, selectedTab: $projectVM.selectedTab, animation: animation)
@@ -84,6 +83,7 @@ struct ProjectListView: View {
                 case .Settings: Text("")
                 }
             }
+            .background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
         }
     }
 }

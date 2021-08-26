@@ -20,13 +20,13 @@ struct Home: View {
                     Text("채팅")
                 }
 
-            IssueBoardView()
+            CalendarView()
                 .tabItem {
-                    Image(system: .square)
-                    Text("이슈보드")
+                    Image(system: .calendar)
+                    Text("일정")
                 }
             
-            CalendarView()
+            MypageView()
                 .tabItem {
                     Image(system: .person)
                     Text("마이페이지")

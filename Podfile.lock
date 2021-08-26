@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.4.3)
+  - GECalendar (0.1.0)
   - GEmojiPicker (1.0.0)
   - Moya (14.0.0):
     - Moya/Core (= 14.0.0)
@@ -7,12 +8,14 @@ PODS:
     - Alamofire (~> 5.0)
 
 DEPENDENCIES:
+  - GECalendar
   - GEmojiPicker (from `https://github.com/Goeun1001/GEmojiPicker.git`, branch `master`)
   - Moya
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - GECalendar
     - Moya
 
 EXTERNAL SOURCES:
@@ -27,9 +30,10 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
+  GECalendar: d58d52b0d9fe2744d445ee2cda75277e7d48b4e2
   GEmojiPicker: ec30e4d9036e84a0b5fa2aeb9440f1e60dc9b8e8
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
 
-PODFILE CHECKSUM: 5d760b28660e3127919722ba522f886c20f23d91
+PODFILE CHECKSUM: 3adc8850f0dbb2091b948de863737198ee3bc4c7
 
 COCOAPODS: 1.10.1

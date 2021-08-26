@@ -8,11 +8,11 @@
 import Foundation
 
 enum HomeTab: String {
-    case Chats
-    case Projects
-    case Calendar
-    case Teams
-    case Mypage
+    case Chats = "채팅"
+    case Projects = "프로젝트"
+    case Calendar = "캘린더"
+    case Teams = "팀"
+    case Mypage = "마이페이지"
 }
 
 extension HomeTab {

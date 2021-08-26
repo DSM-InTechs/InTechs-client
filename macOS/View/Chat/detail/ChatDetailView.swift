@@ -13,106 +13,102 @@ struct ChatDetailView: View {
     var user: RecentMessage
     @State private var emoji = false
     @State private var file = false
+    @State private var isBell = false
     
     var body: some View {
         GeometryReader { geo in
-            HStack {
-                VStack {
-                    HStack(spacing: 10) {
-                        Image(user.userImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
-                        
-                        Text(user.userName)
-                            .font(.title2)
-                        
-                        Spacer()
-                        
-                        Button(action: {}, label: {
-                            Image(system: .search)
+//            HStack {
+//                ZStack {
+                    VStack {
+                        HStack(spacing: 10) {
+                            Image(user.userImage)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                            
+                            Text(user.userName)
                                 .font(.title2)
-                        })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        Button(action: {}, label: {
-                            Image(system: .info)
-                                .font(.title2)
-                        })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        HStack(spacing: 5) {
+                            
+                            Spacer()
+                            
                             Button(action: {}, label: {
-                                Image(system: .bell)
+                                Image(system: .search)
                                     .font(.title2)
                             })
                             .buttonStyle(PlainButtonStyle())
-                            .frame(width: 10, height: 10)
                             
                             Button(action: {}, label: {
-                                Image(system: .filledDownArrow).font(.title2)
+                                Image(system: .info)
+                                    .font(.title2)
                             })
                             .buttonStyle(PlainButtonStyle())
-                            .frame(width: 10, height: 10)
-                        }.padding(.all, 10)
-                        .contentShape(RoundedRectangle(cornerRadius: 10))
-                        .background(Color.green.opacity(0.2))
-                    }
-                    .padding(.horizontal)
-                    .padding(.top, 10)
-                    
-                    Divider()
-                    
-                    MessageView(user: user)
-                    
-                    HStack(spacing: 15) {
-                        Button(action: {
-                            self.file.toggle()
-                        }, label: {
-                            Image(system: .clip)
-                                .font(.title2)
-                        }).buttonStyle(PlainButtonStyle())
-                        .popover(isPresented: $file) {
-                            FileTypeSelectView()
-                                .padding()
+                            
+                            Button(action: {}, label: {
+                                HStack(spacing: 3) {
+                                Image(system: .bell)
+                                    .font(.title2)
+                                    Image(system: .filledDownArrow)
+                                        .font(.caption)
+                                }
+                            }).buttonStyle(PlainButtonStyle())
+                            .padding(.all, 5)
+                            .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color.green.opacity(0.2)))
                         }
-                        
-                        TextField("Enter Message", text: $homeData.message, onCommit: {
-                            homeData.sendMessage(user: user)
-                        })
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .padding(.vertical, 8)
                         .padding(.horizontal)
-                        .clipShape(Capsule())
-                        .background(Capsule().strokeBorder(Color.white))
+                        .padding(.top, 10)
                         
-                        Button(action: {
-                            self.emoji.toggle()
-                        }, label: {
-                            Image(system: .smileFace)
-                                .font(.title2)
-                        }).buttonStyle(PlainButtonStyle())
-                        .popover(isPresented: $emoji) {
-                            EmojiPicker(emojiStore: EmojiStore(), selectionHandler: { _ in })
-                                .environmentObject(SharedState())
-                                .frame(width: geo.size.width / 2.2, height: geo.size.height / 2.5)
+                        Divider()
+                        
+                        MessageView(user: user)
+                        
+                        HStack(spacing: 15) {
+                            Button(action: {
+                                self.file.toggle()
+                            }, label: {
+                                Image(system: .clip)
+                                    .font(.title2)
+                            }).buttonStyle(PlainButtonStyle())
+                            .popover(isPresented: $file) {
+                                FileTypeSelectView()
+                                    .padding()
+                            }
+                            
+                            TextField("Enter Message", text: $homeData.message, onCommit: {
+                                homeData.sendMessage(user: user)
+                            })
+                            .textFieldStyle(PlainTextFieldStyle())
+                            .padding(.vertical, 8)
+                            .padding(.horizontal)
+                            .clipShape(Capsule())
+                            .background(Capsule().strokeBorder(Color.white))
+                            
+                            Button(action: {
+                                self.emoji.toggle()
+                            }, label: {
+                                Image(system: .smileFace)
+                                    .font(.title2)
+                            }).buttonStyle(PlainButtonStyle())
+                            .popover(isPresented: $emoji) {
+                                EmojiPicker(emojiStore: EmojiStore(), selectionHandler: { _ in })
+                                    .environmentObject(SharedState())
+                                    .frame(width: geo.size.width / 2.2, height: geo.size.height / 2.5)
+                            }
+                            
                         }
-                        
-                    }
-                    .padding([.horizontal, .bottom])
-                }
+                        .padding([.horizontal, .bottom])
                 
             }
             .padding(.trailing, 70)
         }
+        .background(Color(NSColor.textBackgroundColor))
         .ignoresSafeArea(.all, edges: .all)
     }
 }
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        Home()
+        Home().environmentObject(HomeViewModel())
     }
 }
 

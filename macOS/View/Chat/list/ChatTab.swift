@@ -8,9 +8,9 @@
 import SwiftUI
 
 enum ChatTab: String {
-    case Home
-    case Channels
-    case DMs
+    case Home = "홈"
+    case Channels = "채널"
+    case DMs = "DM"
 }
 
 extension ChatTab {
@@ -21,7 +21,7 @@ extension ChatTab {
         case .Channels:
             return "#"
         case .DMs:
-            return "person.crop.circle.fill"
+            return "envelope.fill"
         }
     }
 }
@@ -40,13 +40,15 @@ struct ChatTabButton: View {
                     if tab == selectedTab {
                         Image(systemName: tab.getImage())
                             .resizable()
-                            .frame(width: 20, height: 20)
+                            .frame(width: 18, height: 18)
                             .foregroundColor(.white)
+                            .padding(.bottom, 5)
                     } else {
                         Image(systemName: tab.getImage())
                             .resizable()
-                            .frame(width: 20, height: 20)
+                            .frame(width: 18, height: 18)
                             .foregroundColor(.gray)
+                            .padding(.bottom, 5)
                     }
                     
                 } else {
