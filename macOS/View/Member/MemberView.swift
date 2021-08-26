@@ -51,8 +51,8 @@ struct MemberView: View {
                 Color.black.frame(width: 1)
                 Spacer()
             }
-        }.ignoresSafeArea(.all, edges: .all)
-        .padding(.trailing, 70)
+        }.padding(.trailing, 70)
+        .background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
     }
 }
 

@@ -14,13 +14,13 @@ struct Message: Identifiable, Equatable {
 }
 
 var eachmsg = [
-    Message(message: "asdfasdfasdf", myMessage: false),
-    Message(message: "asdf", myMessage: false),
-    Message(message: "응", myMessage: true),
-    Message(message: "qwerqefsfvsdgwerrfasd", myMessage: false),
-    Message(message: "응", myMessage: true),
-    Message(message: "asdfadsf", myMessage: true),
-    Message(message: "응", myMessage: false)
+    Message(message: "메세지1", myMessage: false),
+    Message(message: "메세지 예시", myMessage: false),
+    Message(message: "메세지메세지메세지", myMessage: true),
+    Message(message: ".", myMessage: false),
+    Message(message: "ㅡㅡ", myMessage: true),
+    Message(message: "..", myMessage: true),
+    Message(message: "메세지", myMessage: false)
 ]
 
 struct RecentMessage: Identifiable {
@@ -34,10 +34,10 @@ struct RecentMessage: Identifiable {
 }
 
 var recentMsgs: [RecentMessage] = [
-    RecentMessage(lastMsg: "Apple Tech", lastMsgTime: "15:00", pendingMsgs: "9", userName: "나다", userImage: "placeholder", allMsgs: eachmsg.shuffled()),
-    RecentMessage(lastMsg: "Apple Tech", lastMsgTime: "15:00", pendingMsgs: "9", userName: "나다", userImage: "placeholder", allMsgs: eachmsg.shuffled()),
-    RecentMessage(lastMsg: "Apple Tech", lastMsgTime: "15:00", pendingMsgs: "9", userName: "나다", userImage: "placeholder", allMsgs: eachmsg.shuffled()),
-    RecentMessage(lastMsg: "Apple Tech", lastMsgTime: "15:00", pendingMsgs: "9", userName: "나다", userImage: "placeholder", allMsgs: eachmsg.shuffled()),
-    RecentMessage(lastMsg: "Apple Tech", lastMsgTime: "15:00", pendingMsgs: "9", userName: "나다", userImage: "placeholder", allMsgs: eachmsg.shuffled()),
-    RecentMessage(lastMsg: "Apple Tech", lastMsgTime: "15:00", pendingMsgs: "9", userName: "나다", userImage: "placeholder", allMsgs: eachmsg.shuffled())
+    RecentMessage(lastMsg: "마지막 메세지", lastMsgTime: "15:00", pendingMsgs: "0", userName: "유저", userImage: "placeholder", allMsgs: eachmsg.shuffled()),
+    RecentMessage(lastMsg: "마지막 메세지", lastMsgTime: "15:00", pendingMsgs: "0", userName: "유저", userImage: "placeholder", allMsgs: eachmsg.shuffled()),
+    RecentMessage(lastMsg: "마지막 메세지", lastMsgTime: "15:00", pendingMsgs: "2", userName: "유저", userImage: "placeholder", allMsgs: eachmsg.shuffled()),
+    RecentMessage(lastMsg: "마지막 메세지", lastMsgTime: "15:00", pendingMsgs: "5", userName: "유저", userImage: "placeholder", allMsgs: eachmsg.shuffled()),
+    RecentMessage(lastMsg: "마지막 메세지", lastMsgTime: "15:00", pendingMsgs: "11", userName: "유저", userImage: "placeholder", allMsgs: eachmsg.shuffled()),
+    RecentMessage(lastMsg: "마지막 메세지", lastMsgTime: "15:00", pendingMsgs: "9", userName: "유저", userImage: "placeholder", allMsgs: eachmsg.shuffled())
 ]

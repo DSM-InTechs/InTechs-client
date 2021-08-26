@@ -12,17 +12,16 @@ struct Home: View {
     @State private var quickActionPop: Bool = false
     @State private var questionPop: Bool = false
     
-    @State private var isLogin: Bool = false
+    @State private var isLogin: Bool = true
     
     var body: some View {
         if isLogin {
             ZStack(alignment: .leading) {
-               
                 ZStack {
                     switch homeData.selectedTab {
-                    case .Chats: NavigationView { ChatListView() }
+                    case .Chats: NavigationView { ChatListView().background(Color(NSColor.textBackgroundColor)).ignoresSafeArea() }
                     case .Projects: ProjectListView()
-                    case .Calendar: Text("Calendar")
+                    case .Calendar: CalendarView()
                     case .Teams: MemberView()
                     default: Text("")
                     }
@@ -61,7 +60,7 @@ struct Home: View {
                     Image(system: .plusSquare)
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.gray)
-                        .frame(height: 30)
+                        .frame(height: 40)
                         .onTapGesture {
                             self.quickActionPop.toggle()
                         }.popover(isPresented: $quickActionPop) {
@@ -71,7 +70,7 @@ struct Home: View {
                     Image(system: .question)
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.gray)
-                        .frame(height: 30)
+                        .frame(height: 40)
                         .onTapGesture {
                             self.questionPop.toggle()
                         } .popover(isPresented: $questionPop) {

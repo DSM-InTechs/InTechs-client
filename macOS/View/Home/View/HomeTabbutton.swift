@@ -67,8 +67,7 @@ struct HomeTabButton: View {
                 }
                 .padding(.horizontal, 5)
                 .frame(height: 30)
-                .contentShape(RoundedRectangle(cornerRadius: 10))
-                .background(Color.black)
+                .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color.black))
                 .offset(x: 70)
                
             }

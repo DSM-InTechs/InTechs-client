@@ -21,7 +21,7 @@ struct ChatListView: View {
             VStack {
                 // Title
                 HStack(spacing: 15) {
-                    Text("Chats")
+                    Text("채팅")
                         .font(.title)
                     
                     Spacer()
@@ -84,7 +84,7 @@ struct ChatListView: View {
                             ChatRow(recentMsg: message)
                         }
                     }
-                }.listStyle(SidebarListStyle())
+                }
             }
             
             HStack {
@@ -123,12 +123,16 @@ struct ChatRow: View {
                         Text(recentMsg.lastMsgTime)
                             .font(.caption)
                         
-                        Text(recentMsg.pendingMsgs)
-                            .font(.caption2)
-                            .padding(5)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .clipShape(Circle())
+                        if recentMsg.pendingMsgs != "0" {
+                            Text(recentMsg.pendingMsgs)
+                                .font(.caption2)
+                                .padding(5)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .clipShape(Circle())
+                        } else {
+                            Spacer()
+                        }
                     }
                 }
             }
