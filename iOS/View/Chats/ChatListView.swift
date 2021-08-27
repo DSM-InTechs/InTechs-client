@@ -16,11 +16,12 @@ struct ChatListView: View {
     @State private var index = 1
     @State var offset: CGFloat = 0
     @Namespace private var animation
+    @State var uiTabarController: UITabBarController?
     var width = UIScreen.main.bounds.width
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 10) {
+            VStack(spacing: 0) {
                 HStack {
                     VStack(alignment: .leading, spacing: -1) {
                         ChatBar(index: self.$index, offset: self.$offset, animation: animation)
@@ -36,14 +37,16 @@ struct ChatListView: View {
                 GeometryReader { geo in
                     HStack(spacing: 0) {
                         // First View
-                        VStack {
+                        ScrollView {
                             LazyVStack {
                                 ForEach(0...6, id: \.self) { _ in
-                                    ChatRow()
-                                        .padding(.all, 10)
+                                    NavigationLink(destination: ChatDetailView()) {
+                                        ChatRow()
+                                            .padding(.all, 10)
+                                    }
+                                    
                                 }
                             }
-                            Spacer(minLength: 0)
                         }
                         .frame(width: geo.frame(in: .global).width)
                         
@@ -102,6 +105,12 @@ struct ChatListView: View {
                                         })
                                         
                                     })
+            .introspectTabBarController { (UITabBarController) in
+                UITabBarController.tabBar.isHidden = false
+                uiTabarController = UITabBarController
+            }.onAppear() {
+                uiTabarController?.tabBar.isHidden = false
+            }
         }
     }
     
@@ -124,6 +133,34 @@ struct ChatListView: View {
         }
     }
     
+}
+
+struct ChatRow: View {
+    let title: String = "채널 이름"
+    let image: String = ""
+    let lastMsg: String = "마지막 메세지"
+    let time: String = "8월 26일"
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            Circle().foregroundColor(.gray).frame(width: UIFrame.width / 8, height: UIFrame.width / 8)
+            
+            VStack(alignment: .leading, spacing: 10) {
+                HStack {
+                    Text(title)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(Asset.black))
+                    Spacer()
+                    Text(time)
+                        .foregroundColor(.gray)
+                }
+               Text(lastMsg)
+                .foregroundColor(.gray)
+                
+                Divider()
+            }
+        }
+    }
 }
 
 struct ChatListView_Previews: PreviewProvider {

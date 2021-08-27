@@ -42,4 +42,6 @@ enum SFImage: String {
     case upAndDownArrow = "arrow.up.arrow.down"
     case DM = "envelope"
     case house = "house.fill"
+    case paperplane = "paperplane"
+    case paperplaneFill = "paperplane.fill"
 }

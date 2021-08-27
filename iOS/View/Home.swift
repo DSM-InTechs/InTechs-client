@@ -8,31 +8,36 @@
 import SwiftUI
 
 struct Home: View {
+    @State var isLogin: Bool = true
+    
     init() {
         UITabBar.appearance().barTintColor = UIColor.secondarySystemBackground
     }
     
     var body: some View {
-        TabView {
-            ChatListView()
-                .tabItem {
-                    Image(system: .chat)
-                    Text("채팅")
-                }
+        if isLogin {
+            TabView {
+                ChatListView()
+                    .tabItem {
+                        Image(system: .chat)
+                        Text("채팅")
+                    }
 
-            CalendarView()
-                .tabItem {
-                    Image(system: .calendar)
-                    Text("일정")
-                }
-            
-            MypageView()
-                .tabItem {
-                    Image(system: .person)
-                    Text("마이페이지")
-                }
-        }.accentColor(Color(Asset.black.color))
-
+                IssuelistView()
+                    .tabItem {
+                        Image(system: .issue)
+                        Text("이슈")
+                    }
+                
+                CalendarView()
+                    .tabItem {
+                        Image(system: .calendar)
+                        Text("마이페이지")
+                    }
+            }.accentColor(Color(Asset.black.color))
+        } else {
+            InTechsView()
+        }
     }
 }
 

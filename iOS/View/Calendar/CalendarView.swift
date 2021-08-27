@@ -11,6 +11,7 @@ import GECalendar
 struct CalendarView: View {
     @State var date: Date? = nil
     let appearance = Appearance(headerFont: .title2)
+    @State var uiTabarController: UITabBarController?
     
     var body: some View {
         NavigationView {
@@ -34,7 +35,18 @@ struct CalendarView: View {
                     
                 }
             }.padding(.vertical)
-            .navigationBarTitle("일정", displayMode: .inline)
+            .navigationBarTitle("마이페이지", displayMode: .inline)
+            .navigationBarItems(trailing:
+                                    NavigationLink(destination: MypageView()) {
+                                        Circle().frame(width: 25, height: 25)
+                                    }
+            )
+            .introspectTabBarController { (UITabBarController) in
+                UITabBarController.tabBar.isHidden = false
+                uiTabarController = UITabBarController
+            }.onAppear() {
+                uiTabarController?.tabBar.isHidden = false
+            }
         }
     }
 }
@@ -48,10 +60,11 @@ struct CalendarIssueRow: View {
             Circle().foregroundColor(isIssue ? .green : .blue)
                 .frame(width: 10, height: 10)
             Text(title)
+                .foregroundColor(Color(Asset.black))
             Spacer()
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray.opacity(0.3)))
+        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(UIColor.secondarySystemBackground)))
     }
 }
 
