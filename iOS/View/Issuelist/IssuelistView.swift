@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct IssuelistView: View {
-    @State var uiTabarController: UITabBarController?
+    @State private var uiTabarController: UITabBarController?
     
     var body: some View {
         NavigationView {

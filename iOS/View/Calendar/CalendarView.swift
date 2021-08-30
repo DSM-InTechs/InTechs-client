@@ -9,15 +9,14 @@ import SwiftUI
 import GECalendar
 
 struct CalendarView: View {
-    @State var date: Date? = nil
-    let appearance = Appearance(headerFont: .title2)
+    @ObservedObject var calendarVM = CalendarViewModel()
     @State var uiTabarController: UITabBarController?
     
     var body: some View {
         NavigationView {
             GeometryReader { geo in
                 ZStack {
-                    GECalendar(selectedDate: $date, appearance: appearance)
+                    GECalendar(selectedDate: $calendarVM.date, appearance:  Appearance(multipleEvents: calendarVM.events, isMultipleEvents: true, headerFont: .title2))
                     
                     VStack {
                         Spacer()

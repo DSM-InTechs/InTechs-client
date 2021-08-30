@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct Home: View {
-    @State var isLogin: Bool = true
+    @ObservedObject private var homeVM = HomeViewModel()
     
     init() {
         UITabBar.appearance().barTintColor = UIColor.secondarySystemBackground
     }
     
     var body: some View {
-        if isLogin {
+        if homeVM.isLogin {
             TabView {
                 ChatListView()
                     .tabItem {
@@ -30,6 +30,7 @@ struct Home: View {
                     }
                 
                 CalendarView()
+                    .environmentObject(homeVM)
                     .tabItem {
                         Image(system: .calendar)
                         Text("마이페이지")
@@ -37,6 +38,7 @@ struct Home: View {
             }.accentColor(Color(Asset.black.color))
         } else {
             InTechsView()
+                .environmentObject(homeVM)
         }
     }
 }

@@ -9,9 +9,10 @@ import SwiftUI
 import Introspect
 
 struct ChatDetailView: View {
-    @State private var text: String = ""
+    @ObservedObject var chatVM = ChatDetailViewModel()
     @State var uiTabarController: UITabBarController?
     @State private var showInfoView = false
+    let title: String
     
     var body: some View {
         ZStack {
@@ -42,8 +43,8 @@ struct ChatDetailView: View {
                     VStack {
                         HStack {
                             Image(system: .clip)
-                            TextField("메세지를 입력하세요", text: $text)
-                            if text == "" {
+                            TextField("메세지를 입력하세요", text: $chatVM.text)
+                            if chatVM.text == "" {
                                 Image(system: .paperplane)
                             } else {
                                 Image(system: .paperplaneFill)
@@ -55,7 +56,7 @@ struct ChatDetailView: View {
                 
             }.ignoresSafeArea()
             
-            .navigationBarTitle("채널 이름")
+            .navigationBarTitle(title)
             .navigationBarItems(trailing: Group {
                 SystemImage(system: .info).frame(width: 20, height: 20).onTapGesture {
                     self.showInfoView.toggle()
@@ -103,6 +104,6 @@ struct ChatDetailRow: View {
 struct ChatDetailView_Previews: PreviewProvider {
     static var previews: some View {
         ChatListView()
-        ChatDetailView()
+        ChatDetailView(title: "채널 이름")
     }
 }

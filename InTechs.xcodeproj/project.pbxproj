@@ -54,6 +54,20 @@
 		D950A37926D336AD003D4907 /* ChannelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A37826D336AD003D4907 /* ChannelInfoView.swift */; };
 		D950A37B26D33A9E003D4907 /* ChannelSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */; };
 		D9E01A1A26D4FD75005C7736 /* InTechsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E01A1826D4FD56005C7736 /* InTechsView.swift */; };
+		D9FC986126DBC7B500735222 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986026DBC7B500735222 /* ImagePicker.swift */; };
+		D9FC986426DBC9B100735222 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986326DBC9B100735222 /* HomeViewModel.swift */; };
+		D9FC986626DBCB2D00735222 /* IssuelistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986526DBCB2D00735222 /* IssuelistViewModel.swift */; };
+		D9FC986826DBCCF800735222 /* InTechsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986726DBCCF800735222 /* InTechsViewModel.swift */; };
+		D9FC986A26DBCDB200735222 /* Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986926DBCDB200735222 /* Shake.swift */; };
+		D9FC986C26DBD16E00735222 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986B26DBD16E00735222 /* KeyboardObserver.swift */; };
+		D9FC986E26DBD41200735222 /* MypageVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986D26DBD41200735222 /* MypageVIewModel.swift */; };
+		D9FC987026DBD50400735222 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986F26DBD50400735222 /* CalendarViewModel.swift */; };
+		D9FC987226DC458800735222 /* ChatlistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC987126DC458800735222 /* ChatlistViewModel.swift */; };
+		D9FC987426DC459200735222 /* ChatDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC987326DC459200735222 /* ChatDetailViewModel.swift */; };
+		D9FC987A26DC501500735222 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC987926DC501500735222 /* FeedbackView.swift */; };
+		D9FC987C26DC58B100735222 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC987B26DC58B100735222 /* FeedbackViewModel.swift */; };
+		D9FC988026DC5B6700735222 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC987F26DC5B6700735222 /* NotificationView.swift */; };
+		D9FC988226DC5D0500735222 /* NewChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC988126DC5D0500735222 /* NewChatView.swift */; };
 		D9FD9F6D26D53A3300664757 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9F6C26D53A3300664757 /* LoginView.swift */; };
 		D9FD9F6F26D53A3800664757 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9F6E26D53A3800664757 /* RegisterView.swift */; };
 		D9FD9F7226D53AB600664757 /* OpenWindows.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9F7126D53AB600664757 /* OpenWindows.swift */; };
@@ -119,6 +133,20 @@
 		D950A37826D336AD003D4907 /* ChannelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoView.swift; sourceTree = "<group>"; };
 		D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSearchView.swift; sourceTree = "<group>"; };
 		D9E01A1826D4FD56005C7736 /* InTechsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsView.swift; sourceTree = "<group>"; };
+		D9FC986026DBC7B500735222 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		D9FC986326DBC9B100735222 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		D9FC986526DBCB2D00735222 /* IssuelistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuelistViewModel.swift; sourceTree = "<group>"; };
+		D9FC986726DBCCF800735222 /* InTechsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsViewModel.swift; sourceTree = "<group>"; };
+		D9FC986926DBCDB200735222 /* Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shake.swift; sourceTree = "<group>"; };
+		D9FC986B26DBD16E00735222 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
+		D9FC986D26DBD41200735222 /* MypageVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageVIewModel.swift; sourceTree = "<group>"; };
+		D9FC986F26DBD50400735222 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		D9FC987126DC458800735222 /* ChatlistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatlistViewModel.swift; sourceTree = "<group>"; };
+		D9FC987326DC459200735222 /* ChatDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewModel.swift; sourceTree = "<group>"; };
+		D9FC987926DC501500735222 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
+		D9FC987B26DC58B100735222 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
+		D9FC987F26DC5B6700735222 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		D9FC988126DC5D0500735222 /* NewChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatView.swift; sourceTree = "<group>"; };
 		D9FD9F6C26D53A3300664757 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		D9FD9F6E26D53A3800664757 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		D9FD9F7126D53AB600664757 /* OpenWindows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWindows.swift; sourceTree = "<group>"; };
@@ -323,12 +351,13 @@
 		D950A33E26D21035003D4907 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D9FC986226DBC9AB00735222 /* Home */,
+				D9FC985F26DBC7A700735222 /* Common */,
 				D9FD9FDF26D8979A00664757 /* InTechs */,
 				D9FD9FD826D7DE4600664757 /* Issuelist */,
 				D9FD9FD426D7CDDF00664757 /* Mypage */,
 				D950A34226D213CB003D4907 /* Calendar */,
 				D950A34126D213C8003D4907 /* Chats */,
-				D950A33F26D2103B003D4907 /* Home.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -336,10 +365,8 @@
 		D950A34126D213C8003D4907 /* Chats */ = {
 			isa = PBXGroup;
 			children = (
-				D950A34826D213E9003D4907 /* ChatListView.swift */,
-				D9FD9FCF26D7CAAC00664757 /* ChatDetailView.swift */,
-				D9FD9FE626D8AC0500664757 /* ChannelInfoView.swift */,
-				D9FD9FC626D7BE2700664757 /* ChatBar.swift */,
+				D9FC987626DC459700735222 /* ViewModel */,
+				D9FC987526DC459400735222 /* View */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -348,6 +375,7 @@
 			isa = PBXGroup;
 			children = (
 				D950A34626D213E0003D4907 /* CalendarView.swift */,
+				D9FC986F26DBD50400735222 /* CalendarViewModel.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -468,6 +496,66 @@
 			path = InTechs;
 			sourceTree = "<group>";
 		};
+		D9FC985F26DBC7A700735222 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				D9FC986026DBC7B500735222 /* ImagePicker.swift */,
+				D9FC986926DBCDB200735222 /* Shake.swift */,
+				D9FC986B26DBD16E00735222 /* KeyboardObserver.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		D9FC986226DBC9AB00735222 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				D9FC986326DBC9B100735222 /* HomeViewModel.swift */,
+				D950A33F26D2103B003D4907 /* Home.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		D9FC987526DC459400735222 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D950A34826D213E9003D4907 /* ChatListView.swift */,
+				D9FD9FCF26D7CAAC00664757 /* ChatDetailView.swift */,
+				D9FD9FE626D8AC0500664757 /* ChannelInfoView.swift */,
+				D9FD9FC626D7BE2700664757 /* ChatBar.swift */,
+				D9FC988126DC5D0500735222 /* NewChatView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D9FC987626DC459700735222 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D9FC987126DC458800735222 /* ChatlistViewModel.swift */,
+				D9FC987326DC459200735222 /* ChatDetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		D9FC987D26DC58B500735222 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D9FC987926DC501500735222 /* FeedbackView.swift */,
+				D9FD9FD526D7CDE500664757 /* MypageView.swift */,
+				D9FC987F26DC5B6700735222 /* NotificationView.swift */,
+				D9FD9FDB26D7DF2100664757 /* MypageEditView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D9FC987E26DC58B900735222 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D9FC986D26DBD41200735222 /* MypageVIewModel.swift */,
+				D9FC987B26DC58B100735222 /* FeedbackViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		D9FD9F7026D53AA000664757 /* Windows */ = {
 			isa = PBXGroup;
 			children = (
@@ -487,8 +575,8 @@
 		D9FD9FD426D7CDDF00664757 /* Mypage */ = {
 			isa = PBXGroup;
 			children = (
-				D9FD9FD526D7CDE500664757 /* MypageView.swift */,
-				D9FD9FDB26D7DF2100664757 /* MypageEditView.swift */,
+				D9FC987E26DC58B900735222 /* ViewModel */,
+				D9FC987D26DC58B500735222 /* View */,
 			);
 			path = Mypage;
 			sourceTree = "<group>";
@@ -497,6 +585,7 @@
 			isa = PBXGroup;
 			children = (
 				D9FD9FD926D7DE5300664757 /* IssuelistView.swift */,
+				D9FC986526DBCB2D00735222 /* IssuelistViewModel.swift */,
 				D9FD9FDD26D7DF7B00664757 /* IssueDetailView.swift */,
 			);
 			path = Issuelist;
@@ -507,6 +596,7 @@
 			children = (
 				D9FD9FE026D897A400664757 /* InTechsView.swift */,
 				D9FD9FE226D897AB00664757 /* LoginView.swift */,
+				D9FC986726DBCCF800735222 /* InTechsViewModel.swift */,
 				D9FD9FE426D897B200664757 /* RegisterView.swift */,
 			);
 			path = InTechs;
@@ -695,25 +785,39 @@
 			buildActionMask = 2147483647;
 			files = (
 				D950A31126D20C3D003D4907 /* Image+SFImage.swift in Sources */,
+				D9FC986C26DBD16E00735222 /* KeyboardObserver.swift in Sources */,
 				D9FD9FE526D897B200664757 /* RegisterView.swift in Sources */,
+				D9FC986826DBCCF800735222 /* InTechsViewModel.swift in Sources */,
 				D950A30E26D20C1C003D4907 /* SFImage.swift in Sources */,
+				D9FC987C26DC58B100735222 /* FeedbackViewModel.swift in Sources */,
 				D950A34726D213E0003D4907 /* CalendarView.swift in Sources */,
+				D9FC986626DBCB2D00735222 /* IssuelistViewModel.swift in Sources */,
 				D950A35026D2181B003D4907 /* Assets+init.swift in Sources */,
+				D9FC986426DBC9B100735222 /* HomeViewModel.swift in Sources */,
 				D950A31626D20C67003D4907 /* Message.swift in Sources */,
 				D9FD9FE126D897A500664757 /* InTechsView.swift in Sources */,
+				D9FC986126DBC7B500735222 /* ImagePicker.swift in Sources */,
 				D9FD9FD126D7CAB300664757 /* ChatDetailView.swift in Sources */,
+				D9FC987A26DC501500735222 /* FeedbackView.swift in Sources */,
 				D950A34926D213E9003D4907 /* ChatListView.swift in Sources */,
 				D9FD9FDE26D7DF7B00664757 /* IssueDetailView.swift in Sources */,
+				D9FC986E26DBD41200735222 /* MypageVIewModel.swift in Sources */,
 				D93BAD2726D149030094ADD9 /* ContentView.swift in Sources */,
 				D950A34026D2103B003D4907 /* Home.swift in Sources */,
+				D9FC986A26DBCDB200735222 /* Shake.swift in Sources */,
+				D9FC987426DC459200735222 /* ChatDetailViewModel.swift in Sources */,
 				D9FD9FD726D7CDF500664757 /* MypageView.swift in Sources */,
+				D9FC988226DC5D0500735222 /* NewChatView.swift in Sources */,
+				D9FC988026DC5B6700735222 /* NotificationView.swift in Sources */,
 				D9FD9FC826D7BE5F00664757 /* ChatBar.swift in Sources */,
 				D950A35326D21ECD003D4907 /* Frame.swift in Sources */,
 				D950A34D26D217D8003D4907 /* Assets.swift in Sources */,
 				D9FD9FE726D8AC0600664757 /* ChannelInfoView.swift in Sources */,
+				D9FC987226DC458800735222 /* ChatlistViewModel.swift in Sources */,
 				D9FD9FDC26D7DF2100664757 /* MypageEditView.swift in Sources */,
 				D9FD9FE326D897AB00664757 /* LoginView.swift in Sources */,
 				D9FD9FDA26D7DE5400664757 /* IssuelistView.swift in Sources */,
+				D9FC987026DBD50400735222 /* CalendarViewModel.swift in Sources */,
 				D93BAD2526D149030094ADD9 /* InTechsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

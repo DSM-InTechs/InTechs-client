@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct ChatListView: View {
+    @State private var index = 1
+    @State private var offset: CGFloat = 0
+    @Namespace private var animation
+    
+    @State var uiTabarController: UITabBarController?
+    @ObservedObject var chatVM = ChatlistViewModel()
     
     init() {
         UINavigationBar.appearance().barTintColor = Asset.white.color
     }
-    
-    @State private var index = 1
-    @State var offset: CGFloat = 0
-    @Namespace private var animation
-    @State var uiTabarController: UITabBarController?
-    var width = UIScreen.main.bounds.width
     
     var body: some View {
         NavigationView {
@@ -40,7 +40,7 @@ struct ChatListView: View {
                         ScrollView {
                             LazyVStack {
                                 ForEach(0...6, id: \.self) { _ in
-                                    NavigationLink(destination: ChatDetailView()) {
+                                    NavigationLink(destination: ChatDetailView(title: "채널 이름")) {
                                         ChatRow()
                                             .padding(.all, 10)
                                     }
@@ -127,9 +127,9 @@ struct ChatListView: View {
         if self.index == 1 {
             self.offset = 0
         } else if self.index == 2 {
-            self.offset = self.width
+            self.offset = UIFrame.width
         } else {
-            self.offset = self.width * 2
+            self.offset = UIFrame.width * 2
         }
     }
     

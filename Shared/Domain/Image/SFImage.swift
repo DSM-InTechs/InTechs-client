@@ -44,4 +44,7 @@ enum SFImage: String {
     case house = "house.fill"
     case paperplane = "paperplane"
     case paperplaneFill = "paperplane.fill"
+    case camera = "camera"
+    case lockShield = "lock.shield"
+    case checkmarkShield = "checkmark.shield"
 }
