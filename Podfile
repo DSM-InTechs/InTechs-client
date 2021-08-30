@@ -11,6 +11,7 @@ target 'InTechs (iOS)' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   shared
+  pod 'Introspect'
   # Pods for InTechs (iOS)
 end
 
