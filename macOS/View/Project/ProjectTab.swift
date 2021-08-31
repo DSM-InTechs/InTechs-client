@@ -8,10 +8,10 @@
 import SwiftUI
 
 enum ProjectTab: String {
-    case DashBoard
-    case Issues
-    case IssueBoards
-    case Settings
+    case DashBoard = "대쉬보드"
+    case Issues = "이슈"
+    case IssueBoards = "이슈보드"
+    case Settings = "설정"
 }
 
 extension ProjectTab {

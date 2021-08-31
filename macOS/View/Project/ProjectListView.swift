@@ -13,7 +13,20 @@ struct ProjectListView: View {
     
     var body: some View {
         GeometryReader { geo in
-            HStack {
+            ZStack(alignment: .leading) {
+                Group {
+                    switch projectVM.selectedTab {
+                    case .DashBoard: DashBoardView()
+                        .frame(width: geo.size.width / 1.35)
+                    case .Issues: IssuelistView()
+                        .frame(width: geo.size.width / 1.35)
+                    case .IssueBoards: IssueBoardView()
+                        .frame(width: geo.size.width / 1.35)
+                    case .Settings: SettingView()
+                        .frame(width: geo.size.width / 1.35)
+                    }
+                }.offset(x: geo.size.width / 4)
+                
                 ZStack {
                     VStack(alignment: .leading, spacing: 0) {
                         HStack {
@@ -22,8 +35,6 @@ struct ProjectListView: View {
                             Text("InTechs")
                             
                             Spacer()
-                            
-                            Image(system: .upAndDownArrow)
                         }.padding(.horizontal)
                         .padding(.top, 10)
                         
@@ -72,25 +83,17 @@ struct ProjectListView: View {
                         Spacer()
                         Color.black.frame(width: 1)
                     }
-                }.ignoresSafeArea(.all, edges: .all)
+                }.background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
                 .frame(width: geo.size.width / 4)
-                
-                switch projectVM.selectedTab {
-                case .DashBoard: DashBoardView()
-                    .frame(width: geo.size.width / 1.35)
-                case .Issues: IssuelistView()
-                case .IssueBoards: IssueBoardView()
-                case .Settings: Text("")
-                }
             }
-            .background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
-        }
+        }.background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
     }
 }
 
 struct AllProjectView_Previews: PreviewProvider {
     static var previews: some View {
         ProjectListView()
+            .frame(width: 1000, height: 700)
     }
 }
 

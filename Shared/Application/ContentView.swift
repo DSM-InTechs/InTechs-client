@@ -16,28 +16,42 @@ struct ContentView: View {
     #endif
     
     #if os(OSX)
-    @ObservedObject var homeViewModel = HomeViewModel()
+    @EnvironmentObject var homeViewModel: HomeViewModel
+    
     var body: some View {
-        
-        ZStack {
-            Home()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .environmentObject(homeViewModel)
-            
-            if homeViewModel.toast != nil {
-                switch homeViewModel.toast {
-                case .channelInfo:
-                    ChannelInfoView()
-                case .channelSearch:
-                    ChannelSearchView()
-                case .none:
-                    Text("")
-                        .opacity(0)
+        GeometryReader { geo in
+            ZStack {
+                Home()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .environmentObject(homeViewModel)
+                
+                if homeViewModel.toast != nil {
+                    ZStack {
+                        Color.black.opacity(0.5)
+                            .ignoresSafeArea()
+                            .onTapGesture {
+                                withAnimation {
+                                    homeViewModel.toast = nil
+                                }
+                            }
+                        
+                        switch homeViewModel.toast {
+                        case .channelInfo:
+                            ChannelInfoView()
+                                .padding()
+                                .cornerRadius(10)
+                                .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.3)
+                                .background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
+                        case .channelSearch:
+                            ChannelSearchView()
+                        case .none:
+                            Text("")
+                                .opacity(0)
+                        }
+                    }
                 }
             }
         }
-        
-        
     }
     #endif
 }

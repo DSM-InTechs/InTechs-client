@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Home: View {
     @ObservedObject private var homeVM = HomeViewModel()
+    @Environment(\.scenePhase) var scenePhase
     
     init() {
         UITabBar.appearance().barTintColor = UIColor.secondarySystemBackground
@@ -36,6 +37,13 @@ struct Home: View {
                         Text("마이페이지")
                     }
             }.accentColor(Color(Asset.black.color))
+            .onChange(of: scenePhase) { newPhase in
+                if newPhase == .inactive {
+                    // Active API
+                } else if newPhase == .background {
+                    // InActive API
+                }
+            }
         } else {
             InTechsView()
                 .environmentObject(homeVM)

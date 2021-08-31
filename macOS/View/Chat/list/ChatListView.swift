@@ -170,21 +170,14 @@ struct EditPopView: View {
             }
             
             VStack(alignment: .leading, spacing: 15) {
-                Text("Explore")
+                Text("Browse")
                     .foregroundColor(.gray)
                     .padding(.top, 10)
                 
                 Button(action: {}, label: {
                     HStack {
-                        Image(system: .search)
-                        Text("Browse Channels")
-                    }
-                }).buttonStyle(PlainButtonStyle())
-                
-                Button(action: {}, label: {
-                    HStack {
                         Image(system: .person)
-                        Text("Open a Direct Message")
+                        Text("DM 시작하기")
                     }
                 }).buttonStyle(PlainButtonStyle())
             }
@@ -197,7 +190,7 @@ struct EditPopView: View {
                 Button(action: {}, label: {
                     HStack {
                         Text("#")
-                        Text("New Channel")
+                        Text("새 채널")
                     }
                 }).buttonStyle(PlainButtonStyle())
             }

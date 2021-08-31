@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		493E3BC2588BF0810323CB0E /* Pods_InTechs__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B3C0C73C324DE488CC21F81 /* Pods_InTechs__iOS_.framework */; };
+		D90BB8C426DD15A50002E210 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90BB8C226DD10F50002E210 /* SettingView.swift */; };
+		D90BB8C626DDA3EB0002E210 /* InputDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90BB8C526DDA3EA0002E210 /* InputDocument.swift */; };
 		D93BAD2526D149030094ADD9 /* InTechsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BAD1226D148FD0094ADD9 /* InTechsApp.swift */; };
 		D93BAD2626D149030094ADD9 /* InTechsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BAD1226D148FD0094ADD9 /* InTechsApp.swift */; };
 		D93BAD2726D149030094ADD9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BAD1326D148FD0094ADD9 /* ContentView.swift */; };
@@ -58,7 +60,6 @@
 		D9FC986426DBC9B100735222 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986326DBC9B100735222 /* HomeViewModel.swift */; };
 		D9FC986626DBCB2D00735222 /* IssuelistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986526DBCB2D00735222 /* IssuelistViewModel.swift */; };
 		D9FC986826DBCCF800735222 /* InTechsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986726DBCCF800735222 /* InTechsViewModel.swift */; };
-		D9FC986A26DBCDB200735222 /* Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986926DBCDB200735222 /* Shake.swift */; };
 		D9FC986C26DBD16E00735222 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986B26DBD16E00735222 /* KeyboardObserver.swift */; };
 		D9FC986E26DBD41200735222 /* MypageVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986D26DBD41200735222 /* MypageVIewModel.swift */; };
 		D9FC987026DBD50400735222 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986F26DBD50400735222 /* CalendarViewModel.swift */; };
@@ -68,6 +69,10 @@
 		D9FC987C26DC58B100735222 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC987B26DC58B100735222 /* FeedbackViewModel.swift */; };
 		D9FC988026DC5B6700735222 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC987F26DC5B6700735222 /* NotificationView.swift */; };
 		D9FC988226DC5D0500735222 /* NewChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC988126DC5D0500735222 /* NewChatView.swift */; };
+		D9FC988626DC812700735222 /* NSOpenPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC988426DC812200735222 /* NSOpenPanel.swift */; };
+		D9FC988C26DC828D00735222 /* Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC988B26DC828D00735222 /* Shake.swift */; };
+		D9FC988D26DC828F00735222 /* Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC988B26DC828D00735222 /* Shake.swift */; };
+		D9FC988E26DC82B700735222 /* InTechsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC988726DC825C00735222 /* InTechsViewModel.swift */; };
 		D9FD9F6D26D53A3300664757 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9F6C26D53A3300664757 /* LoginView.swift */; };
 		D9FD9F6F26D53A3800664757 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9F6E26D53A3800664757 /* RegisterView.swift */; };
 		D9FD9F7226D53AB600664757 /* OpenWindows.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9F7126D53AB600664757 /* OpenWindows.swift */; };
@@ -91,6 +96,8 @@
 		891CD94DFAB4741DE14F53EB /* Pods-InTechs (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTechs (iOS).release.xcconfig"; path = "Target Support Files/Pods-InTechs (iOS)/Pods-InTechs (iOS).release.xcconfig"; sourceTree = "<group>"; };
 		8B3C0C73C324DE488CC21F81 /* Pods_InTechs__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTechs__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D7AB31164BDDCC9AF0965E /* Pods-InTechs (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTechs (iOS).debug.xcconfig"; path = "Target Support Files/Pods-InTechs (iOS)/Pods-InTechs (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		D90BB8C226DD10F50002E210 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		D90BB8C526DDA3EA0002E210 /* InputDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDocument.swift; sourceTree = "<group>"; };
 		D93BAD1226D148FD0094ADD9 /* InTechsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsApp.swift; sourceTree = "<group>"; };
 		D93BAD1326D148FD0094ADD9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D93BAD1426D149030094ADD9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -137,7 +144,6 @@
 		D9FC986326DBC9B100735222 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		D9FC986526DBCB2D00735222 /* IssuelistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuelistViewModel.swift; sourceTree = "<group>"; };
 		D9FC986726DBCCF800735222 /* InTechsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsViewModel.swift; sourceTree = "<group>"; };
-		D9FC986926DBCDB200735222 /* Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shake.swift; sourceTree = "<group>"; };
 		D9FC986B26DBD16E00735222 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		D9FC986D26DBD41200735222 /* MypageVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageVIewModel.swift; sourceTree = "<group>"; };
 		D9FC986F26DBD50400735222 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
@@ -147,6 +153,9 @@
 		D9FC987B26DC58B100735222 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		D9FC987F26DC5B6700735222 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		D9FC988126DC5D0500735222 /* NewChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatView.swift; sourceTree = "<group>"; };
+		D9FC988426DC812200735222 /* NSOpenPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSOpenPanel.swift; sourceTree = "<group>"; };
+		D9FC988726DC825C00735222 /* InTechsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsViewModel.swift; sourceTree = "<group>"; };
+		D9FC988B26DC828D00735222 /* Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shake.swift; sourceTree = "<group>"; };
 		D9FD9F6C26D53A3300664757 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		D9FD9F6E26D53A3800664757 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		D9FD9F7126D53AB600664757 /* OpenWindows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWindows.swift; sourceTree = "<group>"; };
@@ -204,6 +213,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		D90BB8C126DD10EC0002E210 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				D90BB8C226DD10F50002E210 /* SettingView.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
 		D93BAD0C26D148FD0094ADD9 = {
 			isa = PBXGroup;
 			children = (
@@ -219,6 +236,7 @@
 		D93BAD1126D148FD0094ADD9 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				D9FC988926DC828300735222 /* View */,
 				D950A34B26D21798003D4907 /* Resource */,
 				D950A34A26D2178B003D4907 /* Application */,
 				D950A30C26D20C11003D4907 /* Domain */,
@@ -284,13 +302,13 @@
 		D950A31726D20C81003D4907 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D9FC988326DC80ED00735222 /* Extension */,
 				D9FD9FB226D7075000664757 /* Calendar */,
 				D9FD9F7026D53AA000664757 /* Windows */,
 				D9E01A1726D4FD46005C7736 /* InTechs */,
 				D950A36F26D31344003D4907 /* Mypage */,
 				D950A35A26D2311E003D4907 /* Member */,
 				D950A33426D20E60003D4907 /* Chat */,
-				D950A32F26D20E1C003D4907 /* Issuboard */,
 				D950A32A26D20DF5003D4907 /* Project */,
 				D950A31F26D20CBD003D4907 /* Common */,
 				D950A31826D20C89003D4907 /* Home */,
@@ -320,6 +338,8 @@
 		D950A32A26D20DF5003D4907 /* Project */ = {
 			isa = PBXGroup;
 			children = (
+				D90BB8C126DD10EC0002E210 /* Setting */,
+				D950A32F26D20E1C003D4907 /* Issueboard */,
 				D950A36226D231E1003D4907 /* Issuelist */,
 				D950A35E26D231C1003D4907 /* DashBoard */,
 				D950A32B26D20E00003D4907 /* ProjectListView.swift */,
@@ -329,13 +349,13 @@
 			path = Project;
 			sourceTree = "<group>";
 		};
-		D950A32F26D20E1C003D4907 /* Issuboard */ = {
+		D950A32F26D20E1C003D4907 /* Issueboard */ = {
 			isa = PBXGroup;
 			children = (
 				D950A33026D20E28003D4907 /* IssueBoardView.swift */,
 				D950A33226D20E3B003D4907 /* IssueBoardDropDelegate.swift */,
 			);
-			path = Issuboard;
+			path = Issueboard;
 			sourceTree = "<group>";
 		};
 		D950A33426D20E60003D4907 /* Chat */ = {
@@ -492,6 +512,7 @@
 				D9E01A1826D4FD56005C7736 /* InTechsView.swift */,
 				D9FD9F6C26D53A3300664757 /* LoginView.swift */,
 				D9FD9F6E26D53A3800664757 /* RegisterView.swift */,
+				D9FC988726DC825C00735222 /* InTechsViewModel.swift */,
 			);
 			path = InTechs;
 			sourceTree = "<group>";
@@ -500,7 +521,6 @@
 			isa = PBXGroup;
 			children = (
 				D9FC986026DBC7B500735222 /* ImagePicker.swift */,
-				D9FC986926DBCDB200735222 /* Shake.swift */,
 				D9FC986B26DBD16E00735222 /* KeyboardObserver.swift */,
 			);
 			path = Common;
@@ -520,6 +540,7 @@
 			children = (
 				D950A34826D213E9003D4907 /* ChatListView.swift */,
 				D9FD9FCF26D7CAAC00664757 /* ChatDetailView.swift */,
+				D90BB8C526DDA3EA0002E210 /* InputDocument.swift */,
 				D9FD9FE626D8AC0500664757 /* ChannelInfoView.swift */,
 				D9FD9FC626D7BE2700664757 /* ChatBar.swift */,
 				D9FC988126DC5D0500735222 /* NewChatView.swift */,
@@ -554,6 +575,30 @@
 				D9FC987B26DC58B100735222 /* FeedbackViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		D9FC988326DC80ED00735222 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D9FC988426DC812200735222 /* NSOpenPanel.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		D9FC988926DC828300735222 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D9FC988A26DC828800735222 /* Common */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D9FC988A26DC828800735222 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				D9FC988B26DC828D00735222 /* Shake.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		D9FD9F7026D53AA000664757 /* Windows */ = {
@@ -792,10 +837,12 @@
 				D9FC987C26DC58B100735222 /* FeedbackViewModel.swift in Sources */,
 				D950A34726D213E0003D4907 /* CalendarView.swift in Sources */,
 				D9FC986626DBCB2D00735222 /* IssuelistViewModel.swift in Sources */,
+				D9FC988C26DC828D00735222 /* Shake.swift in Sources */,
 				D950A35026D2181B003D4907 /* Assets+init.swift in Sources */,
 				D9FC986426DBC9B100735222 /* HomeViewModel.swift in Sources */,
 				D950A31626D20C67003D4907 /* Message.swift in Sources */,
 				D9FD9FE126D897A500664757 /* InTechsView.swift in Sources */,
+				D90BB8C626DDA3EB0002E210 /* InputDocument.swift in Sources */,
 				D9FC986126DBC7B500735222 /* ImagePicker.swift in Sources */,
 				D9FD9FD126D7CAB300664757 /* ChatDetailView.swift in Sources */,
 				D9FC987A26DC501500735222 /* FeedbackView.swift in Sources */,
@@ -804,7 +851,6 @@
 				D9FC986E26DBD41200735222 /* MypageVIewModel.swift in Sources */,
 				D93BAD2726D149030094ADD9 /* ContentView.swift in Sources */,
 				D950A34026D2103B003D4907 /* Home.swift in Sources */,
-				D9FC986A26DBCDB200735222 /* Shake.swift in Sources */,
 				D9FC987426DC459200735222 /* ChatDetailViewModel.swift in Sources */,
 				D9FD9FD726D7CDF500664757 /* MypageView.swift in Sources */,
 				D9FC988226DC5D0500735222 /* NewChatView.swift in Sources */,
@@ -833,6 +879,7 @@
 				D950A32C26D20E00003D4907 /* ProjectListView.swift in Sources */,
 				D950A31E26D20CAD003D4907 /* HomeViewModel.swift in Sources */,
 				D950A31226D20C44003D4907 /* SFImage.swift in Sources */,
+				D90BB8C426DD15A50002E210 /* SettingView.swift in Sources */,
 				D950A35D26D23141003D4907 /* MemberView.swift in Sources */,
 				D950A35726D22AA6003D4907 /* ChatViewModel.swift in Sources */,
 				D9FD9FB526D7077000664757 /* CalendarView.swift in Sources */,
@@ -853,12 +900,15 @@
 				D950A32926D20DDB003D4907 /* HomeTabbutton.swift in Sources */,
 				D950A32E26D20E12003D4907 /* ProjectTab.swift in Sources */,
 				D950A36726D232D0003D4907 /* ProjectViewModel.swift in Sources */,
+				D9FC988E26DC82B700735222 /* InTechsViewModel.swift in Sources */,
 				D950A33C26D20E8F003D4907 /* ChatDetailView.swift in Sources */,
 				D950A37926D336AD003D4907 /* ChannelInfoView.swift in Sources */,
+				D9FC988D26DC828F00735222 /* Shake.swift in Sources */,
 				D950A33D26D20E94003D4907 /* Message.swift in Sources */,
 				D950A31B26D20C94003D4907 /* HomeTab.swift in Sources */,
 				D950A37B26D33A9E003D4907 /* ChannelSearchView.swift in Sources */,
 				D9E01A1A26D4FD75005C7736 /* InTechsView.swift in Sources */,
+				D9FC988626DC812700735222 /* NSOpenPanel.swift in Sources */,
 				D9FD9F6F26D53A3800664757 /* RegisterView.swift in Sources */,
 				D93BAD2626D149030094ADD9 /* InTechsApp.swift in Sources */,
 				D950A36526D231FC003D4907 /* IssuelistView.swift in Sources */,

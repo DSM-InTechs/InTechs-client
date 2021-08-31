@@ -12,6 +12,11 @@ struct ChatDetailView: View {
     @ObservedObject var chatVM = ChatDetailViewModel()
     @State var uiTabarController: UITabBarController?
     @State private var showInfoView = false
+    @State var fileSheet = false
+    @State var isFile = false
+    @State var isImage = false
+    @State private var document: InputDoument = InputDoument(input: "")
+    
     let title: String
     
     var body: some View {
@@ -43,13 +48,49 @@ struct ChatDetailView: View {
                     VStack {
                         HStack {
                             Image(system: .clip)
+                                .onTapGesture {
+                                    self.fileSheet = true
+                                }
                             TextField("메세지를 입력하세요", text: $chatVM.text)
+                            //                            Text(document.input)
                             if chatVM.text == "" {
                                 Image(system: .paperplane)
                             } else {
                                 Image(system: .paperplaneFill)
                             }
                         }.padding(.bottom, 10)
+                        .actionSheet(isPresented: $fileSheet) {
+                            ActionSheet(title: Text("사진 또는 파일을 첨부하세요"), buttons: [.default(Text("Photo")) {
+                                self.isImage = true
+                            }, .default(Text("File")) {
+                                self.isFile = true
+                            }, .cancel(Text("Cancel"))])
+                        }
+                        .sheet(isPresented: $isImage) {
+                            ImagePicker(sourceType: .photoLibrary, imagePicked: { image in
+                                
+                            })
+                        }
+                        .fileImporter(
+                            isPresented: $isFile,
+                            allowedContentTypes: [.plainText],
+                            allowsMultipleSelection: false
+                        ) { result in
+                            do {
+                                guard let selectedFile: URL = try result.get().first else { return }
+                                if selectedFile.startAccessingSecurityScopedResource() {
+                                    guard let input = String(data: try Data(contentsOf: selectedFile), encoding: .utf8) else { return }
+                                    defer { selectedFile.stopAccessingSecurityScopedResource() }
+                                    document.input = input
+                                } else {
+                                    // Handle denied access
+                                }
+                            } catch {
+                                // Handle failure.
+                                print("Unable to read file contents")
+                                print(error.localizedDescription)
+                            }
+                        }
                         
                     }.frame(width: UIFrame.width - 50, height: UIFrame.height / 12)
                 }.background(Color(Asset.white))

@@ -39,14 +39,12 @@ struct ChatTabButton: View {
                 if tab.getImage() != "#" {
                     if tab == selectedTab {
                         Image(systemName: tab.getImage())
-                            .resizable()
-                            .frame(width: 18, height: 18)
+                            .font(.title3)
                             .foregroundColor(.white)
                             .padding(.bottom, 5)
                     } else {
                         Image(systemName: tab.getImage())
-                            .resizable()
-                            .frame(width: 18, height: 18)
+                            .font(.title3)
                             .foregroundColor(.gray)
                             .padding(.bottom, 5)
                     }
@@ -54,11 +52,11 @@ struct ChatTabButton: View {
                 } else {
                     if tab == selectedTab || hover {
                         Text("#")
-                            .font(.system(size: 18))
+                            .font(.title3)
                             .foregroundColor(.white)
                     } else {
                         Text("#")
-                            .font(.system(size: 18))
+                            .font(.title3)
                             .foregroundColor(.gray)
                     }
                 }

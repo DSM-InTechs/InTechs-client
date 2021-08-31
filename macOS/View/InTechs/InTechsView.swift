@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct InTechsView: View {
+    @EnvironmentObject var homeVM: HomeViewModel
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                
                 Color(Asset.white)
                 
                 VStack(spacing: 20) {

@@ -4,7 +4,7 @@
 def shared
     pod 'Moya'
     pod 'GEmojiPicker', :git => 'https://github.com/Goeun1001/GEmojiPicker.git', :branch => 'master'
-    pod 'GECalendar'
+    pod 'GECalendar', :git => 'https://github.com/Goeun1001/GECalendar.git', :branch => 'master'
 end
 
 target 'InTechs (iOS)' do
