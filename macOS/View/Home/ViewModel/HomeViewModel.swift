@@ -8,6 +8,8 @@
 import SwiftUI
 
 class HomeViewModel: ObservableObject {
+    @Published var isLogin: Bool = true
+    
     @Published var selectedTab: HomeTab = HomeTab.Chats
     @Published var toast: Toast? = nil
     

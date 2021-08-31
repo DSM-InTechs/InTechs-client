@@ -8,17 +8,16 @@
 import SwiftUI
 
 struct Home: View {
-    @EnvironmentObject var homeData: HomeViewModel
+    @Environment(\.scenePhase) var scenePhase
+    @EnvironmentObject var homeVM: HomeViewModel
     @State private var quickActionPop: Bool = false
     @State private var questionPop: Bool = false
     
-    @State private var isLogin: Bool = true
-    
     var body: some View {
-        if isLogin {
+        if homeVM.isLogin {
             ZStack(alignment: .leading) {
                 ZStack {
-                    switch homeData.selectedTab {
+                    switch homeVM.selectedTab {
                     case .Chats: NavigationView { ChatListView().background(Color(NSColor.textBackgroundColor)).ignoresSafeArea() }
                     case .Projects: ProjectListView()
                     case .Calendar: CalendarView()
@@ -29,32 +28,37 @@ struct Home: View {
                 .offset(x: 70)
                 
                 VStack {
-                    HomeTabButton(tab: HomeTab.Chats, number: "1", selectedTab: $homeData.selectedTab)
+                    HomeTabButton(tab: HomeTab.Chats, number: "1", selectedTab: $homeVM.selectedTab)
                         .keyboardShortcut("1", modifiers: .command)
                     
                     HomeTabButton(tab: HomeTab.Projects,
                                   number: "2",
-                                  selectedTab: $homeData.selectedTab)
+                                  selectedTab: $homeVM.selectedTab)
                         .keyboardShortcut("2", modifiers: [.command])
                     
                     HomeTabButton(tab: HomeTab.Calendar,
                                   number: "3",
-                                  selectedTab: $homeData.selectedTab)
+                                  selectedTab: $homeVM.selectedTab)
                         .keyboardShortcut("3", modifiers: [.command])
                     
                     HomeTabButton(tab: HomeTab.Teams,
                                   number: "4",
-                                  selectedTab: $homeData.selectedTab)
+                                  selectedTab: $homeVM.selectedTab)
                         .keyboardShortcut("4", modifiers: [.command])
                     
                     Spacer()
                     
                     RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 30, height: 30)
+                        .frame(width: 28, height: 28)
                         .padding(.bottom, 5)
                     
                     RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 30, height: 30)
+                        .frame(width: 28, height: 28)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.white, lineWidth: 2.5)
+                                .frame(width: 37, height: 37)
+                        )
                         .padding(.bottom, 5)
                     
                     Image(system: .plusSquare)
@@ -78,7 +82,7 @@ struct Home: View {
                         }
                     
                     HomeTabButton(tab: HomeTab.Mypage,
-                                  selectedTab: $homeData.selectedTab)
+                                  selectedTab: $homeVM.selectedTab)
                 }
                 .frame(width: 70)
                 .padding(.vertical)
@@ -86,6 +90,13 @@ struct Home: View {
                 .background(BlurView())
             }
             .ignoresSafeArea(.all, edges: .all)
+            .onChange(of: scenePhase) { newPhase in
+                if newPhase == .inactive {
+                    // Active API
+                } else if newPhase == .background {
+                    // InActive API
+                }
+            }
         } else {
             InTechsView()
                 .ignoresSafeArea(.all, edges: .all)
@@ -113,7 +124,7 @@ struct Home_Previews: PreviewProvider {
 
 struct quickActionPopView: View {
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 20) {
             HStack {
                 Text("#")
                     .frame(width: 15, height: 15)
@@ -130,11 +141,6 @@ struct quickActionPopView: View {
                 SystemImage(system: .calendar)
                     .frame(width: 15, height: 15)
                 Text("일정")
-            }
-            HStack {
-                SystemImage(system: .person)
-                    .frame(width: 15, height: 15)
-                Text("멤버")
             }
         }.padding()
     }

@@ -18,6 +18,7 @@ let members = [Member(name: "김재원", status: true, isMe: false), Member(name
 struct MemberView: View {
     //    @ObservedObject var projectVM = ProjectViewModel()
     @Namespace private var animation
+    @State private var plusPop = false
     
     var body: some View {
         ZStack {
@@ -27,11 +28,18 @@ struct MemberView: View {
                         .font(.title)
                     
                     Spacer()
-                    Button(action: {}, label: {
+                    Button(action: {
+                        self.plusPop.toggle()
+                    }, label: {
                         SystemImage(system: .plus)
                             .frame(width: 15, height: 15)
                             .padding(.vertical)
                     })
+                    .popover(isPresented: $plusPop) {
+                        MemberPopView()
+                            .padding()
+                            .padding()
+                    }
                 }
                 
                 Text("7 Members")
@@ -65,17 +73,17 @@ struct MemberRow: View {
                     .frame(width: 100, height: 100)
                 
                 if member.status {
-                   ActiveView()
+                    ActiveView()
                 } else {
                     InActiveView()
                 }
             }
             
             VStack(alignment: .leading) {
-              
+                
                 Text(member.name)
                 Spacer()
-                Text("Chat with 재원")
+                Text("DM with 재원")
             }
             
             Spacer()
@@ -90,8 +98,54 @@ struct MemberRow: View {
     }
 }
 
+struct MemberPopView: View {
+    @State private var isCopied: Bool = false
+    
+    var body: some View {
+        VStack(spacing: 15) {
+            Text("프로젝트 코드를 복사해 사람들을 초대해보세요.")
+                .foregroundColor(.gray)
+            
+            HStack(spacing: 15) {
+                HStack {
+                    ForEach(0..<6, id: \.self) { index in
+                        Text(String(index))
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .padding(.all, 10)
+                            .background(Color.gray.opacity(0.5).cornerRadius(10))
+                    }
+                }
+                
+                if isCopied {
+                    Image(system: .checkmark)
+                        .onAppear() {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                withAnimation {
+                                    self.isCopied = false
+                                }
+                            }
+                        }
+                } else {
+                    Image(system: .copy)
+                        .frame(width: 10, height: 15)
+                        .onTapGesture {
+                            let pasteboard = NSPasteboard.general
+                            pasteboard.declareTypes([.string], owner: nil)
+                            pasteboard.setString("012345", forType: .string)
+                            withAnimation {
+                                self.isCopied = true
+                            }
+                        }
+                }
+            }
+        }
+    }
+}
+
 struct MemberView_Previews: PreviewProvider {
     static var previews: some View {
         MemberView()
+        MemberPopView()
     }
 }

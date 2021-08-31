@@ -47,4 +47,11 @@ enum SFImage: String {
     case camera = "camera"
     case lockShield = "lock.shield"
     case checkmarkShield = "checkmark.shield"
+    case copy = "square.on.square"
+    case checkmark = "checkmark"
+    case circle = "circle"
+    case circleFill = "largecircle.fill.circle"
+    case checkmarkSquare = "checkmark.square"
+    case pencil = "pencil"
+    case trash = "trash"
 }

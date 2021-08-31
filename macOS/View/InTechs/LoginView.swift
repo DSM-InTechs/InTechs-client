@@ -8,36 +8,94 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State var email = ""
-    @State var password = ""
+    @EnvironmentObject var homeVM: HomeViewModel
+    @ObservedObject var InTechsVM = InTechsViewModel()
     
     var body: some View {
         GeometryReader { geo in
-            VStack(spacing: 10) {
-                HStack(spacing: 10) {
-                    Image(system: .emailFill)
-                    TextField("Email", text: $email)
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color(Asset.black), lineWidth: 2)
-                    )
+            ZStack(alignment: .bottom) {
+                Color(Asset.inTechsLeft)
+                
+                VStack {
+                    HStack {
+                        Text("로그인")
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
+                            .font(.title)
+                            .padding()
+                        Spacer()
+                    }
+                    Spacer()
                 }
                 
-                HStack(spacing: 10) {
-                    Image(system: .lockFill)
-                    SecureField("Password", text: $password)
-                        .textFieldStyle(PlainTextFieldStyle())
+                VStack {
+                    VStack(spacing: 20) {
+                        Spacer()
+                        HStack(spacing: 10) {
+                            Image(system: .emailFill)
+                                .foregroundColor(Color(Asset.white))
+                                .font(.title2)
+                            
+                            VStack(spacing: 3) {
+                                TextField("Email", text: $InTechsVM.email)
+                                    .colorMultiply(Color(Asset.white))
+                                    .textFieldStyle(PlainTextFieldStyle())
+                                Color(Asset.white).frame(height: 1)
+                            }
+                        }
+                        
+                        HStack(spacing: 10) {
+                            Image(system: .lockFill)
+                                .foregroundColor(Color(Asset.white))
+                                .font(.title2)
+                                .padding(.bottom, 15)
+                            
+                            VStack(spacing: 3) {
+                                SecureField("Password", text: $InTechsVM.password)
+                                    .colorMultiply(Color(Asset.white))
+                                    .textFieldStyle(PlainTextFieldStyle())
+                                Color(Asset.white).frame(height: 1)
+                                
+                                HStack {
+                                    Spacer()
+                                    Text("비밀번호 찾기")
+                                        .foregroundColor(Color(Asset.inTechsLeft))
+                                }
+                            }
+                        }
+                        Spacer()
+                    }.padding(.horizontal)
+                    
+                    if InTechsVM.email != "" && InTechsVM.password != "" { Text("로그인")
+                        .foregroundColor(Color(Asset.black))
+                        .font(.title2)
+                        .fontWeight(.medium)
                         .padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color(Asset.black), lineWidth: 2)
-                    )
-                }
+                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)).frame(width: geo.size.width / 2))
+                        .onTapGesture {
+                            if self.InTechsVM.login() {
+                                NSApplication.shared.keyWindow?.close()
+                                withAnimation {
+                                    self.homeVM.isLogin = true
+                                }
+                            }
+                        }
+                        .padding(.bottom)
+                    } else {
+                        Text("로그인")
+                            .foregroundColor(Color(Asset.black))
+                            .font(.title2)
+                            .fontWeight(.medium)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white).opacity(0.3)).frame(width: geo.size.width / 2))
+                            .modifier(Shake(animatableData: CGFloat(InTechsVM.attempts)))
+                            .padding(.bottom)
+                    }
+                } 
+                .frame(height: geo.size.height / 1.5)
+                .background(Color(Asset.black))
             }
         }
-        Text("Hello, World!")
     }
 }
 

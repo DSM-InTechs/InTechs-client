@@ -6,13 +6,16 @@
 //
 
 import SwiftUI
+import GECalendar
 
 struct DashBoardView: View {
+    @State private var date: Date? = nil
+    
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: .leading, spacing: geo.size.height / 8) {
                 
-                VStack(spacing: 20) {
+                VStack(alignment: .leading, spacing: 20) {
                     HStack {
                         Rectangle().foregroundColor(.blue)
                             .frame(width: 40, height: 40)
@@ -22,19 +25,25 @@ struct DashBoardView: View {
                     HStack {
                         SystemImage(system: .people)
                             .frame(width: 20, height: 15)
-                        Text("3 Members")
+                        Text("3명의 멤버")
                     }
                     
-                    HStack {
-                        // 사람 프사들
+                    HStack(spacing: -10) {
+                        Circle().frame(width: 20, height: 20)
+                        Circle().frame(width: 20, height: 20)
+                        Circle().frame(width: 20, height: 20)
+                        Text("+5")
+                            .foregroundColor(.black)
+                            .font(.caption)
+                            .background(Circle().frame(width: 20, height: 20))
                     }
                 }
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 20) {
                     HStack {
                         SystemImage(system: .issue)
                             .frame(width: 15, height: 20)
-                        Text("Issues")
+                        Text("이슈")
                     }
                     
                     HStack {
@@ -50,17 +59,15 @@ struct DashBoardView: View {
                     }
                 }
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 20) {
                     HStack {
                         SystemImage(system: .calendar)
                             .frame(width: 17, height: 17)
-                        Text("Calendar")
+                        Text("캘린더")
                     }
                     
                     // 주간 캘린더
-//                    VStack(spacing: 0) {
-//                        NoChecklistRow()
-//                    }
+                    GEWeekView(selectedDate: $date, appearance: Appearance(headerFont: .title2, headerType: .leading))
                 }
                 
                 Spacer()
@@ -108,21 +115,9 @@ struct ChecklistRow: View {
     }
 }
 
-struct NoChecklistRow: View {
-    var body: some View {
-        HStack(alignment: .center) {
-            Spacer()
-            Text("No checklists in this project.")
-            Spacer()
-        } .padding(.all, 15)
-        .background(RoundedRectangle(cornerRadius: 5).foregroundColor(.clear))
-        .border(Color.gray.opacity(0.3), width: 1)
-        
-    }
-}
-
 struct DashBoardView_Previews: PreviewProvider {
     static var previews: some View {
         DashBoardView()
+            .frame(width: 1000, height: 700)
     }
 }

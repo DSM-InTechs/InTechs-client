@@ -2,7 +2,7 @@
 //  InTechsViewModel.swift
 //  InTechs (iOS)
 //
-//  Created by GoEun Jeong on 2021/08/29.
+//  Created by GoEun Jeong on 2021/08/30.
 //
 
 import SwiftUI
