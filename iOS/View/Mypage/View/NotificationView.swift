@@ -32,8 +32,43 @@ struct NotificationView: View {
     }
 }
 
+struct MyProjectListView: View {
+    var body: some View {
+        ZStack {
+            Color(UIColor.secondarySystemBackground)
+                .ignoresSafeArea()
+            
+            GeometryReader { geo in
+                ScrollView {
+                    VStack(spacing: 10) {
+                        HStack(spacing: 15) {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.gray)
+                                .frame(width: 40, height: 40)
+                            Text("프로젝트 1")
+                            Spacer()
+                            Image(system: .checkmark)
+                        }.padding()
+                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
+                        
+                        HStack(spacing: 15) {
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.gray)
+                                .frame(width: 40, height: 40)
+                            Text("프로젝트 2")
+                            Spacer()
+                        }.padding()
+                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
+                    }
+                }
+            }.padding()
+        }
+    }
+}
+
 struct NotificationView_Previews: PreviewProvider {
     static var previews: some View {
         NotificationView()
+        MyProjectListView()
     }
 }

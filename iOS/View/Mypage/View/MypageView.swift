@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct MypageView: View {
-    @State var uiTabarController: UITabBarController?
     @Environment(\.openURL) var openURL
     @ObservedObject var mypageVM = MypageViewModel()
+    @State private var logoutAlert: Bool = false
+    @State var uiTabarController: UITabBarController?
     
     var body: some View {
         ZStack {
@@ -57,15 +58,36 @@ struct MypageView: View {
                         
                     }
                     
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("프로젝트")
+                            .foregroundColor(.gray)
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .padding(.bottom, 5)
+                        
+                        NavigationLink(destination: MyProjectListView()) {
+                            MypageRow(title: "프로젝트", _body: "프로젝트 이름", image: .project)
+                        }
+                    }
+                    
                     VStack(alignment: .leading) {
                         MypageRow(title: "로그아웃", _body: "", image: .bell, isRightArrow: false)
                             .foregroundColor(.red)
+                            .onTapGesture {
+                                self.logoutAlert = true
+                            }
+                    } .alert(isPresented: $logoutAlert) {
+                        Alert(title: Text("로그아웃하시겠습니까?"), primaryButton: .destructive(Text("예"), action: {
+                            // Some action
+                        }), secondaryButton: .cancel())
                     }
                     
                 }.padding()
             }.introspectTabBarController { (UITabBarController) in
                 UITabBarController.tabBar.isHidden = true
-                uiTabarController = UITabBarController
+                self.uiTabarController = UITabBarController
+            }.onAppear() {
+                self.uiTabarController?.tabBar.isHidden = true
             }
         }
     }
@@ -87,16 +109,19 @@ struct MypageRow: View {
     var body: some View {
         HStack {
             if image != nil {
-                if title == "로그아웃" {
+                if title == "로그아웃" || title == "채널 나가기" {
                     Image(system: image!)
                         .foregroundColor(.red)
+                } else if title == "새 채널" {
+                    Text("#")
+                        .foregroundColor(Color(Asset.black))
                 } else {
                     Image(system: image!)
                         .foregroundColor(Color(Asset.black))
                 }
             }
             
-            if title == "로그아웃" {
+            if title == "로그아웃" || title == "채널 나가기" {
                 Text(title)
                     .foregroundColor(.red)
             } else {

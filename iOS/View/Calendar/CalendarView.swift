@@ -20,16 +20,24 @@ struct CalendarView: View {
                     
                     VStack {
                         Spacer()
-                        VStack {
+                        VStack(alignment: .leading) {
+                            Text(calendarVM.dateFormatter.string(from: calendarVM.date!))
+                                .foregroundColor(.gray)
+                                .fontWeight(.bold)
+                                .font(.title2)
+                                .padding(.horizontal, 20)
+                            
                             LazyVStack(spacing: 20) {
                                 ForEach(0...1, id: \.self) { _ in
-                                    CalendarIssueRow()
-                                        .frame(width: geo.size.width - 70)
+                                    NavigationLink(destination: IssueDetailView()) {
+                                        CalendarIssueRow()
+                                            .padding(.horizontal)
+                                    }
                                 }
                             }.padding(.horizontal)
-                            Spacer(minLength: 0)
+                            Spacer()
                         }
-                        .frame(height: geo.size.height / 2.3)
+                        .frame(height: geo.size.height / 2)
                     }
                     
                 }

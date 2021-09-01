@@ -54,4 +54,7 @@ enum SFImage: String {
     case checkmarkSquare = "checkmark.square"
     case pencil = "pencil"
     case trash = "trash"
+    case pin = "pin"
+    case bellSlash = "bell.slash"
+    case xmarkCircle = "xmark.circle.fill"
 }

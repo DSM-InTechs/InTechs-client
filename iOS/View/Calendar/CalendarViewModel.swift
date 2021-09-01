@@ -11,10 +11,13 @@ import GECalendar
 
 class CalendarViewModel: ObservableObject {
     @Published var events: [Event] = [Event]()
-    @Published var date: Date? = nil
+    @Published var date: Date? = Date()
     private var cancellable = Set<AnyCancellable>()
+    let dateFormatter = DateFormatter()
     
     init() {
+        dateFormatter.dateFormat = "MM dd"
+        
         self.$date
             .sink { date in
                 // do something here with newQuery

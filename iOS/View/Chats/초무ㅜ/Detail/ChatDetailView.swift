@@ -15,6 +15,7 @@ struct ChatDetailView: View {
     @State var fileSheet = false
     @State var isFile = false
     @State var isImage = false
+    @State var isSearch = false
     @State private var document: InputDoument = InputDoument(input: "")
     
     let title: String
@@ -33,8 +34,22 @@ struct ChatDetailView: View {
             
             NavigationLink(destination: ChannelInfoView(),
                            isActive: self.$showInfoView)
-            { Text("")
+            { EmptyView() }
                 .hidden()
+            
+            if isSearch {
+                VStack {
+                    SearchBar(text: .constant(""))
+                    ScrollView {
+                        LazyVStack {
+                            ForEach(0...10, id: \.self) { _ in
+                                ChatDetailRow()
+                                    .padding(.all, 10)
+                                
+                            }
+                        }
+                    }
+                }.background(Color(Asset.white))
             }
             
             
@@ -98,8 +113,20 @@ struct ChatDetailView: View {
             }.ignoresSafeArea()
             
             .navigationBarTitle(title)
-            .navigationBarItems(trailing: Group {
-                SystemImage(system: .info).frame(width: 20, height: 20).onTapGesture {
+            .navigationBarItems(trailing: HStack(spacing: 15) {
+                SystemImage(system: .search)
+                    .font(.title3)
+                    .foregroundColor(.blue)
+                    .onTapGesture {
+                        withAnimation {
+                            self.isSearch = true
+                        }
+                    }
+                
+                SystemImage(system: .info)
+                    .frame(width: 20, height: 20)
+                    .foregroundColor(.blue)
+                    .onTapGesture {
                     self.showInfoView.toggle()
                 }
             })

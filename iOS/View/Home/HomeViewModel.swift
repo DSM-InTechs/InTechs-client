@@ -8,5 +8,5 @@
 import SwiftUI
 
 class HomeViewModel: ObservableObject {
-    @Published var isLogin: Bool = false
+    @Published var isLogin: Bool = true
 }
