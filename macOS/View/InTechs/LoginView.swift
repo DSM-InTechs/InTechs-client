@@ -37,7 +37,7 @@ struct LoginView: View {
                                 .font(.title2)
                             
                             VStack(spacing: 3) {
-                                TextField("Email", text: $InTechsVM.email)
+                                TextField("이메일을 입력하세요", text: $InTechsVM.email)
                                     .colorMultiply(Color(Asset.white))
                                     .textFieldStyle(PlainTextFieldStyle())
                                 Color(Asset.white).frame(height: 1)
@@ -51,7 +51,7 @@ struct LoginView: View {
                                 .padding(.bottom, 15)
                             
                             VStack(spacing: 3) {
-                                SecureField("Password", text: $InTechsVM.password)
+                                SecureField("비밀번호를 입력하세요", text: $InTechsVM.password)
                                     .colorMultiply(Color(Asset.white))
                                     .textFieldStyle(PlainTextFieldStyle())
                                 Color(Asset.white).frame(height: 1)

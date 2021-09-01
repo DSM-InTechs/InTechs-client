@@ -1,14 +1,13 @@
 //
-//  MypageEditView.swift
+//  ChannelEditView.swift
 //  InTechs (iOS)
 //
-//  Created by GoEun Jeong on 2021/08/26.
+//  Created by GoEun Jeong on 2021/08/31.
 //
 
 import SwiftUI
 
-struct MypageEditView: View {
-    @State var uiTabarController: UITabBarController?
+struct ChannelEditView: View {
     @State var pickedImage: Image? = nil
     @State private var isImage = false
     
@@ -46,47 +45,24 @@ struct MypageEditView: View {
                         })
                     }
                     
-                    VStack(alignment: .leading) {
-                        Text("이름")
-                            .foregroundColor(.gray)
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .padding(.bottom, 5)
-                        
+                    VStack {
                         VStack {
-                            TextField("유저 이름", text: .constant(""))
+                            TextField("채널 이름", text: .constant(""))
                                 .padding(.all, 10)
                         }.background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
                     }
-                    
-                    
-                    VStack(alignment: .leading) {
-                        Text("연락처") // 또는 멤버 없음 표시
-                            .foregroundColor(.gray)
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .padding(.bottom, 5)
-                        
-                        HStack(spacing: 20) {
-                            Text("메일")
-                                .foregroundColor(.gray)
-                            Text("gogo8272@gmail.com")
-                            Spacer()
-                        }.padding()
-                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
-                    }
                 }.padding()
-                .navigationBarTitle("프로필 편집")
-                .navigationBarItems(trailing: Text("완료").foregroundColor(.blue).onTapGesture {
-                    //
+                .navigationBarTitle("채널 수정")
+                .navigationBarItems(trailing: Text("확인").foregroundColor(.blue).onTapGesture {
+                    // 채널로 네비게이션
                 })
             }
         }
     }
 }
 
-struct MypageEditView_Previews: PreviewProvider {
+struct ChannelEditView_Previews: PreviewProvider {
     static var previews: some View {
-        MypageEditView()
+        ChannelEditView()
     }
 }

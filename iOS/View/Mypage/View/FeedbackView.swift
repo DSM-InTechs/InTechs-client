@@ -7,6 +7,7 @@
 
 import SwiftUI
 import StoreKit
+import Introspect
 
 struct FeedbackView: View {
     @State private var isBug: Bool = false
@@ -27,7 +28,7 @@ struct FeedbackView: View {
                             MypageRow(title: "버그 신고", _body: "")
                         })
                         .sheet(isPresented: self.$isBug) {
-                            FeedbackModalView(isBug: true, text: $feedbackVM.bugMessage)
+                            FeedbackModalView(isBug: true, text: $feedbackVM.bugMessage, isModal: $isBug)
                         }
                         
                         Button(action: {
@@ -36,7 +37,7 @@ struct FeedbackView: View {
                             MypageRow(title: "기능 제안", _body: "")
                         })
                         .sheet(isPresented: self.$isFeature) {
-                            FeedbackModalView(isBug: false, text: $feedbackVM.featureMessage)
+                            FeedbackModalView(isBug: false, text: $feedbackVM.featureMessage, isModal: $isFeature)
                         }
                         
                         Button(action: {
@@ -48,6 +49,9 @@ struct FeedbackView: View {
                     }
                 }.padding()
             }
+            .introspectTabBarController { (UITabBarController) in
+                UITabBarController.tabBar.isHidden = true
+            }
         }
     }
 }
@@ -56,6 +60,7 @@ struct FeedbackModalView: View {
     let isBug: Bool
     @State private var isAnonymous: Bool = false
     @Binding var text: String
+    @Binding var isModal: Bool
     
     var body: some View {
         NavigationView {
@@ -80,7 +85,9 @@ struct FeedbackModalView: View {
                 }
                 .navigationBarTitle(isBug ? "버그 신고" : "기능 제안", displayMode: .inline)
                 .navigationBarItems(leading: Text("취소")
-                                        .foregroundColor(.red), trailing: Text("보내기")
+                                        .foregroundColor(.red).onTapGesture {
+                                            self.isModal.toggle()
+                                        }, trailing: Text("보내기")
                                             .foregroundColor(text == "" ? .gray : .black))
             }
         }
@@ -116,6 +123,6 @@ struct MypageToggleRow: View {
 struct FeedbackView_Previews: PreviewProvider {
     static var previews: some View {
         FeedbackView()
-        FeedbackModalView(isBug: true, text: .constant(""))
+        FeedbackModalView(isBug: true, text: .constant(""), isModal: .constant(false))
     }
 }

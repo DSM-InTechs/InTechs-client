@@ -87,6 +87,8 @@
 		D9FD9FE326D897AB00664757 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FE226D897AB00664757 /* LoginView.swift */; };
 		D9FD9FE526D897B200664757 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FE426D897B200664757 /* RegisterView.swift */; };
 		D9FD9FE726D8AC0600664757 /* ChannelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FE626D8AC0500664757 /* ChannelInfoView.swift */; };
+		D9FF611326DE00BA00AEA573 /* ChannelEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FF611226DE00BA00AEA573 /* ChannelEditView.swift */; };
+		D9FF611526DE3BC800AEA573 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FF611426DE3BC800AEA573 /* SearchBar.swift */; };
 		FC56ADEB99916193CEF95D54 /* Pods_InTechs__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5FBA4103A65829EAD1C8AB /* Pods_InTechs__macOS_.framework */; };
 /* End PBXBuildFile section */
 
@@ -170,6 +172,8 @@
 		D9FD9FE226D897AB00664757 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		D9FD9FE426D897B200664757 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		D9FD9FE626D8AC0500664757 /* ChannelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoView.swift; sourceTree = "<group>"; };
+		D9FF611226DE00BA00AEA573 /* ChannelEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelEditView.swift; sourceTree = "<group>"; };
+		D9FF611426DE3BC800AEA573 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		DC5FBA4103A65829EAD1C8AB /* Pods_InTechs__macOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTechs__macOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -520,8 +524,10 @@
 		D9FC985F26DBC7A700735222 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				D90BB8C526DDA3EA0002E210 /* InputDocument.swift */,
 				D9FC986026DBC7B500735222 /* ImagePicker.swift */,
 				D9FC986B26DBD16E00735222 /* KeyboardObserver.swift */,
+				D9FF611426DE3BC800AEA573 /* SearchBar.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -538,14 +544,11 @@
 		D9FC987526DC459400735222 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				D950A34826D213E9003D4907 /* ChatListView.swift */,
-				D9FD9FCF26D7CAAC00664757 /* ChatDetailView.swift */,
-				D90BB8C526DDA3EA0002E210 /* InputDocument.swift */,
-				D9FD9FE626D8AC0500664757 /* ChannelInfoView.swift */,
-				D9FD9FC626D7BE2700664757 /* ChatBar.swift */,
-				D9FC988126DC5D0500735222 /* NewChatView.swift */,
+				D9FF611026DDFD5E00AEA573 /* Detail */,
+				D9FF610F26DDFD5B00AEA573 /* List */,
 			);
-			path = View;
+			name = View;
+			path = "초무ㅜ";
 			sourceTree = "<group>";
 		};
 		D9FC987626DC459700735222 /* ViewModel */ = {
@@ -645,6 +648,26 @@
 				D9FD9FE426D897B200664757 /* RegisterView.swift */,
 			);
 			path = InTechs;
+			sourceTree = "<group>";
+		};
+		D9FF610F26DDFD5B00AEA573 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				D9FD9FC626D7BE2700664757 /* ChatBar.swift */,
+				D950A34826D213E9003D4907 /* ChatListView.swift */,
+				D9FC988126DC5D0500735222 /* NewChatView.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		D9FF611026DDFD5E00AEA573 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				D9FD9FE626D8AC0500664757 /* ChannelInfoView.swift */,
+				D9FF611226DE00BA00AEA573 /* ChannelEditView.swift */,
+				D9FD9FCF26D7CAAC00664757 /* ChatDetailView.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -844,6 +867,7 @@
 				D9FD9FE126D897A500664757 /* InTechsView.swift in Sources */,
 				D90BB8C626DDA3EB0002E210 /* InputDocument.swift in Sources */,
 				D9FC986126DBC7B500735222 /* ImagePicker.swift in Sources */,
+				D9FF611526DE3BC800AEA573 /* SearchBar.swift in Sources */,
 				D9FD9FD126D7CAB300664757 /* ChatDetailView.swift in Sources */,
 				D9FC987A26DC501500735222 /* FeedbackView.swift in Sources */,
 				D950A34926D213E9003D4907 /* ChatListView.swift in Sources */,
@@ -864,6 +888,7 @@
 				D9FD9FE326D897AB00664757 /* LoginView.swift in Sources */,
 				D9FD9FDA26D7DE5400664757 /* IssuelistView.swift in Sources */,
 				D9FC987026DBD50400735222 /* CalendarViewModel.swift in Sources */,
+				D9FF611326DE00BA00AEA573 /* ChannelEditView.swift in Sources */,
 				D93BAD2526D149030094ADD9 /* InTechsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

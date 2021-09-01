@@ -39,6 +39,7 @@ struct RegisterView: View {
                             HStack(spacing: 20) {
                                 Image(system: .emailFill)
                                 TextField("이메일을 입력하세요", text: $InTechsVM.email)
+                                    .textContentType(.emailAddress)
                             }
                             Color.gray.frame(height: 1)
                         }

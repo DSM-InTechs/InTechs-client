@@ -11,6 +11,7 @@ struct ChatListView: View {
     @State private var index = 1
     @State private var offset: CGFloat = 0
     @Namespace private var animation
+    @State private var showNewChat = false
     
     @State var uiTabarController: UITabBarController?
     @ObservedObject var chatVM = ChatlistViewModel()
@@ -85,26 +86,24 @@ struct ChatListView: View {
                                             }))
                     
                 }
+                
+                NavigationLink(destination: NewChatView(),
+                               isActive: self.$showNewChat)
+                    { EmptyView() }
+                    .hidden()
             }
             .animation(.default)
             .padding(.vertical)
             .ignoresSafeArea(edges: .bottom)
             .navigationBarTitle("채팅", displayMode: .inline)
-            .navigationBarItems(trailing:
-                                    HStack(spacing: 15) {
-                                        Button(action: {}, label: {
-                                            SystemImage(system: .search)
-                                                .font(.title3)
-                                                .foregroundColor(.blue)
-                                        })
-                                        
-                                        Button(action: {}, label: {
-                                            SystemImage(system: .plus)
-                                                .font(.title3)
-                                                .foregroundColor(.blue)
-                                        })
-                                        
-                                    })
+//            .navigationBarItems(trailing:
+//                                    Button(action: {
+//                                        self.showNewChat = true
+//                                    }, label: {
+//                                        SystemImage(system: .plus)
+//                                            .font(.title3)
+//                                            .foregroundColor(.blue)
+//                                    }))
             .introspectTabBarController { (UITabBarController) in
                 UITabBarController.tabBar.isHidden = false
                 uiTabarController = UITabBarController
@@ -154,8 +153,8 @@ struct ChatRow: View {
                     Text(time)
                         .foregroundColor(.gray)
                 }
-               Text(lastMsg)
-                .foregroundColor(.gray)
+                Text(lastMsg)
+                    .foregroundColor(.gray)
                 
                 Divider()
             }
