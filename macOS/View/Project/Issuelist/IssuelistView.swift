@@ -84,7 +84,7 @@ struct IssuelistView: View {
             
             ScrollView {
                 LazyVStack {
-                    ForEach(0...10, id: \.self) { index in
+                    ForEach(0...10, id: \.self) { _ in
                         HStack(spacing: 20) {
                             HStack {
                                 Circle().frame(width: 10, height: 10)

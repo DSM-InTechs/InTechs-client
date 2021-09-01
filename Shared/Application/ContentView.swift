@@ -38,12 +38,20 @@ struct ContentView: View {
                         switch homeViewModel.toast {
                         case .channelInfo:
                             ChannelInfoView()
-                                .padding()
-                                .cornerRadius(10)
+                                .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.3)
-                                .background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
                         case .channelSearch:
                             ChannelSearchView()
+                        case .channelRename:
+                            ChannelRenameView()
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.3, height: geo.size.height / 3)
+                                .environmentObject(homeViewModel)
+                        case .channelDelete:
+                            ChannelDeleteView()
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.3, height: geo.size.height / 3)
+                                .environmentObject(homeViewModel)
                         case .none:
                             Text("")
                                 .opacity(0)

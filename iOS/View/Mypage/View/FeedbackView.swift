@@ -19,7 +19,7 @@ struct FeedbackView: View {
             Color(UIColor.secondarySystemBackground)
                 .ignoresSafeArea()
             
-            GeometryReader { geo in
+            GeometryReader { _ in
                 VStack(spacing: UIFrame.width / 10) {
                     VStack(alignment: .leading, spacing: 3) {
                         Button(action: {
@@ -68,7 +68,7 @@ struct FeedbackModalView: View {
                 Color(UIColor.secondarySystemBackground)
                     .ignoresSafeArea()
                 
-                GeometryReader { geo in
+                GeometryReader { _ in
                     VStack(spacing: UIFrame.width / 10) {
                         VStack(alignment: .leading, spacing: 3) {
                             Text("인텍스를 더 발전시켜줄 당신의 의견을 말해주세요.")

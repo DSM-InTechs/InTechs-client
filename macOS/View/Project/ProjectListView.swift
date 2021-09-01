@@ -16,13 +16,13 @@ struct ProjectListView: View {
             ZStack(alignment: .leading) {
                 Group {
                     switch projectVM.selectedTab {
-                    case .DashBoard: DashBoardView()
+                    case .dashBoard: DashBoardView()
                         .frame(width: geo.size.width / 1.35)
-                    case .Issues: IssuelistView()
+                    case .issues: IssuelistView()
                         .frame(width: geo.size.width / 1.35)
-                    case .IssueBoards: IssueBoardView()
+                    case .issueBoards: IssueBoardView()
                         .frame(width: geo.size.width / 1.35)
-                    case .Settings: SettingView()
+                    case .settings: SettingView()
                         .frame(width: geo.size.width / 1.35)
                     }
                 }.offset(x: geo.size.width / 4)
@@ -42,31 +42,31 @@ struct ProjectListView: View {
                             .padding(.vertical)
                         
                         VStack(alignment: .leading) {
-                            ProjectList(tab: .DashBoard, selectedTab: $projectVM.selectedTab, animation: animation)
+                            ProjectList(tab: .dashBoard, selectedTab: $projectVM.selectedTab, animation: animation)
                                 .onTapGesture {
                                     withAnimation {
-                                        projectVM.selectedTab = .DashBoard
+                                        projectVM.selectedTab = .dashBoard
                                     }
                                 }
                             
-                            ProjectList(tab: .Issues, selectedTab: $projectVM.selectedTab, animation: animation)
+                            ProjectList(tab: .issues, selectedTab: $projectVM.selectedTab, animation: animation)
                                 .onTapGesture {
                                     withAnimation {
-                                        projectVM.selectedTab = .Issues
+                                        projectVM.selectedTab = .issues
                                     }
                                 }
                             
-                            ProjectList(tab: .IssueBoards, selectedTab: $projectVM.selectedTab, animation: animation)
+                            ProjectList(tab: .issueBoards, selectedTab: $projectVM.selectedTab, animation: animation)
                                 .onTapGesture {
                                     withAnimation {
-                                        projectVM.selectedTab = .IssueBoards
+                                        projectVM.selectedTab = .issueBoards
                                     }
                                 }
                             
-                            ProjectList(tab: .Settings, selectedTab: $projectVM.selectedTab, animation: animation)
+                            ProjectList(tab: .settings, selectedTab: $projectVM.selectedTab, animation: animation)
                                 .onTapGesture {
                                     withAnimation {
-                                        projectVM.selectedTab = .Settings
+                                        projectVM.selectedTab = .settings
                                     }
                                 }
                         }

@@ -23,7 +23,7 @@ struct HomeTabButton: View {
                 }
             }, label: {
                 VStack(spacing: 7) {
-                    if tab == .Mypage {
+                    if tab == .mypage {
                         ZStack(alignment: .bottomTrailing) {
                             Circle()
                                 .frame(width: 30, height: 30)
@@ -76,10 +76,9 @@ struct HomeTabButton: View {
     }
 }
 
-
 struct HomeTabButton_Previews: PreviewProvider {
     
     static var previews: some View {
-        HomeTabButton(tab: .Mypage, selectedTab: .constant(.Mypage))
+        HomeTabButton(tab: .mypage, selectedTab: .constant(.mypage))
     }
 }

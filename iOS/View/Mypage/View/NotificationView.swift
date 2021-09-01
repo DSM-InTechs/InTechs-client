@@ -13,7 +13,7 @@ struct NotificationView: View {
             Color(UIColor.secondarySystemBackground)
                 .ignoresSafeArea()
             
-            GeometryReader { geo in
+            GeometryReader { _ in
                 VStack(spacing: UIFrame.width / 10) {
                     VStack(alignment: .leading, spacing: 10) {
                         Button(action: {
@@ -38,7 +38,7 @@ struct MyProjectListView: View {
             Color(UIColor.secondarySystemBackground)
                 .ignoresSafeArea()
             
-            GeometryReader { geo in
+            GeometryReader { _ in
                 ScrollView {
                     VStack(spacing: 10) {
                         HStack(spacing: 15) {

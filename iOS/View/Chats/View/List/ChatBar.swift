@@ -33,12 +33,12 @@ struct ChatBar: View {
                             if self.index == 1 {
                                 Capsule()
                                     .fill(Color(Asset.black))
-                                    .frame(height:4)
+                                    .frame(height: 4)
                                     .matchedGeometryEffect(id: "capsule", in: animation)
                             } else {
                                 Capsule()
                                     .fill(Color.clear)
-                                    .frame(height:4)
+                                    .frame(height: 4)
                             }
                         }
                     }
@@ -61,12 +61,12 @@ struct ChatBar: View {
                             if self.index == 2 {
                                 Capsule()
                                     .fill(Color(Asset.black))
-                                    .frame(height:4)
+                                    .frame(height: 4)
                                     .matchedGeometryEffect(id: "capsule", in: animation)
                             } else {
                                 Capsule()
                                     .fill(Color.clear)
-                                    .frame(height:4)
+                                    .frame(height: 4)
                             }
                         }
                     }
@@ -89,12 +89,12 @@ struct ChatBar: View {
                             if self.index == 3 {
                                 Capsule()
                                     .fill(Color(Asset.black))
-                                    .frame(height:4)
+                                    .frame(height: 4)
                                     .matchedGeometryEffect(id: "capsule", in: animation)
                             } else {
                                 Capsule()
                                     .fill(Color.clear)
-                                    .frame(height:4)
+                                    .frame(height: 4)
                             }
                         }
                     }

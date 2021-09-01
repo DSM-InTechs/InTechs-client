@@ -71,7 +71,7 @@ struct IssuelistView: View {
                 .introspectTabBarController { (UITabBarController) in
                     UITabBarController.tabBar.isHidden = false
                     uiTabarController = UITabBarController
-                }.onAppear() {
+                }.onAppear {
                     uiTabarController?.tabBar.isHidden = false
                 }
             }
@@ -89,7 +89,7 @@ struct CreateIssueView: View {
                 Color(UIColor.secondarySystemBackground)
                     .ignoresSafeArea()
                 
-                GeometryReader { geo in
+                GeometryReader { _ in
                     VStack(spacing: UIFrame.width / 10) {
                         VStack(alignment: .leading, spacing: 3) {
                             Text("필수")

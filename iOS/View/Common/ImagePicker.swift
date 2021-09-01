@@ -14,8 +14,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     @Environment(\.presentationMode)
     private var presentationMode // 해당 뷰컨트롤러의 노출 여부
     let sourceType: UIImagePickerController.SourceType
-    let imagePicked: (UIImage) -> () // 이미지가 선택됐을때 결과 호출
-    
+    let imagePicked: (UIImage) -> Void // 이미지가 선택됐을때 결과 호출
 
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
         
@@ -25,7 +24,7 @@ struct ImagePicker: UIViewControllerRepresentable {
             self.parent = parent
         }
         
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             
             if let image = info[.originalImage] as? UIImage {
                 parent.imagePicked(image)
@@ -43,7 +42,6 @@ struct ImagePicker: UIViewControllerRepresentable {
         Coordinator(parent: self)
     }
     
-    
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
         
@@ -57,4 +55,3 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
 
 }
-

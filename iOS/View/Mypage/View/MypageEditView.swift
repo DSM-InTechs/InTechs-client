@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MypageEditView: View {
     @State var uiTabarController: UITabBarController?
-    @State var pickedImage: Image? = nil
+    @State var pickedImage: Image?
     @State private var isImage = false
     
     var body: some View {
@@ -24,12 +24,12 @@ struct MypageEditView: View {
                         VStack {
                             // 기본 이미지
                             if pickedImage == nil {
-                                Circle().frame(width: UIFrame.width / 4, height:  UIFrame.width / 4)
+                                Circle().frame(width: UIFrame.width / 4, height: UIFrame.width / 4)
                                     .foregroundColor(.gray.opacity(0.5))
                             } else {
                                 pickedImage!
                                     .resizable()
-                                    .frame(width: UIFrame.width / 4, height:  UIFrame.width / 4)
+                                    .frame(width: UIFrame.width / 4, height: UIFrame.width / 4)
                                     .aspectRatio(contentMode: .fill)
                                     .clipShape(Circle())
                             }
@@ -58,7 +58,6 @@ struct MypageEditView: View {
                                 .padding(.all, 10)
                         }.background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
                     }
-                    
                     
                     VStack(alignment: .leading) {
                         Text("연락처") // 또는 멤버 없음 표시

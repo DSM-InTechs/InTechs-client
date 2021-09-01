@@ -8,12 +8,12 @@
 import SwiftUI
 
 enum OpenWindows: String, CaseIterable {
-    case LoginView = "LoginView"
-    case RegisterView   = "RegisterView"
-    //As many views as you need.
+    case loginView = "LoginView"
+    case registerView   = "RegisterView"
+    // As many views as you need.
 
-    func open(){
-        if let url = URL(string: "InTechs://\(self.rawValue)") { //replace myapp with your app's name
+    func open() {
+        if let url = URL(string: "InTechs://\(self.rawValue)") { // replace myapp with your app's name
             NSWorkspace.shared.open(url)
         }
     }

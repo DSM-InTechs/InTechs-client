@@ -33,8 +33,7 @@ struct ChatDetailView: View {
             }
             
             NavigationLink(destination: ChannelInfoView(),
-                           isActive: self.$showInfoView)
-            { EmptyView() }
+                           isActive: self.$showInfoView) { EmptyView() }
                 .hidden()
             
             if isSearch {
@@ -43,6 +42,7 @@ struct ChatDetailView: View {
                     ScrollView {
                         LazyVStack {
                             ForEach(0...10, id: \.self) { _ in
+                                // 스레드 있으면 스레드뷰 이동
                                 ChatDetailRow()
                                     .padding(.all, 10)
                                 
@@ -51,7 +51,6 @@ struct ChatDetailView: View {
                     }
                 }.background(Color(Asset.white))
             }
-            
             
             VStack(spacing: 20) {
                 Spacer()
@@ -82,7 +81,7 @@ struct ChatDetailView: View {
                             }, .cancel(Text("Cancel"))])
                         }
                         .sheet(isPresented: $isImage) {
-                            ImagePicker(sourceType: .photoLibrary, imagePicked: { image in
+                            ImagePicker(sourceType: .photoLibrary, imagePicked: { _ in
                                 
                             })
                         }

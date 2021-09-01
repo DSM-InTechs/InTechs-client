@@ -1,0 +1,34 @@
+included:
+
+excluded:
+- Pods/
+
+disabled_rules:
+- trailing_whitespace
+- multiple_closures_with_trailing_closure
+- weak_delegate
+- function_body_length
+- cyclomatic_complexity
+- type_body_length
+- file_length
+- closure_parameter_position
+
+force_cast: warning
+force_try: warning
+
+line_length: 250
+
+identifier_name:
+  min_length:
+    error: 3
+  excluded:
+    - vc
+    - id
+    - in
+    - ok
+    - i
+    - UD
+    - to
+    - DM
+    - InTechsVM
+    - _body

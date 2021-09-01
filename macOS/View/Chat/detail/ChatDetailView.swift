@@ -42,8 +42,9 @@ struct ChatDetailView: View {
                             })
                             .buttonStyle(PlainButtonStyle())
                             .popover(isPresented: $channelDotPop) {
-                                ChannelDotPopView()
+                                ChannelDotPopView(isShow: $channelDotPop)
                                     .frame(width: 150)
+                                    .environmentObject(homeVM)
                             }
                             
                             HStack(spacing: -10) {
@@ -54,8 +55,11 @@ struct ChatDetailView: View {
                                     .foregroundColor(.black)
                                     .font(.caption)
                                     .background(Circle().frame(width: 20, height: 20))
+                            }.onTapGesture {
+                                withAnimation {
+                                    homeVM.toast = .channelInfo
+                                }
                             }
-                            
                             
                             Button(action: {
                                 withAnimation {
@@ -148,7 +152,7 @@ struct ChatDetailView: View {
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         Home().environmentObject(HomeViewModel())
-        ChannelDotPopView()
+        ChannelDotPopView(isShow: .constant(false))
 //        NotificationPopView(isOn: .constant(false))
     }
 }
@@ -228,7 +232,7 @@ struct FileTypeSelectView: View {
             }).buttonStyle(PlainButtonStyle())
             
             Button(action: {
-                NSOpenPanel.openImage(completion: { result in
+                NSOpenPanel.openImage(completion: { _ in
                     
                 })
             }, label: {
@@ -244,11 +248,19 @@ struct FileTypeSelectView: View {
 }
 
 struct ChannelDotPopView: View {
+    @EnvironmentObject var homeVM: HomeViewModel
+    @Binding var isShow: Bool
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             HStack {
                 Image(system: .info)
                 Text("채널 정보")
+            }.onTapGesture {
+                self.isShow = false
+                withAnimation {
+                    homeVM.toast = .channelInfo
+                }
             }
             
             Divider()
@@ -257,12 +269,23 @@ struct ChannelDotPopView: View {
                 HStack {
                     Image(system: .pencil)
                     Text("채널명 바꾸기")
+                }.onTapGesture {
+                    self.isShow = false
+                    withAnimation {
+                        homeVM.toast = .channelRename
+                    }
                 }
                 
                 HStack {
                     Image(system: .trash)
                     Text("채널 삭제")
                 }.foregroundColor(.red)
+                .onTapGesture {
+                    self.isShow = false
+                    withAnimation {
+                        homeVM.toast = .channelDelete
+                    }
+                }
             }
         }.padding()
     }

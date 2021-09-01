@@ -7,11 +7,18 @@
 
 import SwiftUI
 
+enum Toast {
+    case channelSearch
+    case channelInfo
+    case channelRename
+    case channelDelete
+}
+
 class HomeViewModel: ObservableObject {
     @Published var isLogin: Bool = true
     
-    @Published var selectedTab: HomeTab = HomeTab.Chats
-    @Published var toast: Toast? = nil
+    @Published var selectedTab: HomeTab = HomeTab.chats
+    @Published var toast: Toast?
     
     @Published var selectedRecentMsg: String? = recentMsgs.first?.id
     @Published var msgs: [RecentMessage] = recentMsgs

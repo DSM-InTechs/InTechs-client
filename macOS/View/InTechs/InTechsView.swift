@@ -26,7 +26,7 @@ struct InTechsView: View {
                         )
                     
                     Button(action: {
-                        OpenWindows.LoginView.open()
+                        OpenWindows.loginView.open()
                     }, label: {
                         Text("로그인")
                             .foregroundColor(Color(Asset.white))
@@ -37,9 +37,8 @@ struct InTechsView: View {
                         
                     }).buttonStyle(PlainButtonStyle())
                     
-                    
                     Button(action: {
-                        OpenWindows.RegisterView.open()
+                        OpenWindows.registerView.open()
                     }, label: {
                         Text("회원가입")
                             .foregroundColor(Color(Asset.black))

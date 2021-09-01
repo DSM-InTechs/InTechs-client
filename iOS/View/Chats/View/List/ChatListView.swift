@@ -34,7 +34,6 @@ struct ChatListView: View {
                     Spacer()
                 }
                 
-                
                 GeometryReader { geo in
                     HStack(spacing: 0) {
                         // First View
@@ -88,8 +87,7 @@ struct ChatListView: View {
                 }
                 
                 NavigationLink(destination: NewChatView(),
-                               isActive: self.$showNewChat)
-                    { EmptyView() }
+                               isActive: self.$showNewChat) { EmptyView() }
                     .hidden()
             }
             .animation(.default)
@@ -107,7 +105,7 @@ struct ChatListView: View {
             .introspectTabBarController { (UITabBarController) in
                 UITabBarController.tabBar.isHidden = false
                 uiTabarController = UITabBarController
-            }.onAppear() {
+            }.onAppear {
                 uiTabarController?.tabBar.isHidden = false
             }
         }

@@ -8,22 +8,22 @@
 import SwiftUI
 
 enum ProjectTab: String {
-    case DashBoard = "대쉬보드"
-    case Issues = "이슈"
-    case IssueBoards = "이슈보드"
-    case Settings = "설정"
+    case dashBoard = "대쉬보드"
+    case issues = "이슈"
+    case issueBoards = "이슈보드"
+    case settings = "설정"
 }
 
 extension ProjectTab {
     func getImage() -> String {
         switch self {
-        case .DashBoard:
+        case .dashBoard:
             return "square.grid.2x2.fill"
-        case .Issues:
+        case .issues:
             return "flame"
-        case .IssueBoards:
+        case .issueBoards:
             return "list.bullet.rectangle"
-        case .Settings:
+        case .settings:
             return "gearshape.fill"
         }
     }

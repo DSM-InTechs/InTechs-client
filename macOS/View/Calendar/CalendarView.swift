@@ -9,8 +9,8 @@ import SwiftUI
 import GECalendar
 
 struct CalendarView: View {
-    @State var date: Date? = nil
-    var lastDate: Date? = nil
+    @State var date: Date?
+    var lastDate: Date?
     private let appearance = Appearance(isTodayButton: false, headerType: .leading)
     
     var body: some View {
@@ -24,7 +24,6 @@ struct CalendarView: View {
                     if date != nil && date != lastDate {
                         ZStack {
                             CalendarIssueView(title: "이슈1")
-                            
                             
                             HStack {
                                 Color.black.frame(width: 1)

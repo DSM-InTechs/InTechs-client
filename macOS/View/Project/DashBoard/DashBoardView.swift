@@ -9,7 +9,7 @@ import SwiftUI
 import GECalendar
 
 struct DashBoardView: View {
-    @State private var date: Date? = nil
+    @State private var date: Date?
     
     var body: some View {
         GeometryReader { geo in

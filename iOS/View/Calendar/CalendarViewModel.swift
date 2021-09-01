@@ -19,7 +19,7 @@ class CalendarViewModel: ObservableObject {
         dateFormatter.dateFormat = "MM dd"
         
         self.$date
-            .sink { date in
+            .sink { _ in
                 // do something here with newQuery
             }
             .store(in: &cancellable)
