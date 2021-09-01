@@ -25,6 +25,19 @@
 		D94C99B826DF37DF00CB2F07 /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99B126DF37DF00CB2F07 /* ChatListView.swift */; };
 		D94C99B926DF37DF00CB2F07 /* ChatBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99B226DF37DF00CB2F07 /* ChatBar.swift */; };
 		D94C99BA26DF37DF00CB2F07 /* NewChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99B326DF37DF00CB2F07 /* NewChatView.swift */; };
+		D94C99BE26DF45B400CB2F07 /* NewChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99BC26DF45B200CB2F07 /* NewChannelView.swift */; };
+		D94C99C126DF4A7700CB2F07 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99BF26DF4A7300CB2F07 /* IssueDetailView.swift */; };
+		D94C99C726DF685100CB2F07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D94C99C626DF685100CB2F07 /* Assets.xcassets */; };
+		D94C99CE26DF685100CB2F07 /* InTechs Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D94C99CD26DF685100CB2F07 /* InTechs Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D94C99D326DF685200CB2F07 /* InTechsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99D226DF685200CB2F07 /* InTechsApp.swift */; };
+		D94C99D526DF685200CB2F07 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99D426DF685200CB2F07 /* ContentView.swift */; };
+		D94C99D726DF685200CB2F07 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99D626DF685200CB2F07 /* NotificationController.swift */; };
+		D94C99DB26DF685200CB2F07 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99DA26DF685200CB2F07 /* ComplicationController.swift */; };
+		D94C99DD26DF685400CB2F07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D94C99DC26DF685400CB2F07 /* Assets.xcassets */; };
+		D94C99E026DF685400CB2F07 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D94C99DF26DF685400CB2F07 /* Preview Assets.xcassets */; };
+		D94C99E526DF685400CB2F07 /* InTechs.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D94C99C426DF684D00CB2F07 /* InTechs.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D94C99F126DF6B0200CB2F07 /* ChatlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99F026DF6B0200CB2F07 /* ChatlistView.swift */; };
+		D94C99F326DF822C00CB2F07 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99F226DF822C00CB2F07 /* ChatDetailView.swift */; };
 		D950A30E26D20C1C003D4907 /* SFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A30D26D20C1C003D4907 /* SFImage.swift */; };
 		D950A31126D20C3D003D4907 /* Image+SFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A31026D20C3D003D4907 /* Image+SFImage.swift */; };
 		D950A31226D20C44003D4907 /* SFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A30D26D20C1C003D4907 /* SFImage.swift */; };
@@ -94,6 +107,48 @@
 		FC56ADEB99916193CEF95D54 /* Pods_InTechs__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5FBA4103A65829EAD1C8AB /* Pods_InTechs__macOS_.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D94C99CF26DF685200CB2F07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D93BAD0D26D148FD0094ADD9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D94C99CC26DF685100CB2F07;
+			remoteInfo = "InTechs Extension";
+		};
+		D94C99E326DF685400CB2F07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D93BAD0D26D148FD0094ADD9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D94C99C326DF684D00CB2F07;
+			remoteInfo = InTechs;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D94C99E926DF685400CB2F07 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D94C99CE26DF685100CB2F07 /* InTechs Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D94C99ED26DF685400CB2F07 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				D94C99E526DF685400CB2F07 /* InTechs.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		5A1BE42D7CEE3FAEA1369EC5 /* Pods-InTechs (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTechs (macOS).release.xcconfig"; path = "Target Support Files/Pods-InTechs (macOS)/Pods-InTechs (macOS).release.xcconfig"; sourceTree = "<group>"; };
 		5D95C5523CDC1C3F9896C090 /* Pods-InTechs (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTechs (macOS).debug.xcconfig"; path = "Target Support Files/Pods-InTechs (macOS)/Pods-InTechs (macOS).debug.xcconfig"; sourceTree = "<group>"; };
@@ -119,6 +174,21 @@
 		D94C99B126DF37DF00CB2F07 /* ChatListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListView.swift; sourceTree = "<group>"; };
 		D94C99B226DF37DF00CB2F07 /* ChatBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBar.swift; sourceTree = "<group>"; };
 		D94C99B326DF37DF00CB2F07 /* NewChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewChatView.swift; sourceTree = "<group>"; };
+		D94C99BC26DF45B200CB2F07 /* NewChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChannelView.swift; sourceTree = "<group>"; };
+		D94C99BF26DF4A7300CB2F07 /* IssueDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailView.swift; sourceTree = "<group>"; };
+		D94C99C426DF684D00CB2F07 /* InTechs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InTechs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D94C99C626DF685100CB2F07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D94C99C826DF685100CB2F07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D94C99CD26DF685100CB2F07 /* InTechs Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "InTechs Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D94C99D226DF685200CB2F07 /* InTechsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsApp.swift; sourceTree = "<group>"; };
+		D94C99D426DF685200CB2F07 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D94C99D626DF685200CB2F07 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		D94C99DA26DF685200CB2F07 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		D94C99DC26DF685400CB2F07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D94C99DF26DF685400CB2F07 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D94C99E126DF685400CB2F07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D94C99F026DF6B0200CB2F07 /* ChatlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatlistView.swift; sourceTree = "<group>"; };
+		D94C99F226DF822C00CB2F07 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
 		D950A30D26D20C1C003D4907 /* SFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFImage.swift; sourceTree = "<group>"; };
 		D950A31026D20C3D003D4907 /* Image+SFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+SFImage.swift"; sourceTree = "<group>"; };
 		D950A31526D20C67003D4907 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -198,6 +268,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D94C99CA26DF685100CB2F07 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9F20D6C9B9177A83AF7B2A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -235,6 +319,8 @@
 				D93BAD1126D148FD0094ADD9 /* Shared */,
 				D93BAD1B26D149030094ADD9 /* iOS */,
 				D93BAD2226D149030094ADD9 /* macOS */,
+				D94C99C526DF684D00CB2F07 /* InTechs */,
+				D94C99D126DF685200CB2F07 /* InTechs Extension */,
 				D93BAD1A26D149030094ADD9 /* Products */,
 				D35C1B69DB35F1ABC6AA0E32 /* Pods */,
 				3EE39E7219B98C1BAA039C4F /* Frameworks */,
@@ -257,6 +343,8 @@
 			children = (
 				D93BAD1926D149030094ADD9 /* InTechs.app */,
 				D93BAD2126D149030094ADD9 /* InTechs.app */,
+				D94C99C426DF684D00CB2F07 /* InTechs.app */,
+				D94C99CD26DF685100CB2F07 /* InTechs Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -308,6 +396,55 @@
 				D94C99B326DF37DF00CB2F07 /* NewChatView.swift */,
 			);
 			path = List;
+			sourceTree = "<group>";
+		};
+		D94C99C526DF684D00CB2F07 /* InTechs */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99C626DF685100CB2F07 /* Assets.xcassets */,
+				D94C99C826DF685100CB2F07 /* Info.plist */,
+			);
+			path = InTechs;
+			sourceTree = "<group>";
+		};
+		D94C99D126DF685200CB2F07 /* InTechs Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99F526DF8B4D00CB2F07 /* View */,
+				D94C99F426DF8B4600CB2F07 /* App */,
+				D94C99D626DF685200CB2F07 /* NotificationController.swift */,
+				D94C99DA26DF685200CB2F07 /* ComplicationController.swift */,
+				D94C99DC26DF685400CB2F07 /* Assets.xcassets */,
+				D94C99E126DF685400CB2F07 /* Info.plist */,
+				D94C99DE26DF685400CB2F07 /* Preview Content */,
+			);
+			path = "InTechs Extension";
+			sourceTree = "<group>";
+		};
+		D94C99DE26DF685400CB2F07 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99DF26DF685400CB2F07 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D94C99F426DF8B4600CB2F07 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99D226DF685200CB2F07 /* InTechsApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D94C99F526DF8B4D00CB2F07 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99D426DF685200CB2F07 /* ContentView.swift */,
+				D94C99F026DF6B0200CB2F07 /* ChatlistView.swift */,
+				D94C99F226DF822C00CB2F07 /* ChatDetailView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		D950A30C26D20C11003D4907 /* Domain */ = {
@@ -485,6 +622,7 @@
 			isa = PBXGroup;
 			children = (
 				D950A36326D231E7003D4907 /* IssuelistView.swift */,
+				D94C99BF26DF4A7300CB2F07 /* IssueDetailView.swift */,
 			);
 			path = Issuelist;
 			sourceTree = "<group>";
@@ -533,6 +671,7 @@
 				D950A37826D336AD003D4907 /* ChannelInfoView.swift */,
 				D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */,
 				D94C99A226DF31BB00CB2F07 /* ChannelRenameView.swift */,
+				D94C99BC26DF45B200CB2F07 /* NewChannelView.swift */,
 			);
 			path = detail;
 			sourceTree = "<group>";
@@ -688,10 +827,12 @@
 				D93BAD1726D149030094ADD9 /* Resources */,
 				16CA61A47ACB8A14C1C3B06F /* [CP] Embed Pods Frameworks */,
 				D94C99BB26DF380100CB2F07 /* Swiftlint */,
+				D94C99ED26DF685400CB2F07 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D94C99E426DF685400CB2F07 /* PBXTargetDependency */,
 			);
 			name = "InTechs (iOS)";
 			productName = "InTechs (iOS)";
@@ -718,6 +859,41 @@
 			productReference = D93BAD2126D149030094ADD9 /* InTechs.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D94C99C326DF684D00CB2F07 /* InTechs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D94C99EA26DF685400CB2F07 /* Build configuration list for PBXNativeTarget "InTechs" */;
+			buildPhases = (
+				D94C99C226DF684D00CB2F07 /* Resources */,
+				D94C99E926DF685400CB2F07 /* Embed App Extensions */,
+				D9F20D6C9B9177A83AF7B2A4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D94C99D026DF685200CB2F07 /* PBXTargetDependency */,
+			);
+			name = InTechs;
+			productName = InTechs;
+			productReference = D94C99C426DF684D00CB2F07 /* InTechs.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		D94C99CC26DF685100CB2F07 /* InTechs Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D94C99E626DF685400CB2F07 /* Build configuration list for PBXNativeTarget "InTechs Extension" */;
+			buildPhases = (
+				D94C99C926DF685100CB2F07 /* Sources */,
+				D94C99CA26DF685100CB2F07 /* Frameworks */,
+				D94C99CB26DF685100CB2F07 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "InTechs Extension";
+			productName = "InTechs Extension";
+			productReference = D94C99CD26DF685100CB2F07 /* InTechs Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -731,6 +907,12 @@
 						CreatedOnToolsVersion = 12.5.1;
 					};
 					D93BAD2026D149030094ADD9 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+					D94C99C326DF684D00CB2F07 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+					D94C99CC26DF685100CB2F07 = {
 						CreatedOnToolsVersion = 12.5.1;
 					};
 				};
@@ -750,6 +932,8 @@
 			targets = (
 				D93BAD1826D149030094ADD9 /* InTechs (iOS) */,
 				D93BAD2026D149030094ADD9 /* InTechs (macOS) */,
+				D94C99C326DF684D00CB2F07 /* InTechs */,
+				D94C99CC26DF685100CB2F07 /* InTechs Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -768,6 +952,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				D93BAD2A26D149030094ADD9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D94C99C226DF684D00CB2F07 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D94C99C726DF685100CB2F07 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D94C99CB26DF685100CB2F07 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D94C99E026DF685400CB2F07 /* Preview Assets.xcassets in Resources */,
+				D94C99DD26DF685400CB2F07 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -952,6 +1153,7 @@
 				D90BB8C426DD15A50002E210 /* SettingView.swift in Sources */,
 				D950A35D26D23141003D4907 /* MemberView.swift in Sources */,
 				D950A35726D22AA6003D4907 /* ChatViewModel.swift in Sources */,
+				D94C99C126DF4A7700CB2F07 /* IssueDetailView.swift in Sources */,
 				D9FD9FB526D7077000664757 /* CalendarView.swift in Sources */,
 				D950A37126D31354003D4907 /* MypageView.swift in Sources */,
 				D9FD9F6D26D53A3300664757 /* LoginView.swift in Sources */,
@@ -982,11 +1184,38 @@
 				D9FD9F6F26D53A3800664757 /* RegisterView.swift in Sources */,
 				D93BAD2626D149030094ADD9 /* InTechsApp.swift in Sources */,
 				D950A36526D231FC003D4907 /* IssuelistView.swift in Sources */,
+				D94C99BE26DF45B400CB2F07 /* NewChannelView.swift in Sources */,
 				D950A35426D21F1F003D4907 /* Frame.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D94C99C926DF685100CB2F07 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D94C99D726DF685200CB2F07 /* NotificationController.swift in Sources */,
+				D94C99D526DF685200CB2F07 /* ContentView.swift in Sources */,
+				D94C99F326DF822C00CB2F07 /* ChatDetailView.swift in Sources */,
+				D94C99DB26DF685200CB2F07 /* ComplicationController.swift in Sources */,
+				D94C99D326DF685200CB2F07 /* InTechsApp.swift in Sources */,
+				D94C99F126DF6B0200CB2F07 /* ChatlistView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D94C99D026DF685200CB2F07 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D94C99CC26DF685100CB2F07 /* InTechs Extension */;
+			targetProxy = D94C99CF26DF685200CB2F07 /* PBXContainerItemProxy */;
+		};
+		D94C99E426DF685400CB2F07 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D94C99C326DF684D00CB2F07 /* InTechs */;
+			targetProxy = D94C99E326DF685400CB2F07 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D93BAD2B26D149030094ADD9 /* Debug */ = {
@@ -1201,6 +1430,96 @@
 			};
 			name = Release;
 		};
+		D94C99E726DF685400CB2F07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"InTechs Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = C2JSJLJ4FN;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "InTechs Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeonggo.InTechs.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Debug;
+		};
+		D94C99E826DF685400CB2F07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"InTechs Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = C2JSJLJ4FN;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "InTechs Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeonggo.InTechs.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Release;
+		};
+		D94C99EB26DF685400CB2F07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C2JSJLJ4FN;
+				IBSC_MODULE = InTechs_Extension;
+				INFOPLIST_FILE = InTechs/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeonggo.InTechs.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Debug;
+		};
+		D94C99EC26DF685400CB2F07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C2JSJLJ4FN;
+				IBSC_MODULE = InTechs_Extension;
+				INFOPLIST_FILE = InTechs/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeonggo.InTechs.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1227,6 +1546,24 @@
 			buildConfigurations = (
 				D93BAD3126D149030094ADD9 /* Debug */,
 				D93BAD3226D149030094ADD9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D94C99E626DF685400CB2F07 /* Build configuration list for PBXNativeTarget "InTechs Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D94C99E726DF685400CB2F07 /* Debug */,
+				D94C99E826DF685400CB2F07 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D94C99EA26DF685400CB2F07 /* Build configuration list for PBXNativeTarget "InTechs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D94C99EB26DF685400CB2F07 /* Debug */,
+				D94C99EC26DF685400CB2F07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
