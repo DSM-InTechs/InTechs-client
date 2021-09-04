@@ -52,7 +52,32 @@ struct ContentView: View {
                         case .channelDelete:
                             ChannelDeleteView()
                                 .modifier(ToastModiier())
-                                .frame(width: geo.size.width / 1.3, height: geo.size.height / 3)
+                                .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
+                                .environmentObject(homeViewModel)
+                        case .channelCreate:
+                            NewChannelView()
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
+                                .environmentObject(homeViewModel)
+                        case .messageDelete:
+                            MessagelDeleteView()
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
+                                .environmentObject(homeViewModel)
+                        case .issueDelete:
+                            IssueDeleteView()
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
+                                .environmentObject(homeViewModel)
+                        case .issueCreate:
+                            NewIssueView()
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
+                                .environmentObject(homeViewModel)
+                        case .projectCreate:
+                            NewProjectView()
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
                                 .environmentObject(homeViewModel)
                         case .none:
                             Text("")

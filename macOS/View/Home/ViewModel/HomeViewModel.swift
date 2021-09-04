@@ -12,10 +12,15 @@ enum Toast {
     case channelInfo
     case channelRename
     case channelDelete
+    case channelCreate
+    case messageDelete
+    case issueDelete
+    case issueCreate
+    case projectCreate
 }
 
 class HomeViewModel: ObservableObject {
-    @Published var isLogin: Bool = false
+    @Published var isLogin: Bool = true
     
     @Published var selectedTab: HomeTab = HomeTab.chats
     @Published var toast: Toast?

@@ -10,6 +10,7 @@ import SwiftUI
 struct Home: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var homeVM: HomeViewModel
+    @ObservedObject var projectVM = ProjectViewModel()
     @State private var quickActionPop: Bool = false
     @State private var questionPop: Bool = false
     
@@ -20,6 +21,7 @@ struct Home: View {
                     switch homeVM.selectedTab {
                     case .chats: NavigationView { ChatListView().background(Color(NSColor.textBackgroundColor)).ignoresSafeArea() }
                     case .projects: ProjectListView()
+                        .environmentObject(projectVM)
                     case .calendar: CalendarView()
                     case .teams: MemberView()
                     default: Text("")
@@ -68,7 +70,7 @@ struct Home: View {
                         .onTapGesture {
                             self.quickActionPop.toggle()
                         }.popover(isPresented: $quickActionPop) {
-                            QuickActionPopView().frame(width: 200)
+                            QuickActionPopView(isPop: $quickActionPop).frame(width: 200)
                         }
                     
                     Image(system: .question)
@@ -113,7 +115,7 @@ struct Home_Previews: PreviewProvider {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .environmentObject(homeViewModel)
             
-            QuickActionPopView()
+            QuickActionPopView(isPop: .constant(false))
                 .frame(width: 200)
             
             HelpPopView()
@@ -123,6 +125,9 @@ struct Home_Previews: PreviewProvider {
 }
 
 struct QuickActionPopView: View {
+    @EnvironmentObject var homeVM: HomeViewModel
+    @Binding var isPop: Bool
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             HStack {
@@ -131,16 +136,33 @@ struct QuickActionPopView: View {
                 Text("채널")
                     .fixedSize(horizontal: true, vertical: false)
                 Spacer()
+            }.onTapGesture {
+                withAnimation {
+                    self.isPop = false
+                    self.homeVM.toast = .channelCreate
+                }
             }
+            
             HStack {
                 SystemImage(system: .issue)
                     .frame(width: 15, height: 15)
                 Text("이슈")
+            }.onTapGesture {
+                withAnimation {
+                    self.isPop = false
+                    self.homeVM.toast = .issueCreate
+                }
             }
+            
             HStack {
-                SystemImage(system: .calendar)
+                SystemImage(system: .project)
                     .frame(width: 15, height: 15)
-                Text("일정")
+                Text("프로젝트")
+            }.onTapGesture {
+                withAnimation {
+                    self.isPop = false
+                    self.homeVM.toast = .projectCreate
+                }
             }
         }.padding()
     }

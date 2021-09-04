@@ -1,15 +1,15 @@
 //
-//  IssueDetailView.swift
-//  InTechs (iOS)
+//  CalendarIssuesView.swift
+//  InTechs (macOS)
 //
-//  Created by GoEun Jeong on 2021/09/01.
+//  Created by GoEun Jeong on 2021/09/03.
 //
 
 import SwiftUI
 
-struct IssueDetailView: View {
+struct CalendarIssuesView: View {
     @EnvironmentObject private var homeVM: HomeViewModel
-    @Binding var isIssue: Int?
+    @Binding var isIssue: Date?
     
     @State private var amount = 50.0
     @State private var isEditing = false
@@ -154,12 +154,6 @@ struct IssueDetailView: View {
                                     self.isEditing = true
                                 }
                         }
-                        Image(system: .xmark)
-                            .onTapGesture {
-                                withAnimation {
-                                    self.isIssue = nil
-                                }
-                            }
                     }
                     
                     VStack(alignment: .leading, spacing: 3) {
@@ -230,65 +224,9 @@ struct IssueDetailView: View {
     }
 }
 
-struct UserBorderRow: View {
-    let image = ""
-    let title = ""
-    var body: some View {
-        HStack {
-            Circle().frame(width: 20, height: 20)
-            Text("유저 이름")
-        }.padding(.all, 15)
-        .overlay(
-            Rectangle().foregroundColor(.clear).border(Color.gray.opacity(0.5))
-        )
-    }
-}
-
-struct IssueDeleteView: View {
-    @EnvironmentObject var homeVM: HomeViewModel
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Text("메세지를 삭제하시겠습니까?")
-                .fontWeight(.bold)
-                .font(.title)
-            
-            Text("한 번 삭제하면 다시 복구할 수 없습니다.")
-            
-            HStack(spacing: 15) {
-                Spacer()
-                Text("취소")
-                    .padding(.all, 10)
-                    .padding(.horizontal, 10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color(Asset.black), lineWidth: 1)
-                    )
-                    .onTapGesture {
-                        withAnimation {
-                            self.homeVM.toast = nil
-                        }
-                    }
-                
-                Text("삭제")
-                    .foregroundColor(Color(Asset.black))
-                    .padding(.all, 10)
-                    .padding(.horizontal, 10)
-                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.red))
-                    .onTapGesture {
-                        withAnimation {
-                            self.homeVM.toast = nil
-                        }
-                    }
-            }
-        }.padding()
-        .padding(.all, 10)
-    }
-}
-
-struct IssueDetailView_Previews: PreviewProvider {
+struct CalendarIssuesView_Previews: PreviewProvider {
     static var previews: some View {
-        IssueDetailView(isIssue: .constant(nil), title: "이슈1")
+        CalendarIssuesView(isIssue: .constant(nil), title: "이슈1")
             .frame(width: 300)
             .environmentObject(HomeViewModel())
     }

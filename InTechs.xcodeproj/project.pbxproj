@@ -10,6 +10,11 @@
 		493E3BC2588BF0810323CB0E /* Pods_InTechs__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B3C0C73C324DE488CC21F81 /* Pods_InTechs__iOS_.framework */; };
 		D90BB8C426DD15A50002E210 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90BB8C226DD10F50002E210 /* SettingView.swift */; };
 		D90BB8C626DDA3EB0002E210 /* InputDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90BB8C526DDA3EA0002E210 /* InputDocument.swift */; };
+		D936650426E1EB8000E1F57F /* TheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650326E1EB8000E1F57F /* TheadView.swift */; };
+		D936650626E1EC3600E1F57F /* ChatDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */; };
+		D936650826E23D6200E1F57F /* CalendarIssuesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650726E23D6200E1F57F /* CalendarIssuesView.swift */; };
+		D936650A26E34EAA00E1F57F /* NewIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650926E34EAA00E1F57F /* NewIssueView.swift */; };
+		D936650C26E351FC00E1F57F /* NewProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650B26E351FC00E1F57F /* NewProjectView.swift */; };
 		D93BAD2526D149030094ADD9 /* InTechsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BAD1226D148FD0094ADD9 /* InTechsApp.swift */; };
 		D93BAD2626D149030094ADD9 /* InTechsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BAD1226D148FD0094ADD9 /* InTechsApp.swift */; };
 		D93BAD2726D149030094ADD9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BAD1326D148FD0094ADD9 /* ContentView.swift */; };
@@ -38,6 +43,7 @@
 		D94C99E526DF685400CB2F07 /* InTechs.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D94C99C426DF684D00CB2F07 /* InTechs.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D94C99F126DF6B0200CB2F07 /* ChatlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99F026DF6B0200CB2F07 /* ChatlistView.swift */; };
 		D94C99F326DF822C00CB2F07 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99F226DF822C00CB2F07 /* ChatDetailView.swift */; };
+		D94C99FF26E0660F00CB2F07 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99FE26E0660F00CB2F07 /* NotificationView.swift */; };
 		D950A30E26D20C1C003D4907 /* SFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A30D26D20C1C003D4907 /* SFImage.swift */; };
 		D950A31126D20C3D003D4907 /* Image+SFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A31026D20C3D003D4907 /* Image+SFImage.swift */; };
 		D950A31226D20C44003D4907 /* SFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A30D26D20C1C003D4907 /* SFImage.swift */; };
@@ -157,6 +163,11 @@
 		B8D7AB31164BDDCC9AF0965E /* Pods-InTechs (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTechs (iOS).debug.xcconfig"; path = "Target Support Files/Pods-InTechs (iOS)/Pods-InTechs (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		D90BB8C226DD10F50002E210 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		D90BB8C526DDA3EA0002E210 /* InputDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDocument.swift; sourceTree = "<group>"; };
+		D936650326E1EB8000E1F57F /* TheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheadView.swift; sourceTree = "<group>"; };
+		D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewModel.swift; sourceTree = "<group>"; };
+		D936650726E23D6200E1F57F /* CalendarIssuesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarIssuesView.swift; sourceTree = "<group>"; };
+		D936650926E34EAA00E1F57F /* NewIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIssueView.swift; sourceTree = "<group>"; };
+		D936650B26E351FC00E1F57F /* NewProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectView.swift; sourceTree = "<group>"; };
 		D93BAD1226D148FD0094ADD9 /* InTechsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsApp.swift; sourceTree = "<group>"; };
 		D93BAD1326D148FD0094ADD9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D93BAD1426D149030094ADD9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -189,6 +200,7 @@
 		D94C99E126DF685400CB2F07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D94C99F026DF6B0200CB2F07 /* ChatlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatlistView.swift; sourceTree = "<group>"; };
 		D94C99F226DF822C00CB2F07 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
+		D94C99FE26E0660F00CB2F07 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		D950A30D26D20C1C003D4907 /* SFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFImage.swift; sourceTree = "<group>"; };
 		D950A31026D20C3D003D4907 /* Image+SFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+SFImage.swift"; sourceTree = "<group>"; };
 		D950A31526D20C67003D4907 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -413,6 +425,7 @@
 				D94C99F526DF8B4D00CB2F07 /* View */,
 				D94C99F426DF8B4600CB2F07 /* App */,
 				D94C99D626DF685200CB2F07 /* NotificationController.swift */,
+				D94C99FE26E0660F00CB2F07 /* NotificationView.swift */,
 				D94C99DA26DF685200CB2F07 /* ComplicationController.swift */,
 				D94C99DC26DF685400CB2F07 /* Assets.xcassets */,
 				D94C99E126DF685400CB2F07 /* Info.plist */,
@@ -623,6 +636,7 @@
 			children = (
 				D950A36326D231E7003D4907 /* IssuelistView.swift */,
 				D94C99BF26DF4A7300CB2F07 /* IssueDetailView.swift */,
+				D936650926E34EAA00E1F57F /* NewIssueView.swift */,
 			);
 			path = Issuelist;
 			sourceTree = "<group>";
@@ -634,6 +648,7 @@
 				D950A32826D20DDB003D4907 /* HomeTabbutton.swift */,
 				D950A32426D20DB6003D4907 /* Home.swift */,
 				D94C99A526DF33C300CB2F07 /* HomeToastModifier.swift */,
+				D936650B26E351FC00E1F57F /* NewProjectView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -668,6 +683,8 @@
 			isa = PBXGroup;
 			children = (
 				D950A33B26D20E8F003D4907 /* ChatDetailView.swift */,
+				D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */,
+				D936650326E1EB8000E1F57F /* TheadView.swift */,
 				D950A37826D336AD003D4907 /* ChannelInfoView.swift */,
 				D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */,
 				D94C99A226DF31BB00CB2F07 /* ChannelRenameView.swift */,
@@ -780,6 +797,7 @@
 			isa = PBXGroup;
 			children = (
 				D9FD9FB326D7075C00664757 /* CalendarView.swift */,
+				D936650726E23D6200E1F57F /* CalendarIssuesView.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -1157,7 +1175,9 @@
 				D9FD9FB526D7077000664757 /* CalendarView.swift in Sources */,
 				D950A37126D31354003D4907 /* MypageView.swift in Sources */,
 				D9FD9F6D26D53A3300664757 /* LoginView.swift in Sources */,
+				D936650626E1EC3600E1F57F /* ChatDetailViewModel.swift in Sources */,
 				D9FD9F7226D53AB600664757 /* OpenWindows.swift in Sources */,
+				D936650426E1EB8000E1F57F /* TheadView.swift in Sources */,
 				D950A33126D20E28003D4907 /* IssueBoardView.swift in Sources */,
 				D950A32726D20DCC003D4907 /* HomeCommands.swift in Sources */,
 				D950A34E26D217DA003D4907 /* Assets.swift in Sources */,
@@ -1167,6 +1187,7 @@
 				D950A32526D20DB6003D4907 /* Home.swift in Sources */,
 				D950A33826D20E76003D4907 /* ChatTab.swift in Sources */,
 				D94C99A426DF322C00CB2F07 /* ChannelRenameView.swift in Sources */,
+				D936650A26E34EAA00E1F57F /* NewIssueView.swift in Sources */,
 				D950A32326D20CDF003D4907 /* CustomTextField.swift in Sources */,
 				D93BAD2826D149030094ADD9 /* ContentView.swift in Sources */,
 				D950A32926D20DDB003D4907 /* HomeTabbutton.swift in Sources */,
@@ -1181,6 +1202,8 @@
 				D950A37B26D33A9E003D4907 /* ChannelSearchView.swift in Sources */,
 				D9E01A1A26D4FD75005C7736 /* InTechsView.swift in Sources */,
 				D9FC988626DC812700735222 /* NSOpenPanel.swift in Sources */,
+				D936650826E23D6200E1F57F /* CalendarIssuesView.swift in Sources */,
+				D936650C26E351FC00E1F57F /* NewProjectView.swift in Sources */,
 				D9FD9F6F26D53A3800664757 /* RegisterView.swift in Sources */,
 				D93BAD2626D149030094ADD9 /* InTechsApp.swift in Sources */,
 				D950A36526D231FC003D4907 /* IssuelistView.swift in Sources */,
@@ -1195,6 +1218,7 @@
 			files = (
 				D94C99D726DF685200CB2F07 /* NotificationController.swift in Sources */,
 				D94C99D526DF685200CB2F07 /* ContentView.swift in Sources */,
+				D94C99FF26E0660F00CB2F07 /* NotificationView.swift in Sources */,
 				D94C99F326DF822C00CB2F07 /* ChatDetailView.swift in Sources */,
 				D94C99DB26DF685200CB2F07 /* ComplicationController.swift in Sources */,
 				D94C99D326DF685200CB2F07 /* InTechsApp.swift in Sources */,

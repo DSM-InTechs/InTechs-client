@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProjectListView: View {
-    @ObservedObject var projectVM = ProjectViewModel()
+    @EnvironmentObject var projectVM: ProjectViewModel
     @Namespace private var animation
     
     var body: some View {

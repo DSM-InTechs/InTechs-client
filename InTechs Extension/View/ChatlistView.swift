@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChatlistView: View {
     var body: some View {
-        NavigationView {
+//        NavigationView {
             List {
                 ForEach(0...6, id: \.self) { _ in
                     NavigationLink(destination: ChatDetailView()) {
@@ -18,7 +18,7 @@ struct ChatlistView: View {
                     }
                 }
             }.listStyle(CarouselListStyle())
-        }
+//        }
     }
 }
 

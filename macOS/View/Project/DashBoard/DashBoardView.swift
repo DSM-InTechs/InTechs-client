@@ -10,6 +10,7 @@ import GECalendar
 
 struct DashBoardView: View {
     @State private var date: Date?
+    private let appearance = Appearance(eventType: .circle, multipleEvents: [Event(date: Date(), title: "이슈1", color: .green), Event(date: Date(), title: "이슈2", color: .green)], isTodayButton: false, isMultipleEvents: true, headerFont: .title2, headerType: .leading)
     
     var body: some View {
         GeometryReader { geo in
@@ -67,10 +68,10 @@ struct DashBoardView: View {
                     }
                     
                     // 주간 캘린더
-                    GEWeekView(selectedDate: $date, appearance: Appearance(headerFont: .title2, headerType: .leading))
+                    GEWeekView(selectedDate: $date, appearance: appearance)
+                    
+                    Spacer(minLength: 0)
                 }
-                
-                Spacer()
             }.padding()
             .padding(.trailing, 70)
         }.ignoresSafeArea(.all, edges: .all)

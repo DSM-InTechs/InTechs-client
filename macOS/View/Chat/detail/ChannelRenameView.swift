@@ -99,6 +99,48 @@ struct ChannelDeleteView: View {
     }
 }
 
+struct MessagelDeleteView: View {
+    @EnvironmentObject var homeVM: HomeViewModel
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Text("메세지를 삭제하시겠습니까?")
+                .fontWeight(.bold)
+                .font(.title)
+            
+            Text("한 번 삭제하면 다시 복구할 수 없습니다.")
+            
+            HStack(spacing: 15) {
+                Spacer()
+                Text("취소")
+                    .padding(.all, 10)
+                    .padding(.horizontal, 10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color(Asset.black), lineWidth: 1)
+                    )
+                    .onTapGesture {
+                        withAnimation {
+                            self.homeVM.toast = nil
+                        }
+                    }
+                
+                Text("삭제")
+                    .foregroundColor(Color(Asset.black))
+                    .padding(.all, 10)
+                    .padding(.horizontal, 10)
+                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.red))
+                    .onTapGesture {
+                        withAnimation {
+                            self.homeVM.toast = nil
+                        }
+                    }
+            }
+        }.padding()
+        .padding(.all, 10)
+    }
+}
+
 struct ChannelEdit_Previews: PreviewProvider {
     static var previews: some View {
         ChannelRenameView()
