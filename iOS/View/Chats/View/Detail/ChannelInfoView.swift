@@ -16,7 +16,7 @@ struct ChannelInfoView: View {
             Color(UIColor.secondarySystemBackground)
                 .ignoresSafeArea()
             
-            GeometryReader { geo in
+            GeometryReader { _ in
                 VStack(spacing: UIFrame.width / 10) {
                     NavigationLink(destination: ChannelEditView()) {
                         HStack {
@@ -107,7 +107,6 @@ struct ChannelNotificationView: View {
                         }.background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
                     }
                     
-                    
                     VStack(alignment: .leading, spacing: 3) {
                         Text("메세지")
                             .foregroundColor(.gray)
@@ -169,8 +168,7 @@ struct ChannelMemberView: View {
                 .ignoresSafeArea()
             
             NavigationLink(destination: ChannelInviteMemberView(),
-                           isActive: self.$isInvite)
-                { EmptyView() }
+                           isActive: self.$isInvite) { EmptyView() }
                 .hidden()
             
             ScrollView {
@@ -236,7 +234,6 @@ struct ChannelInviteMemberView: View {
         }
     }
 }
-
 
 struct ChannelPinnedView: View {
     var body: some View {

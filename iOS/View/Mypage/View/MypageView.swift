@@ -18,7 +18,7 @@ struct MypageView: View {
             Color(UIColor.secondarySystemBackground)
                 .ignoresSafeArea()
             
-            GeometryReader { geo in
+            GeometryReader { _ in
                 VStack(spacing: UIFrame.width / 10) {
                     NavigationLink(destination: MypageEditView()) {
                         HStack {
@@ -86,7 +86,7 @@ struct MypageView: View {
             }.introspectTabBarController { (UITabBarController) in
                 UITabBarController.tabBar.isHidden = true
                 self.uiTabarController = UITabBarController
-            }.onAppear() {
+            }.onAppear {
                 self.uiTabarController?.tabBar.isHidden = true
             }
         }

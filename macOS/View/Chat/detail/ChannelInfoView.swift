@@ -8,13 +8,13 @@
 import SwiftUI
 
 enum ChannelInfoTab: String {
-    case Subscribers = "멤버"
-    case Pinned = "공지사항"
-    case Media = "공유첩"
+    case subscribers = "멤버"
+    case pinned = "공지사항"
+    case media = "공유첩"
 }
 
 struct ChannelInfoView: View {
-    @State var selectedTab: ChannelInfoTab = .Subscribers
+    @State var selectedTab: ChannelInfoTab = .subscribers
     @State private var hover = false
     
     var body: some View {
@@ -40,13 +40,13 @@ struct ChannelInfoView: View {
                 }
                 VStack(spacing: -1) {
                     HStack(spacing: 0) {
-                        ChannelInfoTabButton(tab: .Subscribers, number: .constant(4), selectedTab: $selectedTab)
+                        ChannelInfoTabButton(tab: .subscribers, number: .constant(4), selectedTab: $selectedTab)
                             .frame(width: geo.size.width / 4)
                         
-                        ChannelInfoTabButton(tab: .Pinned, number: .constant(1), selectedTab: $selectedTab)
+                        ChannelInfoTabButton(tab: .pinned, number: .constant(1), selectedTab: $selectedTab)
                             .frame(width: geo.size.width / 4)
                         
-                        ChannelInfoTabButton(tab: .Media, number: .constant(nil), selectedTab: $selectedTab)
+                        ChannelInfoTabButton(tab: .media, number: .constant(nil), selectedTab: $selectedTab)
                             .frame(width: geo.size.width / 4)
                         
                         Spacer()
@@ -55,14 +55,15 @@ struct ChannelInfoView: View {
                 }
                 
                 switch selectedTab {
-                case .Subscribers:
+                case .subscribers:
                     ChannelSubscribersView(text: .constant(""))
-                case .Pinned:
+                case .pinned:
                     ChannelPinnedView()
-                case .Media:
+                case .media:
                     ChannelMediaView()
                 }
             }.padding()
+            .padding(.all, 10)
         }
     }
 }

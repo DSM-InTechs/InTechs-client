@@ -8,5 +8,5 @@
 import SwiftUI
 
 class ChatViewModel: ObservableObject {
-    @Published var selectedTab: ChatTab = .Home
+    @Published var selectedTab: ChatTab = .home
 }

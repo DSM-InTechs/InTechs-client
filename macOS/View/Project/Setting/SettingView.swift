@@ -16,7 +16,7 @@ struct SettingView: View {
                 Text("로고")
                 HStack {
                     Button(action: {
-                        NSOpenPanel.openImage(completion: { image in
+                        NSOpenPanel.openImage(completion: { _ in
                             
                         })
                     }, label: {

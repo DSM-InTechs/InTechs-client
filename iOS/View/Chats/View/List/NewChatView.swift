@@ -14,7 +14,7 @@ struct NewChatView: View {
             Color(UIColor.secondarySystemBackground)
                 .ignoresSafeArea()
             
-            GeometryReader { geo in
+            GeometryReader { _ in
                 VStack(spacing: 10) {
                     NavigationLink(destination: NewDMView()) {
                         MypageRow(title: "DM", _body: "", image: .person)
@@ -60,8 +60,7 @@ struct NewChannelListView: View {
             }
             
             NavigationLink(destination: NewChannelView(),
-                           isActive: self.$isNext)
-                { EmptyView() }
+                           isActive: self.$isNext) { EmptyView() }
                     .hidden()
         }.padding()
         .navigationBarTitle("새 채널")
@@ -72,7 +71,7 @@ struct NewChannelListView: View {
 }
 
 struct NewChannelView: View {
-    @State var pickedImage: Image? = nil
+    @State var pickedImage: Image?
     @State private var isImage = false
     
     var body: some View {
@@ -87,12 +86,12 @@ struct NewChannelView: View {
                         VStack {
                             // 기본 이미지
                             if pickedImage == nil {
-                                Circle().frame(width: UIFrame.width / 4, height:  UIFrame.width / 4)
+                                Circle().frame(width: UIFrame.width / 4, height: UIFrame.width / 4)
                                     .foregroundColor(.gray.opacity(0.5))
                             } else {
                                 pickedImage!
                                     .resizable()
-                                    .frame(width: UIFrame.width / 4, height:  UIFrame.width / 4)
+                                    .frame(width: UIFrame.width / 4, height: UIFrame.width / 4)
                                     .aspectRatio(contentMode: .fill)
                                     .clipShape(Circle())
                             }
@@ -115,7 +114,6 @@ struct NewChannelView: View {
                                 .padding(.all, 10)
                         }.background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
                     }
-                    
                     
                     VStack(alignment: .leading) {
                         Text("멤버 (1)") // 또는 멤버 없음 표시
@@ -171,7 +169,6 @@ struct NewDMView: View {
         .navigationBarTitle("새 DM")
     }
 }
-
 
 struct NewChatView_Previews: PreviewProvider {
     static var previews: some View {

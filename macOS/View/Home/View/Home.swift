@@ -10,6 +10,7 @@ import SwiftUI
 struct Home: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var homeVM: HomeViewModel
+    @ObservedObject var projectVM = ProjectViewModel()
     @State private var quickActionPop: Bool = false
     @State private var questionPop: Bool = false
     
@@ -18,30 +19,31 @@ struct Home: View {
             ZStack(alignment: .leading) {
                 ZStack {
                     switch homeVM.selectedTab {
-                    case .Chats: NavigationView { ChatListView().background(Color(NSColor.textBackgroundColor)).ignoresSafeArea() }
-                    case .Projects: ProjectListView()
-                    case .Calendar: CalendarView()
-                    case .Teams: MemberView()
+                    case .chats: NavigationView { ChatListView().background(Color(NSColor.textBackgroundColor)).ignoresSafeArea() }
+                    case .projects: ProjectListView()
+                        .environmentObject(projectVM)
+                    case .calendar: CalendarView()
+                    case .teams: MemberView()
                     default: Text("")
                     }
                 }
                 .offset(x: 70)
                 
                 VStack {
-                    HomeTabButton(tab: HomeTab.Chats, number: "1", selectedTab: $homeVM.selectedTab)
+                    HomeTabButton(tab: HomeTab.chats, number: "1", selectedTab: $homeVM.selectedTab)
                         .keyboardShortcut("1", modifiers: .command)
                     
-                    HomeTabButton(tab: HomeTab.Projects,
+                    HomeTabButton(tab: HomeTab.projects,
                                   number: "2",
                                   selectedTab: $homeVM.selectedTab)
                         .keyboardShortcut("2", modifiers: [.command])
                     
-                    HomeTabButton(tab: HomeTab.Calendar,
+                    HomeTabButton(tab: HomeTab.calendar,
                                   number: "3",
                                   selectedTab: $homeVM.selectedTab)
                         .keyboardShortcut("3", modifiers: [.command])
                     
-                    HomeTabButton(tab: HomeTab.Teams,
+                    HomeTabButton(tab: HomeTab.teams,
                                   number: "4",
                                   selectedTab: $homeVM.selectedTab)
                         .keyboardShortcut("4", modifiers: [.command])
@@ -68,7 +70,7 @@ struct Home: View {
                         .onTapGesture {
                             self.quickActionPop.toggle()
                         }.popover(isPresented: $quickActionPop) {
-                            quickActionPopView().frame(width: 200)
+                            QuickActionPopView(isPop: $quickActionPop).frame(width: 200)
                         }
                     
                     Image(system: .question)
@@ -78,10 +80,10 @@ struct Home: View {
                         .onTapGesture {
                             self.questionPop.toggle()
                         } .popover(isPresented: $questionPop) {
-                            helpPopView()             .frame(width: 300)
+                            HelpPopView()             .frame(width: 300)
                         }
                     
-                    HomeTabButton(tab: HomeTab.Mypage,
+                    HomeTabButton(tab: HomeTab.mypage,
                                   selectedTab: $homeVM.selectedTab)
                 }
                 .frame(width: 70)
@@ -113,16 +115,19 @@ struct Home_Previews: PreviewProvider {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .environmentObject(homeViewModel)
             
-            quickActionPopView()
+            QuickActionPopView(isPop: .constant(false))
                 .frame(width: 200)
             
-            helpPopView()
+            HelpPopView()
                 .frame(width: 300)
         }
     }
 }
 
-struct quickActionPopView: View {
+struct QuickActionPopView: View {
+    @EnvironmentObject var homeVM: HomeViewModel
+    @Binding var isPop: Bool
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             HStack {
@@ -131,22 +136,39 @@ struct quickActionPopView: View {
                 Text("채널")
                     .fixedSize(horizontal: true, vertical: false)
                 Spacer()
+            }.onTapGesture {
+                withAnimation {
+                    self.isPop = false
+                    self.homeVM.toast = .channelCreate
+                }
             }
+            
             HStack {
                 SystemImage(system: .issue)
                     .frame(width: 15, height: 15)
                 Text("이슈")
+            }.onTapGesture {
+                withAnimation {
+                    self.isPop = false
+                    self.homeVM.toast = .issueCreate
+                }
             }
+            
             HStack {
-                SystemImage(system: .calendar)
+                SystemImage(system: .project)
                     .frame(width: 15, height: 15)
-                Text("일정")
+                Text("프로젝트")
+            }.onTapGesture {
+                withAnimation {
+                    self.isPop = false
+                    self.homeVM.toast = .projectCreate
+                }
             }
         }.padding()
     }
 }
 
-struct helpPopView: View {
+struct HelpPopView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Text("피드백 보내기")

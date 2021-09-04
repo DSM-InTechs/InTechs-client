@@ -13,25 +13,25 @@ struct HomeCommands: Commands {
     @CommandsBuilder var body: some Commands {
         CommandMenu("Window") {
             Button(action: {
-                viewModel.selectedTab = HomeTab.Chats
+                viewModel.selectedTab = HomeTab.chats
             }) {
                 Text("1")
             }
 
             Button(action: {
-                viewModel.selectedTab = HomeTab.Projects
+                viewModel.selectedTab = HomeTab.projects
             }) {
                 Text("2")
             }
             
             Button(action: {
-                viewModel.selectedTab = HomeTab.Projects
+                viewModel.selectedTab = HomeTab.projects
             }) {
                 Text("3")
             }
             
             Button(action: {
-                viewModel.selectedTab = HomeTab.Projects
+                viewModel.selectedTab = HomeTab.projects
             }) {
                 Text("4")
             }

@@ -8,25 +8,25 @@
 import Foundation
 
 enum HomeTab: String {
-    case Chats = "채팅"
-    case Projects = "프로젝트"
-    case Calendar = "캘린더"
-    case Teams = "팀"
-    case Mypage = "마이페이지"
+    case chats = "채팅"
+    case projects = "프로젝트"
+    case calendar = "캘린더"
+    case teams = "팀"
+    case mypage = "마이페이지"
 }
 
 extension HomeTab {
     func getImage() -> String {
         switch self {
-        case .Chats:
+        case .chats:
             return "message.fill"
-        case .Projects:
+        case .projects:
             return "square.grid.2x2"
-        case .Calendar:
+        case .calendar:
             return "calendar"
-        case .Teams:
+        case .teams:
             return "person.2"
-        case .Mypage:
+        case .mypage:
             return "person.circle"
         }
     }

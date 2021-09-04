@@ -10,12 +10,40 @@
 		493E3BC2588BF0810323CB0E /* Pods_InTechs__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B3C0C73C324DE488CC21F81 /* Pods_InTechs__iOS_.framework */; };
 		D90BB8C426DD15A50002E210 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90BB8C226DD10F50002E210 /* SettingView.swift */; };
 		D90BB8C626DDA3EB0002E210 /* InputDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90BB8C526DDA3EA0002E210 /* InputDocument.swift */; };
+		D936650426E1EB8000E1F57F /* TheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650326E1EB8000E1F57F /* TheadView.swift */; };
+		D936650626E1EC3600E1F57F /* ChatDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */; };
+		D936650826E23D6200E1F57F /* CalendarIssuesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650726E23D6200E1F57F /* CalendarIssuesView.swift */; };
+		D936650A26E34EAA00E1F57F /* NewIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650926E34EAA00E1F57F /* NewIssueView.swift */; };
+		D936650C26E351FC00E1F57F /* NewProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650B26E351FC00E1F57F /* NewProjectView.swift */; };
 		D93BAD2526D149030094ADD9 /* InTechsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BAD1226D148FD0094ADD9 /* InTechsApp.swift */; };
 		D93BAD2626D149030094ADD9 /* InTechsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BAD1226D148FD0094ADD9 /* InTechsApp.swift */; };
 		D93BAD2726D149030094ADD9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BAD1326D148FD0094ADD9 /* ContentView.swift */; };
 		D93BAD2826D149030094ADD9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BAD1326D148FD0094ADD9 /* ContentView.swift */; };
 		D93BAD2926D149030094ADD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D93BAD1426D149030094ADD9 /* Assets.xcassets */; };
 		D93BAD2A26D149030094ADD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D93BAD1426D149030094ADD9 /* Assets.xcassets */; };
+		D94C99A426DF322C00CB2F07 /* ChannelRenameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99A226DF31BB00CB2F07 /* ChannelRenameView.swift */; };
+		D94C99A826DF33CE00CB2F07 /* HomeToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99A526DF33C300CB2F07 /* HomeToastModifier.swift */; };
+		D94C99B426DF37DF00CB2F07 /* ChannelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99AC26DF37DF00CB2F07 /* ChannelInfoView.swift */; };
+		D94C99B526DF37DF00CB2F07 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99AD26DF37DF00CB2F07 /* ChatDetailView.swift */; };
+		D94C99B626DF37DF00CB2F07 /* ThreadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99AE26DF37DF00CB2F07 /* ThreadView.swift */; };
+		D94C99B726DF37DF00CB2F07 /* ChannelEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99AF26DF37DF00CB2F07 /* ChannelEditView.swift */; };
+		D94C99B826DF37DF00CB2F07 /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99B126DF37DF00CB2F07 /* ChatListView.swift */; };
+		D94C99B926DF37DF00CB2F07 /* ChatBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99B226DF37DF00CB2F07 /* ChatBar.swift */; };
+		D94C99BA26DF37DF00CB2F07 /* NewChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99B326DF37DF00CB2F07 /* NewChatView.swift */; };
+		D94C99BE26DF45B400CB2F07 /* NewChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99BC26DF45B200CB2F07 /* NewChannelView.swift */; };
+		D94C99C126DF4A7700CB2F07 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99BF26DF4A7300CB2F07 /* IssueDetailView.swift */; };
+		D94C99C726DF685100CB2F07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D94C99C626DF685100CB2F07 /* Assets.xcassets */; };
+		D94C99CE26DF685100CB2F07 /* InTechs Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D94C99CD26DF685100CB2F07 /* InTechs Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D94C99D326DF685200CB2F07 /* InTechsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99D226DF685200CB2F07 /* InTechsApp.swift */; };
+		D94C99D526DF685200CB2F07 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99D426DF685200CB2F07 /* ContentView.swift */; };
+		D94C99D726DF685200CB2F07 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99D626DF685200CB2F07 /* NotificationController.swift */; };
+		D94C99DB26DF685200CB2F07 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99DA26DF685200CB2F07 /* ComplicationController.swift */; };
+		D94C99DD26DF685400CB2F07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D94C99DC26DF685400CB2F07 /* Assets.xcassets */; };
+		D94C99E026DF685400CB2F07 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D94C99DF26DF685400CB2F07 /* Preview Assets.xcassets */; };
+		D94C99E526DF685400CB2F07 /* InTechs.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D94C99C426DF684D00CB2F07 /* InTechs.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D94C99F126DF6B0200CB2F07 /* ChatlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99F026DF6B0200CB2F07 /* ChatlistView.swift */; };
+		D94C99F326DF822C00CB2F07 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99F226DF822C00CB2F07 /* ChatDetailView.swift */; };
+		D94C99FF26E0660F00CB2F07 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94C99FE26E0660F00CB2F07 /* NotificationView.swift */; };
 		D950A30E26D20C1C003D4907 /* SFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A30D26D20C1C003D4907 /* SFImage.swift */; };
 		D950A31126D20C3D003D4907 /* Image+SFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A31026D20C3D003D4907 /* Image+SFImage.swift */; };
 		D950A31226D20C44003D4907 /* SFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A30D26D20C1C003D4907 /* SFImage.swift */; };
@@ -38,7 +66,6 @@
 		D950A33D26D20E94003D4907 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A31526D20C67003D4907 /* Message.swift */; };
 		D950A34026D2103B003D4907 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A33F26D2103B003D4907 /* Home.swift */; };
 		D950A34726D213E0003D4907 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A34626D213E0003D4907 /* CalendarView.swift */; };
-		D950A34926D213E9003D4907 /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A34826D213E9003D4907 /* ChatListView.swift */; };
 		D950A34D26D217D8003D4907 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A34C26D217D8003D4907 /* Assets.swift */; };
 		D950A34E26D217DA003D4907 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A34C26D217D8003D4907 /* Assets.swift */; };
 		D950A35026D2181B003D4907 /* Assets+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A34F26D2181B003D4907 /* Assets+init.swift */; };
@@ -49,7 +76,6 @@
 		D950A36126D231D1003D4907 /* DashBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A35F26D231CA003D4907 /* DashBoardView.swift */; };
 		D950A36526D231FC003D4907 /* IssuelistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A36326D231E7003D4907 /* IssuelistView.swift */; };
 		D950A36726D232D0003D4907 /* ProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A36626D232D0003D4907 /* ProjectViewModel.swift */; };
-		D950A36C26D30782003D4907 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A35826D22F99003D4907 /* Toast.swift */; };
 		D950A36E26D30843003D4907 /* IsActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A36D26D30843003D4907 /* IsActiveView.swift */; };
 		D950A37126D31354003D4907 /* MypageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A37026D31354003D4907 /* MypageView.swift */; };
 		D950A37226D319CD003D4907 /* Assets+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A34F26D2181B003D4907 /* Assets+init.swift */; };
@@ -68,7 +94,6 @@
 		D9FC987A26DC501500735222 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC987926DC501500735222 /* FeedbackView.swift */; };
 		D9FC987C26DC58B100735222 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC987B26DC58B100735222 /* FeedbackViewModel.swift */; };
 		D9FC988026DC5B6700735222 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC987F26DC5B6700735222 /* NotificationView.swift */; };
-		D9FC988226DC5D0500735222 /* NewChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC988126DC5D0500735222 /* NewChatView.swift */; };
 		D9FC988626DC812700735222 /* NSOpenPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC988426DC812200735222 /* NSOpenPanel.swift */; };
 		D9FC988C26DC828D00735222 /* Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC988B26DC828D00735222 /* Shake.swift */; };
 		D9FC988D26DC828F00735222 /* Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC988B26DC828D00735222 /* Shake.swift */; };
@@ -77,8 +102,6 @@
 		D9FD9F6F26D53A3800664757 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9F6E26D53A3800664757 /* RegisterView.swift */; };
 		D9FD9F7226D53AB600664757 /* OpenWindows.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9F7126D53AB600664757 /* OpenWindows.swift */; };
 		D9FD9FB526D7077000664757 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FB326D7075C00664757 /* CalendarView.swift */; };
-		D9FD9FC826D7BE5F00664757 /* ChatBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FC626D7BE2700664757 /* ChatBar.swift */; };
-		D9FD9FD126D7CAB300664757 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FCF26D7CAAC00664757 /* ChatDetailView.swift */; };
 		D9FD9FD726D7CDF500664757 /* MypageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FD526D7CDE500664757 /* MypageView.swift */; };
 		D9FD9FDA26D7DE5400664757 /* IssuelistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FD926D7DE5300664757 /* IssuelistView.swift */; };
 		D9FD9FDC26D7DF2100664757 /* MypageEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FDB26D7DF2100664757 /* MypageEditView.swift */; };
@@ -86,11 +109,51 @@
 		D9FD9FE126D897A500664757 /* InTechsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FE026D897A400664757 /* InTechsView.swift */; };
 		D9FD9FE326D897AB00664757 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FE226D897AB00664757 /* LoginView.swift */; };
 		D9FD9FE526D897B200664757 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FE426D897B200664757 /* RegisterView.swift */; };
-		D9FD9FE726D8AC0600664757 /* ChannelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD9FE626D8AC0500664757 /* ChannelInfoView.swift */; };
-		D9FF611326DE00BA00AEA573 /* ChannelEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FF611226DE00BA00AEA573 /* ChannelEditView.swift */; };
 		D9FF611526DE3BC800AEA573 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FF611426DE3BC800AEA573 /* SearchBar.swift */; };
 		FC56ADEB99916193CEF95D54 /* Pods_InTechs__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5FBA4103A65829EAD1C8AB /* Pods_InTechs__macOS_.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D94C99CF26DF685200CB2F07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D93BAD0D26D148FD0094ADD9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D94C99CC26DF685100CB2F07;
+			remoteInfo = "InTechs Extension";
+		};
+		D94C99E326DF685400CB2F07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D93BAD0D26D148FD0094ADD9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D94C99C326DF684D00CB2F07;
+			remoteInfo = InTechs;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D94C99E926DF685400CB2F07 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D94C99CE26DF685100CB2F07 /* InTechs Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D94C99ED26DF685400CB2F07 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				D94C99E526DF685400CB2F07 /* InTechs.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5A1BE42D7CEE3FAEA1369EC5 /* Pods-InTechs (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTechs (macOS).release.xcconfig"; path = "Target Support Files/Pods-InTechs (macOS)/Pods-InTechs (macOS).release.xcconfig"; sourceTree = "<group>"; };
@@ -100,6 +163,11 @@
 		B8D7AB31164BDDCC9AF0965E /* Pods-InTechs (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTechs (iOS).debug.xcconfig"; path = "Target Support Files/Pods-InTechs (iOS)/Pods-InTechs (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		D90BB8C226DD10F50002E210 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		D90BB8C526DDA3EA0002E210 /* InputDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDocument.swift; sourceTree = "<group>"; };
+		D936650326E1EB8000E1F57F /* TheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheadView.swift; sourceTree = "<group>"; };
+		D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewModel.swift; sourceTree = "<group>"; };
+		D936650726E23D6200E1F57F /* CalendarIssuesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarIssuesView.swift; sourceTree = "<group>"; };
+		D936650926E34EAA00E1F57F /* NewIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIssueView.swift; sourceTree = "<group>"; };
+		D936650B26E351FC00E1F57F /* NewProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectView.swift; sourceTree = "<group>"; };
 		D93BAD1226D148FD0094ADD9 /* InTechsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsApp.swift; sourceTree = "<group>"; };
 		D93BAD1326D148FD0094ADD9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D93BAD1426D149030094ADD9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -108,6 +176,31 @@
 		D93BAD2126D149030094ADD9 /* InTechs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InTechs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D93BAD2326D149030094ADD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D93BAD2426D149030094ADD9 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		D94C99A226DF31BB00CB2F07 /* ChannelRenameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRenameView.swift; sourceTree = "<group>"; };
+		D94C99A526DF33C300CB2F07 /* HomeToastModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeToastModifier.swift; sourceTree = "<group>"; };
+		D94C99AC26DF37DF00CB2F07 /* ChannelInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelInfoView.swift; sourceTree = "<group>"; };
+		D94C99AD26DF37DF00CB2F07 /* ChatDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
+		D94C99AE26DF37DF00CB2F07 /* ThreadView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadView.swift; sourceTree = "<group>"; };
+		D94C99AF26DF37DF00CB2F07 /* ChannelEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelEditView.swift; sourceTree = "<group>"; };
+		D94C99B126DF37DF00CB2F07 /* ChatListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListView.swift; sourceTree = "<group>"; };
+		D94C99B226DF37DF00CB2F07 /* ChatBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBar.swift; sourceTree = "<group>"; };
+		D94C99B326DF37DF00CB2F07 /* NewChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewChatView.swift; sourceTree = "<group>"; };
+		D94C99BC26DF45B200CB2F07 /* NewChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChannelView.swift; sourceTree = "<group>"; };
+		D94C99BF26DF4A7300CB2F07 /* IssueDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailView.swift; sourceTree = "<group>"; };
+		D94C99C426DF684D00CB2F07 /* InTechs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InTechs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D94C99C626DF685100CB2F07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D94C99C826DF685100CB2F07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D94C99CD26DF685100CB2F07 /* InTechs Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "InTechs Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D94C99D226DF685200CB2F07 /* InTechsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsApp.swift; sourceTree = "<group>"; };
+		D94C99D426DF685200CB2F07 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D94C99D626DF685200CB2F07 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		D94C99DA26DF685200CB2F07 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		D94C99DC26DF685400CB2F07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D94C99DF26DF685400CB2F07 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D94C99E126DF685400CB2F07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D94C99F026DF6B0200CB2F07 /* ChatlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatlistView.swift; sourceTree = "<group>"; };
+		D94C99F226DF822C00CB2F07 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
+		D94C99FE26E0660F00CB2F07 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		D950A30D26D20C1C003D4907 /* SFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFImage.swift; sourceTree = "<group>"; };
 		D950A31026D20C3D003D4907 /* Image+SFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+SFImage.swift"; sourceTree = "<group>"; };
 		D950A31526D20C67003D4907 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -127,12 +220,10 @@
 		D950A33B26D20E8F003D4907 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
 		D950A33F26D2103B003D4907 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		D950A34626D213E0003D4907 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
-		D950A34826D213E9003D4907 /* ChatListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListView.swift; sourceTree = "<group>"; };
 		D950A34C26D217D8003D4907 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		D950A34F26D2181B003D4907 /* Assets+init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assets+init.swift"; sourceTree = "<group>"; };
 		D950A35226D21ECD003D4907 /* Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
 		D950A35526D225BB003D4907 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
-		D950A35826D22F99003D4907 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		D950A35B26D23123003D4907 /* MemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberView.swift; sourceTree = "<group>"; };
 		D950A35F26D231CA003D4907 /* DashBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardView.swift; sourceTree = "<group>"; };
 		D950A36326D231E7003D4907 /* IssuelistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuelistView.swift; sourceTree = "<group>"; };
@@ -154,7 +245,6 @@
 		D9FC987926DC501500735222 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
 		D9FC987B26DC58B100735222 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		D9FC987F26DC5B6700735222 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
-		D9FC988126DC5D0500735222 /* NewChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatView.swift; sourceTree = "<group>"; };
 		D9FC988426DC812200735222 /* NSOpenPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSOpenPanel.swift; sourceTree = "<group>"; };
 		D9FC988726DC825C00735222 /* InTechsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsViewModel.swift; sourceTree = "<group>"; };
 		D9FC988B26DC828D00735222 /* Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shake.swift; sourceTree = "<group>"; };
@@ -162,8 +252,6 @@
 		D9FD9F6E26D53A3800664757 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		D9FD9F7126D53AB600664757 /* OpenWindows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWindows.swift; sourceTree = "<group>"; };
 		D9FD9FB326D7075C00664757 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
-		D9FD9FC626D7BE2700664757 /* ChatBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBar.swift; sourceTree = "<group>"; };
-		D9FD9FCF26D7CAAC00664757 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
 		D9FD9FD526D7CDE500664757 /* MypageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageView.swift; sourceTree = "<group>"; };
 		D9FD9FD926D7DE5300664757 /* IssuelistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuelistView.swift; sourceTree = "<group>"; };
 		D9FD9FDB26D7DF2100664757 /* MypageEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageEditView.swift; sourceTree = "<group>"; };
@@ -171,8 +259,6 @@
 		D9FD9FE026D897A400664757 /* InTechsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsView.swift; sourceTree = "<group>"; };
 		D9FD9FE226D897AB00664757 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		D9FD9FE426D897B200664757 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
-		D9FD9FE626D8AC0500664757 /* ChannelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoView.swift; sourceTree = "<group>"; };
-		D9FF611226DE00BA00AEA573 /* ChannelEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelEditView.swift; sourceTree = "<group>"; };
 		D9FF611426DE3BC800AEA573 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		DC5FBA4103A65829EAD1C8AB /* Pods_InTechs__macOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTechs__macOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -191,6 +277,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC56ADEB99916193CEF95D54 /* Pods_InTechs__macOS_.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D94C99CA26DF685100CB2F07 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9F20D6C9B9177A83AF7B2A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +331,8 @@
 				D93BAD1126D148FD0094ADD9 /* Shared */,
 				D93BAD1B26D149030094ADD9 /* iOS */,
 				D93BAD2226D149030094ADD9 /* macOS */,
+				D94C99C526DF684D00CB2F07 /* InTechs */,
+				D94C99D126DF685200CB2F07 /* InTechs Extension */,
 				D93BAD1A26D149030094ADD9 /* Products */,
 				D35C1B69DB35F1ABC6AA0E32 /* Pods */,
 				3EE39E7219B98C1BAA039C4F /* Frameworks */,
@@ -253,6 +355,8 @@
 			children = (
 				D93BAD1926D149030094ADD9 /* InTechs.app */,
 				D93BAD2126D149030094ADD9 /* InTechs.app */,
+				D94C99C426DF684D00CB2F07 /* InTechs.app */,
+				D94C99CD26DF685100CB2F07 /* InTechs Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -274,6 +378,86 @@
 				D93BAD2426D149030094ADD9 /* macOS.entitlements */,
 			);
 			path = macOS;
+			sourceTree = "<group>";
+		};
+		D94C99AA26DF37DF00CB2F07 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99AB26DF37DF00CB2F07 /* Detail */,
+				D94C99B026DF37DF00CB2F07 /* List */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D94C99AB26DF37DF00CB2F07 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99AC26DF37DF00CB2F07 /* ChannelInfoView.swift */,
+				D94C99AD26DF37DF00CB2F07 /* ChatDetailView.swift */,
+				D94C99AE26DF37DF00CB2F07 /* ThreadView.swift */,
+				D94C99AF26DF37DF00CB2F07 /* ChannelEditView.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		D94C99B026DF37DF00CB2F07 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99B126DF37DF00CB2F07 /* ChatListView.swift */,
+				D94C99B226DF37DF00CB2F07 /* ChatBar.swift */,
+				D94C99B326DF37DF00CB2F07 /* NewChatView.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		D94C99C526DF684D00CB2F07 /* InTechs */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99C626DF685100CB2F07 /* Assets.xcassets */,
+				D94C99C826DF685100CB2F07 /* Info.plist */,
+			);
+			path = InTechs;
+			sourceTree = "<group>";
+		};
+		D94C99D126DF685200CB2F07 /* InTechs Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99F526DF8B4D00CB2F07 /* View */,
+				D94C99F426DF8B4600CB2F07 /* App */,
+				D94C99D626DF685200CB2F07 /* NotificationController.swift */,
+				D94C99FE26E0660F00CB2F07 /* NotificationView.swift */,
+				D94C99DA26DF685200CB2F07 /* ComplicationController.swift */,
+				D94C99DC26DF685400CB2F07 /* Assets.xcassets */,
+				D94C99E126DF685400CB2F07 /* Info.plist */,
+				D94C99DE26DF685400CB2F07 /* Preview Content */,
+			);
+			path = "InTechs Extension";
+			sourceTree = "<group>";
+		};
+		D94C99DE26DF685400CB2F07 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99DF26DF685400CB2F07 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D94C99F426DF8B4600CB2F07 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99D226DF685200CB2F07 /* InTechsApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D94C99F526DF8B4D00CB2F07 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99D426DF685200CB2F07 /* ContentView.swift */,
+				D94C99F026DF6B0200CB2F07 /* ChatlistView.swift */,
+				D94C99F226DF822C00CB2F07 /* ChatDetailView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		D950A30C26D20C11003D4907 /* Domain */ = {
@@ -389,8 +573,8 @@
 		D950A34126D213C8003D4907 /* Chats */ = {
 			isa = PBXGroup;
 			children = (
+				D94C99AA26DF37DF00CB2F07 /* View */,
 				D9FC987626DC459700735222 /* ViewModel */,
-				D9FC987526DC459400735222 /* View */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -451,6 +635,8 @@
 			isa = PBXGroup;
 			children = (
 				D950A36326D231E7003D4907 /* IssuelistView.swift */,
+				D94C99BF26DF4A7300CB2F07 /* IssueDetailView.swift */,
+				D936650926E34EAA00E1F57F /* NewIssueView.swift */,
 			);
 			path = Issuelist;
 			sourceTree = "<group>";
@@ -461,6 +647,8 @@
 				D950A31926D20C8E003D4907 /* HomeTab.swift */,
 				D950A32826D20DDB003D4907 /* HomeTabbutton.swift */,
 				D950A32426D20DB6003D4907 /* Home.swift */,
+				D94C99A526DF33C300CB2F07 /* HomeToastModifier.swift */,
+				D936650B26E351FC00E1F57F /* NewProjectView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -468,7 +656,6 @@
 		D950A36B26D30779003D4907 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				D950A35826D22F99003D4907 /* Toast.swift */,
 				D950A31C26D20CA6003D4907 /* HomeViewModel.swift */,
 				D950A32626D20DCC003D4907 /* HomeCommands.swift */,
 			);
@@ -496,8 +683,12 @@
 			isa = PBXGroup;
 			children = (
 				D950A33B26D20E8F003D4907 /* ChatDetailView.swift */,
+				D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */,
+				D936650326E1EB8000E1F57F /* TheadView.swift */,
 				D950A37826D336AD003D4907 /* ChannelInfoView.swift */,
 				D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */,
+				D94C99A226DF31BB00CB2F07 /* ChannelRenameView.swift */,
+				D94C99BC26DF45B200CB2F07 /* NewChannelView.swift */,
 			);
 			path = detail;
 			sourceTree = "<group>";
@@ -539,16 +730,6 @@
 				D950A33F26D2103B003D4907 /* Home.swift */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		D9FC987526DC459400735222 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				D9FF611026DDFD5E00AEA573 /* Detail */,
-				D9FF610F26DDFD5B00AEA573 /* List */,
-			);
-			name = View;
-			path = "초무ㅜ";
 			sourceTree = "<group>";
 		};
 		D9FC987626DC459700735222 /* ViewModel */ = {
@@ -616,6 +797,7 @@
 			isa = PBXGroup;
 			children = (
 				D9FD9FB326D7075C00664757 /* CalendarView.swift */,
+				D936650726E23D6200E1F57F /* CalendarIssuesView.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -650,26 +832,6 @@
 			path = InTechs;
 			sourceTree = "<group>";
 		};
-		D9FF610F26DDFD5B00AEA573 /* List */ = {
-			isa = PBXGroup;
-			children = (
-				D9FD9FC626D7BE2700664757 /* ChatBar.swift */,
-				D950A34826D213E9003D4907 /* ChatListView.swift */,
-				D9FC988126DC5D0500735222 /* NewChatView.swift */,
-			);
-			path = List;
-			sourceTree = "<group>";
-		};
-		D9FF611026DDFD5E00AEA573 /* Detail */ = {
-			isa = PBXGroup;
-			children = (
-				D9FD9FE626D8AC0500664757 /* ChannelInfoView.swift */,
-				D9FF611226DE00BA00AEA573 /* ChannelEditView.swift */,
-				D9FD9FCF26D7CAAC00664757 /* ChatDetailView.swift */,
-			);
-			path = Detail;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -682,10 +844,13 @@
 				D93BAD1626D149030094ADD9 /* Frameworks */,
 				D93BAD1726D149030094ADD9 /* Resources */,
 				16CA61A47ACB8A14C1C3B06F /* [CP] Embed Pods Frameworks */,
+				D94C99BB26DF380100CB2F07 /* Swiftlint */,
+				D94C99ED26DF685400CB2F07 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D94C99E426DF685400CB2F07 /* PBXTargetDependency */,
 			);
 			name = "InTechs (iOS)";
 			productName = "InTechs (iOS)";
@@ -701,6 +866,7 @@
 				D93BAD1E26D149030094ADD9 /* Frameworks */,
 				D93BAD1F26D149030094ADD9 /* Resources */,
 				110050767BCD3F865E76285F /* [CP] Embed Pods Frameworks */,
+				D94C99A926DF376100CB2F07 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -710,6 +876,41 @@
 			productName = "InTechs (macOS)";
 			productReference = D93BAD2126D149030094ADD9 /* InTechs.app */;
 			productType = "com.apple.product-type.application";
+		};
+		D94C99C326DF684D00CB2F07 /* InTechs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D94C99EA26DF685400CB2F07 /* Build configuration list for PBXNativeTarget "InTechs" */;
+			buildPhases = (
+				D94C99C226DF684D00CB2F07 /* Resources */,
+				D94C99E926DF685400CB2F07 /* Embed App Extensions */,
+				D9F20D6C9B9177A83AF7B2A4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D94C99D026DF685200CB2F07 /* PBXTargetDependency */,
+			);
+			name = InTechs;
+			productName = InTechs;
+			productReference = D94C99C426DF684D00CB2F07 /* InTechs.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		D94C99CC26DF685100CB2F07 /* InTechs Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D94C99E626DF685400CB2F07 /* Build configuration list for PBXNativeTarget "InTechs Extension" */;
+			buildPhases = (
+				D94C99C926DF685100CB2F07 /* Sources */,
+				D94C99CA26DF685100CB2F07 /* Frameworks */,
+				D94C99CB26DF685100CB2F07 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "InTechs Extension";
+			productName = "InTechs Extension";
+			productReference = D94C99CD26DF685100CB2F07 /* InTechs Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -724,6 +925,12 @@
 						CreatedOnToolsVersion = 12.5.1;
 					};
 					D93BAD2026D149030094ADD9 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+					D94C99C326DF684D00CB2F07 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+					D94C99CC26DF685100CB2F07 = {
 						CreatedOnToolsVersion = 12.5.1;
 					};
 				};
@@ -743,6 +950,8 @@
 			targets = (
 				D93BAD1826D149030094ADD9 /* InTechs (iOS) */,
 				D93BAD2026D149030094ADD9 /* InTechs (macOS) */,
+				D94C99C326DF684D00CB2F07 /* InTechs */,
+				D94C99CC26DF685100CB2F07 /* InTechs Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -761,6 +970,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				D93BAD2A26D149030094ADD9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D94C99C226DF684D00CB2F07 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D94C99C726DF685100CB2F07 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D94C99CB26DF685100CB2F07 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D94C99E026DF685400CB2F07 /* Preview Assets.xcassets in Resources */,
+				D94C99DD26DF685400CB2F07 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -823,6 +1049,42 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D94C99A926DF376100CB2F07 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "swiftlint\n";
+		};
+		D94C99BB26DF380100CB2F07 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "swiftlint\n";
+		};
 		E1EAC12FEA648B6685C797C3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -852,6 +1114,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D94C99B826DF37DF00CB2F07 /* ChatListView.swift in Sources */,
+				D94C99BA26DF37DF00CB2F07 /* NewChatView.swift in Sources */,
 				D950A31126D20C3D003D4907 /* Image+SFImage.swift in Sources */,
 				D9FC986C26DBD16E00735222 /* KeyboardObserver.swift in Sources */,
 				D9FD9FE526D897B200664757 /* RegisterView.swift in Sources */,
@@ -867,28 +1131,27 @@
 				D9FD9FE126D897A500664757 /* InTechsView.swift in Sources */,
 				D90BB8C626DDA3EB0002E210 /* InputDocument.swift in Sources */,
 				D9FC986126DBC7B500735222 /* ImagePicker.swift in Sources */,
+				D94C99B426DF37DF00CB2F07 /* ChannelInfoView.swift in Sources */,
 				D9FF611526DE3BC800AEA573 /* SearchBar.swift in Sources */,
-				D9FD9FD126D7CAB300664757 /* ChatDetailView.swift in Sources */,
+				D94C99B626DF37DF00CB2F07 /* ThreadView.swift in Sources */,
 				D9FC987A26DC501500735222 /* FeedbackView.swift in Sources */,
-				D950A34926D213E9003D4907 /* ChatListView.swift in Sources */,
 				D9FD9FDE26D7DF7B00664757 /* IssueDetailView.swift in Sources */,
 				D9FC986E26DBD41200735222 /* MypageVIewModel.swift in Sources */,
 				D93BAD2726D149030094ADD9 /* ContentView.swift in Sources */,
 				D950A34026D2103B003D4907 /* Home.swift in Sources */,
 				D9FC987426DC459200735222 /* ChatDetailViewModel.swift in Sources */,
 				D9FD9FD726D7CDF500664757 /* MypageView.swift in Sources */,
-				D9FC988226DC5D0500735222 /* NewChatView.swift in Sources */,
+				D94C99B726DF37DF00CB2F07 /* ChannelEditView.swift in Sources */,
+				D94C99B526DF37DF00CB2F07 /* ChatDetailView.swift in Sources */,
 				D9FC988026DC5B6700735222 /* NotificationView.swift in Sources */,
-				D9FD9FC826D7BE5F00664757 /* ChatBar.swift in Sources */,
 				D950A35326D21ECD003D4907 /* Frame.swift in Sources */,
 				D950A34D26D217D8003D4907 /* Assets.swift in Sources */,
-				D9FD9FE726D8AC0600664757 /* ChannelInfoView.swift in Sources */,
 				D9FC987226DC458800735222 /* ChatlistViewModel.swift in Sources */,
 				D9FD9FDC26D7DF2100664757 /* MypageEditView.swift in Sources */,
 				D9FD9FE326D897AB00664757 /* LoginView.swift in Sources */,
 				D9FD9FDA26D7DE5400664757 /* IssuelistView.swift in Sources */,
 				D9FC987026DBD50400735222 /* CalendarViewModel.swift in Sources */,
-				D9FF611326DE00BA00AEA573 /* ChannelEditView.swift in Sources */,
+				D94C99B926DF37DF00CB2F07 /* ChatBar.swift in Sources */,
 				D93BAD2526D149030094ADD9 /* InTechsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -904,22 +1167,27 @@
 				D950A32C26D20E00003D4907 /* ProjectListView.swift in Sources */,
 				D950A31E26D20CAD003D4907 /* HomeViewModel.swift in Sources */,
 				D950A31226D20C44003D4907 /* SFImage.swift in Sources */,
+				D94C99A826DF33CE00CB2F07 /* HomeToastModifier.swift in Sources */,
 				D90BB8C426DD15A50002E210 /* SettingView.swift in Sources */,
 				D950A35D26D23141003D4907 /* MemberView.swift in Sources */,
 				D950A35726D22AA6003D4907 /* ChatViewModel.swift in Sources */,
+				D94C99C126DF4A7700CB2F07 /* IssueDetailView.swift in Sources */,
 				D9FD9FB526D7077000664757 /* CalendarView.swift in Sources */,
 				D950A37126D31354003D4907 /* MypageView.swift in Sources */,
 				D9FD9F6D26D53A3300664757 /* LoginView.swift in Sources */,
+				D936650626E1EC3600E1F57F /* ChatDetailViewModel.swift in Sources */,
 				D9FD9F7226D53AB600664757 /* OpenWindows.swift in Sources */,
+				D936650426E1EB8000E1F57F /* TheadView.swift in Sources */,
 				D950A33126D20E28003D4907 /* IssueBoardView.swift in Sources */,
 				D950A32726D20DCC003D4907 /* HomeCommands.swift in Sources */,
 				D950A34E26D217DA003D4907 /* Assets.swift in Sources */,
 				D950A37226D319CD003D4907 /* Assets+init.swift in Sources */,
 				D950A36126D231D1003D4907 /* DashBoardView.swift in Sources */,
 				D950A33326D20E3B003D4907 /* IssueBoardDropDelegate.swift in Sources */,
-				D950A36C26D30782003D4907 /* Toast.swift in Sources */,
 				D950A32526D20DB6003D4907 /* Home.swift in Sources */,
 				D950A33826D20E76003D4907 /* ChatTab.swift in Sources */,
+				D94C99A426DF322C00CB2F07 /* ChannelRenameView.swift in Sources */,
+				D936650A26E34EAA00E1F57F /* NewIssueView.swift in Sources */,
 				D950A32326D20CDF003D4907 /* CustomTextField.swift in Sources */,
 				D93BAD2826D149030094ADD9 /* ContentView.swift in Sources */,
 				D950A32926D20DDB003D4907 /* HomeTabbutton.swift in Sources */,
@@ -934,14 +1202,44 @@
 				D950A37B26D33A9E003D4907 /* ChannelSearchView.swift in Sources */,
 				D9E01A1A26D4FD75005C7736 /* InTechsView.swift in Sources */,
 				D9FC988626DC812700735222 /* NSOpenPanel.swift in Sources */,
+				D936650826E23D6200E1F57F /* CalendarIssuesView.swift in Sources */,
+				D936650C26E351FC00E1F57F /* NewProjectView.swift in Sources */,
 				D9FD9F6F26D53A3800664757 /* RegisterView.swift in Sources */,
 				D93BAD2626D149030094ADD9 /* InTechsApp.swift in Sources */,
 				D950A36526D231FC003D4907 /* IssuelistView.swift in Sources */,
+				D94C99BE26DF45B400CB2F07 /* NewChannelView.swift in Sources */,
 				D950A35426D21F1F003D4907 /* Frame.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D94C99C926DF685100CB2F07 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D94C99D726DF685200CB2F07 /* NotificationController.swift in Sources */,
+				D94C99D526DF685200CB2F07 /* ContentView.swift in Sources */,
+				D94C99FF26E0660F00CB2F07 /* NotificationView.swift in Sources */,
+				D94C99F326DF822C00CB2F07 /* ChatDetailView.swift in Sources */,
+				D94C99DB26DF685200CB2F07 /* ComplicationController.swift in Sources */,
+				D94C99D326DF685200CB2F07 /* InTechsApp.swift in Sources */,
+				D94C99F126DF6B0200CB2F07 /* ChatlistView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D94C99D026DF685200CB2F07 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D94C99CC26DF685100CB2F07 /* InTechs Extension */;
+			targetProxy = D94C99CF26DF685200CB2F07 /* PBXContainerItemProxy */;
+		};
+		D94C99E426DF685400CB2F07 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D94C99C326DF684D00CB2F07 /* InTechs */;
+			targetProxy = D94C99E326DF685400CB2F07 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D93BAD2B26D149030094ADD9 /* Debug */ = {
@@ -1156,6 +1454,96 @@
 			};
 			name = Release;
 		};
+		D94C99E726DF685400CB2F07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"InTechs Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = C2JSJLJ4FN;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "InTechs Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeonggo.InTechs.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Debug;
+		};
+		D94C99E826DF685400CB2F07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"InTechs Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = C2JSJLJ4FN;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "InTechs Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeonggo.InTechs.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Release;
+		};
+		D94C99EB26DF685400CB2F07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C2JSJLJ4FN;
+				IBSC_MODULE = InTechs_Extension;
+				INFOPLIST_FILE = InTechs/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeonggo.InTechs.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Debug;
+		};
+		D94C99EC26DF685400CB2F07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C2JSJLJ4FN;
+				IBSC_MODULE = InTechs_Extension;
+				INFOPLIST_FILE = InTechs/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeonggo.InTechs.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1182,6 +1570,24 @@
 			buildConfigurations = (
 				D93BAD3126D149030094ADD9 /* Debug */,
 				D93BAD3226D149030094ADD9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D94C99E626DF685400CB2F07 /* Build configuration list for PBXNativeTarget "InTechs Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D94C99E726DF685400CB2F07 /* Debug */,
+				D94C99E826DF685400CB2F07 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D94C99EA26DF685400CB2F07 /* Build configuration list for PBXNativeTarget "InTechs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D94C99EB26DF685400CB2F07 /* Debug */,
+				D94C99EC26DF685400CB2F07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

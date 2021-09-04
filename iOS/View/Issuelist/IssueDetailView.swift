@@ -37,7 +37,6 @@ struct IssueDetailView: View {
                         .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
                     }
                     
-                    
                     VStack(alignment: .leading) {
                         
                         HStack(spacing: 20) {
@@ -90,7 +89,6 @@ struct IssueDetailView: View {
         }
     }
 }
-
 
 struct IssueDetailView_Previews: PreviewProvider {
     static var previews: some View {

@@ -119,7 +119,7 @@ struct MemberPopView: View {
                 
                 if isCopied {
                     Image(system: .checkmark)
-                        .onAppear() {
+                        .onAppear {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                                 withAnimation {
                                     self.isCopied = false

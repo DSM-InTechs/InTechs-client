@@ -28,7 +28,7 @@ enum SFImage: String {
     case plus = "plus"
     case downArrow = "chevron.down"
     case square = "square"
-    case x = "xmark"
+    case xmark = "xmark"
     case chat = "message.fill"
     case project = "square.grid.2x2"
     case calendar = "calendar"
@@ -57,4 +57,5 @@ enum SFImage: String {
     case pin = "pin"
     case bellSlash = "bell.slash"
     case xmarkCircle = "xmark.circle.fill"
+    case threadPlus = "plus.message"
 }

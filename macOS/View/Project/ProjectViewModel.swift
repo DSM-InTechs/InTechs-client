@@ -8,5 +8,5 @@
 import Foundation
 
 class ProjectViewModel: ObservableObject {
-    @Published var selectedTab: ProjectTab = .DashBoard
+    @Published var selectedTab: ProjectTab = .dashBoard
 }

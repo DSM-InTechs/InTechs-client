@@ -8,17 +8,17 @@
 import SwiftUI
 
 enum ChatTab: String {
-    case Home = "홈"
-    case Channels = "채널"
+    case home = "홈"
+    case channels = "채널"
     case DMs = "DM"
 }
 
 extension ChatTab {
     func getImage() -> String {
         switch self {
-        case .Home:
+        case .home:
             return "house.fill"
-        case .Channels:
+        case .channels:
             return "#"
         case .DMs:
             return "envelope.fill"

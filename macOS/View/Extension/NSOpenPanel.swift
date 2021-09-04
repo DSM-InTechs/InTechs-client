@@ -15,15 +15,15 @@ extension NSOpenPanel {
     
     static func openImage(completion: @escaping (_ result: Result<NSImage, Error>) -> Void) {
         let panel = NSOpenPanel()
-        //다중 선택가능?
+        // 다중 선택가능?
         panel.allowsMultipleSelection = false
-        //파일 선택가능?
+        // 파일 선택가능?
         panel.canChooseFiles = true
-        //폴더 선택가능?
+        // 폴더 선택가능?
         panel.canChooseDirectories = false
-        //가져올 수 있는 파일형식
+        // 가져올 수 있는 파일형식
         panel.allowedFileTypes = ["jpg", "jpeg", "png"]
-        //열기 눌렀을 때
+        // 열기 눌렀을 때
         panel.begin { result in
             guard
                 result == .OK,

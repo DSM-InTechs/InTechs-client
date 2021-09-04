@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ChannelEditView: View {
-    @State var pickedImage: Image? = nil
+    @State var pickedImage: Image?
     @State private var isImage = false
     
     var body: some View {
@@ -23,12 +23,12 @@ struct ChannelEditView: View {
                         VStack {
                             // 기본 이미지
                             if pickedImage == nil {
-                                Circle().frame(width: UIFrame.width / 4, height:  UIFrame.width / 4)
+                                Circle().frame(width: UIFrame.width / 4, height: UIFrame.width / 4)
                                     .foregroundColor(.gray.opacity(0.5))
                             } else {
                                 pickedImage!
                                     .resizable()
-                                    .frame(width: UIFrame.width / 4, height:  UIFrame.width / 4)
+                                    .frame(width: UIFrame.width / 4, height: UIFrame.width / 4)
                                     .aspectRatio(contentMode: .fill)
                                     .clipShape(Circle())
                             }

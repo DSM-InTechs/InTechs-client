@@ -16,7 +16,7 @@ struct CalendarView: View {
         NavigationView {
             GeometryReader { geo in
                 ZStack {
-                    GECalendar(selectedDate: $calendarVM.date, appearance:  Appearance(multipleEvents: calendarVM.events, isMultipleEvents: true, headerFont: .title2))
+                    GECalendar(selectedDate: $calendarVM.date, appearance: Appearance(multipleEvents: calendarVM.events, isMultipleEvents: true, headerFont: .title2))
                     
                     VStack {
                         Spacer()
@@ -51,7 +51,7 @@ struct CalendarView: View {
             .introspectTabBarController { (UITabBarController) in
                 UITabBarController.tabBar.isHidden = false
                 uiTabarController = UITabBarController
-            }.onAppear() {
+            }.onAppear {
                 uiTabarController?.tabBar.isHidden = false
             }
         }
