@@ -7,16 +7,23 @@
 
 import SwiftUI
 import Introspect
+import GEmojiPicker
 
 struct ChatDetailView: View {
     @ObservedObject var chatVM = ChatDetailViewModel()
+    
     @State var uiTabarController: UITabBarController?
     @State private var showInfoView = false
+    @State private var showThread = false
     @State var fileSheet = false
     @State var isFile = false
     @State var isImage = false
     @State var isSearch = false
+    @State var isEditing = false
     @State private var document: InputDoument = InputDoument(input: "")
+    
+    @State private var isEmoji = false
+    @State private var isMessageDelete = false
     
     let title: String
     
@@ -27,13 +34,76 @@ struct ChatDetailView: View {
                     ForEach(0...10, id: \.self) { _ in
                         ChatDetailRow()
                             .padding(.all, 10)
+                            .contextMenu {
+                                    Button(action: {
+                                        chatVM.text = "asdf"
+                                        self.isEditing = true
+                                    }, label: {
+                                        HStack {
+                                            Text("수정")
+                                            Spacer()
+                                            Image(system: .edit)
+                                        }
+                                    })
+                                   
+                                    Button(action: {
+                                        self.isMessageDelete.toggle()
+                                    }, label: {
+                                        HStack {
+                                            Text("삭제")
+                                            Spacer()
+                                            Image(system: .trash)
+                                        }
+                                    }).foregroundColor(.red)
+                                    
+                                    Button(action: {
+                                        
+                                    }, label: {
+                                        HStack {
+                                            Text("고정")
+                                            Spacer()
+                                            Image(system: .pin)
+                                        }
+                                    })
+                                   
+                                    Button(action: {
+                                        self.showThread.toggle()
+                                    }, label: {
+                                        HStack {
+                                            Text("스레드 만들기")
+                                            Spacer()
+                                            Image(system: .threadPlus)
+                                        }
+                                    })
+                                    
+                                    Button(action: {
+                                        self.isEmoji.toggle()
+                                    }, label: {
+                                        HStack {
+                                            Text("반응 달기")
+                                            Spacer()
+                                            Image(system: .smileFace)
+                                        }
+                                    })
+                            }
                         
                     }
                 }
             }
+            .alert(isPresented: $isMessageDelete, content: {
+                Alert(title: Text("확인"), message: Text("(메세지)를 삭제하시겠습니까?"), primaryButton: .destructive(Text("삭제"), action: {
+                    // Some action
+                }), secondaryButton: .cancel())
+            })
+            
+            EmojiPicker(isOpen: $isEmoji, selectionHandler: { _ in })
             
             NavigationLink(destination: ChannelInfoView(),
                            isActive: self.$showInfoView) { EmptyView() }
+                .hidden()
+            
+            NavigationLink(destination: ThreadView(),
+                           isActive: self.$showThread) { EmptyView() }
                 .hidden()
             
             if isSearch {
@@ -60,19 +130,63 @@ struct ChatDetailView: View {
                         .frame(width: UIFrame.width)
                     
                     VStack {
-                        HStack {
-                            Image(system: .clip)
-                                .onTapGesture {
-                                    self.fileSheet = true
+                        Group {
+                            if isEditing {
+                                VStack(alignment: .leading, spacing: 0) {
+                                    HStack {
+                                        Image(system: .xmark)
+                                            .onTapGesture {
+                                                self.isEditing.toggle()
+                                            }
+                                        
+                                        Color.gray.frame(width: 2)
+                                        
+                                        VStack {
+                                            Text("메세지 수정")
+                                                .font(.callout)
+                                            Text("원래 메세지")
+                                                .foregroundColor(.gray)
+                                                .font(.caption)
+                                        }
+                                       Spacer()
+                                    }.padding(.all, 10)
+                                    .background(Color.gray.opacity(0.5))
+                                    .frame(height: UIFrame.height / 14)
+                                    
+                                    HStack {
+                                        Image(system: .clip)
+                                            .onTapGesture {
+                                                self.fileSheet = true
+                                            }
+                                        TextField("메세지를 입력하세요", text: $chatVM.text)
+                                        //                            Text(document.input)
+                                        Image(system: .checkmarkCircleFill)
+                                            .onTapGesture {
+                                                self.isEditing.toggle()
+                                            }
+                                    }.padding(.bottom, 10)
+                                    .frame(height: UIFrame.height / 12)
                                 }
-                            TextField("메세지를 입력하세요", text: $chatVM.text)
-                            //                            Text(document.input)
-                            if chatVM.text == "" {
-                                Image(system: .paperplane)
+                                .padding(.horizontal)
+                                
                             } else {
-                                Image(system: .paperplaneFill)
+                                HStack {
+                                    Image(system: .clip)
+                                        .onTapGesture {
+                                            self.fileSheet = true
+                                        }
+                                    TextField("메세지를 입력하세요", text: $chatVM.text)
+                                    //                            Text(document.input)
+                                    if chatVM.text == "" {
+                                        Image(system: .paperplane)
+                                    } else {
+                                        Image(system: .paperplaneFill)
+                                    }
+                                }.padding(.bottom, 10)
+                                .padding(.horizontal)
+                                .frame(height: UIFrame.height / 12)
                             }
-                        }.padding(.bottom, 10)
+                        }
                         .actionSheet(isPresented: $fileSheet) {
                             ActionSheet(title: Text("사진 또는 파일을 첨부하세요"), buttons: [.default(Text("Photo")) {
                                 self.isImage = true
@@ -106,7 +220,7 @@ struct ChatDetailView: View {
                             }
                         }
                         
-                    }.frame(width: UIFrame.width - 50, height: UIFrame.height / 12)
+                    }.frame(width: UIFrame.width)
                 }.background(Color(Asset.white))
                 
             }.ignoresSafeArea()
@@ -126,8 +240,8 @@ struct ChatDetailView: View {
                     .frame(width: 20, height: 20)
                     .foregroundColor(.blue)
                     .onTapGesture {
-                    self.showInfoView.toggle()
-                }
+                        self.showInfoView.toggle()
+                    }
             })
             .introspectTabBarController { (UITabBarController) in
                 UITabBarController.tabBar.isHidden = true
@@ -163,7 +277,7 @@ struct ChatDetailRow: View {
                     Text(_body)
                 }
             }
-        }
+        }.background(Color(Asset.white))
         
     }
 }
