@@ -44,6 +44,11 @@ struct Home: View {
                     // InActive API
                 }
             }
+            
+            .onAppear {
+                TokenManager.email = "asdfasdf"
+                print(TokenManager.email)
+            }
         } else {
             InTechsView()
                 .environmentObject(homeVM)

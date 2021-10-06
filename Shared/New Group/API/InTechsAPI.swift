@@ -16,15 +16,15 @@ public enum InTechsAPI {
     
     // MARK: - Mypage
     case mypage
-    case updateMypage(name: String, image: Image)
+    case updateMypage(name: String, imageData: Data)
     case updateMyActive(isActive: Bool)
     case getMyProjects
     
     // MARK: - Project
     case dashboard
-    case createProject(name: String, image: Image)
+    case createProject(name: String, imageData: Data)
     case deleteProject(id: Int)
-    case updateProject(id: Int, name: String, image: Image)
+    case updateProject(id: Int, name: String, imageData: Data)
     
     case joinProject(id: Int)
     case exitProject(id: Int)
@@ -45,12 +45,12 @@ public enum InTechsAPI {
 
 extension InTechsAPI: TargetType {
     public var baseURL: URL {
-        return URL(string: "http://api.potatochips.live")!
+        return URL(string: "http://localhost:8009")!
     }
     
     public var path: String {
         switch self {
-        // MARK: - Auth
+            // MARK: - Auth
         case .register:
             return "/join"
         case .login:
@@ -58,7 +58,7 @@ extension InTechsAPI: TargetType {
         case .refresh:
             return "/refresh"
             
-        // MARK: - Mypage
+            // MARK: - Mypage
         case .mypage:
             return "/user"
         case .updateMypage:
@@ -68,7 +68,7 @@ extension InTechsAPI: TargetType {
         case .getMyProjects:
             return "/user/project"
             
-        // MARK: - Project
+            // MARK: - Project
         case .dashboard:
             return "/project/dashboard"
         case .createProject(let name, _):
@@ -84,7 +84,7 @@ extension InTechsAPI: TargetType {
         case .getProjectMembers(let id):
             return "/project/\(id)/user"
             
-        // MARK: - Issue
+            // MARK: - Issue
         case .createIssue(let projectId, _, _, _, _, _):
             return "/project/\(projectId)/issue"
         case .deleteIssue(let projectId, let issueId):
@@ -92,14 +92,14 @@ extension InTechsAPI: TargetType {
         case .updateIssue(let projectId, let issueId, _, _, _, _, _):
             return "/project/\(projectId)/issue/\(issueId)"
             
-        // MARK: - Calendar
+            // MARK: - Calendar
         case .getCalendar(let projectId):
             return "/project/\(projectId)/calendar"
             
-        // MARK: - Other User
+            // MARK: - Other User
         case .getUser(let email):
             return "/\(email)"
-       
+            
         }
     }
     
@@ -118,20 +118,38 @@ extension InTechsAPI: TargetType {
     
     public var task: Task {
         switch self {
-        case .register(let name, let email, let password):
+        case let .register(name, email, password):
             return .requestParameters(parameters: ["name": name, "email": email, "password": password], encoding: URLEncoding.default)
-        case .login(let email, let password):
+        case let .login(email, password):
             return .requestParameters(parameters: ["email": email, "password": password], encoding: URLEncoding.default)
-//        case .updateMypage(let name, let image):
-//            return .requestParameters(parameters: ["name": name, "image": ""], encoding: URLEncoding.default)
+        case let .updateMypage(name, imageData):
+            let gifData = MultipartFormData(provider: .data(imageData), name: "file", fileName: "gif.gif", mimeType: "image/gif")
+            let descriptionData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
+            let multipartData = [gifData, descriptionData]
+            
+            return .uploadMultipart(multipartData)
         case .updateMyActive(let isActive):
             return .requestParameters(parameters: ["isActive": isActive], encoding: URLEncoding.default)
         case .createIssue(_, let  title, let body, let date, let progress, let state):
-            return .requestParameters(parameters: ["title": title, "content": body, "end_date": date, "progress": progress, "state": state], encoding: URLEncoding.default)
-//        case .searchLetter(let string):
-//            return .requestParameters(parameters: ["q": string], encoding: URLEncoding.queryString)
-//        case .addComment(_, let body):
-//            return .requestParameters(parameters: ["body": body], encoding: URLEncoding.default)
+            var paras: [String: Any] = [:]
+            paras["title"] = title
+            paras["content"] = body ?? NSNull()
+            paras["end_date"] = date ?? NSNull()
+            paras["progress"] = progress ?? NSNull()
+            paras["state"] = state ?? NSNull()
+            return .requestParameters(parameters: paras, encoding: JSONEncoding.default)
+        case .updateIssue(_, _, let  title, let body, let date, let progress, let state):
+            var paras: [String: Any] = [:]
+            paras["title"] = title
+            paras["content"] = body ?? NSNull()
+            paras["end_date"] = date ?? NSNull()
+            paras["progress"] = progress ?? NSNull()
+            paras["state"] = state ?? NSNull()
+            return .requestParameters(parameters: paras, encoding: JSONEncoding.default)
+            //        case .searchLetter(let string):
+            //            return .requestParameters(parameters: ["q": string], encoding: URLEncoding.queryString)
+            //        case .addComment(_, let body):
+            //            return .requestParameters(parameters: ["body": body], encoding: URLEncoding.default)
         default:
             return .requestPlain
         }
@@ -145,15 +163,15 @@ extension InTechsAPI: TargetType {
             return ["Authorization": "Bearer + \(refreshToken)"]
         default:
             return nil
-//            let token = StorageManager.shared.readUser() == nil ? "" : StorageManager.shared.readUser()!.token
-//            return ["Authorization": "Bearer " + token]
+            //            let token = StorageManager.shared.readUser() == nil ? "" : StorageManager.shared.readUser()!.token
+            //            return ["Authorization": "Bearer " + token]
         }
     }
     
     public var sampleData: Data {
         switch self {
-//        case .clubDetail:
-//            return stub("ClubDetail")
+            //        case .clubDetail:
+            //            return stub("ClubDetail")
         default:
             return Data()
         }

@@ -20,7 +20,7 @@ enum Toast {
 }
 
 class HomeViewModel: ObservableObject {
-    @Published var isLogin: Bool = true
+    @Published var isLogin: Bool = false
     
     @Published var selectedTab: HomeTab = HomeTab.chats
     @Published var toast: Toast?

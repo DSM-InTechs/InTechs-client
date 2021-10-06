@@ -73,7 +73,8 @@ struct LoginView: View {
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)).frame(width: geo.size.width / 2))
                         .onTapGesture {
-                            if self.InTechsVM.login() {
+                            self.InTechsVM.apply(.login)
+                            if self.InTechsVM.success {
                                 NSApplication.shared.keyWindow?.close()
                                 withAnimation {
                                     self.homeVM.isLogin = true

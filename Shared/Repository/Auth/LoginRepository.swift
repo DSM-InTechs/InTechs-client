@@ -9,7 +9,9 @@ import Moya
 import Combine
 
 public protocol LoginRepository {
+    #if os(iOS)
     func loginAsync(email: String, password: String) async -> AnyPublisher<Void, NetworkError>
+    #endif
     func login(email: String, password: String) -> AnyPublisher<Void, NetworkError>
 }
 
@@ -26,6 +28,7 @@ final public class LoginRepositoryImpl: LoginRepository {
         self.provider = provider
     }
     
+    #if os(iOS)
     public func loginAsync(email: String, password: String) async -> AnyPublisher<Void, NetworkError> {
         provider.requestPublisher(.login(email: email, password: password))
             .map(LoginReponse.self)
@@ -37,6 +40,7 @@ final public class LoginRepositoryImpl: LoginRepository {
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
+    #endif
     
     public func login(email: String, password: String) -> AnyPublisher<Void, NetworkError> {
         provider.requestPublisher(.login(email: email, password: password))

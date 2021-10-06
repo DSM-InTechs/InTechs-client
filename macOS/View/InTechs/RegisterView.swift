@@ -31,6 +31,20 @@ struct RegisterView: View {
                 VStack {
                     VStack(spacing: 20) {
                         Spacer()
+                        
+                        HStack(spacing: 10) {
+                            Image(system: .person)
+                                .foregroundColor(Color(Asset.white))
+                                .font(.title2)
+                            
+                            VStack(spacing: 3) {
+                                TextField("이름", text: $InTechsVM.name)
+                                    .colorMultiply(Color(Asset.white))
+                                    .textFieldStyle(PlainTextFieldStyle())
+                                Color(Asset.white).frame(height: 1)
+                            }
+                        }
+                        
                         HStack(spacing: 10) {
                             Image(system: .emailFill)
                                 .foregroundColor(Color(Asset.white))
@@ -60,14 +74,15 @@ struct RegisterView: View {
                         Spacer()
                     }.padding(.horizontal)
                     
-                    if InTechsVM.email != "" && InTechsVM.password != "" { Text("회원가입")
+                    if InTechsVM.name != "" && InTechsVM.email != "" && InTechsVM.password != "" { Text("회원가입")
                         .foregroundColor(Color(Asset.black))
                         .font(.title2)
                         .fontWeight(.medium)
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)).frame(width: geo.size.width / 2))
                         .onTapGesture {
-                            if self.InTechsVM.register() {
+                            self.InTechsVM.apply(.register)
+                            if self.InTechsVM.success {
                                 NSApplication.shared.keyWindow?.close()
                                 withAnimation {
                                     self.homeVM.isLogin = true
