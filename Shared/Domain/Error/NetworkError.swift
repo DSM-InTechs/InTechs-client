@@ -21,6 +21,7 @@ public enum NetworkError: Int, Error {
     case badGateway = 502
     
     public init(_ error: MoyaError) {
+        print("INTECHS ERROR: \(error), \(error.response)")
         if error.response == nil {
             self = .noInternet
         } else {
@@ -31,6 +32,7 @@ public enum NetworkError: Int, Error {
     }
     
     public init(_ error: Error) {
+        print("INTECHS ERROR: \(error), \(error.localizedDescription)")
         if let moyaError = error as? MoyaError {
             self = NetworkError(moyaError)
         } else {

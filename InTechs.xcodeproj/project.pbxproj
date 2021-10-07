@@ -30,10 +30,12 @@
 		D91CB549270ADD3D003DCB63 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB533270ACC24003DCB63 /* LoginResponse.swift */; };
 		D91CB54A270ADD40003DCB63 /* RefreshResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB545270AD9B0003DCB63 /* RefreshResponse.swift */; };
 		D91CB54B270ADD48003DCB63 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB52D270ACAE5003DCB63 /* NetworkError.swift */; };
-		D91CB54D270BC246003DCB63 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB54C270BC246003DCB63 /* TokenManager.swift */; };
 		D91CB550270BC4C7003DCB63 /* NSLock+lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB54F270BC4C7003DCB63 /* NSLock+lock.swift */; };
 		D91CB552270D6A8A003DCB63 /* MyActiveRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB551270D6A8A003DCB63 /* MyActiveRepository.swift */; };
 		D91CB554270D7748003DCB63 /* MemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB553270D7748003DCB63 /* MemberViewModel.swift */; };
+		D91CB559270DBAFF003DCB63 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB557270DBA6C003DCB63 /* ErrorView.swift */; };
+		D91CB55A270DBDC9003DCB63 /* NSLock+lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB54F270BC4C7003DCB63 /* NSLock+lock.swift */; };
+		D91CB55C270EA768003DCB63 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB55B270EA768003DCB63 /* ErrorView.swift */; };
 		D936650426E1EB8000E1F57F /* TheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650326E1EB8000E1F57F /* TheadView.swift */; };
 		D936650626E1EC3600E1F57F /* ChatDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */; };
 		D936650826E23D6200E1F57F /* CalendarIssuesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650726E23D6200E1F57F /* CalendarIssuesView.swift */; };
@@ -199,10 +201,11 @@
 		D91CB53A270AD090003DCB63 /* MoyaPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaPublisher.swift; sourceTree = "<group>"; };
 		D91CB543270AD8AB003DCB63 /* RefreshRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshRepository.swift; sourceTree = "<group>"; };
 		D91CB545270AD9B0003DCB63 /* RefreshResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshResponse.swift; sourceTree = "<group>"; };
-		D91CB54C270BC246003DCB63 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		D91CB54F270BC4C7003DCB63 /* NSLock+lock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLock+lock.swift"; sourceTree = "<group>"; };
 		D91CB551270D6A8A003DCB63 /* MyActiveRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActiveRepository.swift; sourceTree = "<group>"; };
 		D91CB553270D7748003DCB63 /* MemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberViewModel.swift; sourceTree = "<group>"; };
+		D91CB557270DBA6C003DCB63 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		D91CB55B270EA768003DCB63 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		D936650326E1EB8000E1F57F /* TheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheadView.swift; sourceTree = "<group>"; };
 		D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewModel.swift; sourceTree = "<group>"; };
 		D936650726E23D6200E1F57F /* CalendarIssuesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarIssuesView.swift; sourceTree = "<group>"; };
@@ -373,7 +376,6 @@
 				D91CB52A270AC8A2003DCB63 /* LoginRepository.swift */,
 				D91CB543270AD8AB003DCB63 /* RefreshRepository.swift */,
 				D91CB551270D6A8A003DCB63 /* MyActiveRepository.swift */,
-				D91CB54C270BC246003DCB63 /* TokenManager.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -621,6 +623,7 @@
 				D950A32026D20CCA003D4907 /* BlurView.swift */,
 				D950A32226D20CDF003D4907 /* CustomTextField.swift */,
 				D950A36D26D30843003D4907 /* IsActiveView.swift */,
+				D91CB557270DBA6C003DCB63 /* ErrorView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -840,6 +843,7 @@
 				D9FC986026DBC7B500735222 /* ImagePicker.swift */,
 				D9FC986B26DBD16E00735222 /* KeyboardObserver.swift */,
 				D9FF611426DE3BC800AEA573 /* SearchBar.swift */,
+				D91CB55B270EA768003DCB63 /* ErrorView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1242,6 +1246,7 @@
 				D9FC986C26DBD16E00735222 /* KeyboardObserver.swift in Sources */,
 				D9FD9FE526D897B200664757 /* RegisterView.swift in Sources */,
 				D9FC986826DBCCF800735222 /* InTechsViewModel.swift in Sources */,
+				D91CB55C270EA768003DCB63 /* ErrorView.swift in Sources */,
 				D950A30E26D20C1C003D4907 /* SFImage.swift in Sources */,
 				D91CB552270D6A8A003DCB63 /* MyActiveRepository.swift in Sources */,
 				D9FC987C26DC58B100735222 /* FeedbackViewModel.swift in Sources */,
@@ -1271,7 +1276,6 @@
 				D9FD9FD726D7CDF500664757 /* MypageView.swift in Sources */,
 				D91CB534270ACC24003DCB63 /* LoginResponse.swift in Sources */,
 				D97E0F752707F60F00CC8B74 /* InTechsAPI.swift in Sources */,
-				D91CB54D270BC246003DCB63 /* TokenManager.swift in Sources */,
 				D91CB539270AD085003DCB63 /* MoyaProvider+Combine.swift in Sources */,
 				D94C99B726DF37DF00CB2F07 /* ChannelEditView.swift in Sources */,
 				D91CB550270BC4C7003DCB63 /* NSLock+lock.swift in Sources */,
@@ -1331,12 +1335,14 @@
 				D94C99A426DF322C00CB2F07 /* ChannelRenameView.swift in Sources */,
 				D936650A26E34EAA00E1F57F /* NewIssueView.swift in Sources */,
 				D950A32326D20CDF003D4907 /* CustomTextField.swift in Sources */,
+				D91CB559270DBAFF003DCB63 /* ErrorView.swift in Sources */,
 				D93BAD2826D149030094ADD9 /* ContentView.swift in Sources */,
 				D950A32926D20DDB003D4907 /* HomeTabbutton.swift in Sources */,
 				D91CB549270ADD3D003DCB63 /* LoginResponse.swift in Sources */,
 				D950A32E26D20E12003D4907 /* ProjectTab.swift in Sources */,
 				D91CB53E270AD0C2003DCB63 /* MoyaPublisher.swift in Sources */,
 				D950A36726D232D0003D4907 /* ProjectViewModel.swift in Sources */,
+				D91CB55A270DBDC9003DCB63 /* NSLock+lock.swift in Sources */,
 				D9FC988E26DC82B700735222 /* InTechsViewModel.swift in Sources */,
 				D950A33C26D20E8F003D4907 /* ChatDetailView.swift in Sources */,
 				D91CB54A270ADD40003DCB63 /* RefreshResponse.swift in Sources */,

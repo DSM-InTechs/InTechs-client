@@ -119,9 +119,9 @@ extension InTechsAPI: TargetType {
     public var task: Task {
         switch self {
         case let .register(name, email, password):
-            return .requestParameters(parameters: ["name": name, "email": email, "password": password], encoding: URLEncoding.default)
+            return .requestParameters(parameters: ["name": name, "email": email, "password": password], encoding: JSONEncoding.default)
         case let .login(email, password):
-            return .requestParameters(parameters: ["email": email, "password": password], encoding: URLEncoding.default)
+            return .requestParameters(parameters: ["email": email, "password": password], encoding: JSONEncoding.default)
         case let .updateMypage(name, imageData):
             let gifData = MultipartFormData(provider: .data(imageData), name: "file", fileName: "gif.gif", mimeType: "image/gif")
             let descriptionData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
@@ -129,7 +129,7 @@ extension InTechsAPI: TargetType {
             
             return .uploadMultipart(multipartData)
         case .updateMyActive(let isActive):
-            return .requestParameters(parameters: ["isActive": isActive], encoding: URLEncoding.default)
+            return .requestParameters(parameters: ["isActive": isActive], encoding: JSONEncoding.default)
         case .createIssue(_, let  title, let body, let date, let progress, let state):
             var paras: [String: Any] = [:]
             paras["title"] = title
@@ -158,11 +158,14 @@ extension InTechsAPI: TargetType {
     public var headers: [String: String]? {
         switch self {
         case .register, .login:
-            return ["Content-type": "application/json"]
-        case .refresh(let refreshToken):
-            return ["Authorization": "Bearer + \(refreshToken)"]
-        default:
             return nil
+        case .refresh(let refreshToken):
+            return ["Authorization": "\(refreshToken)"]
+        default:
+            @UserDefault(key: "accessToken", defaultValue: "")
+            var accessToken: String
+            
+            return ["Authorization": "Bearer + \(accessToken)"]
             //            let token = StorageManager.shared.readUser() == nil ? "" : StorageManager.shared.readUser()!.token
             //            return ["Authorization": "Bearer " + token]
         }

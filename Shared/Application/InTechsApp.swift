@@ -29,14 +29,14 @@ struct InTechsApp: App {
         WindowGroup("LoginView") {
             LoginView()
                 .environmentObject(homeViewModel)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: 600, maxHeight: 400)
         }.handlesExternalEvents(matching: Set(arrayLiteral: "LoginView"))
         .windowStyle(HiddenTitleBarWindowStyle())
         
         WindowGroup("RegisterView") {
             RegisterView()
                 .environmentObject(homeViewModel)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: 600, maxHeight: 400)
         }.handlesExternalEvents(matching: Set(arrayLiteral: "RegisterView"))
         .windowStyle(HiddenTitleBarWindowStyle())
         #endif

@@ -32,7 +32,7 @@ final public class MyActiveRepositoryImpl: MyActiveRepository {
     
     public func updateMyActive(isActive: Bool) -> AnyPublisher<Void, NetworkError> {
         provider.requestVoidPublisher(.updateMyActive(isActive: isActive))
-            .mapError {  NetworkError($0) }
+            .mapError { return NetworkError($0) }
             .eraseToAnyPublisher()
     }
 }

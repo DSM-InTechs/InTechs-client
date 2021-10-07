@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension NSLocking {
+public extension NSLocking {
     func withCriticalSection<T>(block: () throws -> T) rethrows -> T {
         lock()
         defer { unlock() }

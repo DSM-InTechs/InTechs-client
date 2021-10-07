@@ -10,4 +10,5 @@ import Foundation
 public struct LoginReponse: Codable {
     public var accessToken: String
     public var refreshToken: String
+    public var tokenType: String?
 }

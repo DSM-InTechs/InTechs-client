@@ -9,17 +9,28 @@ import Foundation
 import SwiftUI
 
 @propertyWrapper
-struct UserDefault<Value> {
-    let key: String
-    let defaultValue: Value
-    var container: UserDefaults = .standard
-
-    var wrappedValue: Value {
+public struct UserDefault<Value> {
+    private let key: String
+    private let defaultValue: Value
+    private let UD: UserDefaults
+    private let lock = NSLock()
+    
+    public init(key: String, defaultValue: Value, UD: UserDefaults = .standard) {
+        self.key = key
+        self.defaultValue = defaultValue
+        self.UD = UD
+    }
+    
+    public var wrappedValue: Value {
         get {
-            return container.object(forKey: key) as? Value ?? defaultValue
+            lock.withCriticalSection {
+                return UD.object(forKey: key) as? Value ?? defaultValue
+            }
         }
         set {
-            container.set(newValue, forKey: key)
+            lock.withCriticalSection {
+                UD.set(newValue, forKey: key)
+            }
         }
     }
 }

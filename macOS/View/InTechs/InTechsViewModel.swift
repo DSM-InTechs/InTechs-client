@@ -13,13 +13,14 @@ class InTechsViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
     
-    @Published var success: Bool = false
+    @Published var isLoading: Bool = false
     @Published var errorMessage: String = ""
-    @Published var attempts: Int = 1
     
     private let loginRepository: LoginRepository
     private let registerRepository: RegisterRepository
     private var bag = Set<AnyCancellable>()
+    
+    public var successExecute: () -> Void = {}
     
     public enum Event {
         case login
@@ -48,42 +49,55 @@ class InTechsViewModel: ObservableObject {
         self.registerRepository = registerRepository
         
         input.loginTapped
+            .map {  self.changeLoading(isLoading: true) }
             .flatMap { _ in
                 self.loginRepository.login(email: self.email, password: self.password)
-                    .catch { [weak self] err -> Empty<Void, Never> in
-                        guard let self = self else { return .init() }
-                        self.errorMessage = self.getErrorMessage(error: err)
+                    .catch { err -> Empty<Void, Never> in
+                        self.changeLoading(isLoading: false)
+                        withAnimation {
+                            self.errorMessage = self.getErrorMessage(error: err)
+                        }
+                        
                         return .init()
                     }
             }.sink(receiveValue: { [weak self] _ in
-                self?.email = ""
-                self?.password = ""
-                self?.success = true
+                self?.changeLoading(isLoading: false)
+                self?.successExecute()
             })
             .store(in: &bag)
         
         input.registerTapped
             .flatMap { _ in
                 self.registerRepository.register(name: self.name, email: self.email, password: self.password)
-                    .catch { [weak self] err -> Empty<Void, Never> in
-                        guard let self = self else { return .init() }
-                        self.errorMessage = self.getErrorMessage(error: err)
+                    .catch { err -> Empty<Void, Never> in
+                        self.changeLoading(isLoading: false)
+                        withAnimation {
+                            self.errorMessage = self.getErrorMessage(error: err)
+                        }
+                        
                         return .init()
                     }
             }.sink(receiveValue: { [weak self] _ in
-                self?.email = ""
-                self?.password = ""
-                self?.success = true
+                self?.changeLoading(isLoading: false)
+                self?.successExecute()
             })
             .store(in: &bag)
     }
     
     private func getErrorMessage(error: NetworkError) -> String {
         switch error {
-        case .unauthorized:
-            return ""
+        case .notFound:
+            return "유저를 찾을 수 없습니다."
+        case .conflict:
+            return "이미 존재하는 이메일입니다."
         default:
             return error.message
+        }
+    }
+    
+    private func changeLoading(isLoading: Bool) {
+        withAnimation {
+            self.isLoading = isLoading
         }
     }
 }

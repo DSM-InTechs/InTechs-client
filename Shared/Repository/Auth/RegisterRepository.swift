@@ -9,9 +9,9 @@ import Moya
 import Combine
 
 public protocol RegisterRepository {
-    #if os(iOS)
+#if os(iOS)
     func registerAsync(name: String, email: String, password: String) async -> AnyPublisher<Void, NetworkError>
-    #endif
+#endif
     func register(name: String, email: String, password: String) -> AnyPublisher<Void, NetworkError>
 }
 
@@ -23,19 +23,19 @@ final public class RegisterRepositoryImpl: RegisterRepository {
         self.provider = provider
     }
     
-    #if os(iOS)
+#if os(iOS)
     public func registerAsync(name: String, email: String, password: String) async -> AnyPublisher<Void, NetworkError> {
         provider.requestVoidPublisher(.register(name: name, email: email, password: password))
             .mapError {  NetworkError($0) }
             .map { _ in
                 async {
-                    await self.loginRepository.login(email: email, password: password)
+                    await self.loginRepository.loginAsync(email: email, password: password)
                 }
             }
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
-    #endif
+#endif
     
     @UserDefault(key: "accessToken", defaultValue: "")
     var accessToken: String
@@ -44,34 +44,12 @@ final public class RegisterRepositoryImpl: RegisterRepository {
     var refreshToken: String
     
     public func register(name: String, email: String, password: String) -> AnyPublisher<Void, NetworkError> {
-        var success = false
-        var error: NetworkError?
-        
-        provider.request(.register(name: name, email: email, password: password), completion: { result in
-            switch result {
-            case .success(_):
-                self.provider.request(.login(email: "", password: ""), completion: { result in
-                    switch result {
-                    case .success(let response):
-                        let data = try! JSONDecoder().decode(LoginReponse.self, from: response.data)
-                        self.accessToken = data.accessToken
-                        self.refreshToken = data.refreshToken
-                        success = true
-                    case .failure(let err):
-                        error = NetworkError(err)
-                    }
-                })
-            case .failure(let err):
-                error = NetworkError(err)
+        provider.requestVoidPublisher(.register(name: name, email: email, password: password))
+            .mapError {  NetworkError($0) }
+            .flatMap { _ in
+                self.loginRepository.login(email: email, password: password)
             }
-        })
-        
-        if success {
-            return Just(())
-                .setFailureType(to: NetworkError.self)
-                .eraseToAnyPublisher()
-        } else {
-            return Fail(error: error ?? .unknown).eraseToAnyPublisher()
-        }
+            .mapError {  NetworkError($0) }
+            .eraseToAnyPublisher()
     }
 }
