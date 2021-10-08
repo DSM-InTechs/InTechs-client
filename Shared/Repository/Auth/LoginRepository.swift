@@ -24,12 +24,6 @@ final public class LoginRepositoryImpl: LoginRepository {
     @UserDefault(key: "refreshToken", defaultValue: "")
     var refreshToken: String
     
-    @UserDefault(key: "email", defaultValue: "")
-    var email: String
-    
-    @UserDefault(key: "password", defaultValue: "")
-    var password: String
-    
     public init(provider: MoyaProvider<InTechsAPI> = MoyaProvider<InTechsAPI>()) {
         self.provider = provider
     }
@@ -37,12 +31,10 @@ final public class LoginRepositoryImpl: LoginRepository {
     #if os(iOS)
     public func loginAsync(email: String, password: String) async -> AnyPublisher<Void, NetworkError> {
         provider.requestPublisher(.login(email: email, password: password))
-            .map(LoginReponse.self)
+            .map(AuthReponse.self)
             .map { response in
                 self.accessToken = response.accessToken
                 self.refreshToken = response.refreshToken
-                self.email = email
-                self.password = password
                 return
             }
             .mapError {  NetworkError($0) }
@@ -52,12 +44,10 @@ final public class LoginRepositoryImpl: LoginRepository {
     
     public func login(email: String, password: String) -> AnyPublisher<Void, NetworkError> {
         provider.requestPublisher(.login(email: email, password: password))
-            .map(LoginReponse.self)
+            .map(AuthReponse.self)
             .map { response in
                 self.accessToken = response.accessToken
                 self.refreshToken = response.refreshToken
-                self.email = email
-                self.password = password
                 return
             }
             .mapError {  NetworkError($0) }

@@ -160,12 +160,12 @@ extension InTechsAPI: TargetType {
         case .register, .login:
             return nil
         case .refresh(let refreshToken):
-            return ["Authorization": "\(refreshToken)"]
+            return ["refresh_token": refreshToken]
         default:
             @UserDefault(key: "accessToken", defaultValue: "")
             var accessToken: String
             
-            return ["Authorization": "Bearer + \(accessToken)"]
+            return ["Authorization": "Bearer \(accessToken)"]
             //            let token = StorageManager.shared.readUser() == nil ? "" : StorageManager.shared.readUser()!.token
             //            return ["Authorization": "Bearer " + token]
         }

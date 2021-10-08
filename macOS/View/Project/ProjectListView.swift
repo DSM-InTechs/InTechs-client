@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ProjectListView: View {
-    @EnvironmentObject var projectVM: ProjectViewModel
+    @EnvironmentObject var viewModel: ProjectViewModel
     @Namespace private var animation
     
     var body: some View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
                 Group {
-                    switch projectVM.selectedTab {
+                    switch viewModel.selectedTab {
                     case .dashBoard: DashBoardView()
                         .frame(width: geo.size.width / 1.35)
                     case .issues: IssuelistView()
@@ -42,31 +42,31 @@ struct ProjectListView: View {
                             .padding(.vertical)
                         
                         VStack(alignment: .leading) {
-                            ProjectList(tab: .dashBoard, selectedTab: $projectVM.selectedTab, animation: animation)
+                            ProjectList(tab: .dashBoard, selectedTab: $viewModel.selectedTab, animation: animation)
                                 .onTapGesture {
                                     withAnimation {
-                                        projectVM.selectedTab = .dashBoard
+                                        viewModel.selectedTab = .dashBoard
                                     }
                                 }
                             
-                            ProjectList(tab: .issues, selectedTab: $projectVM.selectedTab, animation: animation)
+                            ProjectList(tab: .issues, selectedTab: $viewModel.selectedTab, animation: animation)
                                 .onTapGesture {
                                     withAnimation {
-                                        projectVM.selectedTab = .issues
+                                        viewModel.selectedTab = .issues
                                     }
                                 }
                             
-                            ProjectList(tab: .issueBoards, selectedTab: $projectVM.selectedTab, animation: animation)
+                            ProjectList(tab: .issueBoards, selectedTab: $viewModel.selectedTab, animation: animation)
                                 .onTapGesture {
                                     withAnimation {
-                                        projectVM.selectedTab = .issueBoards
+                                        viewModel.selectedTab = .issueBoards
                                     }
                                 }
                             
-                            ProjectList(tab: .settings, selectedTab: $projectVM.selectedTab, animation: animation)
+                            ProjectList(tab: .settings, selectedTab: $viewModel.selectedTab, animation: animation)
                                 .onTapGesture {
                                     withAnimation {
-                                        projectVM.selectedTab = .settings
+                                        viewModel.selectedTab = .settings
                                     }
                                 }
                         }

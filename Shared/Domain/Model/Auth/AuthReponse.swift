@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct LoginReponse: Codable {
+public struct AuthReponse: Codable, Hashable, Equatable {
     public var accessToken: String
     public var refreshToken: String
     public var tokenType: String?
