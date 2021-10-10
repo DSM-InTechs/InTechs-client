@@ -73,12 +73,7 @@ struct LoginView: View {
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)).frame(width: geo.size.width / 2))
                         .onTapGesture {
-                            if self.InTechsVM.login() {
-                                NSApplication.shared.keyWindow?.close()
-                                withAnimation {
-                                    self.homeVM.isLogin = true
-                                }
-                            }
+                            self.InTechsVM.apply(.login)
                         }
                         .padding(.bottom)
                     } else {
@@ -88,12 +83,25 @@ struct LoginView: View {
                             .fontWeight(.medium)
                             .padding()
                             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white).opacity(0.3)).frame(width: geo.size.width / 2))
-                            .modifier(Shake(animatableData: CGFloat(InTechsVM.attempts)))
                             .padding(.bottom)
                     }
                 } 
                 .frame(height: geo.size.height / 1.5)
                 .background(Color(Asset.black))
+                
+                if self.InTechsVM.errorMessage != "" {
+                    ErrorView(message: self.InTechsVM.errorMessage)
+                        .onTapGesture {
+                            self.InTechsVM.errorMessage = ""
+                        }
+                }
+            }
+        }.onAppear {
+            self.InTechsVM.successExecute = {
+                NSApplication.shared.keyWindow?.close()
+                withAnimation {
+                    self.homeVM.isLogin = true
+                }
             }
         }
     }

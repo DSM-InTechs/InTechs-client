@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChatListView: View {
     @EnvironmentObject var homeVM: HomeViewModel
-    @ObservedObject var chatVM = ChatViewModel()
+    @ObservedObject var viewModel = ChatViewModel()
     
     @Namespace private var animation
     
@@ -52,24 +52,24 @@ struct ChatListView: View {
                 // Tab
                 VStack(spacing: 5) {
                     HStack(spacing: 0) {
-                        ChatTabButton(animation: animation, tab: .home, selectedTab: $chatVM.selectedTab)
+                        ChatTabButton(animation: animation, tab: .home, selectedTab: $viewModel.selectedTab)
                             .onTapGesture {
                                 withAnimation {
-                                    chatVM.selectedTab = .home
+                                    viewModel.selectedTab = .home
                                 }
                             }
                         
-                        ChatTabButton(animation: animation, tab: .channels, selectedTab: $chatVM.selectedTab)
+                        ChatTabButton(animation: animation, tab: .channels, selectedTab: $viewModel.selectedTab)
                             .onTapGesture {
                                 withAnimation {
-                                    chatVM.selectedTab = .channels
+                                    viewModel.selectedTab = .channels
                                 }
                             }
                         
-                        ChatTabButton(animation: animation, tab: .DMs, selectedTab: $chatVM.selectedTab)
+                        ChatTabButton(animation: animation, tab: .DMs, selectedTab: $viewModel.selectedTab)
                             .onTapGesture {
                                 withAnimation {
-                                    chatVM.selectedTab = .DMs
+                                    viewModel.selectedTab = .DMs
                                 }
                             }
                         

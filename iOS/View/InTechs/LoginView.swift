@@ -24,10 +24,10 @@ struct LoginView: View {
                         .fontWeight(.bold)
                     Spacer()
                 }.padding()
-               
+                
                 Spacer()
             }.padding()
-            .padding(.vertical)
+                .padding(.vertical)
             
             ZStack {
                 Color(Asset.white)
@@ -70,11 +70,7 @@ struct LoginView: View {
                             .padding()
                             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.black)).frame(width: UIFrame.width / 1.2))
                             .onTapGesture {
-                                if     self.InTechsVM.login() {
-                                    withAnimation {
-                                        self.homeVM.isLogin = true
-                                    }
-                                }
+                                self.InTechsVM.apply(.login)
                             }
                             .padding(.vertical, UIFrame.width / 8)
                     } else {
@@ -84,15 +80,39 @@ struct LoginView: View {
                             .fontWeight(.medium)
                             .padding()
                             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.black).opacity(0.3)).frame(width: UIFrame.width / 1.2))
-                            .modifier(Shake(animatableData: CGFloat(InTechsVM.attempts)))
                             .padding(.vertical, UIFrame.width / 8)
                     }
                 }.padding()
-                .padding(.horizontal)
+                    .padding(.horizontal)
                 
             }.frame(height: keyboard.isKeyboard ? UIFrame.height / 1.7 : UIFrame.height / 2)
-            .navigationBarTitle("", displayMode: .inline)
-        } .ignoresSafeArea(edges: .bottom)
+                .navigationBarTitle("", displayMode: .inline)
+            
+            if self.InTechsVM.errorMessage != "" {
+                ErrorView(message: self.InTechsVM.errorMessage)
+                    .onTapGesture {
+                        self.InTechsVM.errorMessage = ""
+                    }
+            }
+            
+            if self.InTechsVM.isLoading {
+                VStack {
+                    Spacer()
+                    ProgressView()
+                        .scaleEffect(x: 1.5, y: 1.5, anchor: .center)
+                        .progressViewStyle(CircularProgressViewStyle())
+                    Spacer()
+                }
+            }
+            
+        }.ignoresSafeArea(edges: .bottom)
+            .onAppear {
+                self.InTechsVM.successExecute = {
+                    withAnimation {
+                        self.homeVM.isLogin = true
+                    }
+                }
+            }
     }
 }
 

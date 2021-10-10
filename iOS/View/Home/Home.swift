@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Home: View {
-    @ObservedObject private var homeVM = HomeViewModel()
+    @StateObject private var homeVM = HomeViewModel()
     @Environment(\.scenePhase) var scenePhase
     
     init() {
@@ -38,10 +38,10 @@ struct Home: View {
                     }
             }.accentColor(Color(Asset.black.color))
             .onChange(of: scenePhase) { newPhase in
-                if newPhase == .inactive {
-                    // Active API
+                if newPhase == .active {
+                    homeVM.apply(.changeActive(isActive: true))
                 } else if newPhase == .background {
-                    // InActive API
+                    homeVM.apply(.changeActive(isActive: false))
                 }
             }
         } else {

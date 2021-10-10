@@ -31,6 +31,20 @@ struct RegisterView: View {
                 VStack {
                     VStack(spacing: 20) {
                         Spacer()
+                        
+                        HStack(spacing: 10) {
+                            Image(system: .person)
+                                .foregroundColor(Color(Asset.white))
+                                .font(.title2)
+                            
+                            VStack(spacing: 3) {
+                                TextField("이름", text: $InTechsVM.name)
+                                    .colorMultiply(Color(Asset.white))
+                                    .textFieldStyle(PlainTextFieldStyle())
+                                Color(Asset.white).frame(height: 1)
+                            }
+                        }
+                        
                         HStack(spacing: 10) {
                             Image(system: .emailFill)
                                 .foregroundColor(Color(Asset.white))
@@ -60,21 +74,16 @@ struct RegisterView: View {
                         Spacer()
                     }.padding(.horizontal)
                     
-                    if InTechsVM.email != "" && InTechsVM.password != "" { Text("회원가입")
-                        .foregroundColor(Color(Asset.black))
-                        .font(.title2)
-                        .fontWeight(.medium)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)).frame(width: geo.size.width / 2))
-                        .onTapGesture {
-                            if self.InTechsVM.register() {
-                                NSApplication.shared.keyWindow?.close()
-                                withAnimation {
-                                    self.homeVM.isLogin = true
-                                }
+                    if InTechsVM.name != "" && InTechsVM.email != "" && InTechsVM.password != "" { Text("회원가입")
+                            .foregroundColor(Color(Asset.black))
+                            .font(.title2)
+                            .fontWeight(.medium)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)).frame(width: geo.size.width / 2))
+                            .onTapGesture {
+                                self.InTechsVM.apply(.register)
                             }
-                        }
-                        .padding(.bottom)
+                            .padding(.bottom)
                     } else {
                         Text("회원가입")
                             .foregroundColor(Color(Asset.black))
@@ -82,12 +91,25 @@ struct RegisterView: View {
                             .fontWeight(.medium)
                             .padding()
                             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white).opacity(0.3)).frame(width: geo.size.width / 2))
-                            .modifier(Shake(animatableData: CGFloat(InTechsVM.attempts)))
                             .padding(.bottom)
                     }
                 }
                 .frame(height: geo.size.height / 1.5)
                 .background(Color(Asset.black))
+                
+                if self.InTechsVM.errorMessage != "" {
+                    ErrorView(message: self.InTechsVM.errorMessage)
+                        .onTapGesture {
+                            self.InTechsVM.errorMessage = ""
+                        }
+                }
+            }
+        }.onAppear {
+            self.InTechsVM.successExecute = {
+                NSApplication.shared.keyWindow?.close()
+                withAnimation {
+                    self.homeVM.isLogin = true
+                }
             }
         }
     }
