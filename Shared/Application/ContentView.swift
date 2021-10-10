@@ -79,6 +79,11 @@ struct ContentView: View {
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
                                 .environmentObject(homeViewModel)
+                        case .projectJoin:
+                            ProjectJoinView()
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
+                                .environmentObject(homeViewModel)
                         case .none:
                             Text("")
                                 .opacity(0)

@@ -1,49 +1,51 @@
 //
-//  HomeViewModel.swift
-//  InTechs (iOS)
+//  NewProjectViewModel.swift
+//  InTechs (macOS)
 //
-//  Created by GoEun Jeong on 2021/08/29.
+//  Created by GoEun Jeong on 2021/10/08.
 //
 
 import SwiftUI
 import Combine
 
-class HomeViewModel: ObservableObject {
-    @Published var isLogin: Bool = true
+class NewProjectViewModel: ObservableObject {
+    @Published var name: String = ""
+    @Published var image: NSImage?
     
-    private let myActiveRepository: MyActiveRepository
+    private let projectRepository: ProjectRepository
+    
     private var bag = Set<AnyCancellable>()
     
     public enum Event {
-        case changeActive(isActive: Bool)
+        case createProject
     }
     
     public struct Input {
-        let changeActive = PassthroughSubject<Bool, Never>()
+        let createProject = PassthroughSubject<Void, Never>()
     }
     
     public let input = Input()
     
     public func apply(_ input: Event) {
         switch input {
-        case .changeActive(let isActive):
-            self.input.changeActive.send(isActive)
+        case .createProject:
+            self.input.createProject.send(())
         }
     }
     
-    init(myActiveRepository: MyActiveRepository = MyActiveRepositoryImpl()) {
-        self.myActiveRepository = myActiveRepository
+    init(projectRepository: ProjectRepository = ProjectRepositoryImpl()) {
+        self.projectRepository = projectRepository
         
-        input.changeActive
+        input.createProject
             .flatMap {
-                self.myActiveRepository.updateMyActive(isActive: $0)
+                self.projectRepository.createProject(name: self.name,
+                                                     image: self.image ?? Asset.placeholder.image)
                     .catch { _ -> Empty<Void, Never> in
                         return .init()
                     }
             }
             .sink(receiveValue: { _ in })
             .store(in: &bag)
-        
     }
     
     private func getErrorMessage(error: NetworkError) -> String {

@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct HomeTabButton: View {
     var tab: HomeTab
     var number: String?
+    var imageUrl: String?
     @Binding var selectedTab: HomeTab
     @State private var hover = false
     
@@ -25,7 +27,7 @@ struct HomeTabButton: View {
                 VStack(spacing: 7) {
                     if tab == .mypage {
                         ZStack(alignment: .bottomTrailing) {
-                            Circle()
+                            KFImage(URL(string: imageUrl!))
                                 .frame(width: 30, height: 30)
                             
                             ActiveView()

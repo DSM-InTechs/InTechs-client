@@ -7,37 +7,21 @@
 
 import SwiftUI
 
-struct NewProjectView: View {
+struct ProjectJoinView: View {
     @EnvironmentObject var homeVM: HomeViewModel
-    @ObservedObject var viewModel = NewProjectViewModel()
     
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             VStack(alignment: .leading) {
-                Text("새 프로젝트")
+                Text("프로젝트 가입")
                     .font(.title)
                     .fontWeight(.bold)
             }
             
             VStack(alignment: .leading) {
-                Text("로고 (선택)")
-                RoundedRectangle(cornerRadius: 10).frame(width: 40, height: 40)
-                    .onTapGesture {
-                        NSOpenPanel.openImage(completion: { result in
-                            switch result {
-                            case .success(let image):
-                                self.viewModel.image = image
-                            case .failure(_):
-                                break
-                            }
-                        })
-                    }
-            }
-            
-            VStack(alignment: .leading) {
-                Text("이름")
+                Text("프로젝트 코드 (6자리)")
                 
-                TextField("", text: $viewModel.name)
+                TextField("", text: .constant(""))
                     .font(.title2)
                     .textFieldStyle(PlainTextFieldStyle())
                     .padding(.all, 5)
@@ -66,28 +50,24 @@ struct NewProjectView: View {
                 
                 Spacer()
                 
-                if viewModel.name != "" {
-                    Text("생성")
-                        .padding(.all, 5)
-                        .padding(.horizontal, 10)
-                        .font(.title3)
-                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
-                        .onTapGesture {
-                            withAnimation {
-                                self.homeVM.toast = nil
-                            }
+                Text("가입")
+                    .padding(.all, 5)
+                    .padding(.horizontal, 10)
+                    .font(.title3)
+                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
+                    .onTapGesture {
+                        withAnimation {
+                            self.homeVM.toast = nil
                         }
-                }
-                
-                
+                    }
             }
         }.padding()
         .padding(.all, 5)
     }
 }
 
-struct NewProjectView_Previews: PreviewProvider {
+struct ProjectJoinView_Previews: PreviewProvider {
     static var previews: some View {
-        NewProjectView()
+        ProjectJoinView()
     }
 }

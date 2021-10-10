@@ -12,7 +12,7 @@
 		D90BB8C626DDA3EB0002E210 /* InputDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90BB8C526DDA3EA0002E210 /* InputDocument.swift */; };
 		D90C61D527100CA0006F0A55 /* ProjectJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C61D427100C9F006F0A55 /* ProjectJoinView.swift */; };
 		D90C61D7271010BC006F0A55 /* NewProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C61D6271010BC006F0A55 /* NewProjectViewModel.swift */; };
-		D90C61D9271010C8006F0A55 /* ProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C61D8271010C8006F0A55 /* ProjectViewModel.swift */; };
+		D90C61D9271010C8006F0A55 /* ProjectJoinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C61D8271010C8006F0A55 /* ProjectJoinViewModel.swift */; };
 		D91CB529270AC89C003DCB63 /* RegisterRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB528270AC89C003DCB63 /* RegisterRepository.swift */; };
 		D91CB52B270AC8A2003DCB63 /* LoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB52A270AC8A2003DCB63 /* LoginRepository.swift */; };
 		D91CB52E270ACAE5003DCB63 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB52D270ACAE5003DCB63 /* NetworkError.swift */; };
@@ -211,7 +211,7 @@
 		D90BB8C526DDA3EA0002E210 /* InputDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDocument.swift; sourceTree = "<group>"; };
 		D90C61D427100C9F006F0A55 /* ProjectJoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectJoinView.swift; sourceTree = "<group>"; };
 		D90C61D6271010BC006F0A55 /* NewProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectViewModel.swift; sourceTree = "<group>"; };
-		D90C61D8271010C8006F0A55 /* ProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewModel.swift; sourceTree = "<group>"; };
+		D90C61D8271010C8006F0A55 /* ProjectJoinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectJoinViewModel.swift; sourceTree = "<group>"; };
 		D91CB528270AC89C003DCB63 /* RegisterRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRepository.swift; sourceTree = "<group>"; };
 		D91CB52A270AC8A2003DCB63 /* LoginRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRepository.swift; sourceTree = "<group>"; };
 		D91CB52D270ACAE5003DCB63 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -834,7 +834,7 @@
 				D950A31C26D20CA6003D4907 /* HomeViewModel.swift */,
 				D950A32626D20DCC003D4907 /* HomeCommands.swift */,
 				D90C61D6271010BC006F0A55 /* NewProjectViewModel.swift */,
-				D90C61D8271010C8006F0A55 /* ProjectViewModel.swift */,
+				D90C61D8271010C8006F0A55 /* ProjectJoinViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1450,7 +1450,7 @@
 				D9FD9F6F26D53A3800664757 /* RegisterView.swift in Sources */,
 				D93BAD2626D149030094ADD9 /* InTechsApp.swift in Sources */,
 				D91CB541270AD165003DCB63 /* UserDefaults.swift in Sources */,
-				D90C61D9271010C8006F0A55 /* ProjectViewModel.swift in Sources */,
+				D90C61D9271010C8006F0A55 /* ProjectJoinViewModel.swift in Sources */,
 				D950A36526D231FC003D4907 /* IssuelistView.swift in Sources */,
 				D94C99BE26DF45B400CB2F07 /* NewChannelView.swift in Sources */,
 				D950A35426D21F1F003D4907 /* Frame.swift in Sources */,

@@ -1,49 +1,54 @@
 //
-//  HomeViewModel.swift
-//  InTechs (iOS)
+//  ProjectJoinViewModel.swift
+//  InTechs (macOS)
 //
-//  Created by GoEun Jeong on 2021/08/29.
+//  Created by GoEun Jeong on 2021/10/08.
 //
 
 import SwiftUI
 import Combine
 
-class HomeViewModel: ObservableObject {
-    @Published var isLogin: Bool = true
+class ProjectJoinViewModel: ObservableObject {
+    @Published var name: String = ""
+    @Published var image: NSImage?
     
-    private let myActiveRepository: MyActiveRepository
+    private let projectRepository: ProjectRepository
+    
     private var bag = Set<AnyCancellable>()
     
     public enum Event {
-        case changeActive(isActive: Bool)
+        case joinProject(number: String)
     }
     
     public struct Input {
-        let changeActive = PassthroughSubject<Bool, Never>()
+        let joinProject = PassthroughSubject<Int, Never>()
     }
     
     public let input = Input()
     
     public func apply(_ input: Event) {
         switch input {
-        case .changeActive(let isActive):
-            self.input.changeActive.send(isActive)
+        case .joinProject(let number):
+            if Int(number) == nil {
+                // ERROR
+            } else {
+                self.input.joinProject.send(Int(number)!)
+            }
         }
     }
     
-    init(myActiveRepository: MyActiveRepository = MyActiveRepositoryImpl()) {
-        self.myActiveRepository = myActiveRepository
+    init(projectRepository: ProjectRepository = ProjectRepositoryImpl()) {
+        self.projectRepository = projectRepository
         
-        input.changeActive
+        input.joinProject
             .flatMap {
-                self.myActiveRepository.updateMyActive(isActive: $0)
+                self.projectRepository.joinProject(number: $0)
                     .catch { _ -> Empty<Void, Never> in
                         return .init()
                     }
             }
             .sink(receiveValue: { _ in })
             .store(in: &bag)
-        
     }
     
     private func getErrorMessage(error: NetworkError) -> String {
