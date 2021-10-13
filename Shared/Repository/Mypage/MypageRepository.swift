@@ -10,6 +10,8 @@ import Combine
 
 public protocol MypageRepository {
     func mypage() -> AnyPublisher<Mypage, NetworkError>
+    func logout()
+    func deleteUser() -> AnyPublisher<Void, NetworkError>
     #if os(iOS)
     func updateMypage(name: String, image: UIImage) -> AnyPublisher<Void, NetworkError>
     #elseif os(macOS)
@@ -27,6 +29,15 @@ final public class MypageRepositoryImpl: MypageRepository {
         self.refreshRepository = refreshRepository
     }
     
+    @UserDefault(key: "accessToken", defaultValue: "")
+    private var accessToken: String
+    
+    @UserDefault(key: "refreshToken", defaultValue: "")
+    private var refreshToken: String
+    
+    @UserDefault(key: "currentProject", defaultValue: "")
+    private var currentProject: String
+    
     public func mypage() -> AnyPublisher<Mypage, NetworkError> {
         provider.requestPublisher(.mypage)
             .map(Mypage.self)
@@ -38,6 +49,26 @@ final public class MypageRepositoryImpl: MypageRepository {
                         .map(Mypage.self)
                 }
                 return Fail<Mypage, MoyaError>(error: error).eraseToAnyPublisher()
+            }
+            .mapError {  NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    public func logout() {
+        self.accessToken = ""
+        self.refreshToken = ""
+        self.currentProject = ""
+    }
+    
+    public func deleteUser() -> AnyPublisher<Void, NetworkError> {
+        provider.requestVoidPublisher(.deleteUser)
+            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
+                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                    self.refreshRepository.refresh()
+                    
+                    return self.provider.requestVoidPublisher(.deleteUser)
+                }
+                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
             }
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()

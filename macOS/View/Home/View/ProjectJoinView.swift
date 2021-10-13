@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProjectJoinView: View {
     @EnvironmentObject var homeVM: HomeViewModel
+    @ObservedObject var viewModel = ProjectJoinViewModel()
     
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
@@ -21,7 +22,7 @@ struct ProjectJoinView: View {
             VStack(alignment: .leading) {
                 Text("프로젝트 코드 (6자리)")
                 
-                TextField("", text: .constant(""))
+                TextField("", text: $viewModel.number)
                     .font(.title2)
                     .textFieldStyle(PlainTextFieldStyle())
                     .padding(.all, 5)
@@ -29,6 +30,7 @@ struct ProjectJoinView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color(Asset.black), lineWidth: 1)
                     )
+                    .modifier(Shake(animatableData: CGFloat(viewModel.attempts)))
             }
             
             Spacer(minLength: 0)
@@ -50,19 +52,26 @@ struct ProjectJoinView: View {
                 
                 Spacer()
                 
-                Text("가입")
-                    .padding(.all, 5)
-                    .padding(.horizontal, 10)
-                    .font(.title3)
-                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
-                    .onTapGesture {
-                        withAnimation {
-                            self.homeVM.toast = nil
+                if viewModel.number != "" {
+                    Text("가입")
+                        .padding(.all, 5)
+                        .padding(.horizontal, 10)
+                        .font(.title3)
+                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
+                        .onTapGesture {
+                            self.viewModel.apply(.joinProject)
                         }
-                    }
+                }
             }
         }.padding()
-        .padding(.all, 5)
+            .padding(.all, 5)
+            .onAppear {
+                self.viewModel.successExecute = {
+                    withAnimation {
+                        self.homeVM.toast = nil
+                    }
+                }
+            }
     }
 }
 

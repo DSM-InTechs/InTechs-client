@@ -14,6 +14,7 @@ struct Home: View {
     @ObservedObject var projectVM = ProjectViewModel()
     @State private var quickActionPop: Bool = false
     @State private var questionPop: Bool = false
+    @State private var mypagePop: Bool = false
     
     var body: some View {
         if homeVM.isLogin {
@@ -25,11 +26,10 @@ struct Home: View {
                             .environmentObject(projectVM)
                     case .calendar: CalendarView()
                     case .teams: MemberView()
-                    default: Text("")
+                    case .mypage: MypageView(viewModel: $homeVM.mypageVM)
                     }
                 }
                 .offset(x: 70)
-                
                 
                 VStack {
                     HomeTabButton(tab: HomeTab.chats, number: "1", selectedTab: $homeVM.selectedTab)
@@ -53,7 +53,7 @@ struct Home: View {
                     Spacer()
                     
                     LazyVStack {
-                        ForEach(homeVM.myProjects, id: \.self) { project in
+                        ForEach(homeVM.mypageVM.myProjects, id: \.self) { project in
                             KFImage(URL(string: project.image))
                                 .frame(width: 28, height: 28)
                                 .overlay(
@@ -85,53 +85,58 @@ struct Home: View {
                         .frame(height: 40)
                         .onTapGesture {
                             self.questionPop.toggle()
-                        } .popover(isPresented: $questionPop) {
+                        }.popover(isPresented: $questionPop) {
                             HelpPopView()             .frame(width: 300)
                         }
                     
                     HomeTabButton(tab: HomeTab.mypage,
-                                  imageUrl: homeVM.profile.image, selectedTab: $homeVM.selectedTab)
+                                  imageUrl: homeVM.mypageVM.profile.image, mypageTapped: {
+                        self.mypagePop.toggle()
+                    }, selectedTab: $homeVM.selectedTab).popover(isPresented: $mypagePop) {
+                        MypagePopView(imageURL: homeVM.mypageVM.profile.image, name: homeVM.mypageVM.profile.name) .frame(width: 200)
+                    }
                 }
                 .frame(width: 70)
                 .padding(.vertical)
                 .padding(.top, 35)
                 .background(BlurView())
                 
-                //                if homeVM.myProjects.isEmpty {
-                ZStack {
-                    Color.white
-                    
-                    VStack {
-                        Text("프로젝트에 가입되어 있지 않습니다.")
-                            .foregroundColor(.gray)
-                            .fontWeight(.bold)
-                            .font(.title2)
-                            .padding()
+                if homeVM.mypageVM.myProjects.isEmpty {
+                    ZStack {
+                        Color.white
                         
-                        HStack(alignment: .bottom, spacing: 20) {
-                            Text("프로젝트 생성")
-                                .padding(.all, 10)
-                                .foregroundColor(.black)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.black, lineWidth: 1)
-                                ).onTapGesture {
-                                    withAnimation {
-                                        self.homeVM.toast = .projectCreate
-                                    }
-                                }
+                        VStack {
+                            Text("프로젝트에 가입되어 있지 않습니다.")
+                                .foregroundColor(.gray)
+                                .fontWeight(.bold)
+                                .font(.title2)
+                                .padding()
                             
-                            Text("프로젝트 가입")
-                                .padding(.all, 10)
-                                .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.black)).onTapGesture {
-                                    withAnimation {
-                                        self.homeVM.toast = .projectJoin
+                            HStack(alignment: .bottom, spacing: 20) {
+                                Text("프로젝트 생성")
+                                    .padding(.all, 10)
+                                    .foregroundColor(.black)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 1)
+                                    ).onTapGesture {
+                                        withAnimation {
+                                            self.homeVM.toast = .projectCreate
+                                        }
                                     }
-                                }
+                                
+                                Text("프로젝트 가입")
+                                    .padding(.all, 10)
+                                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.black)).onTapGesture {
+                                        withAnimation {
+                                            self.homeVM.toast = .projectJoin
+                                        }
+                                    }
+                            }
                         }
-                    }
-                }.offset(x: 70)
-                    .padding(.trailing, 70)
+                    }.offset(x: 70)
+                        .padding(.trailing, 70)
+                }
                 
             }
             .ignoresSafeArea(.all, edges: .all)
@@ -165,6 +170,9 @@ struct Home_Previews: PreviewProvider {
                 .frame(width: 200)
             
             HelpPopView()
+                .frame(width: 300)
+            
+            MypagePopView(imageURL: "asdf", name: "asdf")
                 .frame(width: 300)
         }
     }
@@ -223,6 +231,38 @@ struct HelpPopView: View {
             HStack {
                 Image(Asset.appstore)
                 Image(Asset.macAppstore)
+            }
+        }.padding()
+    }
+}
+
+struct MypagePopView: View {
+    @EnvironmentObject var homeVM: HomeViewModel
+    
+    let imageURL: String
+    let name: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
+                KFImage(URL(string: imageURL))
+                    .frame(width: 35, height: 35)
+                Text(name)
+                Spacer()
+                Image(system: .edit)
+            }.onTapGesture {
+                withAnimation {
+                    self.homeVM.selectedTab = .mypage
+                }
+            }
+            
+            Divider()
+            
+            HStack {
+                Image(system: .logout)
+                Text("로그아웃").onTapGesture {
+                    self.homeVM.logout()
+                }
             }
         }.padding()
     }

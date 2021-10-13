@@ -45,8 +45,7 @@ class HomeViewModel: ObservableObject {
     @UserDefault(key: "currentProject", defaultValue: 0)
     var currentProject: Int
     
-    @Published var myProjects: [Project] = [Project]()
-    @Published var profile: Mypage = Mypage(name: "", email: "", image: "")
+    @Published var mypageVM = MypageViewModel()
     
     private let myActiveRepository: MyActiveRepository
     private let projectRepository: ProjectRepository
@@ -61,8 +60,6 @@ class HomeViewModel: ObservableObject {
     
     public struct Input {
         let changeActive = PassthroughSubject<Bool, Never>()
-        let getMyProjects = PassthroughSubject<Void, Never>()
-        let getMyProfile = PassthroughSubject<Void, Never>()
     }
     
     public let input = Input()
@@ -72,8 +69,7 @@ class HomeViewModel: ObservableObject {
         case .changeActive(let isActive):
             self.input.changeActive.send(isActive)
         case .onAppear:
-            self.input.getMyProjects.send(())
-            self.input.getMyProfile.send(())
+            mypageVM.apply(.mypage)
         }
     }
     
@@ -94,26 +90,13 @@ class HomeViewModel: ObservableObject {
             .sink(receiveValue: { _ in })
             .store(in: &bag)
         
-        input.getMyProjects
-            .flatMap {
-                self.projectRepository.myProjects()
-                    .catch { _ -> Empty<[Project], Never> in
-                        return .init()
-                    }
-            }
-            .assign(to: \.myProjects, on: self)
-            .store(in: &bag)
-        
-        input.getMyProfile
-            .flatMap {
-                self.mypageRepository.mypage()
-                    .catch { _ -> Empty<Mypage, Never> in
-                        return .init()
-                    }
-            }
-            .assign(to: \.profile, on: self)
-            .store(in: &bag)
-        
+    }
+    
+    public func logout() {
+        self.mypageRepository.logout()
+        self.isLogin = false
+        self.mypageVM.myProjects = []
+        self.mypageVM.profile = Mypage(name: "", email: "", image: "")
     }
     
     private func getErrorMessage(error: NetworkError) -> String {

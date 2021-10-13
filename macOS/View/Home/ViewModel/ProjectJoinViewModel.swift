@@ -9,15 +9,17 @@ import SwiftUI
 import Combine
 
 class ProjectJoinViewModel: ObservableObject {
-    @Published var name: String = ""
-    @Published var image: NSImage?
+    @Published var number: String = ""
+    @Published var attempts: Int = 0
+    
+    public var successExecute: () -> Void = {}
     
     private let projectRepository: ProjectRepository
     
     private var bag = Set<AnyCancellable>()
     
     public enum Event {
-        case joinProject(number: String)
+        case joinProject
     }
     
     public struct Input {
@@ -28,9 +30,10 @@ class ProjectJoinViewModel: ObservableObject {
     
     public func apply(_ input: Event) {
         switch input {
-        case .joinProject(let number):
+        case .joinProject:
             if Int(number) == nil {
                 // ERROR
+                self.attempts += 1
             } else {
                 self.input.joinProject.send(Int(number)!)
             }
@@ -44,10 +47,13 @@ class ProjectJoinViewModel: ObservableObject {
             .flatMap {
                 self.projectRepository.joinProject(number: $0)
                     .catch { _ -> Empty<Void, Never> in
+                        self.attempts += 1
                         return .init()
                     }
             }
-            .sink(receiveValue: { _ in })
+            .sink(receiveValue: { _ in
+                self.successExecute()
+            })
             .store(in: &bag)
     }
     

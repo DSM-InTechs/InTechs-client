@@ -11,6 +11,7 @@ import Combine
 public protocol ProjectRepository {
     func myProjects() -> AnyPublisher<[Project], NetworkError>
     func joinProject(number: Int) -> AnyPublisher<Void, NetworkError>
+    func getProjectMembers() -> AnyPublisher<[User], NetworkError>
     #if os(iOS)
     func createProject(name: String, image: UIImage) -> AnyPublisher<Void, NetworkError>
     func updateProject(id: Int, name: String, image: UIImage) -> AnyPublisher<Void, NetworkError>
@@ -23,6 +24,9 @@ public protocol ProjectRepository {
 final public class ProjectRepositoryImpl: ProjectRepository {
     private let provider: MoyaProvider<InTechsAPI>
     private let refreshRepository: RefreshRepository
+    
+    @UserDefault(key: "currentProject", defaultValue: "")
+    private var currentProject: String
     
     public init(provider: MoyaProvider<InTechsAPI> = MoyaProvider<InTechsAPI>(),
                 refreshRepository: RefreshRepository = RefreshRepositoryImpl()) {
@@ -49,6 +53,9 @@ final public class ProjectRepositoryImpl: ProjectRepository {
     
     public func joinProject(number: Int) -> AnyPublisher<Void, NetworkError> {
         provider.requestVoidPublisher(.joinProject(id: number))
+            .map {
+                self.currentProject = String(number)
+            }
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
                 if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
                     self.refreshRepository.refresh()
@@ -61,12 +68,36 @@ final public class ProjectRepositoryImpl: ProjectRepository {
             .eraseToAnyPublisher()
     }
     
+    public func getProjectMembers() -> AnyPublisher<[User], NetworkError> {
+        provider.requestPublisher(.getProjectMembers(id: Int(currentProject)!))
+            .map([User].self)
+            .tryCatch { error -> AnyPublisher<[User], MoyaError> in
+                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                    print("TOKEN ERROR")
+                    self.refreshRepository.refresh()
+                    
+                    return self.provider.requestPublisher(.getProjectMembers(id: Int(self.currentProject)!))
+                        .map([User].self)
+                }
+                return Fail<[User], MoyaError>(error: error).eraseToAnyPublisher()
+            }
+            .mapError {  NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
     #if os(iOS)
     public func createProject(name: String, image: UIImage) -> AnyPublisher<Void, NetworkError> {
         let image = image.resize(width: 400, height: 400)
         let data = image.jpegData(compressionQuality: 1)!
         
-        return provider.requestVoidPublisher(.createProject(id: id, name: name, imageData: data))
+        return provider.requestPublisher(.createProject(id: id, name: name, imageData: data))
+            .map { moyaResponse -> Void in
+                let response = moyaResponse.response
+                let responseHeader = response?.allHeaderFields
+                self.currentProject = responseHeader!["Project-Number"] as! String
+                print("CREATED \(self.currentProject)")
+                return
+            }
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
                 if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
                     self.refreshRepository.refresh()
@@ -100,7 +131,14 @@ final public class ProjectRepositoryImpl: ProjectRepository {
         let image = image.resize(width: 400, height: 400)!
         let data = image.tiffRepresentation! as Data
         
-        return provider.requestVoidPublisher(.createProject(name: name, imageData: data))
+        return provider.requestPublisher(.createProject(name: name, imageData: data))
+            .map { moyaResponse -> Void in
+                let response = moyaResponse.response
+                let responseHeader = response?.allHeaderFields
+                self.currentProject = responseHeader!["Project-Number"] as! String
+                print("CREATED \(self.currentProject)")
+                return
+            }
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
                 if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
                     self.refreshRepository.refresh()

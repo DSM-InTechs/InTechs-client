@@ -12,12 +12,18 @@ struct HomeTabButton: View {
     var tab: HomeTab
     var number: String?
     var imageUrl: String?
+    var mypageTapped: () -> Void = {}
+    
     @Binding var selectedTab: HomeTab
     @State private var hover = false
     
     var body: some View {
         ZStack {
             Button(action: {
+                if tab == .mypage {
+                    mypageTapped()
+                }
+                
                 if number != nil { // 단축키의 유무
                     withAnimation {
                         selectedTab = tab

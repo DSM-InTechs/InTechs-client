@@ -18,6 +18,7 @@ public enum InTechsAPI {
     case mypage
     case updateMypage(name: String, imageData: Data)
     case updateMyActive(isActive: Bool)
+    case deleteUser
     case getMyProjects
     
     // MARK: - Project
@@ -65,6 +66,8 @@ extension InTechsAPI: TargetType {
             return "/user"
         case .updateMyActive:
             return "/user/active"
+        case .deleteUser:
+            return "/user"
         case .getMyProjects:
             return "/user/project"
             
@@ -109,7 +112,7 @@ extension InTechsAPI: TargetType {
             return .post
         case .updateMypage, .updateMyActive, .updateProject, .updateIssue:
             return .patch
-        case .deleteProject, .exitProject, .deleteIssue:
+        case .deleteUser, .deleteProject, .exitProject, .deleteIssue:
             return .delete
         default:
             return .get

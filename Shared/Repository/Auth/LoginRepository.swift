@@ -19,10 +19,10 @@ final public class LoginRepositoryImpl: LoginRepository {
     private let provider: MoyaProvider<InTechsAPI>
     
     @UserDefault(key: "accessToken", defaultValue: "")
-    var accessToken: String
+    private var accessToken: String
     
     @UserDefault(key: "refreshToken", defaultValue: "")
-    var refreshToken: String
+    private var refreshToken: String
     
     public init(provider: MoyaProvider<InTechsAPI> = MoyaProvider<InTechsAPI>()) {
         self.provider = provider

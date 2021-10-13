@@ -59,4 +59,5 @@ enum SFImage: String {
     case xmarkCircle = "xmark.circle.fill"
     case threadPlus = "plus.message"
     case checkmarkCircleFill = "checkmark.circle.fill"
+    case logout = "clear.fill"
 }

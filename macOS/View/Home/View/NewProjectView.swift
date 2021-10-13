@@ -21,17 +21,32 @@ struct NewProjectView: View {
             
             VStack(alignment: .leading) {
                 Text("로고 (선택)")
-                RoundedRectangle(cornerRadius: 10).frame(width: 40, height: 40)
-                    .onTapGesture {
-                        NSOpenPanel.openImage(completion: { result in
-                            switch result {
-                            case .success(let image):
-                                self.viewModel.image = image
-                            case .failure(_):
-                                break
-                            }
-                        })
-                    }
+                if viewModel.image == nil {
+                    RoundedRectangle(cornerRadius: 10).frame(width: 40, height: 40)
+                        .onTapGesture {
+                            NSOpenPanel.openImage(completion: { result in
+                                switch result {
+                                case .success(let image):
+                                    self.viewModel.image = image
+                                case .failure(_):
+                                    break
+                                }
+                            })
+                        }
+                } else {
+                    Image(nsImage: viewModel.image!)
+                        .onTapGesture {
+                            NSOpenPanel.openImage(completion: { result in
+                                switch result {
+                                case .success(let image):
+                                    self.viewModel.image = image
+                                case .failure(_):
+                                    break
+                                }
+                            })
+                        }
+                }
+                
             }
             
             VStack(alignment: .leading) {
@@ -78,8 +93,6 @@ struct NewProjectView: View {
                             }
                         }
                 }
-                
-                
             }
         }.padding()
         .padding(.all, 5)

@@ -125,6 +125,7 @@
 		D950A37226D319CD003D4907 /* Assets+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A34F26D2181B003D4907 /* Assets+init.swift */; };
 		D950A37926D336AD003D4907 /* ChannelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A37826D336AD003D4907 /* ChannelInfoView.swift */; };
 		D950A37B26D33A9E003D4907 /* ChannelSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */; };
+		D97759BF2716CAC100BC9577 /* MypageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97759BE2716CAC100BC9577 /* MypageViewModel.swift */; };
 		D97E0F752707F60F00CC8B74 /* InTechsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */; };
 		D97E0F762707F87D00CC8B74 /* InTechsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */; };
 		D9E01A1A26D4FD75005C7736 /* InTechsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E01A1826D4FD56005C7736 /* InTechsView.swift */; };
@@ -305,6 +306,7 @@
 		D950A37026D31354003D4907 /* MypageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageView.swift; sourceTree = "<group>"; };
 		D950A37826D336AD003D4907 /* ChannelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoView.swift; sourceTree = "<group>"; };
 		D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSearchView.swift; sourceTree = "<group>"; };
+		D97759BE2716CAC100BC9577 /* MypageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewModel.swift; sourceTree = "<group>"; };
 		D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsAPI.swift; sourceTree = "<group>"; };
 		D9E01A1826D4FD56005C7736 /* InTechsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsView.swift; sourceTree = "<group>"; };
 		D9FC986026DBC7B500735222 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -843,6 +845,7 @@
 			isa = PBXGroup;
 			children = (
 				D950A37026D31354003D4907 /* MypageView.swift */,
+				D97759BE2716CAC100BC9577 /* MypageViewModel.swift */,
 			);
 			path = Mypage;
 			sourceTree = "<group>";
@@ -1437,6 +1440,7 @@
 				D91CB55A270DBDC9003DCB63 /* NSLock+lock.swift in Sources */,
 				D9FC988E26DC82B700735222 /* InTechsViewModel.swift in Sources */,
 				D950A33C26D20E8F003D4907 /* ChatDetailView.swift in Sources */,
+				D97759BF2716CAC100BC9577 /* MypageViewModel.swift in Sources */,
 				D950A37926D336AD003D4907 /* ChannelInfoView.swift in Sources */,
 				D91CB542270AD1F8003DCB63 /* LoginRepository.swift in Sources */,
 				D9FC988D26DC828F00735222 /* Shake.swift in Sources */,

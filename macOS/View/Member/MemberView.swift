@@ -7,16 +7,8 @@
 
 import SwiftUI
 
-struct Member: Hashable {
-    var name: String
-    var status: Bool
-    var isMe: Bool
-}
-
-let members = [Member(name: "김재원", status: true, isMe: false), Member(name: "김재원2", status: true, isMe: false), Member(name: "김재원3", status: false, isMe: false), Member(name: "김재원4", status: false, isMe: false), Member(name: "정고은", status: true, isMe: true)]
-
 struct MemberView: View {
-    //    @ObservedObject var projectVM = ProjectViewModel()
+        @ObservedObject var viewModel = MemberViewModel()
     @Namespace private var animation
     @State private var plusPop = false
     
@@ -42,11 +34,11 @@ struct MemberView: View {
                     }
                 }
                 
-                Text("7 Members")
+                Text("\(viewModel.members.count)명의 멤버들")
                 
                 ScrollView {
                     LazyVStack(alignment: .leading) {
-                        ForEach(members, id: \.self) { member in
+                        ForEach(viewModel.members, id: \.self) { member in
                             MemberRow(member: member)
                         }.padding(.vertical, 5)
                     }
@@ -65,14 +57,14 @@ struct MemberView: View {
 }
 
 struct MemberRow: View {
-    let member: Member
+    let member: User
     var body: some View {
         HStack {
             ZStack(alignment: .bottomTrailing) {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 100, height: 100)
                 
-                if member.status {
+                if member.isActive {
                     ActiveView()
                 } else {
                     InActiveView()
@@ -80,10 +72,9 @@ struct MemberRow: View {
             }
             
             VStack(alignment: .leading) {
-                
                 Text(member.name)
                 Spacer()
-                Text("DM with 재원")
+                Text("DM 시작하기")
             }
             
             Spacer()
