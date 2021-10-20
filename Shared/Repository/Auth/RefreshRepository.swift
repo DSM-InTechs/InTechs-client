@@ -33,11 +33,12 @@ final public class RefreshRepositoryImpl: RefreshRepository {
             switch result {
             case .success(let response):
                 let data = try! JSONDecoder().decode(AuthReponse.self, from: response.data)
+                print("Success access Token = \(data.accessToken)")
                 self.accessToken = data.accessToken
                 self.refreshToken = data.refreshToken
                 
-            case .failure(_):
-                break
+            case .failure(let error):
+                print("REFRESH ERROR \(error)")
             }
         })
     }

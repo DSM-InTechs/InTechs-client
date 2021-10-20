@@ -128,6 +128,10 @@
 		D97759BF2716CAC100BC9577 /* MypageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97759BE2716CAC100BC9577 /* MypageViewModel.swift */; };
 		D97E0F752707F60F00CC8B74 /* InTechsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */; };
 		D97E0F762707F87D00CC8B74 /* InTechsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */; };
+		D9D132AB2720510800919BEF /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D132AA2720510800919BEF /* Issue.swift */; };
+		D9D132AC27205ABA00919BEF /* IssueRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D132A72720507900919BEF /* IssueRepository.swift */; };
+		D9D132AD27205AC600919BEF /* IssueRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D132A72720507900919BEF /* IssueRepository.swift */; };
+		D9D132AE27205B0D00919BEF /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D132AA2720510800919BEF /* Issue.swift */; };
 		D9E01A1A26D4FD75005C7736 /* InTechsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E01A1826D4FD56005C7736 /* InTechsView.swift */; };
 		D9FC986126DBC7B500735222 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986026DBC7B500735222 /* ImagePicker.swift */; };
 		D9FC986426DBC9B100735222 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FC986326DBC9B100735222 /* HomeViewModel.swift */; };
@@ -308,6 +312,8 @@
 		D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSearchView.swift; sourceTree = "<group>"; };
 		D97759BE2716CAC100BC9577 /* MypageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewModel.swift; sourceTree = "<group>"; };
 		D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsAPI.swift; sourceTree = "<group>"; };
+		D9D132A72720507900919BEF /* IssueRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueRepository.swift; sourceTree = "<group>"; };
+		D9D132AA2720510800919BEF /* Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Issue.swift; sourceTree = "<group>"; };
 		D9E01A1826D4FD56005C7736 /* InTechsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsView.swift; sourceTree = "<group>"; };
 		D9FC986026DBC7B500735222 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		D9FC986326DBC9B100735222 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -651,6 +657,7 @@
 		D950A31426D20C62003D4907 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D9D132A92720510000919BEF /* Issue */,
 				D91CB56F270EF203003DCB63 /* Project */,
 				D91CB563270EE30B003DCB63 /* User */,
 				D91CB532270ACC1C003DCB63 /* Auth */,
@@ -884,6 +891,7 @@
 		D97E0F722707F5E200CC8B74 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				D9D132A62720506700919BEF /* Issue */,
 				D91CB56C270EF1AD003DCB63 /* Project */,
 				D91CB560270EE2B0003DCB63 /* Mypage */,
 				D91CB527270AC891003DCB63 /* Auth */,
@@ -899,6 +907,22 @@
 			);
 			name = API;
 			path = "../New Group/API";
+			sourceTree = "<group>";
+		};
+		D9D132A62720506700919BEF /* Issue */ = {
+			isa = PBXGroup;
+			children = (
+				D9D132A72720507900919BEF /* IssueRepository.swift */,
+			);
+			path = Issue;
+			sourceTree = "<group>";
+		};
+		D9D132A92720510000919BEF /* Issue */ = {
+			isa = PBXGroup;
+			children = (
+				D9D132AA2720510800919BEF /* Issue.swift */,
+			);
+			path = Issue;
 			sourceTree = "<group>";
 		};
 		D9E01A1726D4FD46005C7736 /* InTechs */ = {
@@ -1325,6 +1349,7 @@
 				D9FC986826DBCCF800735222 /* InTechsViewModel.swift in Sources */,
 				D91CB55C270EA768003DCB63 /* ErrorView.swift in Sources */,
 				D950A30E26D20C1C003D4907 /* SFImage.swift in Sources */,
+				D9D132AD27205AC600919BEF /* IssueRepository.swift in Sources */,
 				D91CB552270D6A8A003DCB63 /* MyActiveRepository.swift in Sources */,
 				D9FC987C26DC58B100735222 /* FeedbackViewModel.swift in Sources */,
 				D950A34726D213E0003D4907 /* CalendarView.swift in Sources */,
@@ -1350,6 +1375,7 @@
 				D9FC987A26DC501500735222 /* FeedbackView.swift in Sources */,
 				D9FD9FDE26D7DF7B00664757 /* IssueDetailView.swift in Sources */,
 				D9FC986E26DBD41200735222 /* MypageVIewModel.swift in Sources */,
+				D9D132AB2720510800919BEF /* Issue.swift in Sources */,
 				D93BAD2726D149030094ADD9 /* ContentView.swift in Sources */,
 				D950A34026D2103B003D4907 /* Home.swift in Sources */,
 				D9FC987426DC459200735222 /* ChatDetailViewModel.swift in Sources */,
@@ -1408,6 +1434,7 @@
 				D91CB586270EF855003DCB63 /* CalendarViewModel.swift in Sources */,
 				D950A37126D31354003D4907 /* MypageView.swift in Sources */,
 				D91CB571270EF227003DCB63 /* MypageRepository.swift in Sources */,
+				D9D132AC27205ABA00919BEF /* IssueRepository.swift in Sources */,
 				D9FD9F6D26D53A3300664757 /* LoginView.swift in Sources */,
 				D936650626E1EC3600E1F57F /* ChatDetailViewModel.swift in Sources */,
 				D9FD9F7226D53AB600664757 /* OpenWindows.swift in Sources */,
@@ -1454,6 +1481,7 @@
 				D9FD9F6F26D53A3800664757 /* RegisterView.swift in Sources */,
 				D93BAD2626D149030094ADD9 /* InTechsApp.swift in Sources */,
 				D91CB541270AD165003DCB63 /* UserDefaults.swift in Sources */,
+				D9D132AE27205B0D00919BEF /* Issue.swift in Sources */,
 				D90C61D9271010C8006F0A55 /* ProjectJoinViewModel.swift in Sources */,
 				D950A36526D231FC003D4907 /* IssuelistView.swift in Sources */,
 				D94C99BE26DF45B400CB2F07 /* NewChannelView.swift in Sources */,

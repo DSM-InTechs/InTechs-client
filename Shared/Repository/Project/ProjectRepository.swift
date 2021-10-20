@@ -25,8 +25,8 @@ final public class ProjectRepositoryImpl: ProjectRepository {
     private let provider: MoyaProvider<InTechsAPI>
     private let refreshRepository: RefreshRepository
     
-    @UserDefault(key: "currentProject", defaultValue: "")
-    private var currentProject: String
+    @UserDefault(key: "currentProject", defaultValue: 0)
+    private var currentProject: Int
     
     public init(provider: MoyaProvider<InTechsAPI> = MoyaProvider<InTechsAPI>(),
                 refreshRepository: RefreshRepository = RefreshRepositoryImpl()) {
@@ -37,8 +37,15 @@ final public class ProjectRepositoryImpl: ProjectRepository {
     public func myProjects() -> AnyPublisher<[Project], NetworkError> {
         provider.requestPublisher(.getMyProjects)
             .map([Project].self)
+            .map {
+                if self.currentProject == 0 && !$0.isEmpty { // 만약 현재 프로젝트가 없을 경우 첫번째 프로젝트 할당.
+                    self.currentProject = $0.first!.id
+                }
+                return $0
+            }
             .tryCatch { error -> AnyPublisher<[Project], MoyaError> in
-                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
                     print("TOKEN ERROR")
                     self.refreshRepository.refresh()
                     
@@ -54,10 +61,11 @@ final public class ProjectRepositoryImpl: ProjectRepository {
     public func joinProject(number: Int) -> AnyPublisher<Void, NetworkError> {
         provider.requestVoidPublisher(.joinProject(id: number))
             .map {
-                self.currentProject = String(number)
+                self.currentProject = number
             }
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
                     
                     return self.provider.requestVoidPublisher(.joinProject(id: number))
@@ -69,14 +77,15 @@ final public class ProjectRepositoryImpl: ProjectRepository {
     }
     
     public func getProjectMembers() -> AnyPublisher<[User], NetworkError> {
-        provider.requestPublisher(.getProjectMembers(id: Int(currentProject)!))
+        provider.requestPublisher(.getProjectMembers(id: currentProject))
             .map([User].self)
             .tryCatch { error -> AnyPublisher<[User], MoyaError> in
-                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
                     print("TOKEN ERROR")
                     self.refreshRepository.refresh()
                     
-                    return self.provider.requestPublisher(.getProjectMembers(id: Int(self.currentProject)!))
+                    return self.provider.requestPublisher(.getProjectMembers(id: self.currentProject))
                         .map([User].self)
                 }
                 return Fail<[User], MoyaError>(error: error).eraseToAnyPublisher()
@@ -99,7 +108,8 @@ final public class ProjectRepositoryImpl: ProjectRepository {
                 return
             }
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
                     return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
                 }
@@ -115,7 +125,8 @@ final public class ProjectRepositoryImpl: ProjectRepository {
         
         return provider.requestVoidPublisher(.updateProject(id: id, name: name, imageData: data))
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
                     return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
                 }
@@ -135,12 +146,13 @@ final public class ProjectRepositoryImpl: ProjectRepository {
             .map { moyaResponse -> Void in
                 let response = moyaResponse.response
                 let responseHeader = response?.allHeaderFields
-                self.currentProject = responseHeader!["Project-Number"] as! String
+                self.currentProject = responseHeader!["Project-Number"] as! Int
                 print("CREATED \(self.currentProject)")
                 return
             }
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
                     
                     return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
@@ -157,7 +169,8 @@ final public class ProjectRepositoryImpl: ProjectRepository {
         
         return provider.requestVoidPublisher(.updateProject(id: id, name: name, imageData: data))
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
                     
                     return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))

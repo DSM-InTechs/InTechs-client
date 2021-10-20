@@ -35,14 +35,15 @@ final public class MypageRepositoryImpl: MypageRepository {
     @UserDefault(key: "refreshToken", defaultValue: "")
     private var refreshToken: String
     
-    @UserDefault(key: "currentProject", defaultValue: "")
-    private var currentProject: String
+    @UserDefault(key: "currentProject", defaultValue: 0)
+    private var currentProject: Int
     
     public func mypage() -> AnyPublisher<Mypage, NetworkError> {
         provider.requestPublisher(.mypage)
             .map(Mypage.self)
             .tryCatch { error -> AnyPublisher<Mypage, MoyaError> in
-                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
                     
                     return self.provider.requestPublisher(.mypage)
@@ -57,7 +58,7 @@ final public class MypageRepositoryImpl: MypageRepository {
     public func logout() {
         self.accessToken = ""
         self.refreshToken = ""
-        self.currentProject = ""
+        self.currentProject = 0
     }
     
     public func deleteUser() -> AnyPublisher<Void, NetworkError> {
@@ -81,7 +82,8 @@ final public class MypageRepositoryImpl: MypageRepository {
         
         return provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
                     return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
                         .eraseToAnyPublisher()
@@ -98,7 +100,8 @@ final public class MypageRepositoryImpl: MypageRepository {
         
         return provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
                     return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
                         .eraseToAnyPublisher()

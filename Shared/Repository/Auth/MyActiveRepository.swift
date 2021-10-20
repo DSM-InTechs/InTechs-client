@@ -36,7 +36,8 @@ final public class MyActiveRepositoryImpl: MyActiveRepository {
     public func updateMyActive(isActive: Bool) -> AnyPublisher<Void, NetworkError> {
         provider.requestVoidPublisher(.updateMyActive(isActive: isActive))
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
                     print("MYACTIVE TOKEN ERROR")
                     self.refreshRepository.refresh()
                     return self.provider.requestVoidPublisher(.updateMyActive(isActive: isActive))

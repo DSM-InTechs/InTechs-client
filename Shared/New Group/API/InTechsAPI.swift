@@ -32,9 +32,11 @@ public enum InTechsAPI {
     case getProjectMembers(id: Int)
     
     // MARK: - Issue
-    case createIssue(projectId: Int, title: String, body: String?, date: String?, progress: Int?, state: String?)
+    case getIssues(projectId: Int)
+    case createIssue(projectId: Int, title: String, body: String?, date: String?, progress: Int, state: String?, tags: [String]?)
     case deleteIssue(projectId: Int, issueId: Int)
-    case updateIssue(projectId: Int, issueId: Int, title: String, body: String?, date: String?, progress: Int?, state: String?)
+    case updateIssue(projectId: Int, issueId: Int, title: String, body: String?, date: String?, progress: Int, state: String?, tags: [String]?)
+    case getDetailIssue(projectId: Int, issueId: Int)
     
     // MARK: - Calendar
     case getCalendar(projectId: Int)
@@ -88,11 +90,15 @@ extension InTechsAPI: TargetType {
             return "/project/\(id)/user"
             
             // MARK: - Issue
-        case .createIssue(let projectId, _, _, _, _, _):
+        case .getIssues(let projectId):
+            return "/project/\(projectId)/issue"
+        case .createIssue(let projectId, _, _, _, _, _, _):
             return "/project/\(projectId)/issue"
         case .deleteIssue(let projectId, let issueId):
             return "/project/\(projectId)/issue/\(issueId)"
-        case .updateIssue(let projectId, let issueId, _, _, _, _, _):
+        case .updateIssue(let projectId, let issueId, _, _, _, _, _, _):
+            return "/project/\(projectId)/issue/\(issueId)"
+        case .getDetailIssue(let projectId, let issueId):
             return "/project/\(projectId)/issue/\(issueId)"
             
             // MARK: - Calendar
@@ -133,21 +139,23 @@ extension InTechsAPI: TargetType {
             return .uploadMultipart(multipartData)
         case .updateMyActive(let isActive):
             return .requestParameters(parameters: ["isActive": isActive], encoding: JSONEncoding.default)
-        case .createIssue(_, let  title, let body, let date, let progress, let state):
+        case .createIssue(_, let  title, let body, let date, let progress, let state, let tags):
             var paras: [String: Any] = [:]
             paras["title"] = title
             paras["content"] = body ?? NSNull()
             paras["end_date"] = date ?? NSNull()
-            paras["progress"] = progress ?? NSNull()
+            paras["progress"] = progress
             paras["state"] = state ?? NSNull()
+            paras["tags"] = tags ?? NSNull()
             return .requestParameters(parameters: paras, encoding: JSONEncoding.default)
-        case .updateIssue(_, _, let  title, let body, let date, let progress, let state):
+        case .updateIssue(_, _, let  title, let body, let date, let progress, let state, let tags):
             var paras: [String: Any] = [:]
             paras["title"] = title
             paras["content"] = body ?? NSNull()
             paras["end_date"] = date ?? NSNull()
-            paras["progress"] = progress ?? NSNull()
+            paras["progress"] = progress
             paras["state"] = state ?? NSNull()
+            paras["tags"] = state ?? NSNull()
             return .requestParameters(parameters: paras, encoding: JSONEncoding.default)
             //        case .searchLetter(let string):
             //            return .requestParameters(parameters: ["q": string], encoding: URLEncoding.queryString)

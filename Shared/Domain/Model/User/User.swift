@@ -13,7 +13,7 @@ public struct User: Codable, Hashable, Equatable {
     public var imageURL: String
     public var isActive: Bool
     
-    enum CodingKeys : String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case name
         case email
         case imageURL = "imageUri"

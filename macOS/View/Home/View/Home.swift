@@ -26,7 +26,7 @@ struct Home: View {
                             .environmentObject(projectVM)
                     case .calendar: CalendarView()
                     case .teams: MemberView()
-                    case .mypage: MypageView(viewModel: $homeVM.mypageVM)
+                    case .mypage: MypageView()
                     }
                 }
                 .offset(x: 70)
@@ -53,19 +53,24 @@ struct Home: View {
                     Spacer()
                     
                     LazyVStack {
-                        ForEach(homeVM.mypageVM.myProjects, id: \.self) { project in
+                        ForEach(homeVM.myProjects, id: \.self) { project in
                             KFImage(URL(string: project.image))
+                                .resizable()
                                 .frame(width: 28, height: 28)
                                 .overlay(
                                     ZStack {
                                         if project.id == homeVM.currentProject {
                                             RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color.white, lineWidth: 2.5)
+                                                .stroke(Color.white, lineWidth: 1.5)
                                                 .frame(width: 37, height: 37)
                                         }
                                     }
                                 )
                                 .padding(.bottom, 5)
+                                .onAppear {
+                                    print(project.id == homeVM.currentProject )
+                                    print(homeVM.currentProject)
+                                }
                         }
                     }
                     
@@ -90,10 +95,10 @@ struct Home: View {
                         }
                     
                     HomeTabButton(tab: HomeTab.mypage,
-                                  imageUrl: homeVM.mypageVM.profile.image, mypageTapped: {
+                                  imageUrl: homeVM.profile.image, mypageTapped: {
                         self.mypagePop.toggle()
                     }, selectedTab: $homeVM.selectedTab).popover(isPresented: $mypagePop) {
-                        MypagePopView(imageURL: homeVM.mypageVM.profile.image, name: homeVM.mypageVM.profile.name) .frame(width: 200)
+                        MypagePopView(imageURL: homeVM.profile.image, name: homeVM.profile.name) .frame(width: 200)
                     }
                 }
                 .frame(width: 70)
@@ -101,7 +106,7 @@ struct Home: View {
                 .padding(.top, 35)
                 .background(BlurView())
                 
-                if homeVM.mypageVM.myProjects.isEmpty {
+                if homeVM.myProjects.isEmpty {
                     ZStack {
                         Color.white
                         
@@ -138,6 +143,11 @@ struct Home: View {
                         .padding(.trailing, 70)
                 }
                 
+                if homeVM.selectedTab == .mypage {
+                    MypageView()
+                        .offset(x: 70)
+                        .padding(.trailing, 70)
+                }
             }
             .ignoresSafeArea(.all, edges: .all)
             .onChange(of: scenePhase) { newPhase in
