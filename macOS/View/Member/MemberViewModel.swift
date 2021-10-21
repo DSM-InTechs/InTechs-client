@@ -10,6 +10,8 @@ import Combine
 
 class MemberViewModel: ObservableObject {
     @Published var members: [User] = [User]()
+    @UserDefault(key: "currentProject", defaultValue: 0)
+    public var currentProject: Int
     
     private let projectRepository: ProjectRepository
     

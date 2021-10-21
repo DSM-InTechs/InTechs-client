@@ -11,7 +11,6 @@ import Kingfisher
 struct Home: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var homeVM: HomeViewModel
-    @ObservedObject var projectVM = ProjectViewModel()
     @State private var quickActionPop: Bool = false
     @State private var questionPop: Bool = false
     @State private var mypagePop: Bool = false
@@ -23,7 +22,6 @@ struct Home: View {
                     switch homeVM.selectedTab {
                     case .chats: NavigationView { ChatListView().background(Color(NSColor.textBackgroundColor)).ignoresSafeArea() }
                     case .projects: ProjectListView()
-                            .environmentObject(projectVM)
                     case .calendar: CalendarView()
                     case .teams: MemberView()
                     case .mypage: MypageView()

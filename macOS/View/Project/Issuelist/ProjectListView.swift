@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ProjectListView: View {
-    @EnvironmentObject var viewModel: ProjectViewModel
+    @ObservedObject var viewModel = ProjectViewModel()
     @Namespace private var animation
     
     var body: some View {
@@ -30,9 +31,10 @@ struct ProjectListView: View {
                 ZStack {
                     VStack(alignment: .leading, spacing: 0) {
                         HStack {
-                            Rectangle().foregroundColor(.blue)
+                            KFImage(URL(string: viewModel.projectInfo.image.imageUrl))
+                                .resizable()
                                 .frame(width: 30, height: 30)
-                            Text("InTechs")
+                            Text(viewModel.projectInfo.name)
                             
                             Spacer()
                         }.padding(.horizontal)
@@ -85,6 +87,9 @@ struct ProjectListView: View {
                     }
                 }.background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
                 .frame(width: geo.size.width / 4)
+            }
+            .onAppear {
+                self.viewModel.apply(.onAppear)
             }
         }.background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
     }

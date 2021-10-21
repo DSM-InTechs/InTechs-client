@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct SettingView: View {
     @State var text: String = ""
+    @EnvironmentObject var homeVM: HomeViewModel
+    @ObservedObject var viewModel = SettingViewModel()
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -16,18 +19,31 @@ struct SettingView: View {
                 Text("로고")
                 HStack {
                     Button(action: {
-                        NSOpenPanel.openImage(completion: { _ in
-                            
+                        NSOpenPanel.openImage(completion: { result in
+                            switch result {
+                            case .success(let image):
+                                viewModel.updatedImage = image
+                            case .failure(_):
+                                break
+                            }
                         })
                     }, label: {
-                        RoundedRectangle(cornerRadius: 10).frame(width: 40, height: 40)
+                        if viewModel.updatedImage != nil {
+                            Image(nsImage: viewModel.updatedImage!)
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                        } else {
+                            KFImage(URL(string: viewModel.projectInfo.image.imageUrl))
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                        }
                     }).buttonStyle(PlainButtonStyle())
                 }
             }
             
             VStack(alignment: .leading) {
                 Text("이름")
-                TextField("프로젝트 이름", text: $text)
+                TextField("프로젝트 이름", text: $viewModel.updatedName)
                     .textFieldStyle(PlainTextFieldStyle())
                     .padding(.all, 10)
                     .overlay(
@@ -36,11 +52,7 @@ struct SettingView: View {
                     )
             }
             
-            VStack {
-                
-            }
-            
-            MemberPopView()
+            MemberPopView(number: Array(String(viewModel.currentProject)))
             
             Spacer()
             
@@ -53,6 +65,10 @@ struct SettingView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .strokeBorder(Color.red)
                         )
+                }.onTapGesture {
+                    self.homeVM.toast = .projectDelete(execute: {
+                        self.viewModel.apply(.delete)
+                    })
                 }
                 
                 Spacer()
@@ -61,15 +77,66 @@ struct SettingView: View {
                     Text("저장")
                         .padding(.all, 10)
                         .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
+                }.onTapGesture {
+                    self.viewModel.apply(.change)
                 }
+                
             }.padding(.top)
         }.padding()
         .padding(.trailing, 70)
+        .onAppear {
+            self.viewModel.apply(.onAppear)
+        }
     }
 }
 
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
         SettingView()
+        ProjectDeleteView(execute: { })
+    }
+}
+
+struct ProjectDeleteView: View {
+    let execute: () -> Void
+    @EnvironmentObject var homeVM: HomeViewModel
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Text("프로젝트를 삭제하시겠습니까?")
+                .fontWeight(.bold)
+                .font(.title)
+            
+            Text("한 번 삭제하면 다시 복구할 수 없습니다.")
+            
+            HStack(spacing: 15) {
+                Spacer()
+                Text("취소")
+                    .padding(.all, 10)
+                    .padding(.horizontal, 10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color(Asset.black), lineWidth: 1)
+                    )
+                    .onTapGesture {
+                        withAnimation {
+                            self.homeVM.toast = nil
+                        }
+                    }
+                
+                Text("삭제")
+                    .foregroundColor(Color(Asset.black))
+                    .padding(.all, 10)
+                    .padding(.horizontal, 10)
+                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.red))
+                    .onTapGesture {
+                        self.execute()
+                        withAnimation {
+                            self.homeVM.toast = nil
+                        }
+                    }
+            }
+        }.padding()
+        .padding(.all, 10)
     }
 }

@@ -21,15 +21,21 @@ public struct Issue: Codable, Hashable, Equatable {
     public var comments: [IssueComment]?
 }
 
+public enum IssueState: String {
+    case ready = "READY"
+    case progress = "IN_PROGRESS"
+    case done = "DONE"
+}
+
 public struct IssueUser: Codable, Hashable, Equatable {
     public var name: String
     public var email: String
-    public var imageURL: String
+//    public var imageURL: String
     
     enum CodingKeys: String, CodingKey {
         case name
         case email
-        case imageURL = "imageUri"
+//        case imageURL = "imageUri"
     }
 }
 

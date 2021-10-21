@@ -1,15 +1,15 @@
 //
-//  ProjectViewModel.swift
-//  InTechs (macOS)
+//  DashboardViewModel.swift
+//  InTechs (iOS)
 //
-//  Created by GoEun Jeong on 2021/08/22.
+//  Created by GoEun Jeong on 2021/10/21.
 //
 
 import SwiftUI
 import Combine
 
-class ProjectViewModel: ObservableObject {
-    @Published var selectedTab: ProjectTab = .dashBoard
+class DasboardViewModel: ObservableObject {
+    @Published var dashboard: ProjectDashboard = ProjectDashboard(userCount: 0, issuesCount: DashboardIssueCount(forMe: 0, resolved: 0, unresolved: 0, forMeAndUnresolved: 0))
     @Published var projectInfo: ProjectInfo = ProjectInfo(name: "", image: ProjectInfoImage(imageUrl: "", oriName: ""))
     
     private let projectRepository: ProjectRepository
@@ -35,6 +35,16 @@ class ProjectViewModel: ObservableObject {
     
     init(projectRepository: ProjectRepository = ProjectRepositoryImpl()) {
         self.projectRepository = projectRepository
+        
+        input.onAppear
+            .flatMap {
+                self.projectRepository.getProjectDashBoard()
+                    .catch { _ -> Empty<ProjectDashboard, Never> in
+                        return .init()
+                    }
+            }
+            .assign(to: \.dashboard, on: self)
+            .store(in: &bag)
         
         input.onAppear
             .flatMap {

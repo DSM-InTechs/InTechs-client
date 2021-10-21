@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MemberView: View {
-        @ObservedObject var viewModel = MemberViewModel()
+    @ObservedObject var viewModel = MemberViewModel()
     @Namespace private var animation
     @State private var plusPop = false
     
@@ -28,7 +28,7 @@ struct MemberView: View {
                             .padding(.vertical)
                     })
                     .popover(isPresented: $plusPop) {
-                        MemberPopView()
+                        MemberPopView(number: Array(String(viewModel.currentProject)))
                             .padding()
                             .padding()
                     }
@@ -91,6 +91,7 @@ struct MemberRow: View {
 
 struct MemberPopView: View {
     @State private var isCopied: Bool = false
+    let number: [Character]
     
     var body: some View {
         VStack(spacing: 15) {
@@ -100,7 +101,7 @@ struct MemberPopView: View {
             HStack(spacing: 15) {
                 HStack {
                     ForEach(0..<6, id: \.self) { index in
-                        Text(String(index))
+                        Text(String(number[index]))
                             .font(.title)
                             .fontWeight(.bold)
                             .padding(.all, 10)
@@ -123,7 +124,7 @@ struct MemberPopView: View {
                         .onTapGesture {
                             let pasteboard = NSPasteboard.general
                             pasteboard.declareTypes([.string], owner: nil)
-                            pasteboard.setString("012345", forType: .string)
+                            pasteboard.setString(String(number), forType: .string)
                             withAnimation {
                                 self.isCopied = true
                             }
@@ -137,6 +138,6 @@ struct MemberPopView: View {
 struct MemberView_Previews: PreviewProvider {
     static var previews: some View {
         MemberView()
-        MemberPopView()
+        MemberPopView(number: Array("123456"))
     }
 }

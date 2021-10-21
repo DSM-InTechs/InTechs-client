@@ -9,7 +9,8 @@ import SwiftUI
 
 struct IssuelistView: View {
     @EnvironmentObject var homeVM: HomeViewModel
-    @State private var issue: Int? = nil
+    @ObservedObject var viewModel = IssuelistViewModel()
+    @State private var currentIssue: Issue? = nil
     
     var body: some View {
         GeometryReader { geo in
@@ -80,41 +81,20 @@ struct IssuelistView: View {
                         Spacer()
                     }
                 }.padding(.horizontal)
-                .padding(.top)
+                    .padding(.top)
                 
                 HStack {
                     VStack(alignment: .leading) {
                         
                         Divider()
                         
-                        Text("9개의 이슈")
+                        Text("\(String(self.viewModel.issues.count))개의 이슈")
                             .padding(.bottom, 10)
                         
                         ScrollView {
                             LazyVStack {
-                                ForEach(0...10, id: \.self) { index in
-                                    HStack(spacing: 20) {
-                                        HStack {
-                                            Circle().frame(width: 10, height: 10)
-                                            Text("이슈 제목")
-                                        }
-                                        
-                                        Spacer()
-                                        
-                                        HStack {
-                                            Circle().frame(width: 20, height: 20)
-                                            Text("대상자")
-                                        }
-                                        
-                                        Text("09-29")
-                                            .foregroundColor(.red)
-                                    }
-                                    .padding(.all, 5)
-                                    .onTapGesture {
-                                        withAnimation {
-                                            self.issue = index
-                                        }
-                                    }
+                                ForEach(viewModel.issues, id: \.self) { issue in
+                                    IssuelistRow(issue: issue, currentIssue: self.$currentIssue)
                                 }
                             }
                         }.padding(.top, 5)
@@ -123,9 +103,9 @@ struct IssuelistView: View {
                     Spacer(minLength: 0)
                     
                     // Issue...
-                    if issue != nil {
+                    if currentIssue != nil {
                         ZStack {
-                            IssueDetailView(isIssue: $issue, title: "이슈1")
+                            IssueDetailView(currentIssue: $currentIssue, title: "이슈1")
                                 .environmentObject(homeVM)
                             
                             HStack {
@@ -134,13 +114,16 @@ struct IssuelistView: View {
                                 Spacer()
                             }
                         }.frame(width: geo.size.width / 3)
-                        .ignoresSafeArea(.all)
-                        .background(Color(NSColor.systemGray).opacity(0.1).padding(.bottom, 10))
+                            .ignoresSafeArea(.all)
+                            .background(Color(NSColor.systemGray).opacity(0.1).padding(.bottom, 10))
                     }
                 }
             }
             .padding(.trailing, 70)
             .ignoresSafeArea(.all, edges: .all)
+            .onAppear {
+                self.viewModel.apply(.onAppear)
+            }
         }.ignoresSafeArea(.all, edges: .all)
     }
 }
@@ -148,5 +131,50 @@ struct IssuelistView: View {
 struct IssuelistView_Previews: PreviewProvider {
     static var previews: some View {
         IssuelistView()
+    }
+}
+
+struct IssuelistRow: View {
+    let issue: Issue
+    @Binding var currentIssue: Issue?
+    
+    var body: some View {
+        HStack(spacing: 20) {
+            HStack {
+                Circle().frame(width: 10, height: 10)
+                Text(issue.title)
+            }
+            
+            Spacer()
+            
+//            if !issue.users.isEmpty {
+                
+                    HStack(spacing: -10) {
+                        Circle().frame(width: 20, height: 20)
+                        Circle().frame(width: 20, height: 20)
+                        Circle().frame(width: 20, height: 20)
+                        Text("+5")
+                            .foregroundColor(.black)
+                            .font(.caption)
+                            .background(Circle().frame(width: 20, height: 20))
+                    }
+//            }
+            
+//            HStack {
+//                Circle().frame(width: 20, height: 20)
+//                Text("대상자")
+//            }
+            
+            if issue.endDate != nil {
+                Text(issue.endDate!)
+                    .foregroundColor(.red)
+            }
+            
+        }.padding(.all, 5)
+            .onTapGesture {
+                withAnimation {
+                    self.currentIssue = issue
+                }
+            }
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct IssueDetailView: View {
     @EnvironmentObject private var homeVM: HomeViewModel
-    @Binding var isIssue: Int?
+    @Binding var currentIssue: Issue?
     
     @State private var amount = 50.0
     @State private var isEditing = false
@@ -32,7 +32,7 @@ struct IssueDetailView: View {
                         Image(system: .xmark)
                             .onTapGesture {
                                 withAnimation {
-                                    self.isIssue = nil
+                                    self.currentIssue = nil
                                 }
                             }
                     }
@@ -157,7 +157,7 @@ struct IssueDetailView: View {
                         Image(system: .xmark)
                             .onTapGesture {
                                 withAnimation {
-                                    self.isIssue = nil
+                                    self.currentIssue = nil
                                 }
                             }
                     }
@@ -219,7 +219,9 @@ struct IssueDetailView: View {
                             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.red))
                             .onTapGesture {
                                 withAnimation {
-                                    self.homeVM.toast = .issueDelete
+                                    self.homeVM.toast = .issueDelete(execute: {
+                                        
+                                    })
                                 }
                             }
                     }
@@ -288,7 +290,7 @@ struct IssueDeleteView: View {
 
 struct IssueDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        IssueDetailView(isIssue: .constant(nil), title: "이슈1")
+        IssueDetailView(currentIssue: .constant(nil), title: "이슈1")
             .frame(width: 300)
             .environmentObject(HomeViewModel())
     }

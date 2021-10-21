@@ -1,18 +1,25 @@
 //
-//  ProjectViewModel.swift
-//  InTechs (macOS)
+//  IssuelistViewModel.swift
+//  InTechs (iOS)
 //
-//  Created by GoEun Jeong on 2021/08/22.
+//  Created by GoEun Jeong on 2021/10/07.
 //
 
-import SwiftUI
 import Combine
+import Moya
 
-class ProjectViewModel: ObservableObject {
-    @Published var selectedTab: ProjectTab = .dashBoard
-    @Published var projectInfo: ProjectInfo = ProjectInfo(name: "", image: ProjectInfoImage(imageUrl: "", oriName: ""))
+enum IssueTab {
+    case forMe
+    case unresolved
+    case forMeAndUnresolved
+    case resolved
+}
+
+class IssuelistViewModel: ObservableObject {
+    @Published var issues = [Issue]()
+    @Published var selectedTab: IssueTab?
     
-    private let projectRepository: ProjectRepository
+    private let issueReporitory: IssueReporitory
     
     private var bag = Set<AnyCancellable>()
     
@@ -33,17 +40,17 @@ class ProjectViewModel: ObservableObject {
         }
     }
     
-    init(projectRepository: ProjectRepository = ProjectRepositoryImpl()) {
-        self.projectRepository = projectRepository
+    init(issueReporitory: IssueReporitory = IssueReporitoryImpl()) {
+        self.issueReporitory = issueReporitory
         
         input.onAppear
             .flatMap {
-                self.projectRepository.getProjectInfo()
-                    .catch { _ -> Empty<ProjectInfo, Never> in
+                self.issueReporitory.getIssues()
+                    .catch { _ -> Empty<[Issue], Never> in
                         return .init()
                     }
             }
-            .assign(to: \.projectInfo, on: self)
+            .assign(to: \.issues, on: self)
             .store(in: &bag)
     }
     

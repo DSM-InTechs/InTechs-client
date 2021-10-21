@@ -15,10 +15,11 @@ enum Toast {
     case channelDelete
     case channelCreate
     case messageDelete
-    case issueDelete
+    case issueDelete(execute: () -> ())
     case issueCreate
     case projectCreate
     case projectJoin
+    case projectDelete(execute: () -> ())
 }
 
 class HomeViewModel: ObservableObject {

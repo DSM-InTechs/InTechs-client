@@ -22,17 +22,18 @@ public enum InTechsAPI {
     case getMyProjects
     
     // MARK: - Project
-    case dashboard
+    case dashboard(id: Int)
     case createProject(name: String, imageData: Data)
     case deleteProject(id: Int)
     case updateProject(id: Int, name: String, imageData: Data)
     
     case joinProject(id: Int)
     case exitProject(id: Int)
+    case getProjectInfo(id: Int)
     case getProjectMembers(id: Int)
     
     // MARK: - Issue
-    case getIssues(projectId: Int)
+    case getIssues(projectId: Int, tags: [String]?, states: [String]?, users: [String]?)
     case createIssue(projectId: Int, title: String, body: String?, date: String?, progress: Int, state: String?, tags: [String]?)
     case deleteIssue(projectId: Int, issueId: Int)
     case updateIssue(projectId: Int, issueId: Int, title: String, body: String?, date: String?, progress: Int, state: String?, tags: [String]?)
@@ -74,8 +75,8 @@ extension InTechsAPI: TargetType {
             return "/user/project"
             
             // MARK: - Project
-        case .dashboard:
-            return "/project/dashboard"
+        case .dashboard(let id):
+            return "/project/\(id)/dashboard"
         case .createProject(let name, _):
             return "/project/\(name)"
         case .deleteProject(let id):
@@ -86,12 +87,14 @@ extension InTechsAPI: TargetType {
             return "/project/\(id)/user"
         case .exitProject(let id):
             return "/project/\(id)/user"
+        case .getProjectInfo(let id):
+            return "/project/\(id)"
         case .getProjectMembers(let id):
             return "/project/\(id)/user"
             
             // MARK: - Issue
-        case .getIssues(let projectId):
-            return "/project/\(projectId)/issue"
+        case .getIssues(let projectId, _, _, _):
+            return "/project/\(projectId)/issue/filter"
         case .createIssue(let projectId, _, _, _, _, _, _):
             return "/project/\(projectId)/issue"
         case .deleteIssue(let projectId, let issueId):
@@ -116,7 +119,7 @@ extension InTechsAPI: TargetType {
         switch self {
         case .register, .login, .refresh, .createProject, .joinProject, .createIssue:
             return .post
-        case .updateMypage, .updateMyActive, .updateProject, .updateIssue:
+        case .updateMypage, .updateMyActive, .updateProject, .updateIssue, .getIssues:
             return .patch
         case .deleteUser, .deleteProject, .exitProject, .deleteIssue:
             return .delete
@@ -139,6 +142,18 @@ extension InTechsAPI: TargetType {
             return .uploadMultipart(multipartData)
         case .updateMyActive(let isActive):
             return .requestParameters(parameters: ["isActive": isActive], encoding: JSONEncoding.default)
+        case .getIssues(_, let tags, let states, let users):
+            var paras: [String: Any] = [:]
+            if tags != nil {
+                paras["tags"] = tags!
+            }
+            if states != nil {
+                paras["states"] = states!
+            }
+            if users != nil {
+                paras["users"] = users!
+            }
+            return .requestParameters(parameters: paras, encoding: JSONEncoding.default)
         case .createIssue(_, let  title, let body, let date, let progress, let state, let tags):
             var paras: [String: Any] = [:]
             paras["title"] = title
@@ -155,7 +170,7 @@ extension InTechsAPI: TargetType {
             paras["end_date"] = date ?? NSNull()
             paras["progress"] = progress
             paras["state"] = state ?? NSNull()
-            paras["tags"] = state ?? NSNull()
+            paras["tags"] = tags ?? NSNull()
             return .requestParameters(parameters: paras, encoding: JSONEncoding.default)
             //        case .searchLetter(let string):
             //            return .requestParameters(parameters: ["q": string], encoding: URLEncoding.queryString)
