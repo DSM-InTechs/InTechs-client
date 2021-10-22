@@ -13,7 +13,7 @@ public protocol ProjectRepository {
     func joinProject(number: Int) -> AnyPublisher<Void, NetworkError>
     func getProjectInfo() -> AnyPublisher<ProjectInfo, NetworkError>
     func getProjectDashBoard() -> AnyPublisher<ProjectDashboard, NetworkError>
-    func getProjectMembers() -> AnyPublisher<[User], NetworkError>
+    func getProjectMembers() -> AnyPublisher<[ProjectMember], NetworkError>
     func deleteProject() -> AnyPublisher<Void, NetworkError>
     #if os(iOS)
     func createProject(name: String, image: UIImage) -> AnyPublisher<Void, NetworkError>
@@ -115,19 +115,19 @@ final public class ProjectRepositoryImpl: ProjectRepository {
             .eraseToAnyPublisher()
     }
     
-    public func getProjectMembers() -> AnyPublisher<[User], NetworkError> {
+    public func getProjectMembers() -> AnyPublisher<[ProjectMember], NetworkError> {
         provider.requestPublisher(.getProjectMembers(id: currentProject))
-            .map([User].self)
-            .tryCatch { error -> AnyPublisher<[User], MoyaError> in
+            .map([ProjectMember].self)
+            .tryCatch { error -> AnyPublisher<[ProjectMember], MoyaError> in
                 let networkError = NetworkError(error)
                 if networkError == .unauthorized || networkError == .notMatch {
                     print("TOKEN ERROR")
                     self.refreshRepository.refresh()
                     
                     return self.provider.requestPublisher(.getProjectMembers(id: self.currentProject))
-                        .map([User].self)
+                        .map([ProjectMember].self)
                 }
-                return Fail<[User], MoyaError>(error: error).eraseToAnyPublisher()
+                return Fail<[ProjectMember], MoyaError>(error: error).eraseToAnyPublisher()
             }
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
@@ -219,15 +219,18 @@ final public class ProjectRepositoryImpl: ProjectRepository {
     
     public func updateProject(name: String, image: NSImage) -> AnyPublisher<Void, NetworkError> {
         let image = image.resize(width: 400, height: 400)!
-        let data = image.tiffRepresentation! as Data
+        let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)!
+        let bitmapRep = NSBitmapImageRep(cgImage: cgImage)
+        let jpegData = bitmapRep.representation(using: NSBitmapImageRep.FileType.jpeg, properties: [:])!
+//        let data = image.tiffRepresentation! as Data
         
-        return provider.requestVoidPublisher(.updateProject(id: currentProject, name: name, imageData: data))
+        return provider.requestVoidPublisher(.updateProject(id: currentProject, name: name, imageData: jpegData))
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
                 let networkError = NetworkError(error)
                 if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
                     
-                    return self.provider.requestVoidPublisher(.updateProject(id: self.currentProject, name: name, imageData: data))
+                    return self.provider.requestVoidPublisher(.updateProject(id: self.currentProject, name: name, imageData: jpegData))
                 }
                 return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
             }

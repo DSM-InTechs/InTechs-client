@@ -125,6 +125,8 @@
 		D950A37226D319CD003D4907 /* Assets+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A34F26D2181B003D4907 /* Assets+init.swift */; };
 		D950A37926D336AD003D4907 /* ChannelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A37826D336AD003D4907 /* ChannelInfoView.swift */; };
 		D950A37B26D33A9E003D4907 /* ChannelSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */; };
+		D9558D7927228FAA004FEEBB /* Date+Compare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7827228FAA004FEEBB /* Date+Compare.swift */; };
+		D9558D7A27228FAA004FEEBB /* Date+Compare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7827228FAA004FEEBB /* Date+Compare.swift */; };
 		D97759BF2716CAC100BC9577 /* MypageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97759BE2716CAC100BC9577 /* MypageViewModel.swift */; };
 		D97E0F752707F60F00CC8B74 /* InTechsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */; };
 		D97E0F762707F87D00CC8B74 /* InTechsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */; };
@@ -317,6 +319,7 @@
 		D950A37026D31354003D4907 /* MypageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageView.swift; sourceTree = "<group>"; };
 		D950A37826D336AD003D4907 /* ChannelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoView.swift; sourceTree = "<group>"; };
 		D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSearchView.swift; sourceTree = "<group>"; };
+		D9558D7827228FAA004FEEBB /* Date+Compare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Compare.swift"; sourceTree = "<group>"; };
 		D97759BE2716CAC100BC9577 /* MypageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewModel.swift; sourceTree = "<group>"; };
 		D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsAPI.swift; sourceTree = "<group>"; };
 		D9D132A72720507900919BEF /* IssueRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueRepository.swift; sourceTree = "<group>"; };
@@ -646,6 +649,7 @@
 		D950A30C26D20C11003D4907 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				D9558D7727228F9B004FEEBB /* Date */,
 				D91CB54E270BC4BA003DCB63 /* Lock */,
 				D91CB535270AD06A003DCB63 /* CombineMoya */,
 				D91CB52F270ACB96003DCB63 /* UserDefaults */,
@@ -724,6 +728,7 @@
 				D950A36226D231E1003D4907 /* Issuelist */,
 				D950A35E26D231C1003D4907 /* DashBoard */,
 				D950A36626D232D0003D4907 /* ProjectViewModel.swift */,
+				D950A32B26D20E00003D4907 /* ProjectListView.swift */,
 				D950A32D26D20E12003D4907 /* ProjectTab.swift */,
 			);
 			path = Project;
@@ -831,10 +836,6 @@
 			children = (
 				D9D132BF27212ED400919BEF /* ViewModel */,
 				D9D132BE27212ED000919BEF /* View */,
-				D950A36326D231E7003D4907 /* IssuelistView.swift */,
-				D94C99BF26DF4A7300CB2F07 /* IssueDetailView.swift */,
-				D936650926E34EAA00E1F57F /* NewIssueView.swift */,
-				D950A32B26D20E00003D4907 /* ProjectListView.swift */,
 			);
 			path = Issuelist;
 			sourceTree = "<group>";
@@ -903,6 +904,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		D9558D7727228F9B004FEEBB /* Date */ = {
+			isa = PBXGroup;
+			children = (
+				D9558D7827228FAA004FEEBB /* Date+Compare.swift */,
+			);
+			path = Date;
+			sourceTree = "<group>";
+		};
 		D97E0F722707F5E200CC8B74 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
@@ -952,6 +961,9 @@
 		D9D132BE27212ED000919BEF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D950A36326D231E7003D4907 /* IssuelistView.swift */,
+				D94C99BF26DF4A7300CB2F07 /* IssueDetailView.swift */,
+				D936650926E34EAA00E1F57F /* NewIssueView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1408,6 +1420,7 @@
 				D91CB52B270AC8A2003DCB63 /* LoginRepository.swift in Sources */,
 				D91CB53B270AD090003DCB63 /* MoyaPublisher.swift in Sources */,
 				D94C99B426DF37DF00CB2F07 /* ChannelInfoView.swift in Sources */,
+				D9558D7927228FAA004FEEBB /* Date+Compare.swift in Sources */,
 				D91CB529270AC89C003DCB63 /* RegisterRepository.swift in Sources */,
 				D91CB567270EE356003DCB63 /* Mypage.swift in Sources */,
 				D9FF611526DE3BC800AEA573 /* SearchBar.swift in Sources */,
@@ -1466,6 +1479,7 @@
 				D9D132BB2721004E00919BEF /* DashboardViewModel.swift in Sources */,
 				D91CB547270ADD31003DCB63 /* RefreshRepository.swift in Sources */,
 				D90BB8C426DD15A50002E210 /* SettingView.swift in Sources */,
+				D9558D7A27228FAA004FEEBB /* Date+Compare.swift in Sources */,
 				D91CB53F270AD0C8003DCB63 /* MoyaProvider+Combine.swift in Sources */,
 				D91CB574270EF4B2003DCB63 /* Mypage.swift in Sources */,
 				D9D132B82720F4AB00919BEF /* ProjectDashboard.swift in Sources */,

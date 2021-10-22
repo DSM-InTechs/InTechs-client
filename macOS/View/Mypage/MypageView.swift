@@ -20,9 +20,27 @@ struct MypageView: View {
                 
                 HStack(alignment: .top, spacing: 20) {
                     VStack(alignment: .leading) {
-                        KFImage(URL(string: viewModel.profile.image))
-                            .frame(width: geo.size.width / 3, height: geo.size.width / 3)
-                        
+                        Button(action: {
+                            NSOpenPanel.openImage(completion: { result in
+                                switch result {
+                                case .success(let image):
+                                    viewModel.updatedImage = image
+                                case .failure(_):
+                                    break
+                                }
+                            })
+                        }, label: {
+                            if viewModel.updatedImage != nil {
+                                Image(nsImage: viewModel.updatedImage!)
+                                    .resizable()
+                                    .frame(width: geo.size.width / 3, height: geo.size.width / 3)
+                            } else {
+                                KFImage(URL(string: viewModel.profile.image))
+                                    .resizable()
+                                    .frame(width: geo.size.width / 3, height: geo.size.width / 3)
+                            }
+                        }).buttonStyle(PlainButtonStyle())
+                       
                         VStack(alignment: .leading, spacing: 5) {
                             Text("이메일")
                             Text(viewModel.profile.email)
@@ -30,9 +48,16 @@ struct MypageView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 10) {
-                        Text(viewModel.profile.name)
-                            .font(.title)
-                            .fontWeight(.bold)
+                        VStack(alignment: .leading) {
+                            Text("이름")
+                            TextField("이름", text: $viewModel.updatedName)
+                                .textFieldStyle(PlainTextFieldStyle())
+                                .padding(.all, 10)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .strokeBorder(Color.gray.opacity(0.3))
+                                )
+                        }
                         
                         VStack(alignment: .leading) {
                             Text("내 프로젝트")
@@ -41,14 +66,36 @@ struct MypageView: View {
                                 ForEach(viewModel.myProjects, id: \.self) { project in
                                     HStack {
                                         KFImage(URL(string: project.image))
+                                            .resizable()
+                                            .frame(width: 25, height: 25)
                                         
                                         Text(project.name)
+                                        
+                                        Spacer()
+                                        
+                                        if viewModel.currentProject == project.id {
+                                            Image(system: .checkmark)
+                                        }
+                                    }.onTapGesture {
+                                        viewModel.currentProject = project.id
                                     }
                                 }.foregroundColor(.secondary)
                                     .padding(.all, 10)
                                     .background(RoundedRectangle(cornerRadius: 5).foregroundColor(.gray.opacity(0.1)))
                                     .border(Color.gray.opacity(0.3), width: 1)
                             }
+                        }
+                        
+                        Spacer()
+                        
+                        HStack {
+                            Spacer()
+                            
+                            Text("저장")
+                                .padding(.all, 10)
+                                .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
+                        }.onTapGesture {
+                            self.viewModel.apply(.change)
                         }
                     }
                 }

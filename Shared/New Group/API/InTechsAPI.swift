@@ -117,9 +117,9 @@ extension InTechsAPI: TargetType {
     
     public var method: Moya.Method {
         switch self {
-        case .register, .login, .refresh, .createProject, .joinProject, .createIssue:
+        case .register, .login, .refresh, .createProject, .joinProject, .createIssue, .getIssues:
             return .post
-        case .updateMypage, .updateMyActive, .updateProject, .updateIssue, .getIssues:
+        case .updateMypage, .updateMyActive, .updateProject, .updateIssue:
             return .patch
         case .deleteUser, .deleteProject, .exitProject, .deleteIssue:
             return .delete
@@ -135,10 +135,9 @@ extension InTechsAPI: TargetType {
         case let .login(email, password):
             return .requestParameters(parameters: ["email": email, "password": password], encoding: JSONEncoding.default)
         case let .updateMypage(name, imageData):
-            let gifData = MultipartFormData(provider: .data(imageData), name: "file", fileName: "gif.gif", mimeType: "image/gif")
-            let descriptionData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
-            let multipartData = [gifData, descriptionData]
-            
+            let data = MultipartFormData(provider: .data(imageData), name: name, fileName: "\(name).jpeg", mimeType: "image/jpeg")
+            let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
+            let multipartData = [data, nameData]
             return .uploadMultipart(multipartData)
         case .updateMyActive(let isActive):
             return .requestParameters(parameters: ["isActive": isActive], encoding: JSONEncoding.default)
@@ -176,6 +175,11 @@ extension InTechsAPI: TargetType {
             //            return .requestParameters(parameters: ["q": string], encoding: URLEncoding.queryString)
             //        case .addComment(_, let body):
             //            return .requestParameters(parameters: ["body": body], encoding: URLEncoding.default)
+        case let .updateProject(_, name, imageData):
+            let data = MultipartFormData(provider: .data(imageData), name: name, fileName: "\(name).jpeg", mimeType: "image/jpeg")
+            let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
+            let multipartData = [data, nameData]
+            return .uploadMultipart(multipartData)
         default:
             return .requestPlain
         }

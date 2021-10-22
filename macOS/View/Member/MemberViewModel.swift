@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 class MemberViewModel: ObservableObject {
-    @Published var members: [User] = [User]()
+    @Published var members: [ProjectMember] = [ProjectMember]()
     @UserDefault(key: "currentProject", defaultValue: 0)
     public var currentProject: Int
     
@@ -40,7 +40,7 @@ class MemberViewModel: ObservableObject {
         input.getMembers
             .flatMap {
                 self.projectRepository.getProjectMembers()
-                    .catch { _ -> Empty<[User], Never> in
+                    .catch { _ -> Empty<[ProjectMember], Never> in
                         return .init()
                     }
             }

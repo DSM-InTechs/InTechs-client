@@ -12,6 +12,13 @@ class MypageViewModel: ObservableObject {
     @Published var profile: Mypage = Mypage(name: "", email: "", image: "")
     @Published var myProjects: [Project] = [Project]()
     
+    @UserDefault(key: "currentProject", defaultValue: 0)
+    public var currentProject: Int
+    
+    @Published var originalImage: NSImage?
+    @Published var updatedName: String = ""
+    @Published var updatedImage: NSImage?
+    
     public var successExecute: () -> Void = {}
     
     private let mypageRepository: MypageRepository
@@ -21,11 +28,13 @@ class MypageViewModel: ObservableObject {
     
     public enum Event {
         case mypage
+        case change
         case deleteUser
     }
     
     public struct Input {
         let mypage = PassthroughSubject<Void, Never>()
+        let change = PassthroughSubject<Void, Never>()
         let deleteUser = PassthroughSubject<Void, Never>()
     }
     
@@ -35,6 +44,8 @@ class MypageViewModel: ObservableObject {
         switch input {
         case .mypage:
             self.input.mypage.send(())
+        case .change:
+            self.input.change.send(())
         case .deleteUser:
             self.input.deleteUser.send(())
         }
@@ -45,6 +56,16 @@ class MypageViewModel: ObservableObject {
         self.mypageRepository = mypageRepository
         self.projectRepository = projectRepository
         
+//        input.mypage
+//            .flatMap {
+//                self.mypageRepository.mypage()
+//                    .catch { _ -> Empty<Mypage, Never> in
+//                        return .init()
+//                    }
+//            }
+//            .assign(to: \.profile, on: self)
+//            .store(in: &bag)
+        
         input.mypage
             .flatMap {
                 self.mypageRepository.mypage()
@@ -52,7 +73,11 @@ class MypageViewModel: ObservableObject {
                         return .init()
                     }
             }
-            .assign(to: \.profile, on: self)
+            .sink(receiveValue: { profile in
+                self.profile = profile
+                self.updatedName = profile.name
+                self.originalImage = NSImage(byReferencing: URL(string: self.profile.image)!)
+            })
             .store(in: &bag)
         
         input.mypage
@@ -63,6 +88,22 @@ class MypageViewModel: ObservableObject {
                     }
             }
             .assign(to: \.myProjects, on: self)
+            .store(in: &bag)
+        
+        input.change
+            .flatMap {
+                self.mypageRepository.updateMypage(name: self.updatedName,
+                                                     image: self.updatedImage ?? self.originalImage!)
+                    .catch { _ -> Empty<Void, Never> in
+                        return .init()
+                    }
+            }
+            .sink(receiveValue: { [self] _ in
+                self.profile.name = self.updatedName
+                if self.updatedImage != nil {
+                    self.originalImage = self.updatedImage
+                }
+            })
             .store(in: &bag)
         
         input.deleteUser

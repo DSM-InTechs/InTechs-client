@@ -8,14 +8,14 @@
 import Foundation
 
 public struct Issue: Codable, Hashable, Equatable {
-    public var id: Int
+    public var id: String
     public var writer: String
     public var title: String
     public var content: String?
     public var state: String?
     public var progress: Int
     public var endDate: String?
-    public var projectId: String
+    public var projectId: Int
     public var users: [IssueUser]
     public var tags: [IssueTag]
     public var comments: [IssueComment]?
@@ -30,12 +30,12 @@ public enum IssueState: String {
 public struct IssueUser: Codable, Hashable, Equatable {
     public var name: String
     public var email: String
-//    public var imageURL: String
+    public var imageURL: String
     
     enum CodingKeys: String, CodingKey {
         case name
         case email
-//        case imageURL = "imageUri"
+        case imageURL = "image"
     }
 }
 

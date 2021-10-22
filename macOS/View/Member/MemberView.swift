@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MemberView: View {
     @ObservedObject var viewModel = MemberViewModel()
@@ -53,18 +54,22 @@ struct MemberView: View {
             }
         }.padding(.trailing, 70)
         .background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
+        .onAppear {
+            self.viewModel.apply(.onAppear)
+        }
     }
 }
 
 struct MemberRow: View {
-    let member: User
+    let member: ProjectMember
     var body: some View {
-        HStack {
+        HStack(spacing: 20) {
             ZStack(alignment: .bottomTrailing) {
-                RoundedRectangle(cornerRadius: 10)
+                KFImage(URL(string: member.imageURL))
+                    .resizable()
                     .frame(width: 100, height: 100)
                 
-                if member.isActive {
+                if member.active {
                     ActiveView()
                 } else {
                     InActiveView()
@@ -73,7 +78,11 @@ struct MemberRow: View {
             
             VStack(alignment: .leading) {
                 Text(member.name)
+                    .font(.title2)
+                
                 Spacer()
+                
+                // 멤버가 자신인지 분기처리
                 Text("DM 시작하기")
             }
             

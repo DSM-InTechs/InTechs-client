@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct IssuelistView: View {
     @EnvironmentObject var homeVM: HomeViewModel
     @ObservedObject var viewModel = IssuelistViewModel()
-    @State private var currentIssue: Issue? = nil
+    @State private var currentIssue: Issue?
     
     var body: some View {
         GeometryReader { geo in
@@ -20,30 +21,82 @@ struct IssuelistView: View {
                         Text("Unresolved 2")
                             .padding(.all, 5)
                             .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .strokeBorder(Color.blue, lineWidth: 2)
-                            )
+                                ZStack {
+                                    if self.viewModel.selectedTab == .unresolved {
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .strokeBorder(Color.blue, lineWidth: 2)
+                                    } else {
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .strokeBorder(Color.gray.opacity(0.3))
+                                    }
+                                }
+                            ).onTapGesture {
+                                if self.viewModel.selectedTab == .unresolved {
+                                    self.viewModel.selectedTab = nil
+                                } else {
+                                    self.viewModel.selectedTab = .unresolved
+                                }
+                            }
                         
                         Text("For me 2")
                             .padding(.all, 5)
                             .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .strokeBorder(Color.gray.opacity(0.3))
-                            )
+                                ZStack {
+                                    if self.viewModel.selectedTab == .forMe {
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .strokeBorder(Color.blue, lineWidth: 2)
+                                    } else {
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .strokeBorder(Color.gray.opacity(0.3))
+                                    }
+                                }
+                            ).onTapGesture {
+                                if self.viewModel.selectedTab == .forMe {
+                                    self.viewModel.selectedTab = nil
+                                } else {
+                                    self.viewModel.selectedTab = .forMe
+                                }
+                            }
                         
                         Text("For me & Unresolved 2")
                             .padding(.all, 5)
                             .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .strokeBorder(Color.gray.opacity(0.3))
-                            )
+                                ZStack {
+                                    if self.viewModel.selectedTab == .forMeAndUnresolved {
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .strokeBorder(Color.blue, lineWidth: 2)
+                                    } else {
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .strokeBorder(Color.gray.opacity(0.3))
+                                    }
+                                }
+                            ).onTapGesture {
+                                if self.viewModel.selectedTab == .forMeAndUnresolved {
+                                    self.viewModel.selectedTab = nil
+                                } else {
+                                    self.viewModel.selectedTab = .forMeAndUnresolved
+                                }
+                            }
                         
                         Text("Resolved 2")
                             .padding(.all, 5)
                             .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .strokeBorder(Color.gray.opacity(0.3))
-                            )
+                                ZStack {
+                                    if self.viewModel.selectedTab == .resolved {
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .strokeBorder(Color.blue, lineWidth: 2)
+                                    } else {
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .strokeBorder(Color.gray.opacity(0.3))
+                                    }
+                                }
+                            ).onTapGesture {
+                                if self.viewModel.selectedTab == .resolved {
+                                    self.viewModel.selectedTab = nil
+                                } else {
+                                    self.viewModel.selectedTab = .resolved
+                                }
+                            }
                         
                         Spacer()
                         
@@ -141,33 +194,45 @@ struct IssuelistRow: View {
     var body: some View {
         HStack(spacing: 20) {
             HStack {
-                Circle().frame(width: 10, height: 10)
+                switch issue.state {
+                case .some(IssueState.ready.rawValue):
+                    Circle().frame(width: 10, height: 10)
+                case .some(IssueState.progress.rawValue):
+                    Circle().frame(width: 10, height: 10)
+                case .some(IssueState.done.rawValue):
+                    Circle().frame(width: 10, height: 10)
+                default:
+                    Text("").hidden()
+                }
                 Text(issue.title)
             }
             
             Spacer()
             
-//            if !issue.users.isEmpty {
-                
-                    HStack(spacing: -10) {
-                        Circle().frame(width: 20, height: 20)
-                        Circle().frame(width: 20, height: 20)
-                        Circle().frame(width: 20, height: 20)
-                        Text("+5")
+            if issue.users.isEmpty == false {
+                HStack(spacing: -10) {
+                    ForEach(issue.users.prefix(3), id: \.self) { user in
+                        KFImage(URL(string: user.imageURL)).frame(width: 20, height: 20)
+                        Text(user.name)
+                    }
+                    if issue.users.count > 3 {
+                        Text(String(issue.users.count - 3))
                             .foregroundColor(.black)
                             .font(.caption)
                             .background(Circle().frame(width: 20, height: 20))
                     }
-//            }
-            
-//            HStack {
-//                Circle().frame(width: 20, height: 20)
-//                Text("대상자")
-//            }
+                }
+            }
             
             if issue.endDate != nil {
-                Text(issue.endDate!)
-                    .foregroundColor(.red)
+                if Date.compareWithToday(a: issue.endDate!) == 0 { // 날짜가 지난 경우 취소선
+                    Text(issue.endDate!)
+                        .foregroundColor(.gray)
+                        .strikethrough()
+                } else {
+                    Text(issue.endDate!)
+                        .foregroundColor(.red)
+                }
             }
             
         }.padding(.all, 5)

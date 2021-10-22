@@ -40,7 +40,7 @@ class SettingViewModel: ObservableObject {
         case .onAppear:
             self.input.onAppear.send(())
         case .change:
-            if self.updatedName != projectInfo.name || self.updatedImage != originalImage { // 변경 사항이 하나라도 있다면
+            if self.updatedName != projectInfo.name || self.updatedImage != nil { // 변경 사항이 하나라도 있다면
                 self.input.change.send(())
             }
         case .delete:
