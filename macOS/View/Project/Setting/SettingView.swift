@@ -58,6 +58,20 @@ struct SettingView: View {
             
             HStack {
                 HStack {
+                    Text("탈퇴")
+                        .foregroundColor(Color.white)
+                        .padding(.all, 10)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(Color.red)
+                        )
+                }.onTapGesture {
+                    self.homeVM.toast = .projectExit(execute: {
+                        self.viewModel.apply(.delete)
+                    })
+                }
+                
+                HStack {
                     Text("삭제")
                         .foregroundColor(.red)
                         .padding(.all, 10)
@@ -86,6 +100,9 @@ struct SettingView: View {
         .padding(.trailing, 70)
         .onAppear {
             self.viewModel.apply(.onAppear)
+            self.viewModel.refreshProject = {
+                self.homeVM.apply(.onAppear)
+            }
         }
     }
 }
@@ -94,6 +111,48 @@ struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
         SettingView()
         ProjectDeleteView(execute: { })
+    }
+}
+
+struct ProjectExitView: View {
+    let execute: () -> Void
+    @EnvironmentObject var homeVM: HomeViewModel
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Text("프로젝트를 탈퇴하시겠습니까?")
+                .fontWeight(.bold)
+                .font(.title)
+            
+            HStack(spacing: 15) {
+                Spacer()
+                Text("취소")
+                    .padding(.all, 10)
+                    .padding(.horizontal, 10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color(Asset.black), lineWidth: 1)
+                    )
+                    .onTapGesture {
+                        withAnimation {
+                            self.homeVM.toast = nil
+                        }
+                    }
+                
+                Text("삭제")
+                    .foregroundColor(Color(Asset.black))
+                    .padding(.all, 10)
+                    .padding(.horizontal, 10)
+                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.red))
+                    .onTapGesture {
+                        self.execute()
+                        withAnimation {
+                            self.homeVM.toast = nil
+                        }
+                    }
+            }
+        }.padding()
+        .padding(.all, 10)
     }
 }
 
@@ -124,7 +183,7 @@ struct ProjectDeleteView: View {
                         }
                     }
                 
-                Text("삭제")
+                Text("탈퇴")
                     .foregroundColor(Color(Asset.black))
                     .padding(.all, 10)
                     .padding(.horizontal, 10)

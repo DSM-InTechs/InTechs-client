@@ -20,7 +20,7 @@ struct NewProjectView: View {
             }
             
             VStack(alignment: .leading) {
-                Text("로고 (선택)")
+                Text("로고")
                 if viewModel.image == nil {
                     RoundedRectangle(cornerRadius: 10).frame(width: 40, height: 40)
                         .onTapGesture {
@@ -81,13 +81,14 @@ struct NewProjectView: View {
                 
                 Spacer()
                 
-                if viewModel.name != "" {
+                if viewModel.name != "" && viewModel.image != nil {
                     Text("생성")
                         .padding(.all, 5)
                         .padding(.horizontal, 10)
                         .font(.title3)
                         .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
                         .onTapGesture {
+                            self.viewModel.apply(.createProject)
                             withAnimation {
                                 self.homeVM.toast = nil
                             }

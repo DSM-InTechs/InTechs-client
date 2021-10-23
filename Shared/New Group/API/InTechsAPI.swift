@@ -175,6 +175,11 @@ extension InTechsAPI: TargetType {
             //            return .requestParameters(parameters: ["q": string], encoding: URLEncoding.queryString)
             //        case .addComment(_, let body):
             //            return .requestParameters(parameters: ["body": body], encoding: URLEncoding.default)
+        case let .createProject(name, imageData):
+            let data = MultipartFormData(provider: .data(imageData), name: name, fileName: "\(name).jpeg", mimeType: "image/jpeg")
+            let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
+            let multipartData = [data, nameData]
+            return .uploadMultipart(multipartData)
         case let .updateProject(_, name, imageData):
             let data = MultipartFormData(provider: .data(imageData), name: name, fileName: "\(name).jpeg", mimeType: "image/jpeg")
             let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")

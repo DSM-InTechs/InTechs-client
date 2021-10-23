@@ -9,17 +9,19 @@ import SwiftUI
 import Combine
 
 enum Toast {
+    case userDelete(execute: () -> Void)
     case channelSearch
     case channelInfo
     case channelRename
     case channelDelete
     case channelCreate
     case messageDelete
-    case issueDelete(execute: () -> ())
+    case issueDelete(execute: () -> Void)
     case issueCreate
     case projectCreate
     case projectJoin
-    case projectDelete(execute: () -> ())
+    case projectExit(execute: () -> Void)
+    case projectDelete(execute: () -> Void)
 }
 
 class HomeViewModel: ObservableObject {

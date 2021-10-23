@@ -14,6 +14,7 @@ public protocol ProjectRepository {
     func getProjectInfo() -> AnyPublisher<ProjectInfo, NetworkError>
     func getProjectDashBoard() -> AnyPublisher<ProjectDashboard, NetworkError>
     func getProjectMembers() -> AnyPublisher<[ProjectMember], NetworkError>
+    func exitProject() -> AnyPublisher<Void, NetworkError>
     func deleteProject() -> AnyPublisher<Void, NetworkError>
     #if os(iOS)
     func createProject(name: String, image: UIImage) -> AnyPublisher<Void, NetworkError>
@@ -128,6 +129,21 @@ final public class ProjectRepositoryImpl: ProjectRepository {
                         .map([ProjectMember].self)
                 }
                 return Fail<[ProjectMember], MoyaError>(error: error).eraseToAnyPublisher()
+            }
+            .mapError {  NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    public func exitProject() -> AnyPublisher<Void, NetworkError> {
+        provider.requestVoidPublisher(.exitProject(id: currentProject))
+            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
+                    self.refreshRepository.refresh()
+                    
+                    return self.provider.requestVoidPublisher(.deleteProject(id: self.currentProject))
+                }
+                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
             }
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()

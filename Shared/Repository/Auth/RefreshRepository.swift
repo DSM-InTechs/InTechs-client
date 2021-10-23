@@ -21,19 +21,21 @@ final public class RefreshRepositoryImpl: RefreshRepository {
     @UserDefault(key: "refreshToken", defaultValue: "")
     private var refreshToken: String
     
+    @UserDefault(key: "userEmail", defaultValue: "")
+    private var userEmail: String
+    
+    @UserDefault(key: "userPassword", defaultValue: "")
+    private var userPassword: String
+    
     public init(provider: MoyaProvider<InTechsAPI> = MoyaProvider<InTechsAPI>()) {
         self.provider = provider
     }
     
     public func refresh() {
-        print(self.accessToken)
-        print(self.refreshToken)
-        
-        provider.request(.refresh(refreshToken: self.refreshToken), completion: { result in
+        provider.request(.login(email: userEmail, password: userPassword), completion: { result in
             switch result {
             case .success(let response):
                 let data = try! JSONDecoder().decode(AuthReponse.self, from: response.data)
-                print("Success access Token = \(data.accessToken)")
                 self.accessToken = data.accessToken
                 self.refreshToken = data.refreshToken
                 

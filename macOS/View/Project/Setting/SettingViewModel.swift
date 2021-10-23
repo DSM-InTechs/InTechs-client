@@ -18,18 +18,21 @@ class SettingViewModel: ObservableObject {
     @Published var updatedImage: NSImage?
     
     private let projectRepository: ProjectRepository
+    public var refreshProject: () -> Void = {}
     
     private var bag = Set<AnyCancellable>()
     
     public enum Event {
         case onAppear
         case change
+        case exit
         case delete
     }
     
     public struct Input {
         let onAppear = PassthroughSubject<Void, Never>()
         let change = PassthroughSubject<Void, Never>()
+        let exit = PassthroughSubject<Void, Never>()
         let delete = PassthroughSubject<Void, Never>()
     }
     
@@ -43,6 +46,8 @@ class SettingViewModel: ObservableObject {
             if self.updatedName != projectInfo.name || self.updatedImage != nil { // 변경 사항이 하나라도 있다면
                 self.input.change.send(())
             }
+        case .exit:
+            self.input.exit.send(())
         case .delete:
             self.input.delete.send(())
         }
@@ -78,6 +83,21 @@ class SettingViewModel: ObservableObject {
                 if self.updatedImage != nil {
                     self.originalImage = self.updatedImage
                 }
+            })
+            .store(in: &bag)
+        
+        input.exit
+            .flatMap {
+                self.projectRepository.exitProject()
+                    .catch { _ -> Empty<Void, Never> in
+                        return .init()
+                    }
+            }
+            .sink(receiveValue: { _ in
+                // 프로젝트 목록 리프레시
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    self.refreshProject()
+                })
             })
             .store(in: &bag)
         

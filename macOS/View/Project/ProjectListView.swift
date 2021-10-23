@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct ProjectListView: View {
-    @ObservedObject var viewModel = ProjectViewModel()
+    @StateObject var viewModel = ProjectViewModel()
     @Namespace private var animation
     
     var body: some View {
