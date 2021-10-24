@@ -67,6 +67,9 @@ struct ProjectJoinView: View {
             .padding(.all, 5)
             .onAppear {
                 self.viewModel.successExecute = {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        self.homeVM.apply(.onAppear)
+                    })
                     withAnimation {
                         self.homeVM.toast = nil
                     }

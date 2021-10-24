@@ -24,6 +24,7 @@ struct ProjectListView: View {
                     case .issueBoards: IssueBoardView()
                         .frame(width: geo.size.width / 1.35)
                     case .settings: SettingView()
+                            .environmentObject(viewModel)
                         .frame(width: geo.size.width / 1.35)
                     }
                 }.offset(x: geo.size.width / 4)

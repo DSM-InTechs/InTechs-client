@@ -18,8 +18,10 @@ enum IssueTab {
 class IssuelistViewModel: ObservableObject {
     @Published var issues = [Issue]()
     @Published var selectedTab: IssueTab?
+    @Published var dashboard: ProjectDashboard = ProjectDashboard(userCount: 0, issuesCount: DashboardIssueCount(forMe: 0, resolved: 0, unresolved: 0, forMeAndUnresolved: 0))
     
     private let issueReporitory: IssueReporitory
+    private let projectRepository: ProjectRepository
     
     private var bag = Set<AnyCancellable>()
     
@@ -40,8 +42,10 @@ class IssuelistViewModel: ObservableObject {
         }
     }
     
-    init(issueReporitory: IssueReporitory = IssueReporitoryImpl()) {
+    init(issueReporitory: IssueReporitory = IssueReporitoryImpl(),
+         projectRepository: ProjectRepository = ProjectRepositoryImpl()) {
         self.issueReporitory = issueReporitory
+        self.projectRepository = projectRepository
         
         input.onAppear
             .flatMap {
@@ -51,6 +55,16 @@ class IssuelistViewModel: ObservableObject {
                     }
             }
             .assign(to: \.issues, on: self)
+            .store(in: &bag)
+        
+        input.onAppear
+            .flatMap {
+                self.projectRepository.getProjectDashBoard()
+                    .catch { _ -> Empty<ProjectDashboard, Never> in
+                        return .init()
+                    }
+            }
+            .assign(to: \.dashboard, on: self)
             .store(in: &bag)
     }
     

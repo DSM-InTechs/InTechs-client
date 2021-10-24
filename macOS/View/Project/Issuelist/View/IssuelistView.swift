@@ -18,7 +18,7 @@ struct IssuelistView: View {
             VStack(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
-                        Text("Unresolved 2")
+                        Text("Unresolved \(viewModel.dashboard.issuesCount.unresolved)")
                             .padding(.all, 5)
                             .overlay(
                                 ZStack {
@@ -38,7 +38,7 @@ struct IssuelistView: View {
                                 }
                             }
                         
-                        Text("For me 2")
+                        Text("For me \(viewModel.dashboard.issuesCount.forMe)")
                             .padding(.all, 5)
                             .overlay(
                                 ZStack {
@@ -58,7 +58,7 @@ struct IssuelistView: View {
                                 }
                             }
                         
-                        Text("For me & Unresolved 2")
+                        Text("For me & Unresolved \(viewModel.dashboard.issuesCount.forMeAndUnresolved)")
                             .padding(.all, 5)
                             .overlay(
                                 ZStack {
@@ -78,7 +78,7 @@ struct IssuelistView: View {
                                 }
                             }
                         
-                        Text("Resolved 2")
+                        Text("Resolved \(viewModel.dashboard.issuesCount.resolved)")
                             .padding(.all, 5)
                             .overlay(
                                 ZStack {
@@ -104,6 +104,9 @@ struct IssuelistView: View {
                             .padding(.all, 5)
                             .background( RoundedRectangle(cornerRadius: 5)
                                             .foregroundColor(.blue))
+                            .onTapGesture {
+                                self.homeVM.toast = .issueCreate
+                            }
                     }
                     
                     HStack(spacing: 20) {

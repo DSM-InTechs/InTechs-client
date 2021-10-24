@@ -210,14 +210,16 @@ final public class ProjectRepositoryImpl: ProjectRepository {
     
     public func createProject(name: String, image: NSImage) -> AnyPublisher<Void, NetworkError> {
         let image = image.resize(width: 400, height: 400)!
-        let data = image.tiffRepresentation! as Data
+        let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)!
+        let bitmapRep = NSBitmapImageRep(cgImage: cgImage)
+        let jpegData = bitmapRep.representation(using: NSBitmapImageRep.FileType.jpeg, properties: [:])!
         
-        return provider.requestPublisher(.createProject(name: name, imageData: data))
+        return provider.requestPublisher(.createProject(name: name, imageData: jpegData))
             .map { moyaResponse -> Void in
                 let response = moyaResponse.response
                 let responseHeader = response?.allHeaderFields
-                self.currentProject = responseHeader!["Project-Number"] as! Int
-                print("CREATED \(self.currentProject)")
+                let str = responseHeader!["Project-Number"] as! NSString
+                self.currentProject = Int(str.intValue)
                 return
             }
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
@@ -225,7 +227,7 @@ final public class ProjectRepositoryImpl: ProjectRepository {
                 if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
                     
-                    return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
+                    return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: jpegData))
                 }
                 return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
             }
@@ -238,7 +240,6 @@ final public class ProjectRepositoryImpl: ProjectRepository {
         let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)!
         let bitmapRep = NSBitmapImageRep(cgImage: cgImage)
         let jpegData = bitmapRep.representation(using: NSBitmapImageRep.FileType.jpeg, properties: [:])!
-//        let data = image.tiffRepresentation! as Data
         
         return provider.requestVoidPublisher(.updateProject(id: currentProject, name: name, imageData: jpegData))
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in

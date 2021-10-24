@@ -127,6 +127,7 @@
 		D950A37B26D33A9E003D4907 /* ChannelSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */; };
 		D9558D7927228FAA004FEEBB /* Date+Compare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7827228FAA004FEEBB /* Date+Compare.swift */; };
 		D9558D7A27228FAA004FEEBB /* Date+Compare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7827228FAA004FEEBB /* Date+Compare.swift */; };
+		D9558D7C2725991E004FEEBB /* NewIssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7B2725991D004FEEBB /* NewIssueViewModel.swift */; };
 		D97759BF2716CAC100BC9577 /* MypageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97759BE2716CAC100BC9577 /* MypageViewModel.swift */; };
 		D97E0F752707F60F00CC8B74 /* InTechsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */; };
 		D97E0F762707F87D00CC8B74 /* InTechsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */; };
@@ -320,6 +321,7 @@
 		D950A37826D336AD003D4907 /* ChannelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoView.swift; sourceTree = "<group>"; };
 		D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSearchView.swift; sourceTree = "<group>"; };
 		D9558D7827228FAA004FEEBB /* Date+Compare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Compare.swift"; sourceTree = "<group>"; };
+		D9558D7B2725991D004FEEBB /* NewIssueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIssueViewModel.swift; sourceTree = "<group>"; };
 		D97759BE2716CAC100BC9577 /* MypageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewModel.swift; sourceTree = "<group>"; };
 		D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsAPI.swift; sourceTree = "<group>"; };
 		D9D132A72720507900919BEF /* IssueRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueRepository.swift; sourceTree = "<group>"; };
@@ -972,6 +974,7 @@
 			isa = PBXGroup;
 			children = (
 				D91CB576270EF79B003DCB63 /* IssuelistViewModel.swift */,
+				D9558D7B2725991D004FEEBB /* NewIssueViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1469,6 +1472,7 @@
 				D950A32C26D20E00003D4907 /* ProjectListView.swift in Sources */,
 				D91CB575270EF5ED003DCB63 /* Image+resize.swift in Sources */,
 				D950A31E26D20CAD003D4907 /* HomeViewModel.swift in Sources */,
+				D9558D7C2725991E004FEEBB /* NewIssueViewModel.swift in Sources */,
 				D950A31226D20C44003D4907 /* SFImage.swift in Sources */,
 				D90C61D527100CA0006F0A55 /* ProjectJoinView.swift in Sources */,
 				D97E0F762707F87D00CC8B74 /* InTechsAPI.swift in Sources */,

@@ -35,6 +35,8 @@ struct NewProjectView: View {
                         }
                 } else {
                     Image(nsImage: viewModel.image!)
+                        .resizable()
+                        .frame(width: 40, height: 40)
                         .onTapGesture {
                             NSOpenPanel.openImage(completion: { result in
                                 switch result {
@@ -81,7 +83,7 @@ struct NewProjectView: View {
                 
                 Spacer()
                 
-                if viewModel.name != "" && viewModel.image != nil {
+                if viewModel.name != "" {
                     Text("생성")
                         .padding(.all, 5)
                         .padding(.horizontal, 10)
@@ -89,6 +91,9 @@ struct NewProjectView: View {
                         .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
                         .onTapGesture {
                             self.viewModel.apply(.createProject)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                self.homeVM.apply(.onAppear)
+                            })
                             withAnimation {
                                 self.homeVM.toast = nil
                             }

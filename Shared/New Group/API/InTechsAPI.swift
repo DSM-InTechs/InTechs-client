@@ -34,9 +34,9 @@ public enum InTechsAPI {
     
     // MARK: - Issue
     case getIssues(projectId: Int, tags: [String]?, states: [String]?, users: [String]?)
-    case createIssue(projectId: Int, title: String, body: String?, date: String?, progress: Int, state: String?, tags: [String]?)
+    case createIssue(projectId: Int, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?)
     case deleteIssue(projectId: Int, issueId: Int)
-    case updateIssue(projectId: Int, issueId: Int, title: String, body: String?, date: String?, progress: Int, state: String?, tags: [String]?)
+    case updateIssue(projectId: Int, issueId: Int, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?)
     case getDetailIssue(projectId: Int, issueId: Int)
     
     // MARK: - Calendar
@@ -77,8 +77,8 @@ extension InTechsAPI: TargetType {
             // MARK: - Project
         case .dashboard(let id):
             return "/project/\(id)/dashboard"
-        case .createProject(let name, _):
-            return "/project/\(name)"
+        case .createProject(_, _):
+            return "/project"
         case .deleteProject(let id):
             return "/project/\(id)"
         case .updateProject(let id, _, _):
@@ -95,11 +95,11 @@ extension InTechsAPI: TargetType {
             // MARK: - Issue
         case .getIssues(let projectId, _, _, _):
             return "/project/\(projectId)/issue/filter"
-        case .createIssue(let projectId, _, _, _, _, _, _):
+        case .createIssue(let projectId, _, _, _, _, _, _, _):
             return "/project/\(projectId)/issue"
         case .deleteIssue(let projectId, let issueId):
             return "/project/\(projectId)/issue/\(issueId)"
-        case .updateIssue(let projectId, let issueId, _, _, _, _, _, _):
+        case .updateIssue(let projectId, let issueId, _, _, _, _, _, _, _):
             return "/project/\(projectId)/issue/\(issueId)"
         case .getDetailIssue(let projectId, let issueId):
             return "/project/\(projectId)/issue/\(issueId)"
@@ -135,7 +135,7 @@ extension InTechsAPI: TargetType {
         case let .login(email, password):
             return .requestParameters(parameters: ["email": email, "password": password], encoding: JSONEncoding.default)
         case let .updateMypage(name, imageData):
-            let data = MultipartFormData(provider: .data(imageData), name: name, fileName: "\(name).jpeg", mimeType: "image/jpeg")
+            let data = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(name).jpeg", mimeType: "image/jpeg")
             let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
             let multipartData = [data, nameData]
             return .uploadMultipart(multipartData)
@@ -153,35 +153,33 @@ extension InTechsAPI: TargetType {
                 paras["users"] = users!
             }
             return .requestParameters(parameters: paras, encoding: JSONEncoding.default)
-        case .createIssue(_, let  title, let body, let date, let progress, let state, let tags):
+        case .createIssue(_, let  title, let body, let date, let progress, let state, let users, let tags):
             var paras: [String: Any] = [:]
             paras["title"] = title
             paras["content"] = body ?? NSNull()
             paras["end_date"] = date ?? NSNull()
-            paras["progress"] = progress
+            paras["progress"] = progress ?? NSNull()
             paras["state"] = state ?? NSNull()
+            paras["users"] = users ?? NSNull()
             paras["tags"] = tags ?? NSNull()
             return .requestParameters(parameters: paras, encoding: JSONEncoding.default)
-        case .updateIssue(_, _, let  title, let body, let date, let progress, let state, let tags):
+        case .updateIssue(_, _, let  title, let body, let date, let progress, let state, let users, let tags):
             var paras: [String: Any] = [:]
             paras["title"] = title
             paras["content"] = body ?? NSNull()
             paras["end_date"] = date ?? NSNull()
-            paras["progress"] = progress
+            paras["progress"] = progress ?? NSNull()
             paras["state"] = state ?? NSNull()
+            paras["users"] = users ?? NSNull()
             paras["tags"] = tags ?? NSNull()
             return .requestParameters(parameters: paras, encoding: JSONEncoding.default)
-            //        case .searchLetter(let string):
-            //            return .requestParameters(parameters: ["q": string], encoding: URLEncoding.queryString)
-            //        case .addComment(_, let body):
-            //            return .requestParameters(parameters: ["body": body], encoding: URLEncoding.default)
         case let .createProject(name, imageData):
-            let data = MultipartFormData(provider: .data(imageData), name: name, fileName: "\(name).jpeg", mimeType: "image/jpeg")
+            let data = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(name).jpeg", mimeType: "image/jpeg")
             let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
             let multipartData = [data, nameData]
             return .uploadMultipart(multipartData)
         case let .updateProject(_, name, imageData):
-            let data = MultipartFormData(provider: .data(imageData), name: name, fileName: "\(name).jpeg", mimeType: "image/jpeg")
+            let data = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(name).jpeg", mimeType: "image/jpeg")
             let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
             let multipartData = [data, nameData]
             return .uploadMultipart(multipartData)

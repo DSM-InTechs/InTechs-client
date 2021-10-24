@@ -11,6 +11,7 @@ import Kingfisher
 struct SettingView: View {
     @State var text: String = ""
     @EnvironmentObject var homeVM: HomeViewModel
+    @EnvironmentObject var projectlistVM: ProjectViewModel
     @ObservedObject var viewModel = SettingViewModel()
     
     var body: some View {
@@ -67,7 +68,7 @@ struct SettingView: View {
                         )
                 }.onTapGesture {
                     self.homeVM.toast = .projectExit(execute: {
-                        self.viewModel.apply(.delete)
+                        self.viewModel.apply(.exit)
                     })
                 }
                 
@@ -93,6 +94,7 @@ struct SettingView: View {
                         .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
                 }.onTapGesture {
                     self.viewModel.apply(.change)
+                    self.projectlistVM.apply(.onAppear)
                 }
                 
             }.padding(.top)
@@ -139,13 +141,14 @@ struct ProjectExitView: View {
                         }
                     }
                 
-                Text("삭제")
+                Text("탈퇴")
                     .foregroundColor(Color(Asset.black))
                     .padding(.all, 10)
                     .padding(.horizontal, 10)
                     .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.red))
                     .onTapGesture {
                         self.execute()
+                        self.homeVM.apply(.onAppear)
                         withAnimation {
                             self.homeVM.toast = nil
                         }
@@ -183,13 +186,16 @@ struct ProjectDeleteView: View {
                         }
                     }
                 
-                Text("탈퇴")
+                Text("삭제")
                     .foregroundColor(Color(Asset.black))
                     .padding(.all, 10)
                     .padding(.horizontal, 10)
                     .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.red))
                     .onTapGesture {
                         self.execute()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            self.homeVM.apply(.onAppear)
+                        })
                         withAnimation {
                             self.homeVM.toast = nil
                         }

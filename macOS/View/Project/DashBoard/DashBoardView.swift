@@ -35,17 +35,6 @@ struct DashBoardView: View {
                             .frame(width: 20, height: 15)
                         Text("\(viewModel.dashboard.userCount)명의 멤버")
                     }
-                    
-                    // profile images
-//                    HStack(spacing: -10) {
-//                        Circle().frame(width: 20, height: 20)
-//                        Circle().frame(width: 20, height: 20)
-//                        Circle().frame(width: 20, height: 20)
-//                        Text("+5")
-//                            .foregroundColor(.black)
-//                            .font(.caption)
-//                            .background(Circle().frame(width: 20, height: 20))
-//                    }
                 }
                 
                 VStack(alignment: .leading, spacing: 20) {

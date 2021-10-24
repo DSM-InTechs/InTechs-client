@@ -10,8 +10,8 @@ import Combine
 
 public protocol IssueReporitory {
     func getIssues() -> AnyPublisher<[Issue], NetworkError>
-    func createIssue(title: String, body: String?, date: String?, progress: Int, state: String?, tags: [String]?) -> AnyPublisher<Void, NetworkError>
-    func modifyIssue(id: Int, title: String, body: String?, date: String?, progress: Int, state: String?, tags: [String]?) -> AnyPublisher<Void, NetworkError>
+    func createIssue(title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?) -> AnyPublisher<Void, NetworkError>
+    func modifyIssue(id: Int, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?) -> AnyPublisher<Void, NetworkError>
     func deleteIssue(id: Int) -> AnyPublisher<Void, NetworkError>
     func getDetailIssue(id: Int) -> AnyPublisher<Issue, NetworkError>
 }
@@ -47,15 +47,16 @@ final public class IssueReporitoryImpl: IssueReporitory {
             .eraseToAnyPublisher()
     }
     
-    public func createIssue(title: String, body: String?, date: String?, progress: Int, state: String?, tags: [String]?) -> AnyPublisher<Void, NetworkError> {
-        provider.requestVoidPublisher(.createIssue(projectId: currentProject, title: title, body: body, date: date, progress: progress, state: state, tags: tags))
+    public func
+    createIssue(title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?) -> AnyPublisher<Void, NetworkError> {
+        provider.requestVoidPublisher(.createIssue(projectId: currentProject, title: title, body: body, date: date, progress: progress, state: state, users: users, tags: tags))
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
                 let networkError = NetworkError(error)
                 if networkError == .unauthorized || networkError == .notMatch {
                     print("TOKEN ERROR")
                     self.refreshRepository.refresh()
 
-                    return self.provider.requestVoidPublisher(.createIssue(projectId: self.currentProject,title: title, body: body, date: date, progress: progress, state: state, tags: tags))
+                    return self.provider.requestVoidPublisher(.createIssue(projectId: self.currentProject,title: title, body: body, date: date, progress: progress, state: state, users: users, tags: tags))
                 }
                 return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
             }
@@ -63,15 +64,15 @@ final public class IssueReporitoryImpl: IssueReporitory {
             .eraseToAnyPublisher()
     }
     
-    public func modifyIssue(id: Int, title: String, body: String?, date: String?, progress: Int, state: String?, tags: [String]?) -> AnyPublisher<Void, NetworkError> {
-        provider.requestVoidPublisher(.updateIssue(projectId: currentProject, issueId: id, title: title, body: body, date: date, progress: progress, state: state, tags: tags))
+    public func modifyIssue(id: Int, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?) -> AnyPublisher<Void, NetworkError> {
+        provider.requestVoidPublisher(.updateIssue(projectId: currentProject, issueId: id, title: title, body: body, date: date, progress: progress, state: state, users: users, tags: tags))
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
                 let networkError = NetworkError(error)
                 if networkError == .unauthorized || networkError == .notMatch {
                     print("TOKEN ERROR")
                     self.refreshRepository.refresh()
 
-                    return self.provider.requestVoidPublisher(.updateIssue(projectId: self.currentProject, issueId: id, title: title, body: body, date: date, progress: progress, state: state, tags: tags))
+                    return self.provider.requestVoidPublisher(.updateIssue(projectId: self.currentProject, issueId: id, title: title, body: body, date: date, progress: progress, state: state, users: users, tags: tags))
                 }
                 return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
             }

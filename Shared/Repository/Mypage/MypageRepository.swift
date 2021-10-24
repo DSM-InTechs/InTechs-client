@@ -96,14 +96,16 @@ final public class MypageRepositoryImpl: MypageRepository {
     #elseif os(macOS)
     public func updateMypage(name: String, image: NSImage) -> AnyPublisher<Void, NetworkError> {
         let image = image.resize(width: 400, height: 400)!
-        let data = image.tiffRepresentation! as Data
+        let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)!
+        let bitmapRep = NSBitmapImageRep(cgImage: cgImage)
+        let jpegData = bitmapRep.representation(using: NSBitmapImageRep.FileType.jpeg, properties: [:])!
         
-        return provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
+        return provider.requestVoidPublisher(.updateMypage(name: name, imageData: jpegData))
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
                 let networkError = NetworkError(error)
                 if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
-                    return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
+                    return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: jpegData))
                         .eraseToAnyPublisher()
                 }
                 return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
