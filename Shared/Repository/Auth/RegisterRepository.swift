@@ -38,10 +38,10 @@ final public class RegisterRepositoryImpl: RegisterRepository {
 #endif
     
     @UserDefault(key: "accessToken", defaultValue: "")
-    var accessToken: String
+    private var accessToken: String
     
     @UserDefault(key: "refreshToken", defaultValue: "")
-    var refreshToken: String
+    private var refreshToken: String
     
     public func register(name: String, email: String, password: String) -> AnyPublisher<Void, NetworkError> {
         provider.requestVoidPublisher(.register(name: name, email: email, password: password))

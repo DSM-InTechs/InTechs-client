@@ -6,17 +6,10 @@
 //
 
 import SwiftUI
-
-struct Member: Hashable {
-    var name: String
-    var status: Bool
-    var isMe: Bool
-}
-
-let members = [Member(name: "김재원", status: true, isMe: false), Member(name: "김재원2", status: true, isMe: false), Member(name: "김재원3", status: false, isMe: false), Member(name: "김재원4", status: false, isMe: false), Member(name: "정고은", status: true, isMe: true)]
+import Kingfisher
 
 struct MemberView: View {
-    //    @ObservedObject var projectVM = ProjectViewModel()
+    @ObservedObject var viewModel = MemberViewModel()
     @Namespace private var animation
     @State private var plusPop = false
     
@@ -36,17 +29,17 @@ struct MemberView: View {
                             .padding(.vertical)
                     })
                     .popover(isPresented: $plusPop) {
-                        MemberPopView()
+                        MemberPopView(number: Array(String(viewModel.currentProject)))
                             .padding()
                             .padding()
                     }
                 }
                 
-                Text("7 Members")
+                Text("\(viewModel.members.count)명의 멤버들")
                 
                 ScrollView {
                     LazyVStack(alignment: .leading) {
-                        ForEach(members, id: \.self) { member in
+                        ForEach(viewModel.members, id: \.self) { member in
                             MemberRow(member: member)
                         }.padding(.vertical, 5)
                     }
@@ -61,18 +54,22 @@ struct MemberView: View {
             }
         }.padding(.trailing, 70)
         .background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
+        .onAppear {
+            self.viewModel.apply(.onAppear)
+        }
     }
 }
 
 struct MemberRow: View {
-    let member: Member
+    let member: ProjectMember
     var body: some View {
-        HStack {
+        HStack(spacing: 20) {
             ZStack(alignment: .bottomTrailing) {
-                RoundedRectangle(cornerRadius: 10)
+                KFImage(URL(string: member.imageURL))
+                    .resizable()
                     .frame(width: 100, height: 100)
                 
-                if member.status {
+                if member.active {
                     ActiveView()
                 } else {
                     InActiveView()
@@ -80,10 +77,13 @@ struct MemberRow: View {
             }
             
             VStack(alignment: .leading) {
-                
                 Text(member.name)
+                    .font(.title2)
+                
                 Spacer()
-                Text("DM with 재원")
+                
+                // 멤버가 자신인지 분기처리
+                Text("DM 시작하기")
             }
             
             Spacer()
@@ -100,6 +100,7 @@ struct MemberRow: View {
 
 struct MemberPopView: View {
     @State private var isCopied: Bool = false
+    let number: [Character]
     
     var body: some View {
         VStack(spacing: 15) {
@@ -109,7 +110,7 @@ struct MemberPopView: View {
             HStack(spacing: 15) {
                 HStack {
                     ForEach(0..<6, id: \.self) { index in
-                        Text(String(index))
+                        Text(String(number[index]))
                             .font(.title)
                             .fontWeight(.bold)
                             .padding(.all, 10)
@@ -132,7 +133,7 @@ struct MemberPopView: View {
                         .onTapGesture {
                             let pasteboard = NSPasteboard.general
                             pasteboard.declareTypes([.string], owner: nil)
-                            pasteboard.setString("012345", forType: .string)
+                            pasteboard.setString(String(number), forType: .string)
                             withAnimation {
                                 self.isCopied = true
                             }
@@ -146,6 +147,6 @@ struct MemberPopView: View {
 struct MemberView_Previews: PreviewProvider {
     static var previews: some View {
         MemberView()
-        MemberPopView()
+        MemberPopView(number: Array("123456"))
     }
 }

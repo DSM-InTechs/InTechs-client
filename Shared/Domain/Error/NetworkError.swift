@@ -32,7 +32,6 @@ public enum NetworkError: Int, Error {
     }
     
     public init(_ error: Error) {
-        print("INTECHS ERROR: \(error), \(error.localizedDescription)")
         if let moyaError = error as? MoyaError {
             self = NetworkError(moyaError)
         } else {

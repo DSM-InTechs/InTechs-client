@@ -60,6 +60,11 @@ struct InTechsView: View {
 
 struct InTechsView_Previews: PreviewProvider {
     static var previews: some View {
-        InTechsView()
+        Group {
+            InTechsView()
+                .preferredColorScheme(.dark)
+            InTechsView()
+                .preferredColorScheme(.light)
+        }
     }
 }

@@ -19,10 +19,16 @@ final public class LoginRepositoryImpl: LoginRepository {
     private let provider: MoyaProvider<InTechsAPI>
     
     @UserDefault(key: "accessToken", defaultValue: "")
-    var accessToken: String
+    private var accessToken: String
     
     @UserDefault(key: "refreshToken", defaultValue: "")
-    var refreshToken: String
+    private var refreshToken: String
+    
+    @UserDefault(key: "userEmail", defaultValue: "")
+    private var userEmail: String
+    
+    @UserDefault(key: "userPassword", defaultValue: "")
+    private var userPassword: String
     
     public init(provider: MoyaProvider<InTechsAPI> = MoyaProvider<InTechsAPI>()) {
         self.provider = provider
@@ -48,6 +54,8 @@ final public class LoginRepositoryImpl: LoginRepository {
             .map { response in
                 self.accessToken = response.accessToken
                 self.refreshToken = response.refreshToken
+                self.userEmail = email
+                self.userPassword = password
                 return
             }
             .mapError {  NetworkError($0) }

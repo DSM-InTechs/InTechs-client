@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct IssueBoardDropDelegate: DropDelegate {
-    var issue: Issue
-    var current: Issue?
-    var allIssues: [Issue] // 나중에 viewModel로 바꾸면 될듯.
+    var issue: ExampleIssue
+    var current: ExampleIssue?
+    var allIssues: [ExampleIssue] // 나중에 viewModel로 바꾸면 될듯.
     // https://kavsoft.dev/SwiftUI_2.0/Grid_Reordering
     
     func performDrop(info: DropInfo) -> Bool {

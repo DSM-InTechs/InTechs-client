@@ -117,6 +117,11 @@ struct RegisterView: View {
 
 struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterView()
+        Group {
+            RegisterView()
+                .preferredColorScheme(.dark)
+            RegisterView()
+                .preferredColorScheme(.light)
+        }
     }
 }

@@ -8,21 +8,21 @@
 import SwiftUI
 import Foundation
 
-struct Issue: Hashable, Identifiable {
+struct ExampleIssue: Hashable, Identifiable {
     var id = UUID().uuidString
     var type: String
     var title: String
     var assignee: String
 }
 
-var all: [[Issue]] = [open, progress, done]
+var all: [[ExampleIssue]] = [open, progress, done]
 
-var open = [Issue(type: "Open", title: "이슈1", assignee: "대상자"), Issue(type: "Open", title: "이슈2", assignee: "대상자")] // 와.. 이슈가 똑같은게잇으면 Lazy에서 오류남 ;;;
-var progress = [Issue(type: "In progress", title: "이슈3", assignee: "대상자"), Issue(type: "In progress", title: "이슈4", assignee: "대상자")]
-var done = [Issue(type: "Done", title: "이슈5", assignee: "대상자"), Issue(type: "Done", title: "이슈6", assignee: "대상자")]
+var open = [ExampleIssue(type: "Open", title: "이슈1", assignee: "대상자"), ExampleIssue(type: "Open", title: "이슈2", assignee: "대상자")] // 와.. 이슈가 똑같은게잇으면 Lazy에서 오류남 ;;;
+var progress = [ExampleIssue(type: "In progress", title: "이슈3", assignee: "대상자"), ExampleIssue(type: "In progress", title: "이슈4", assignee: "대상자")]
+var done = [ExampleIssue(type: "Done", title: "이슈5", assignee: "대상자"), ExampleIssue(type: "Done", title: "이슈6", assignee: "대상자")]
 
 struct IssueBoardView: View {
-    @State var currrentIssue: Issue?
+    @State var currrentIssue: ExampleIssue?
     let columns = Array(repeating: GridItem(.flexible(), spacing: 20), count: 3)
     
     @State private var filterPop = false

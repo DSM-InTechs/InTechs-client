@@ -18,22 +18,28 @@ public enum InTechsAPI {
     case mypage
     case updateMypage(name: String, imageData: Data)
     case updateMyActive(isActive: Bool)
+    case deleteUser
     case getMyProjects
     
     // MARK: - Project
-    case dashboard
+    case dashboard(id: Int)
     case createProject(name: String, imageData: Data)
     case deleteProject(id: Int)
     case updateProject(id: Int, name: String, imageData: Data)
     
     case joinProject(id: Int)
     case exitProject(id: Int)
+    case getProjectInfo(id: Int)
     case getProjectMembers(id: Int)
     
     // MARK: - Issue
-    case createIssue(projectId: Int, title: String, body: String?, date: String?, progress: Int?, state: String?)
-    case deleteIssue(projectId: Int, issueId: Int)
-    case updateIssue(projectId: Int, issueId: Int, title: String, body: String?, date: String?, progress: Int?, state: String?)
+    case getIssues(projectId: Int, tags: [String]?, states: [String]?, users: [String]?)
+    case getIssueUsers(projectId: Int)
+    case getIssueTags(projectId: Int)
+    case createIssue(projectId: Int, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?)
+    case deleteIssue(projectId: Int, issueId: String)
+    case updateIssue(projectId: Int, issueId: String, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?)
+    case getDetailIssue(projectId: Int, issueId: String)
     
     // MARK: - Calendar
     case getCalendar(projectId: Int)
@@ -65,14 +71,16 @@ extension InTechsAPI: TargetType {
             return "/user"
         case .updateMyActive:
             return "/user/active"
+        case .deleteUser:
+            return "/user"
         case .getMyProjects:
             return "/user/project"
             
             // MARK: - Project
-        case .dashboard:
-            return "/project/dashboard"
-        case .createProject(let name, _):
-            return "/project/\(name)"
+        case .dashboard(let id):
+            return "/project/\(id)/dashboard"
+        case .createProject(_, _):
+            return "/project"
         case .deleteProject(let id):
             return "/project/\(id)"
         case .updateProject(let id, _, _):
@@ -81,15 +89,25 @@ extension InTechsAPI: TargetType {
             return "/project/\(id)/user"
         case .exitProject(let id):
             return "/project/\(id)/user"
+        case .getProjectInfo(let id):
+            return "/project/\(id)"
         case .getProjectMembers(let id):
             return "/project/\(id)/user"
             
             // MARK: - Issue
-        case .createIssue(let projectId, _, _, _, _, _):
+        case .getIssues(let projectId, _, _, _):
+            return "/project/\(projectId)/issue/filter"
+        case .getIssueUsers(let projectId):
+            return "/project/\(projectId)/tag/1"
+        case .getIssueTags(let projectId):
+            return "/project/\(projectId)/tag/2"
+        case .createIssue(let projectId, _, _, _, _, _, _, _):
             return "/project/\(projectId)/issue"
         case .deleteIssue(let projectId, let issueId):
             return "/project/\(projectId)/issue/\(issueId)"
-        case .updateIssue(let projectId, let issueId, _, _, _, _, _):
+        case .updateIssue(let projectId, let issueId, _, _, _, _, _, _, _):
+            return "/project/\(projectId)/issue/\(issueId)"
+        case .getDetailIssue(let projectId, let issueId):
             return "/project/\(projectId)/issue/\(issueId)"
             
             // MARK: - Calendar
@@ -105,11 +123,11 @@ extension InTechsAPI: TargetType {
     
     public var method: Moya.Method {
         switch self {
-        case .register, .login, .refresh, .createProject, .joinProject, .createIssue:
+        case .register, .login, .refresh, .createProject, .joinProject, .createIssue, .getIssues:
             return .post
         case .updateMypage, .updateMyActive, .updateProject, .updateIssue:
             return .patch
-        case .deleteProject, .exitProject, .deleteIssue:
+        case .deleteUser, .deleteProject, .exitProject, .deleteIssue:
             return .delete
         default:
             return .get
@@ -123,33 +141,54 @@ extension InTechsAPI: TargetType {
         case let .login(email, password):
             return .requestParameters(parameters: ["email": email, "password": password], encoding: JSONEncoding.default)
         case let .updateMypage(name, imageData):
-            let gifData = MultipartFormData(provider: .data(imageData), name: "file", fileName: "gif.gif", mimeType: "image/gif")
-            let descriptionData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
-            let multipartData = [gifData, descriptionData]
-            
+            let data = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(name).jpeg", mimeType: "image/jpeg")
+            let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
+            let multipartData = [data, nameData]
             return .uploadMultipart(multipartData)
         case .updateMyActive(let isActive):
             return .requestParameters(parameters: ["isActive": isActive], encoding: JSONEncoding.default)
-        case .createIssue(_, let  title, let body, let date, let progress, let state):
+        case .getIssues(_, let tags, let states, let users):
+            var paras: [String: Any] = [:]
+            if tags != nil {
+                paras["tags"] = tags!
+            }
+            if states != nil {
+                paras["states"] = states!
+            }
+            if users != nil {
+                paras["users"] = users!
+            }
+            return .requestParameters(parameters: paras, encoding: JSONEncoding.default)
+        case .createIssue(_, let  title, let body, let date, let progress, let state, let users, let tags):
             var paras: [String: Any] = [:]
             paras["title"] = title
             paras["content"] = body ?? NSNull()
             paras["end_date"] = date ?? NSNull()
             paras["progress"] = progress ?? NSNull()
             paras["state"] = state ?? NSNull()
+            paras["users"] = users ?? NSNull()
+            paras["tags"] = tags ?? NSNull()
             return .requestParameters(parameters: paras, encoding: JSONEncoding.default)
-        case .updateIssue(_, _, let  title, let body, let date, let progress, let state):
+        case .updateIssue(_, _, let  title, let body, let date, let progress, let state, let users, let tags):
             var paras: [String: Any] = [:]
             paras["title"] = title
             paras["content"] = body ?? NSNull()
             paras["end_date"] = date ?? NSNull()
             paras["progress"] = progress ?? NSNull()
             paras["state"] = state ?? NSNull()
+            paras["users"] = users ?? NSNull()
+            paras["tags"] = tags ?? NSNull()
             return .requestParameters(parameters: paras, encoding: JSONEncoding.default)
-            //        case .searchLetter(let string):
-            //            return .requestParameters(parameters: ["q": string], encoding: URLEncoding.queryString)
-            //        case .addComment(_, let body):
-            //            return .requestParameters(parameters: ["body": body], encoding: URLEncoding.default)
+        case let .createProject(name, imageData):
+            let data = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(name).jpeg", mimeType: "image/jpeg")
+            let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
+            let multipartData = [data, nameData]
+            return .uploadMultipart(multipartData)
+        case let .updateProject(_, name, imageData):
+            let data = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(name).jpeg", mimeType: "image/jpeg")
+            let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
+            let multipartData = [data, nameData]
+            return .uploadMultipart(multipartData)
         default:
             return .requestPlain
         }

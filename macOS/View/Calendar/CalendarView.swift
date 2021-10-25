@@ -10,21 +10,20 @@ import GECalendar
 
 struct CalendarView: View {
     @EnvironmentObject private var homeVM: HomeViewModel
-    
-    @State var date: Date?
-    private let appearance = Appearance(eventType: .line, multipleEvents: [Event(date: Date(), title: "이슈1", color: .green), Event(date: Date(), title: "이슈2", color: .green)], isTodayButton: false, isMultipleEvents: true, headerType: .leading)
+    @ObservedObject var viewModel = CalendarViewModel()
     
     var body: some View {
         GeometryReader { geo in
             ZStack {
                 HStack {
-                    GECalendar(selectedDate: $date, appearance: appearance)
-                        .padding(date != nil ? .vertical : .all)
+                    GECalendar(selectedDate: $viewModel.date, appearance: viewModel.appearance)
+                        .padding(viewModel.date != nil ? .vertical : .all)
                     
                     // Issue...
-                    if date != nil {
+                    if viewModel.date != nil {
                         ZStack {
-                            CalendarIssuesView(isIssue: $date, title: "이슈1")
+//                            IssueDetailView(currentIssue: <#T##Binding<Issue?>#>, title: <#T##String#>)
+                            CalendarIssuesView(isIssue: $viewModel.date, title: "이슈1")
                                 .environmentObject(homeVM)
                             
                             HStack {
@@ -43,6 +42,9 @@ struct CalendarView: View {
             }
         }.background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
         .padding(.trailing, 70)
+        .onAppear {
+            self.viewModel.apply(.onAppear)
+        }
     }
 }
 

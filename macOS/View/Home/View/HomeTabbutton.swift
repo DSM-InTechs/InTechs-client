@@ -6,16 +6,24 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct HomeTabButton: View {
     var tab: HomeTab
     var number: String?
+    var imageUrl: String?
+    var mypageTapped: () -> Void = {}
+    
     @Binding var selectedTab: HomeTab
     @State private var hover = false
     
     var body: some View {
         ZStack {
             Button(action: {
+                if tab == .mypage {
+                    mypageTapped()
+                }
+                
                 if number != nil { // 단축키의 유무
                     withAnimation {
                         selectedTab = tab
@@ -25,7 +33,9 @@ struct HomeTabButton: View {
                 VStack(spacing: 7) {
                     if tab == .mypage {
                         ZStack(alignment: .bottomTrailing) {
-                            Circle()
+                            KFImage(URL(string: imageUrl!))
+                                .resizable()
+                                .clipShape(Circle())
                                 .frame(width: 30, height: 30)
                             
                             ActiveView()

@@ -36,6 +36,11 @@ struct ContentView: View {
                             }
                         
                         switch homeViewModel.toast {
+                        case .userDelete(let execute):
+                            UserDeleteView(execute: execute)
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
+                                .environmentObject(homeViewModel)
                         case .channelInfo:
                             ChannelInfoView()
                                 .modifier(ToastModiier())
@@ -64,13 +69,13 @@ struct ContentView: View {
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
                                 .environmentObject(homeViewModel)
-                        case .issueDelete:
-                            IssueDeleteView()
+                        case .issueDelete(let execute):
+                            IssueDeleteView(execute: execute)
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
                                 .environmentObject(homeViewModel)
-                        case .issueCreate:
-                            NewIssueView()
+                        case .issueCreate(let execute):
+                            NewIssueView(execute: execute)
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
                                 .environmentObject(homeViewModel)
@@ -78,6 +83,21 @@ struct ContentView: View {
                             NewProjectView()
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
+                                .environmentObject(homeViewModel)
+                        case .projectJoin:
+                            ProjectJoinView()
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
+                                .environmentObject(homeViewModel)
+                        case .projectExit(let execute):
+                            ProjectExitView(execute: execute)
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
+                                .environmentObject(homeViewModel)
+                        case .projectDelete(let execute):
+                            ProjectDeleteView(execute: execute)
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
                                 .environmentObject(homeViewModel)
                         case .none:
                             Text("")

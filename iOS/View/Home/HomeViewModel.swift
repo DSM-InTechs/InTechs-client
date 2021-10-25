@@ -11,13 +11,8 @@ import Combine
 class HomeViewModel: ObservableObject {
     @Published var isLogin: Bool = true
     
-    @Published var isLoading: Bool = false
-    @Published var errorMessage: String = ""
-    
     private let myActiveRepository: MyActiveRepository
     private var bag = Set<AnyCancellable>()
-    
-    public var successExecute: () -> Void = {}
     
     public enum Event {
         case changeActive(isActive: Bool)
@@ -42,15 +37,11 @@ class HomeViewModel: ObservableObject {
         input.changeActive
             .flatMap {
                 self.myActiveRepository.updateMyActive(isActive: $0)
-                    .catch { err -> Empty<Void, Never> in
-                        withAnimation {
-                            self.errorMessage = self.getErrorMessage(error: err)
-                        }
-                        
+                    .catch { _ -> Empty<Void, Never> in
                         return .init()
                     }
             }
-            .sink(receiveValue: { _ in print("SUCCESS") })
+            .sink(receiveValue: { _ in })
             .store(in: &bag)
         
     }

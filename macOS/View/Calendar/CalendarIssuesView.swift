@@ -213,7 +213,9 @@ struct CalendarIssuesView: View {
                             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.red))
                             .onTapGesture {
                                 withAnimation {
-                                    self.homeVM.toast = .issueDelete
+                                    self.homeVM.toast = .issueDelete(execute: {
+                                        
+                                    })
                                 }
                             }
                     }

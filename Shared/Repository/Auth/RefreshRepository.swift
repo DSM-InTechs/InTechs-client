@@ -16,28 +16,31 @@ final public class RefreshRepositoryImpl: RefreshRepository {
     private let provider: MoyaProvider<InTechsAPI>
     
     @UserDefault(key: "accessToken", defaultValue: "")
-    var accessToken: String
+    private var accessToken: String
     
     @UserDefault(key: "refreshToken", defaultValue: "")
-    var refreshToken: String
+    private var refreshToken: String
+    
+    @UserDefault(key: "userEmail", defaultValue: "")
+    private var userEmail: String
+    
+    @UserDefault(key: "userPassword", defaultValue: "")
+    private var userPassword: String
     
     public init(provider: MoyaProvider<InTechsAPI> = MoyaProvider<InTechsAPI>()) {
         self.provider = provider
     }
     
     public func refresh() {
-        print(self.accessToken)
-        print(self.refreshToken)
-        
-        provider.request(.refresh(refreshToken: self.refreshToken), completion: { result in
+        provider.request(.login(email: userEmail, password: userPassword), completion: { result in
             switch result {
             case .success(let response):
                 let data = try! JSONDecoder().decode(AuthReponse.self, from: response.data)
                 self.accessToken = data.accessToken
                 self.refreshToken = data.refreshToken
                 
-            case .failure(_):
-                break
+            case .failure(let error):
+                print("REFRESH ERROR \(error)")
             }
         })
     }

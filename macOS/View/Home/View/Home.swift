@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct Home: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var homeVM: HomeViewModel
-    @ObservedObject var projectVM = ProjectViewModel()
     @State private var quickActionPop: Bool = false
     @State private var questionPop: Bool = false
+    @State private var mypagePop: Bool = false
     
     var body: some View {
         if homeVM.isLogin {
@@ -21,10 +22,9 @@ struct Home: View {
                     switch homeVM.selectedTab {
                     case .chats: NavigationView { ChatListView().background(Color(NSColor.textBackgroundColor)).ignoresSafeArea() }
                     case .projects: ProjectListView()
-                        .environmentObject(projectVM)
                     case .calendar: CalendarView()
                     case .teams: MemberView()
-                    default: Text("")
+                    case .mypage: MypageView()
                     }
                 }
                 .offset(x: 70)
@@ -50,18 +50,28 @@ struct Home: View {
                     
                     Spacer()
                     
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 28, height: 28)
-                        .padding(.bottom, 5)
-                    
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 28, height: 28)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.white, lineWidth: 2.5)
-                                .frame(width: 37, height: 37)
-                        )
-                        .padding(.bottom, 5)
+                    LazyVStack {
+                        ForEach(homeVM.myProjects, id: \.self) { project in
+                            KFImage(URL(string: project.image))
+                                .resizable()
+                                .frame(width: 28, height: 28)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .overlay(
+                                    ZStack {
+                                        if project.id == homeVM.currentProject {
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(Color.white, lineWidth: 1.5)
+                                                .frame(width: 37, height: 37)
+                                        }
+                                    }
+                                )
+                                .padding(.bottom, 5)
+                                .onAppear {
+                                    print(project.id == homeVM.currentProject )
+                                    print(homeVM.currentProject)
+                                }
+                        }
+                    }
                     
                     Image(system: .plusSquare)
                         .font(.system(size: 16, weight: .semibold))
@@ -79,25 +89,75 @@ struct Home: View {
                         .frame(height: 40)
                         .onTapGesture {
                             self.questionPop.toggle()
-                        } .popover(isPresented: $questionPop) {
+                        }.popover(isPresented: $questionPop) {
                             HelpPopView()             .frame(width: 300)
                         }
                     
                     HomeTabButton(tab: HomeTab.mypage,
-                                  selectedTab: $homeVM.selectedTab)
+                                  imageUrl: homeVM.profile.image, mypageTapped: {
+                        self.mypagePop.toggle()
+                    }, selectedTab: $homeVM.selectedTab).popover(isPresented: $mypagePop) {
+                        MypagePopView(imageURL: homeVM.profile.image, name: homeVM.profile.name) .frame(width: 200)
+                    }
                 }
                 .frame(width: 70)
                 .padding(.vertical)
                 .padding(.top, 35)
                 .background(BlurView())
+                
+                if homeVM.myProjects.isEmpty {
+                    ZStack {
+                        Color.white
+                        
+                        VStack {
+                            Text("프로젝트에 가입되어 있지 않습니다.")
+                                .foregroundColor(.gray)
+                                .fontWeight(.bold)
+                                .font(.title2)
+                                .padding()
+                            
+                            HStack(alignment: .bottom, spacing: 20) {
+                                Text("프로젝트 생성")
+                                    .padding(.all, 10)
+                                    .foregroundColor(.black)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 1)
+                                    ).onTapGesture {
+                                        withAnimation {
+                                            self.homeVM.toast = .projectCreate
+                                        }
+                                    }
+                                
+                                Text("프로젝트 가입")
+                                    .padding(.all, 10)
+                                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.black)).onTapGesture {
+                                        withAnimation {
+                                            self.homeVM.toast = .projectJoin
+                                        }
+                                    }
+                            }
+                        }
+                    }.offset(x: 70)
+                        .padding(.trailing, 70)
+                }
+                
+                if homeVM.selectedTab == .mypage {
+                    MypageView()
+                        .offset(x: 70)
+                        .padding(.trailing, 70)
+                }
             }
             .ignoresSafeArea(.all, edges: .all)
             .onChange(of: scenePhase) { newPhase in
-                if newPhase == .inactive {
-                    // Active API
+                if newPhase == .active {
+                    homeVM.apply(.changeActive(isActive: true))
                 } else if newPhase == .background {
-                    // InActive API
+                    homeVM.apply(.changeActive(isActive: false))
                 }
+            }
+            .onAppear {
+                self.homeVM.apply(.onAppear)
             }
         } else {
             InTechsView()
@@ -119,6 +179,9 @@ struct Home_Previews: PreviewProvider {
                 .frame(width: 200)
             
             HelpPopView()
+                .frame(width: 300)
+            
+            MypagePopView(imageURL: "asdf", name: "asdf")
                 .frame(width: 300)
         }
     }
@@ -150,7 +213,9 @@ struct QuickActionPopView: View {
             }.onTapGesture {
                 withAnimation {
                     self.isPop = false
-                    self.homeVM.toast = .issueCreate
+                    self.homeVM.toast = .issueCreate(execute: {
+                        fatalError()
+                    })
                 }
             }
             
@@ -177,6 +242,39 @@ struct HelpPopView: View {
             HStack {
                 Image(Asset.appstore)
                 Image(Asset.macAppstore)
+            }
+        }.padding()
+    }
+}
+
+struct MypagePopView: View {
+    @EnvironmentObject var homeVM: HomeViewModel
+    
+    let imageURL: String
+    let name: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
+                KFImage(URL(string: imageURL))
+                    .resizable()
+                    .frame(width: 35, height: 35)
+                Text(name)
+                Spacer()
+                Image(system: .edit)
+            }.onTapGesture {
+                withAnimation {
+                    self.homeVM.selectedTab = .mypage
+                }
+            }
+            
+            Divider()
+            
+            HStack {
+                Image(system: .logout)
+                Text("로그아웃").onTapGesture {
+                    self.homeVM.logout()
+                }
             }
         }.padding()
     }
