@@ -34,10 +34,12 @@ public enum InTechsAPI {
     
     // MARK: - Issue
     case getIssues(projectId: Int, tags: [String]?, states: [String]?, users: [String]?)
+    case getIssueUsers(projectId: Int)
+    case getIssueTags(projectId: Int)
     case createIssue(projectId: Int, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?)
-    case deleteIssue(projectId: Int, issueId: Int)
-    case updateIssue(projectId: Int, issueId: Int, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?)
-    case getDetailIssue(projectId: Int, issueId: Int)
+    case deleteIssue(projectId: Int, issueId: String)
+    case updateIssue(projectId: Int, issueId: String, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?)
+    case getDetailIssue(projectId: Int, issueId: String)
     
     // MARK: - Calendar
     case getCalendar(projectId: Int)
@@ -95,6 +97,10 @@ extension InTechsAPI: TargetType {
             // MARK: - Issue
         case .getIssues(let projectId, _, _, _):
             return "/project/\(projectId)/issue/filter"
+        case .getIssueUsers(let projectId):
+            return "/project/\(projectId)/tag/1"
+        case .getIssueTags(let projectId):
+            return "/project/\(projectId)/tag/2"
         case .createIssue(let projectId, _, _, _, _, _, _, _):
             return "/project/\(projectId)/issue"
         case .deleteIssue(let projectId, let issueId):

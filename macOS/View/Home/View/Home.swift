@@ -55,6 +55,7 @@ struct Home: View {
                             KFImage(URL(string: project.image))
                                 .resizable()
                                 .frame(width: 28, height: 28)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .overlay(
                                     ZStack {
                                         if project.id == homeVM.currentProject {
@@ -212,7 +213,9 @@ struct QuickActionPopView: View {
             }.onTapGesture {
                 withAnimation {
                     self.isPop = false
-                    self.homeVM.toast = .issueCreate
+                    self.homeVM.toast = .issueCreate(execute: {
+                        fatalError()
+                    })
                 }
             }
             
@@ -254,6 +257,7 @@ struct MypagePopView: View {
         VStack(alignment: .leading, spacing: 20) {
             HStack {
                 KFImage(URL(string: imageURL))
+                    .resizable()
                     .frame(width: 35, height: 35)
                 Text(name)
                 Spacer()

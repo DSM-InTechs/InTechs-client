@@ -13,7 +13,7 @@ public struct Issue: Codable, Hashable, Equatable {
     public var title: String
     public var content: String?
     public var state: String?
-    public var progress: Int
+    public var progress: Int?
     public var endDate: String?
     public var projectId: Int
     public var users: [IssueUser]

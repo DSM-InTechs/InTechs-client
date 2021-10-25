@@ -34,6 +34,8 @@ struct HomeTabButton: View {
                     if tab == .mypage {
                         ZStack(alignment: .bottomTrailing) {
                             KFImage(URL(string: imageUrl!))
+                                .resizable()
+                                .clipShape(Circle())
                                 .frame(width: 30, height: 30)
                             
                             ActiveView()

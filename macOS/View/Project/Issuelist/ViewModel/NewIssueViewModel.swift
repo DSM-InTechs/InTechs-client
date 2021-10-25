@@ -8,10 +8,35 @@
 import Combine
 import Moya
 
+public struct SelectIssueUser: Codable, Hashable, Equatable {
+    public var name: String
+    public var email: String
+    public var imageURL: String
+    public var isSelected: Bool
+    
+    init(user: IssueUser, isSelected: Bool = false) {
+        self.name = user.name
+        self.email = user.email
+        self.imageURL = user.imageURL
+        self.isSelected = isSelected
+    }
+}
+
+public struct SelectIssueTag: Codable, Hashable, Equatable {
+    public var tag: String
+    public var isSelected: Bool
+    
+    init(tag: IssueTag, isSelected: Bool = false) {
+        self.tag = tag.tag
+        self.isSelected = isSelected
+    }
+}
+
 class NewIssueViewModel: ObservableObject {
     @Published var issues = [Issue]()
     @Published var title: String = ""
-    @Published var body: String?
+    @Published var isBody: Bool = false
+    @Published var body: String = ""
     
     @Published var isDate: Bool = false
     @Published var date: Date = Date()
@@ -19,12 +44,12 @@ class NewIssueViewModel: ObservableObject {
     @Published var progress: Float = 0.0
     @Published var state: IssueState?
     
-    @Published var searchUser = ""
-    @Published var users: [String] = []
-    @Published var selectedUsers: [String]?
-    @Published var tags: [String] = []
-    @Published var searchTag = ""
-    @Published var selectedTags: [String]?
+    @Published var isUser: Bool = false
+    @Published var users: [SelectIssueUser] = []
+    
+    @Published var isTag: Bool = false
+    @Published var newTag: String = ""
+    @Published var tags: [SelectIssueTag] = []
     
     private let issueReporitory: IssueReporitory
     private let dateFormatter = DateFormatter()
@@ -66,20 +91,44 @@ class NewIssueViewModel: ObservableObject {
             .assign(to: \.issues, on: self)
             .store(in: &bag)
         
+        input.onAppear
+            .flatMap {
+                self.issueReporitory.getUserlist()
+                    .catch { _ -> Empty<[IssueUser], Never> in
+                        return .init()
+                    }
+            }
+            .map { $0.map { return SelectIssueUser(user: $0) } }
+            .assign(to: \.users, on: self)
+            .store(in: &bag)
+        
+        input.onAppear
+            .flatMap {
+                self.issueReporitory.getTaglist()
+                    .catch { _ -> Empty<[IssueTag], Never> in
+                        return .init()
+                    }
+            }
+            .map { $0.map { SelectIssueTag(tag: $0) } }
+            .assign(to: \.tags, on: self)
+            .store(in: &bag)
+        
         input.create
             .flatMap {
                 self.issueReporitory.createIssue(title: self.title,
-                                                 body: self.body,
+                                                 body: self.isBody ? self.body : nil,
                                                  date: self.isDate ? self.dateFormatter.string(from: self.date) : nil,
-                                                 progress: Int(self.progress),
+                                                 progress: self.isProgress ? Int(self.progress) : nil,
                                                  state: self.state?.rawValue,
-                                                 users: self.selectedUsers,
-                                                 tags: self.selectedTags)
+                                                 users: self.users.filter { $0.isSelected }.isEmpty ? nil : self.users.filter { $0.isSelected }.map { $0.email },
+                                                 tags: self.tags.filter { $0.isSelected }.isEmpty ? nil : self.tags.filter { $0.isSelected }.map { $0.tag })
                     .catch { _ -> Empty<Void, Never> in
                         return .init()
                     }
             }
-            .sink(receiveValue: { _ in })
+            .sink(receiveValue: { _ in
+                self.apply(.onAppear)
+            })
             .store(in: &bag)
     }
     

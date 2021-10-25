@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct NewIssueView: View {
+    let execute: () -> Void
     @EnvironmentObject var homeVM: HomeViewModel
     @ObservedObject var viewModel = NewIssueViewModel()
     
@@ -19,13 +21,31 @@ struct NewIssueView: View {
                         .font(.title)
                         .textFieldStyle(PlainTextFieldStyle())
                     
-                    TextField("Descriptiong (선택)", text: .constant(""))
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .padding(.all, 5)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 5)
-                                .stroke(Color(Asset.black), lineWidth: 1)
-                        )
+                    HStack {
+                        Text("이슈 설명")
+                        Spacer()
+                        if  self.viewModel.isBody {
+                            Image(system: .xmark)
+                                .onTapGesture {
+                                    self.viewModel.isBody = false
+                                }
+                        } else {
+                            Image(system: .plus)
+                                .onTapGesture {
+                                    self.viewModel.isBody = true
+                                }
+                        }
+                    }
+                    
+                    if viewModel.isBody {
+                        TextField("설명", text: $viewModel.body)
+                            .textFieldStyle(PlainTextFieldStyle())
+                            .padding(.all, 5)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke(Color(Asset.black), lineWidth: 1)
+                            )
+                    }
                     
                     Spacer()
                     
@@ -52,6 +72,8 @@ struct NewIssueView: View {
                             .font(.title3)
                             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
                             .onTapGesture {
+                                self.viewModel.apply(.create)
+                                execute()
                                 withAnimation {
                                     self.homeVM.toast = nil
                                 }
@@ -76,7 +98,15 @@ struct NewIssueView: View {
                         }
                         
                         VStack(alignment: .leading, spacing: 3) {
-                            Text("이슈 상태")
+                            HStack {
+                                Text("이슈 상태")
+                                Spacer()
+                                Image(system: .xmark)
+                                    .onTapGesture {
+                                        self.viewModel.state = nil
+                                    }
+                            }
+                            
                             ScrollView(.horizontal) {
                                 HStack {
                                     HStack {
@@ -93,18 +123,18 @@ struct NewIssueView: View {
                                         Text("In Progress")
                                     } .foregroundColor(.gray)
                                         .opacity(  self.viewModel.state == .progress ? 1.0 : 0.5)
-                                    .onTapGesture {
-                                        self.viewModel.state = .progress
-                                    }
+                                        .onTapGesture {
+                                            self.viewModel.state = .progress
+                                        }
                                     
                                     HStack {
                                         Circle().frame(width: 10, height: 10)
                                         Text("Done")
                                     } .foregroundColor(.green)
                                         .opacity(  self.viewModel.state == .done ? 1.0 : 0.5)
-                                    .onTapGesture {
-                                        self.viewModel.state = .done
-                                    }
+                                        .onTapGesture {
+                                            self.viewModel.state = .done
+                                        }
                                 }
                                 
                             }
@@ -141,11 +171,14 @@ struct NewIssueView: View {
                             
                             HStack {
                                 Text("이슈 진행도")
-                                HStack(spacing: 0) {
-                                    Text(String(viewModel.progress))
-                                    Text("%")
+                                if  self.viewModel.isProgress {
+                                    
+                                    HStack(spacing: 0) {
+                                        Text(String(viewModel.progress))
+                                        Text("%")
+                                    }
+                                    .foregroundColor(.blue)
                                 }
-                                .foregroundColor(.blue)
                                 Spacer()
                                 if  self.viewModel.isProgress {
                                     Image(system: .xmark)
@@ -187,39 +220,111 @@ struct NewIssueView: View {
                             
                         }
                         
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text("이슈 대상자")
-                            TextField("검색", text: $viewModel.searchUser)
-                                .textFieldStyle(PlainTextFieldStyle())
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack {
+                                Text("이슈 대상자")
+                                Spacer()
+                                if  self.viewModel.isUser {
+                                    Image(system: .xmark)
+                                        .onTapGesture {
+                                            self.viewModel.isUser = false
+                                        }
+                                } else {
+                                    Image(system: .plus)
+                                        .onTapGesture {
+                                            self.viewModel.isUser = true
+                                        }
+                                }
+                            }
+                            
+                            if self.viewModel.isUser {
+                                if viewModel.users.isEmpty == false {
+                                    LazyVStack(alignment: .leading) {
+                                        ForEach(0...viewModel.users.count - 1, id: \.self) { index in
+                                            HStack {
+                                                KFImage(URL(string: viewModel.users[index].imageURL))
+                                                Text(viewModel.users[index].name)
+                                                Spacer()
+                                                if viewModel.users[index].isSelected {
+                                                    Image(system: .checkmark)
+                                                }
+                                            }
+                                            .onTapGesture {
+                                                viewModel.users[index].isSelected.toggle()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                         
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text("태그")
-                            TextField("검색", text: $viewModel.searchTag)
-                                .textFieldStyle(PlainTextFieldStyle())
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack {
+                                Text("태그")
+                                Spacer()
+                                if  self.viewModel.isTag {
+                                    Image(system: .xmark)
+                                        .onTapGesture {
+                                            self.viewModel.isTag = false
+                                        }
+                                } else {
+                                    Image(system: .plus)
+                                        .onTapGesture {
+                                            self.viewModel.isTag = true
+                                        }
+                                }
+                            }
                             
-                            if self.viewModel.searchTag != "" {
-                                LazyVStack {
-                                    ForEach(viewModel.searchUser, id: \.self) { text in
-                                        Text(text)
+                            if self.viewModel.isTag {
+                                HStack(spacing: 20) {
+                                    TextField("새 태그 추가", text: $viewModel.newTag)
+                                    
+                                    Text("추가")
+                                        .foregroundColor(Color(Asset.black))
+                                        .padding(.all, 5)
+                                        .padding(.horizontal, 10)
+                                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
+                                        .onTapGesture {
+                                            viewModel.tags.append( SelectIssueTag(tag: IssueTag(tag: viewModel.newTag)))
+                                            viewModel.newTag = ""
+                                        }
+                                }
+                                
+                                if viewModel.tags.isEmpty == false {
+                                    LazyVStack(alignment: .leading) {
+                                        ForEach(0...viewModel.tags.count - 1, id: \.self) { index in
+                                            HStack {
+                                                Text(viewModel.tags[index].tag)
+                                                Spacer()
+                                                if viewModel.tags[index].isSelected {
+                                                    Image(system: .checkmark)
+                                                }
+                                            }.onTapGesture {
+                                                viewModel.tags[index].isSelected.toggle()
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
                         
                         Spacer(minLength: 0)
-                        
                     }
                 }
                 .frame(width: geo.size.width / 3)
             }.padding()
-            .padding(.all, 5)
+                .padding(.all, 5)
+                .onAppear {
+                    viewModel.apply(.onAppear)
+                }
         }
     }
 }
 
 struct NewIssueView_Previews: PreviewProvider {
     static var previews: some View {
-        NewIssueView()
+        NewIssueView(execute: {
+            
+        })
     }
 }

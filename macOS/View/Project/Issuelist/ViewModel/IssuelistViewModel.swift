@@ -68,6 +68,12 @@ class IssuelistViewModel: ObservableObject {
             .store(in: &bag)
     }
     
+    public func reload(_ input: Event) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            self.apply(input)
+        })
+    }
+    
     private func getErrorMessage(error: NetworkError) -> String {
         switch error {
         case .notFound:

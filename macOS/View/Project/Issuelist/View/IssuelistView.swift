@@ -105,7 +105,9 @@ struct IssuelistView: View {
                             .background( RoundedRectangle(cornerRadius: 5)
                                             .foregroundColor(.blue))
                             .onTapGesture {
-                                self.homeVM.toast = .issueCreate
+                                self.homeVM.toast = .issueCreate(execute: {
+                                    self.viewModel.reload(.onAppear)
+                                })
                             }
                     }
                     
@@ -161,7 +163,7 @@ struct IssuelistView: View {
                     // Issue...
                     if currentIssue != nil {
                         ZStack {
-                            IssueDetailView(currentIssue: $currentIssue, title: "이슈1")
+                            IssueDetailView(currentIssue: $currentIssue, title: currentIssue!.title)
                                 .environmentObject(homeVM)
                             
                             HStack {
@@ -199,23 +201,26 @@ struct IssuelistRow: View {
             HStack {
                 switch issue.state {
                 case .some(IssueState.ready.rawValue):
-                    Circle().frame(width: 10, height: 10)
+                    Circle().frame(width: 10, height: 10).foregroundColor(.blue)
                 case .some(IssueState.progress.rawValue):
-                    Circle().frame(width: 10, height: 10)
+                    Circle().frame(width: 10, height: 10).foregroundColor(.gray)
                 case .some(IssueState.done.rawValue):
-                    Circle().frame(width: 10, height: 10)
+                    Circle().frame(width: 10, height: 10).foregroundColor(.green)
                 default:
                     Text("").hidden()
                 }
                 Text(issue.title)
+                    .font(.title3)
             }
             
             Spacer()
             
             if issue.users.isEmpty == false {
-                HStack(spacing: -10) {
+                HStack {
                     ForEach(issue.users.prefix(3), id: \.self) { user in
-                        KFImage(URL(string: user.imageURL)).frame(width: 20, height: 20)
+                        KFImage(URL(string: user.imageURL))
+                            .resizable()
+                            .frame(width: 20, height: 20)
                         Text(user.name)
                     }
                     if issue.users.count > 3 {
@@ -239,6 +244,10 @@ struct IssuelistRow: View {
             }
             
         }.padding(.all, 5)
+            .background(
+                RoundedRectangle(cornerRadius: 5)
+                    .foregroundColor(.gray.opacity(0.2))
+            )
             .onTapGesture {
                 withAnimation {
                     self.currentIssue = issue

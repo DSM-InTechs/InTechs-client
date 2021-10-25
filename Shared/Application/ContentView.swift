@@ -69,13 +69,13 @@ struct ContentView: View {
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
                                 .environmentObject(homeViewModel)
-                        case .issueDelete:
-                            IssueDeleteView()
+                        case .issueDelete(let execute):
+                            IssueDeleteView(execute: execute)
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
                                 .environmentObject(homeViewModel)
-                        case .issueCreate:
-                            NewIssueView()
+                        case .issueCreate(let execute):
+                            NewIssueView(execute: execute)
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
                                 .environmentObject(homeViewModel)
