@@ -12,27 +12,64 @@ struct CalendarView: View {
     @EnvironmentObject private var homeVM: HomeViewModel
     @ObservedObject var viewModel = CalendarViewModel()
     
+    @State private var assigneePop: Bool = false
+    @State private var statePop: Bool = false
+    @State private var tagPop: Bool = false
+    
     var body: some View {
-        GeometryReader { geo in
+        GeometryReader { _ in
             ZStack {
-                HStack {
-                    GECalendar(selectedDate: $viewModel.date, appearance: viewModel.appearance)
-                        .padding(viewModel.date != nil ? .vertical : .all)
-                    
-                    // Issue...
-                    if viewModel.date != nil {
-                        ZStack {
-//                            IssueDetailView(currentIssue: <#T##Binding<Issue?>#>, title: <#T##String#>)
-                            CalendarIssuesView(isIssue: $viewModel.date, title: "이슈1")
-                                .environmentObject(homeVM)
-                            
-                            HStack {
-                                Color.black.frame(width: 1)
-                                Spacer()
-                            }
-                        } .frame(width: geo.size.width / 3)
-                        .background(Color(NSColor.textBackgroundColor))
+                VStack {
+                    HStack(spacing: 20) {
+                        HStack(spacing: 3) {
+                            Text("상태")
+                            Image(system: .downArrow)
+                                .font(.caption)
+                        }.onTapGesture {
+                            self.statePop.toggle()
+                        }.popover(isPresented: self.$statePop) {
+                            IssueFilterStateView(state: $viewModel.state,
+                                                 execute: { viewModel.apply(.reloadlist) })
+                                .padding()
+                        }
+                        
+                        HStack(spacing: 3) {
+                            Text("대상자")
+                            Image(system: .downArrow)
+                                .font(.caption)
+                        }.onTapGesture {
+                            self.assigneePop.toggle()
+                        }.popover(isPresented: self.$assigneePop) {
+                            IssueFilterUserView(users: $viewModel.users,
+                                                execute: { viewModel.apply(.reloadlist) })
+                                .frame(width: 200)
+                        }
+                        
+                        HStack(spacing: 3) {
+                            Text("태그")
+                            Image(system: .downArrow)
+                                .font(.caption)
+                        }.onTapGesture {
+                            self.tagPop.toggle()
+                        }.popover(isPresented: self.$tagPop) {
+                            IssueFilterTagView(tags: $viewModel.tags,
+                                               execute: { viewModel.apply(.reloadlist) })
+                                .frame(width: 200)
+                        }
+                        
+                        HStack(spacing: 3) {
+                            Image(system: .search)
+                            TextField("검색", text: .constant(""))
+                                .textFieldStyle(PlainTextFieldStyle())
+                        }
+                        
+                        Spacer()
                     }
+                    
+                    GECalendar(selectedDate: $viewModel.selectedDate,
+                               appearance: $viewModel.appearance,
+                               onChanged: { viewModel.onChanged($0) })
+                        .padding(viewModel.selectedDate != nil ? .vertical : .all)
                 }
                 
                 HStack {

@@ -7,49 +7,61 @@
 
 import SwiftUI
 import Foundation
-
-struct ExampleIssue: Hashable, Identifiable {
-    var id = UUID().uuidString
-    var type: String
-    var title: String
-    var assignee: String
-}
-
-var all: [[ExampleIssue]] = [open, progress, done]
-
-var open = [ExampleIssue(type: "Open", title: "이슈1", assignee: "대상자"), ExampleIssue(type: "Open", title: "이슈2", assignee: "대상자")] // 와.. 이슈가 똑같은게잇으면 Lazy에서 오류남 ;;;
-var progress = [ExampleIssue(type: "In progress", title: "이슈3", assignee: "대상자"), ExampleIssue(type: "In progress", title: "이슈4", assignee: "대상자")]
-var done = [ExampleIssue(type: "Done", title: "이슈5", assignee: "대상자"), ExampleIssue(type: "Done", title: "이슈6", assignee: "대상자")]
+import Kingfisher
 
 struct IssueBoardView: View {
-    @State var currrentIssue: ExampleIssue?
+    @State var currrentIssue: Issue?
     let columns = Array(repeating: GridItem(.flexible(), spacing: 20), count: 3)
+    @ObservedObject var viewModel = IssueBoardViewModel()
     
-    @State private var filterPop = false
-    @State private var assigneePop = false
+    @State private var assigneePop: Bool = false
+    @State private var statePop: Bool = false
+    @State private var tagPop: Bool = false
     
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
                 HStack(spacing: 20) {
                     HStack(spacing: 3) {
+                        Text("상태")
+                        Image(system: .downArrow)
+                            .font(.caption)
+                    }.onTapGesture {
+                        self.statePop.toggle()
+                    }.popover(isPresented: self.$statePop) {
+                        IssueFilterStateView(state: $viewModel.state,
+                                             execute: { viewModel.apply(.reloadlist) })
+                            .padding()
+                    }
+                    
+                    HStack(spacing: 3) {
                         Text("대상자")
                         Image(system: .downArrow)
                             .font(.caption)
                     }.onTapGesture {
                         self.assigneePop.toggle()
-                    }
-                    
-                    HStack(spacing: 3) {
-                        Text("마감기한")
-                        Image(system: .downArrow)
-                            .font(.caption)
+                    }.popover(isPresented: self.$assigneePop) {
+                        IssueFilterUserView(users: $viewModel.users,
+                                            execute: { viewModel.apply(.reloadlist) })
+                            .frame(width: 200)
                     }
                     
                     HStack(spacing: 3) {
                         Text("태그")
                         Image(system: .downArrow)
                             .font(.caption)
+                    }.onTapGesture {
+                        self.tagPop.toggle()
+                    }.popover(isPresented: self.$tagPop) {
+                        IssueFilterTagView(tags: $viewModel.tags,
+                                           execute: { viewModel.apply(.reloadlist) })
+                            .frame(width: 200)
+                    }
+                    
+                    HStack(spacing: 3) {
+                        Image(system: .search)
+                        TextField("검색", text: .constant(""))
+                            .textFieldStyle(PlainTextFieldStyle())
                     }
                     
                     Spacer()
@@ -60,31 +72,33 @@ struct IssueBoardView: View {
             
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(all, id: \.self) { issues in
-                        HStack {
-                            LazyVStack {
-                                Section(header:
-                                            HStack(spacing: 5) {
-                                                Text(issues.first!.type)
-                                                Text("2")
-                                                    .foregroundColor(.gray)
-                                                Image(system: .plus)
-                                                    .padding(.leading, 5)
-                                                Spacer()
-                                            }) {
-                                    ForEach(issues, id: \.self) { issue in
-                                        IssueBoardIssueRow(title: issue.title, assignee: issue.assignee)
-                                            .onDrag({
-                                                self.currrentIssue = issue
-                                                return NSItemProvider(contentsOf: URL(string: issue.id)!)! // arr.id로 변경 필요
-                                            })
-                                            .onDrop(of: [.url], delegate: IssueBoardDropDelegate(issue: issue, current: currrentIssue, allIssues: issues))
+                    if viewModel.allIssues.isEmpty == false {
+                        ForEach(0...viewModel.allIssues.count - 1, id: \.self) { index in
+                            HStack {
+                                LazyVStack {
+                                    Section(header:
+                                                HStack(spacing: 5) {
+                                        Text(viewModel.headers[index])
+                                        Text(String(viewModel.allIssues[index].count))
+                                            .foregroundColor(.gray)
+                                        Spacer()
+                                    }) {
+                                        ForEach(viewModel.allIssues[index], id: \.self) { issue in
+                                            IssueBoardIssueRow(title: issue.title, assignee: issue.users)
+                                                .onDrag({
+                                                    self.currrentIssue = issue
+                                                    return NSItemProvider(contentsOf: URL(string: issue.id)!)! // arr.id로 변경 필요
+                                                })
+                                                                                        .onDrop(of: [.url], delegate: IssueBoardDropDelegate(issue: issue, current: currrentIssue, allIssues: viewModel.allIssues[index]))
+                                            
+                                            Spacer(minLength: 0)
+                                        }
                                     }
                                 }
-                            }
-                            
-                            if issues != all.last { // 원래는 id로 비교
-                                Divider()
+                                
+                                if index != 2 {
+                                    Divider().padding(.leading, 5)
+                                }
                             }
                         }
                     }
@@ -94,31 +108,43 @@ struct IssueBoardView: View {
         .padding()
         .padding(.trailing, 70)
         .ignoresSafeArea(.all, edges: .all)
+        .onAppear {
+            self.viewModel.apply(.onAppear)
+        }
     }
 }
 
 struct IssueBoardIssueRow: View {
     let title: String
-    let assignee: String
+    let assignee: [IssueUser]?
     
     var body: some View {
-        if title != "" { // type을 위해서 기본 "" 이 들어갈거라서 검사하기
-            HStack {
-                VStack(spacing: 5) {
-                    Text(title)
-                    Text(assignee)
+        HStack {
+            VStack(alignment: .leading, spacing: 5) {
+                Text(title)
+                if assignee != nil && assignee?.isEmpty == false {
+                    HStack {
+                        KFImage(URL(string: assignee!.first!.imageURL))
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                        Text(assignee!.first!.name)
+                        if assignee!.count != 1 {
+                            Text("외 \(assignee!.count - 1)명")
+                        }
+                    }
+                    
                 }
-                Spacer()
             }
-            .padding(.all, 10)
-            .background(
-                RoundedRectangle(cornerRadius: 5).fill(Color.gray.opacity(0.1))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 5)
-                    .strokeBorder(Color.gray.opacity(0.3), lineWidth: 1)
-            )
+            Spacer()
         }
+        .padding(.all, 5)
+        .background(
+            RoundedRectangle(cornerRadius: 5).fill(Color.gray.opacity(0.1))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 5)
+                .strokeBorder(Color.gray.opacity(0.3), lineWidth: 1)
+        )
     }
 }
 

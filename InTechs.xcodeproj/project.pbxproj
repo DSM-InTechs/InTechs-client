@@ -132,6 +132,12 @@
 		D97E0F752707F60F00CC8B74 /* InTechsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */; };
 		D97E0F762707F87D00CC8B74 /* InTechsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */; };
 		D98C8CF52726484B007A5802 /* IssueDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98C8CF42726484B007A5802 /* IssueDetailViewModel.swift */; };
+		D98C8CF72728CB83007A5802 /* Date+year.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98C8CF62728CB83007A5802 /* Date+year.swift */; };
+		D98C8CF82728CB84007A5802 /* Date+year.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98C8CF62728CB83007A5802 /* Date+year.swift */; };
+		D98C8CFA2728CB95007A5802 /* Date+month.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98C8CF92728CB95007A5802 /* Date+month.swift */; };
+		D98C8CFB2728CB95007A5802 /* Date+month.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98C8CF92728CB95007A5802 /* Date+month.swift */; };
+		D9A025F2272A36BA004568B6 /* CalendarIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A025F1272A36BA004568B6 /* CalendarIssue.swift */; };
+		D9A025F3272A36BA004568B6 /* CalendarIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A025F1272A36BA004568B6 /* CalendarIssue.swift */; };
 		D9D132AB2720510800919BEF /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D132AA2720510800919BEF /* Issue.swift */; };
 		D9D132AC27205ABA00919BEF /* IssueRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D132A72720507900919BEF /* IssueRepository.swift */; };
 		D9D132AD27205AC600919BEF /* IssueRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D132A72720507900919BEF /* IssueRepository.swift */; };
@@ -326,6 +332,9 @@
 		D97759BE2716CAC100BC9577 /* MypageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewModel.swift; sourceTree = "<group>"; };
 		D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsAPI.swift; sourceTree = "<group>"; };
 		D98C8CF42726484B007A5802 /* IssueDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailViewModel.swift; sourceTree = "<group>"; };
+		D98C8CF62728CB83007A5802 /* Date+year.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+year.swift"; sourceTree = "<group>"; };
+		D98C8CF92728CB95007A5802 /* Date+month.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+month.swift"; sourceTree = "<group>"; };
+		D9A025F1272A36BA004568B6 /* CalendarIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarIssue.swift; sourceTree = "<group>"; };
 		D9D132A72720507900919BEF /* IssueRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueRepository.swift; sourceTree = "<group>"; };
 		D9D132AA2720510800919BEF /* Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Issue.swift; sourceTree = "<group>"; };
 		D9D132B02720F0A100919BEF /* CalendarRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRepository.swift; sourceTree = "<group>"; };
@@ -912,6 +921,8 @@
 			isa = PBXGroup;
 			children = (
 				D9558D7827228FAA004FEEBB /* Date+Compare.swift */,
+				D98C8CF62728CB83007A5802 /* Date+year.swift */,
+				D98C8CF92728CB95007A5802 /* Date+month.swift */,
 			);
 			path = Date;
 			sourceTree = "<group>";
@@ -950,6 +961,7 @@
 			isa = PBXGroup;
 			children = (
 				D9D132AA2720510800919BEF /* Issue.swift */,
+				D9A025F1272A36BA004568B6 /* CalendarIssue.swift */,
 			);
 			path = Issue;
 			sourceTree = "<group>";
@@ -1419,6 +1431,7 @@
 				D950A31626D20C67003D4907 /* Message.swift in Sources */,
 				D9FD9FE126D897A500664757 /* InTechsView.swift in Sources */,
 				D90BB8C626DDA3EB0002E210 /* InputDocument.swift in Sources */,
+				D9A025F2272A36BA004568B6 /* CalendarIssue.swift in Sources */,
 				D91CB56E270EF1FF003DCB63 /* Project.swift in Sources */,
 				D91CB544270AD8AB003DCB63 /* RefreshRepository.swift in Sources */,
 				D91CB56B270EE4CF003DCB63 /* Image+resize.swift in Sources */,
@@ -1436,6 +1449,7 @@
 				D9FC986E26DBD41200735222 /* MypageVIewModel.swift in Sources */,
 				D9D132AB2720510800919BEF /* Issue.swift in Sources */,
 				D93BAD2726D149030094ADD9 /* ContentView.swift in Sources */,
+				D98C8CF72728CB83007A5802 /* Date+year.swift in Sources */,
 				D950A34026D2103B003D4907 /* Home.swift in Sources */,
 				D9FC987426DC459200735222 /* ChatDetailViewModel.swift in Sources */,
 				D9D132B72720F47000919BEF /* ProjectDashboard.swift in Sources */,
@@ -1446,6 +1460,7 @@
 				D94C99B726DF37DF00CB2F07 /* ChannelEditView.swift in Sources */,
 				D9D132B12720F0A100919BEF /* CalendarRepository.swift in Sources */,
 				D91CB569270EE3D4003DCB63 /* ProjectRepository.swift in Sources */,
+				D98C8CFA2728CB95007A5802 /* Date+month.swift in Sources */,
 				D91CB550270BC4C7003DCB63 /* NSLock+lock.swift in Sources */,
 				D94C99B526DF37DF00CB2F07 /* ChatDetailView.swift in Sources */,
 				D91CB52E270ACAE5003DCB63 /* NetworkError.swift in Sources */,
@@ -1471,6 +1486,7 @@
 				D950A33626D20E67003D4907 /* ChatListView.swift in Sources */,
 				D950A31326D20C49003D4907 /* Image+SFImage.swift in Sources */,
 				D950A32126D20CCA003D4907 /* BlurView.swift in Sources */,
+				D9A025F3272A36BA004568B6 /* CalendarIssue.swift in Sources */,
 				D950A36E26D30843003D4907 /* IsActiveView.swift in Sources */,
 				D950A32C26D20E00003D4907 /* ProjectListView.swift in Sources */,
 				D91CB575270EF5ED003DCB63 /* Image+resize.swift in Sources */,
@@ -1518,6 +1534,7 @@
 				D950A33826D20E76003D4907 /* ChatTab.swift in Sources */,
 				D94C99A426DF322C00CB2F07 /* ChannelRenameView.swift in Sources */,
 				D91CB57E270EF7E4003DCB63 /* SettingViewModel.swift in Sources */,
+				D98C8CFB2728CB95007A5802 /* Date+month.swift in Sources */,
 				D936650A26E34EAA00E1F57F /* NewIssueView.swift in Sources */,
 				D9D132B22720F0A600919BEF /* CalendarRepository.swift in Sources */,
 				D91CB57D270EF7E0003DCB63 /* IssueBoardViewModel.swift in Sources */,
@@ -1531,6 +1548,7 @@
 				D950A32E26D20E12003D4907 /* ProjectTab.swift in Sources */,
 				D91CB53E270AD0C2003DCB63 /* MoyaPublisher.swift in Sources */,
 				D950A36726D232D0003D4907 /* ProjectViewModel.swift in Sources */,
+				D98C8CF82728CB84007A5802 /* Date+year.swift in Sources */,
 				D90C61D7271010BC006F0A55 /* NewProjectViewModel.swift in Sources */,
 				D91CB55A270DBDC9003DCB63 /* NSLock+lock.swift in Sources */,
 				D9FC988E26DC82B700735222 /* InTechsViewModel.swift in Sources */,

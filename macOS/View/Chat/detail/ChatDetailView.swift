@@ -172,7 +172,7 @@ struct MessageView: View {
     var user: RecentMessage
     
     var body: some View {
-        GeometryReader { geo in
+        GeometryReader { _ in
             ScrollView {
                 ScrollViewReader { proxy in
                     VStack(spacing: 18) {

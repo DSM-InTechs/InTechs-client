@@ -16,12 +16,12 @@ struct CalendarView: View {
         NavigationView {
             GeometryReader { geo in
                 ZStack {
-                    GECalendar(selectedDate: $calendarVM.date, appearance: Appearance(multipleEvents: calendarVM.events, isMultipleEvents: true, headerFont: .title2))
+                    GECalendar(selectedDate: $calendarVM.selectedDate, appearance: Appearance(multipleEvents: calendarVM.events, isMultipleEvents: true, headerFont: .title2))
                     
                     VStack {
                         Spacer()
                         VStack(alignment: .leading) {
-                            Text(calendarVM.dateFormatter.string(from: calendarVM.date!))
+                            Text(calendarVM.dateFormatter.string(from: calendarVM.selectedDate!))
                                 .foregroundColor(.gray)
                                 .fontWeight(.bold)
                                 .font(.title2)

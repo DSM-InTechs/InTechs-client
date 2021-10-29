@@ -42,7 +42,7 @@ public enum InTechsAPI {
     case getDetailIssue(projectId: Int, issueId: String)
     
     // MARK: - Calendar
-    case getCalendar(projectId: Int)
+    case getCalendar(projectId: Int, year: String, month: String, tags: [String]?, states: [String]?, users: [String]?)
     
     // MARK: - Other User
     case getUser(email: String)
@@ -105,13 +105,13 @@ extension InTechsAPI: TargetType {
             return "/project/\(projectId)/issue"
         case .deleteIssue(let projectId, let issueId):
             return "/project/\(projectId)/issue/\(issueId)"
-        case .updateIssue(let projectId, let issueId, _, _, _, _, _, _, _):
-            return "/project/\(projectId)/issue/\(issueId)"
+        case .updateIssue(_, let issueId, _, _, _, _, _, _, _):
+            return "/project/issue/\(issueId)"
         case .getDetailIssue(let projectId, let issueId):
             return "/project/\(projectId)/issue/\(issueId)"
             
             // MARK: - Calendar
-        case .getCalendar(let projectId):
+        case .getCalendar(let projectId, _, _, _, _, _):
             return "/project/\(projectId)/calendar"
             
             // MARK: - Other User
@@ -189,6 +189,18 @@ extension InTechsAPI: TargetType {
             let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
             let multipartData = [data, nameData]
             return .uploadMultipart(multipartData)
+        case .getCalendar(_, let year, let month, let tags, let states, let users):
+            var paras: [String: Any] = ["year": year, "month": month]
+            if tags != nil {
+                paras["tags"] = tags!
+            }
+            if states != nil {
+                paras["states"] = states!
+            }
+            if users != nil {
+                paras["users"] = users!
+            }
+            return .requestParameters(parameters: paras, encoding: URLEncoding.default)
         default:
             return .requestPlain
         }
