@@ -40,6 +40,7 @@ public enum InTechsAPI {
     case deleteIssue(projectId: Int, issueId: String)
     case updateIssue(projectId: Int, issueId: String, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?)
     case getDetailIssue(projectId: Int, issueId: String)
+    case addComment(issueId: String, content: String)
     
     // MARK: - Calendar
     case getCalendar(projectId: Int, year: String, month: String, tags: [String]?, states: [String]?, users: [String]?)
@@ -109,6 +110,8 @@ extension InTechsAPI: TargetType {
             return "/project/issue/\(issueId)"
         case .getDetailIssue(let projectId, let issueId):
             return "/project/\(projectId)/issue/\(issueId)"
+        case .addComment(let issueId, _):
+            return "/project/issue/\(issueId)/comment"
             
             // MARK: - Calendar
         case .getCalendar(let projectId, _, _, _, _, _):
@@ -123,7 +126,7 @@ extension InTechsAPI: TargetType {
     
     public var method: Moya.Method {
         switch self {
-        case .register, .login, .refresh, .createProject, .joinProject, .createIssue, .getIssues:
+        case .register, .login, .refresh, .createProject, .joinProject, .createIssue, .getIssues, .addComment:
             return .post
         case .updateMypage, .updateMyActive, .updateProject, .updateIssue:
             return .patch
@@ -201,6 +204,8 @@ extension InTechsAPI: TargetType {
                 paras["users"] = users!
             }
             return .requestParameters(parameters: paras, encoding: URLEncoding.default)
+        case .addComment(_, let content):
+            return .requestParameters(parameters: ["content": content], encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

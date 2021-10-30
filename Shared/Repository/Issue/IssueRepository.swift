@@ -17,6 +17,7 @@ public protocol IssueReporitory {
     func modifyIssue(id: String, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?) -> AnyPublisher<Void, NetworkError>
     func deleteIssue(id: String) -> AnyPublisher<Void, NetworkError>
     func getDetailIssue(id: String) -> AnyPublisher<Issue, NetworkError>
+    func addComment(id: String, content: String) -> AnyPublisher<Void, NetworkError>
 }
 
 final public class IssueReporitoryImpl: IssueReporitory {
@@ -165,6 +166,22 @@ final public class IssueReporitoryImpl: IssueReporitory {
                         .map(Issue.self)
                 }
                 return Fail<Issue, MoyaError>(error: error).eraseToAnyPublisher()
+            }
+            .mapError {  NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    public func addComment(id: String, content: String) -> AnyPublisher<Void, NetworkError> {
+        provider.requestVoidPublisher(.addComment(issueId: id, content: content))
+            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
+                    print("TOKEN ERROR")
+                    self.refreshRepository.refresh()
+
+                    return self.provider.requestVoidPublisher(.addComment(issueId: id, content: content))
+                }
+                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
             }
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()

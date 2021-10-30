@@ -14,6 +14,7 @@ struct IssueDetailView: View {
     @ObservedObject var viewModel = IssueDetailViewModel()
     
     @State private var isEditing = false
+    @State private var isShowComments = false
     
     let title: String
     
@@ -409,6 +410,50 @@ struct IssueDetailView: View {
                                         }
                                     }
                                 }
+                            }
+                        }
+                    }
+                    
+                    if currentIssue?.comments?.isEmpty != nil {
+                        HStack {
+                            Text("댓글")
+                            Group {
+                                if self.isShowComments {
+                                    Image(system: .upArrow)
+                                } else {
+                                    Image(system: .downArrow)
+                                }
+                            }.onTapGesture {
+                                self.isShowComments.toggle()
+                            }
+                        }
+                        
+                        if self.isShowComments {
+                            LazyVStack(alignment: .leading) {
+                                ForEach(currentIssue!.comments!, id: \.self) { comment in
+                                    HStack {
+                                        VStack {
+                                            KFImage(URL(string: comment.user.imageURL))
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                            Text(comment.user.name)
+                                        }
+                                        
+                                        Text(comment.content)
+                                    }
+                                }
+                            }
+                            HStack(spacing: 20) {
+                                TextField("댓글 작성", text: $viewModel.newComment)
+                                
+                                Text("확인")
+                                    .foregroundColor(Color(Asset.black))
+                                    .padding(.all, 5)
+                                    .padding(.horizontal, 10)
+                                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
+                                    .onTapGesture {
+                                        viewModel.apply(.addComment(id: currentIssue!.id))
+                                    }
                             }
                         }
                     }

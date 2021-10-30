@@ -27,6 +27,7 @@ enum SFImage: String {
     case checklist = "checkmark.square.fill"
     case plus = "plus"
     case downArrow = "chevron.down"
+    case upArrow = "chevron.up"
     case square = "square"
     case xmark = "xmark"
     case chat = "message.fill"

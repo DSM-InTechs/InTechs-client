@@ -29,6 +29,8 @@ class IssueDetailViewModel: ObservableObject {
     @Published var newTag: String = ""
     @Published var tags: [SelectIssueTag] = []
     
+    @Published var newComment: String = ""
+    
     private let issueReporitory: IssueReporitory
     private let dateFormatter = DateFormatter()
     
@@ -37,11 +39,13 @@ class IssueDetailViewModel: ObservableObject {
     public enum Event {
         case change(id: String)
         case delete(id: String)
+        case addComment(id: String)
     }
     
     public struct Input {
         let change = PassthroughSubject<String, Never>()
         let delete = PassthroughSubject<String, Never>()
+        let addComment = PassthroughSubject<String, Never>()
     }
     
     public let input = Input()
@@ -52,6 +56,8 @@ class IssueDetailViewModel: ObservableObject {
             self.input.change.send(id)
         case .delete(let id):
             self.input.delete.send(id)
+        case .addComment(let id):
+            self.input.addComment.send(id)
         }
     }
     
@@ -84,6 +90,18 @@ class IssueDetailViewModel: ObservableObject {
                     }
             }
             .sink(receiveValue: { _ in })
+            .store(in: &bag)
+        
+        input.addComment
+            .flatMap {
+                self.issueReporitory.addComment(id: $0, content: self.newComment)
+                    .catch { _ -> Empty<Void, Never> in
+                        return .init()
+                    }
+            }
+            .sink(receiveValue: { _ in
+                self.newComment = ""
+            })
             .store(in: &bag)
     }
     
