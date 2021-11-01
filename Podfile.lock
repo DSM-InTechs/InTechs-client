@@ -33,7 +33,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   GECalendar:
-    :commit: 642592cb016a9fb8024ebb66f5a25b98eee4fd21
+    :commit: cf06361cda95381865248e58f41fd2354f26881d
     :git: https://github.com/Goeun1001/GECalendar.git
   GEmojiPicker:
     :commit: f34b3cc01fa5c94b839f59cb74e7e441faa0aa58

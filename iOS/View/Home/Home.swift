@@ -19,12 +19,14 @@ struct Home: View {
         if homeVM.isLogin {
             TabView {
                 ChatListView()
+                    .environmentObject(homeVM)
                     .tabItem {
                         Image(system: .chat)
                         Text("채팅")
                     }
 
                 IssuelistView()
+                    .environmentObject(homeVM)
                     .tabItem {
                         Image(system: .issue)
                         Text("이슈")

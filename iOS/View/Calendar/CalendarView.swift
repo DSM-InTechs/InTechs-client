@@ -7,65 +7,88 @@
 
 import SwiftUI
 import GECalendar
+import Kingfisher
 
 struct CalendarView: View {
-    @ObservedObject var calendarVM = CalendarViewModel()
+    @ObservedObject var viewModel = CalendarViewModel()
     @State var uiTabarController: UITabBarController?
     
     var body: some View {
         NavigationView {
             GeometryReader { geo in
                 ZStack {
-                    GECalendar(selectedDate: $calendarVM.selectedDate, appearance: Appearance(multipleEvents: calendarVM.events, isMultipleEvents: true, headerFont: .title2))
+                    GECalendar(selectedDate: $viewModel.selectedDate,
+                               appearance: $viewModel.appearance,
+                               onChanged: { self.viewModel.onChanged($0) })
                     
                     VStack {
                         Spacer()
                         VStack(alignment: .leading) {
-                            Text(calendarVM.dateFormatter.string(from: calendarVM.selectedDate!))
+                            Text(viewModel.selectedMD)
                                 .foregroundColor(.gray)
                                 .fontWeight(.bold)
                                 .font(.title2)
                                 .padding(.horizontal, 20)
                             
                             LazyVStack(spacing: 20) {
-                                ForEach(0...1, id: \.self) { _ in
-                                    NavigationLink(destination: IssueDetailView()) {
-                                        CalendarIssueRow()
+                                ForEach(viewModel.issues, id: \.self) { issue in
+                                    NavigationLink(destination: IssueDetailView(id: issue.id)) {
+                                        CalendarIssueRow(state: issue.state, title: issue.title)
                                             .padding(.horizontal)
                                     }
                                 }
                             }.padding(.horizontal)
                             Spacer()
                         }
-                        .frame(height: geo.size.height / 2)
+                        .frame(height: geo.size.height / 2.3)
                     }
                     
                 }
             }.padding(.vertical)
-            .navigationBarTitle("마이페이지", displayMode: .inline)
-            .navigationBarItems(trailing:
-                                    NavigationLink(destination: MypageView()) {
-                                        Circle().frame(width: 25, height: 25)
-                                    }
-            )
-            .introspectTabBarController { (UITabBarController) in
-                UITabBarController.tabBar.isHidden = false
-                uiTabarController = UITabBarController
-            }.onAppear {
-                uiTabarController?.tabBar.isHidden = false
-            }
+                .navigationBarTitle("마이페이지", displayMode: .inline)
+                .navigationBarItems(trailing:
+                                        NavigationLink(destination: MypageView()) {
+                    KFImage(URL(string: viewModel.profile.image))
+                        .resizable()
+                        .clipShape(Circle())
+                        .frame(width: 25, height: 25)
+                }
+                )
+                .introspectTabBarController { (UITabBarController) in
+                    UITabBarController.tabBar.isHidden = false
+                    uiTabarController = UITabBarController
+                }.onAppear {
+                    uiTabarController?.tabBar.isHidden = false
+                }
+        }.onAppear {
+            self.viewModel.apply(.onAppear)
         }
     }
 }
 
 struct CalendarIssueRow: View {
-    let isIssue: Bool = true
-    let title: String = "이슈1"
+    let state: String?
+    let title: String
     
     var body: some View {
         HStack {
-            Circle().foregroundColor(isIssue ? .green : .blue)
-                .frame(width: 10, height: 10)
+            switch state {
+            case IssueState.ready.rawValue:
+                Circle()
+                    .foregroundColor(.green)
+                    .frame(width: 10, height: 10)
+            case IssueState.progress.rawValue:
+                Circle()
+                    .foregroundColor(.gray)
+                    .frame(width: 10, height: 10)
+            case IssueState.done.rawValue:
+                Circle()
+                    .foregroundColor(.blue)
+                    .frame(width: 10, height: 10)
+            default:
+                Text("").hidden()
+            }
+            
             Text(title)
                 .foregroundColor(Color(Asset.black))
             Spacer()

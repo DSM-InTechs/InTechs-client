@@ -125,6 +125,7 @@
 		D950A37226D319CD003D4907 /* Assets+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A34F26D2181B003D4907 /* Assets+init.swift */; };
 		D950A37926D336AD003D4907 /* ChannelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A37826D336AD003D4907 /* ChannelInfoView.swift */; };
 		D950A37B26D33A9E003D4907 /* ChannelSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */; };
+		D95554B2272FEBF6001864EC /* IssueDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95554B1272FEBF6001864EC /* IssueDetailViewModel.swift */; };
 		D9558D7927228FAA004FEEBB /* Date+Compare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7827228FAA004FEEBB /* Date+Compare.swift */; };
 		D9558D7A27228FAA004FEEBB /* Date+Compare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7827228FAA004FEEBB /* Date+Compare.swift */; };
 		D9558D7C2725991E004FEEBB /* NewIssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7B2725991D004FEEBB /* NewIssueViewModel.swift */; };
@@ -327,6 +328,7 @@
 		D950A37026D31354003D4907 /* MypageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageView.swift; sourceTree = "<group>"; };
 		D950A37826D336AD003D4907 /* ChannelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoView.swift; sourceTree = "<group>"; };
 		D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSearchView.swift; sourceTree = "<group>"; };
+		D95554B1272FEBF6001864EC /* IssueDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailViewModel.swift; sourceTree = "<group>"; };
 		D9558D7827228FAA004FEEBB /* Date+Compare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Compare.swift"; sourceTree = "<group>"; };
 		D9558D7B2725991D004FEEBB /* NewIssueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIssueViewModel.swift; sourceTree = "<group>"; };
 		D97759BE2716CAC100BC9577 /* MypageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewModel.swift; sourceTree = "<group>"; };
@@ -1112,6 +1114,7 @@
 				D9FD9FD926D7DE5300664757 /* IssuelistView.swift */,
 				D9FC986526DBCB2D00735222 /* IssuelistViewModel.swift */,
 				D9FD9FDD26D7DF7B00664757 /* IssueDetailView.swift */,
+				D95554B1272FEBF6001864EC /* IssueDetailViewModel.swift */,
 			);
 			path = Issuelist;
 			sourceTree = "<group>";
@@ -1454,6 +1457,7 @@
 				D9FC987426DC459200735222 /* ChatDetailViewModel.swift in Sources */,
 				D9D132B72720F47000919BEF /* ProjectDashboard.swift in Sources */,
 				D9FD9FD726D7CDF500664757 /* MypageView.swift in Sources */,
+				D95554B2272FEBF6001864EC /* IssueDetailViewModel.swift in Sources */,
 				D91CB534270ACC24003DCB63 /* AuthReponse.swift in Sources */,
 				D97E0F752707F60F00CC8B74 /* InTechsAPI.swift in Sources */,
 				D91CB539270AD085003DCB63 /* MoyaProvider+Combine.swift in Sources */,

@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MypageView: View {
     @Environment(\.openURL) var openURL
-    @ObservedObject var mypageVM = MypageViewModel()
+    @ObservedObject var viewModel = MypageViewModel()
+    @EnvironmentObject private var homeVM: HomeViewModel
+    
     @State private var logoutAlert: Bool = false
     @State var uiTabarController: UITabBarController?
     
@@ -20,11 +23,14 @@ struct MypageView: View {
             
             GeometryReader { _ in
                 VStack(spacing: UIFrame.width / 10) {
-                    NavigationLink(destination: MypageEditView()) {
+                    NavigationLink(destination: MypageEditView().environmentObject(self.viewModel)) {
                         HStack {
-                            Circle().frame(width: 50, height: 50)
+                            KFImage(URL(string: viewModel.profile.image))
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
                             VStack(alignment: .leading, spacing: 5) {
-                                Text("유저 이름")
+                                Text(viewModel.profile.name)
                                     .font(.title3)
                                     .fontWeight(.bold)
                                     .foregroundColor(Color(Asset.black))
@@ -65,8 +71,8 @@ struct MypageView: View {
                             .fontWeight(.bold)
                             .padding(.bottom, 5)
                         
-                        NavigationLink(destination: MyProjectListView()) {
-                            MypageRow(title: "프로젝트", _body: "프로젝트 이름", image: .project)
+                        NavigationLink(destination: MyProjectListView().environmentObject(self.viewModel)) {
+                            MypageRow(title: "프로젝트", _body: viewModel.projectName, image: .project)
                         }
                     }
                     
@@ -78,7 +84,7 @@ struct MypageView: View {
                             }
                     } .alert(isPresented: $logoutAlert) {
                         Alert(title: Text("로그아웃하시겠습니까?"), primaryButton: .destructive(Text("예"), action: {
-                            // Some action
+                            self.homeVM.logout()
                         }), secondaryButton: .cancel())
                     }
                     
@@ -88,6 +94,7 @@ struct MypageView: View {
                 self.uiTabarController = UITabBarController
             }.onAppear {
                 self.uiTabarController?.tabBar.isHidden = true
+                self.viewModel.apply(.mypage)
             }
         }
     }

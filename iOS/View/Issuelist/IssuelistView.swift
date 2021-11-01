@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct IssuelistView: View {
+    @ObservedObject var viewModel = IssuelistViewModel()
     @State private var uiTabarController: UITabBarController?
-    @State var isPlus: Bool = false
     @State var selection = 0
     
     var body: some View {
@@ -20,25 +20,71 @@ struct IssuelistView: View {
                         Text("For me & Unresolved")
                             .padding(.all, 5)
                             .padding(.horizontal, 5)
+                            .foregroundColor(self.viewModel.selectedTab == .forMeAndUnresolved ? .black : .gray)
                             .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color(Asset.black), lineWidth: 2)
+                                ZStack {
+                                    if self.viewModel.selectedTab == .forMeAndUnresolved {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color(Asset.black), lineWidth: 2)
+                                    }
+                                }
                             )
+                            .onTapGesture {
+                                self.viewModel.selectedTab = .forMeAndUnresolved
+                                self.viewModel.modifyState()
+                            }
                         
                         Text("For me")
                             .padding(.all, 5)
                             .padding(.horizontal, 5)
-                            .foregroundColor(.gray)
+                            .foregroundColor(self.viewModel.selectedTab == .forMe ? .black : .gray)
+                            .overlay(
+                                ZStack {
+                                    if self.viewModel.selectedTab == .forMe {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color(Asset.black), lineWidth: 2)
+                                    }
+                                }
+                            )
+                            .onTapGesture {
+                                self.viewModel.selectedTab = .forMe
+                                self.viewModel.modifyState()
+                            }
                         
                         Text("Unresolved")
                             .padding(.all, 5)
                             .padding(.horizontal, 5)
-                            .foregroundColor(.gray)
+                            .foregroundColor(self.viewModel.selectedTab == .unresolved ? .black : .gray)
+                            .overlay(
+                                ZStack {
+                                    if self.viewModel.selectedTab == .unresolved {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color(Asset.black), lineWidth: 2)
+                                    }
+                                }
+                            )
+                            .onTapGesture {
+                                self.viewModel.selectedTab = .unresolved
+                                self.viewModel.modifyState()
+                            }
                         
                         Text("Resolved")
                             .padding(.all, 5)
                             .padding(.horizontal, 5)
-                            .foregroundColor(.gray)
+                            .foregroundColor(self.viewModel.selectedTab == .resolved ? .black : .gray)
+                            .overlay(
+                                ZStack {
+                                    if self.viewModel.selectedTab == .resolved {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color(Asset.black), lineWidth: 2)
+                                    }
+                                }
+                            )
+                            .onTapGesture {
+                                self.viewModel.selectedTab = .resolved
+                                self.viewModel.modifyState()
+                            }
+                        
                     }.padding()
                 }
                 
@@ -47,33 +93,23 @@ struct IssuelistView: View {
                 
                 ScrollView {
                     LazyVStack(spacing: 20) {
-                        ForEach(0...1, id: \.self) { _ in
-                            NavigationLink(destination: IssueDetailView()) {
-                                CalendarIssueRow()
+                        ForEach(viewModel.issues, id: \.self) { issue in
+                            NavigationLink(destination: IssueDetailView(id: issue.id)) {
+                                CalendarIssueRow(state: issue.state, title: issue.title)
                             }
                         }
                     }
                     .padding()
                 }
-                .sheet(isPresented: self.$isPlus) {
-//                    CreateIssueView()
-                }
                 .navigationBarTitle("이슈", displayMode: .inline)
-                .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-//                        Image(system: .plus)
-//                            .foregroundColor(.blue)
-//                            .onTapGesture {
-//                                self.isPlus = true
-//                            }
-                    }
-                }
                 .introspectTabBarController { (UITabBarController) in
                     UITabBarController.tabBar.isHidden = false
                     uiTabarController = UITabBarController
                 }.onAppear {
                     uiTabarController?.tabBar.isHidden = false
                 }
+            }.onAppear {
+                viewModel.apply(.onAppear)
             }
         }
     }
@@ -135,9 +171,9 @@ struct CreateIssueView: View {
                 .navigationBarTitle("이슈 생성", displayMode: .inline)
                 .navigationBarItems(leading: Text("취소")
                                         .foregroundColor(.red).onTapGesture {
-                                            self.isModal.toggle()
-                                        }, trailing: Text("확인")
-                                            .foregroundColor(text == "" ? .gray : .blue))
+                    self.isModal.toggle()
+                }, trailing: Text("확인")
+                                        .foregroundColor(text == "" ? .gray : .blue))
             }
         }
     }
