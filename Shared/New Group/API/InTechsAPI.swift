@@ -40,9 +40,10 @@ public enum InTechsAPI {
     case deleteIssue(projectId: Int, issueId: String)
     case updateIssue(projectId: Int, issueId: String, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?)
     case getDetailIssue(projectId: Int, issueId: String)
+    case addComment(issueId: String, content: String)
     
     // MARK: - Calendar
-    case getCalendar(projectId: Int)
+    case getCalendar(projectId: Int, year: String, month: String, tags: [String]?, states: [String]?, users: [String]?)
     
     // MARK: - Other User
     case getUser(email: String)
@@ -105,13 +106,15 @@ extension InTechsAPI: TargetType {
             return "/project/\(projectId)/issue"
         case .deleteIssue(let projectId, let issueId):
             return "/project/\(projectId)/issue/\(issueId)"
-        case .updateIssue(let projectId, let issueId, _, _, _, _, _, _, _):
-            return "/project/\(projectId)/issue/\(issueId)"
+        case .updateIssue(_, let issueId, _, _, _, _, _, _, _):
+            return "/project/issue/\(issueId)"
         case .getDetailIssue(let projectId, let issueId):
             return "/project/\(projectId)/issue/\(issueId)"
+        case .addComment(let issueId, _):
+            return "/project/issue/\(issueId)/comment"
             
             // MARK: - Calendar
-        case .getCalendar(let projectId):
+        case .getCalendar(let projectId, _, _, _, _, _):
             return "/project/\(projectId)/calendar"
             
             // MARK: - Other User
@@ -123,7 +126,7 @@ extension InTechsAPI: TargetType {
     
     public var method: Moya.Method {
         switch self {
-        case .register, .login, .refresh, .createProject, .joinProject, .createIssue, .getIssues:
+        case .register, .login, .refresh, .createProject, .joinProject, .createIssue, .getIssues, .addComment:
             return .post
         case .updateMypage, .updateMyActive, .updateProject, .updateIssue:
             return .patch
@@ -189,6 +192,20 @@ extension InTechsAPI: TargetType {
             let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
             let multipartData = [data, nameData]
             return .uploadMultipart(multipartData)
+        case .getCalendar(_, let year, let month, let tags, let states, let users):
+            var paras: [String: Any] = ["year": year, "month": month]
+            if tags != nil {
+                paras["tags"] = tags!
+            }
+            if states != nil {
+                paras["states"] = states!
+            }
+            if users != nil {
+                paras["users"] = users!
+            }
+            return .requestParameters(parameters: paras, encoding: URLEncoding.default)
+        case .addComment(_, let content):
+            return .requestParameters(parameters: ["content": content], encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

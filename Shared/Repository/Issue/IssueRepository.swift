@@ -10,12 +10,14 @@ import Combine
 
 public protocol IssueReporitory {
     func getIssues() -> AnyPublisher<[Issue], NetworkError>
+    func getIssues(tags: [String]?, users: [String]?, states: [String]?) -> AnyPublisher<[Issue], NetworkError>
     func getUserlist() -> AnyPublisher<[IssueUser], NetworkError>
     func getTaglist() -> AnyPublisher<[IssueTag], NetworkError>
     func createIssue(title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?) -> AnyPublisher<Void, NetworkError>
     func modifyIssue(id: String, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?) -> AnyPublisher<Void, NetworkError>
     func deleteIssue(id: String) -> AnyPublisher<Void, NetworkError>
     func getDetailIssue(id: String) -> AnyPublisher<Issue, NetworkError>
+    func addComment(id: String, content: String) -> AnyPublisher<Void, NetworkError>
 }
 
 final public class IssueReporitoryImpl: IssueReporitory {
@@ -41,6 +43,24 @@ final public class IssueReporitoryImpl: IssueReporitory {
                     self.refreshRepository.refresh()
 
                     return self.provider.requestPublisher(.getIssues(projectId: self.currentProject, tags: nil, states: nil, users: nil))
+                        .map([Issue].self)
+                }
+                return Fail<[Issue], MoyaError>(error: error).eraseToAnyPublisher()
+            }
+            .mapError {  NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    public func getIssues(tags: [String]?, users: [String]?, states: [String]?) -> AnyPublisher<[Issue], NetworkError> {
+        provider.requestPublisher(.getIssues(projectId: currentProject, tags: tags, states: states, users: users))
+            .map([Issue].self)
+            .tryCatch { error -> AnyPublisher<[Issue], MoyaError> in
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
+                    print("TOKEN ERROR")
+                    self.refreshRepository.refresh()
+
+                    return self.provider.requestPublisher(.getIssues(projectId: self.currentProject, tags: tags, states: states, users: users))
                         .map([Issue].self)
                 }
                 return Fail<[Issue], MoyaError>(error: error).eraseToAnyPublisher()
@@ -146,6 +166,22 @@ final public class IssueReporitoryImpl: IssueReporitory {
                         .map(Issue.self)
                 }
                 return Fail<Issue, MoyaError>(error: error).eraseToAnyPublisher()
+            }
+            .mapError {  NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    public func addComment(id: String, content: String) -> AnyPublisher<Void, NetworkError> {
+        provider.requestVoidPublisher(.addComment(issueId: id, content: content))
+            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
+                let networkError = NetworkError(error)
+                if networkError == .unauthorized || networkError == .notMatch {
+                    print("TOKEN ERROR")
+                    self.refreshRepository.refresh()
+
+                    return self.provider.requestVoidPublisher(.addComment(issueId: id, content: content))
+                }
+                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
             }
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()

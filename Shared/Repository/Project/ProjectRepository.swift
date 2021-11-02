@@ -169,19 +169,19 @@ final public class ProjectRepositoryImpl: ProjectRepository {
         let image = image.resize(width: 400, height: 400)
         let data = image.jpegData(compressionQuality: 1)!
         
-        return provider.requestPublisher(.createProject(id: id, name: name, imageData: data))
+        return provider.requestPublisher(.createProject(name: name, imageData: data))
             .map { moyaResponse -> Void in
                 let response = moyaResponse.response
                 let responseHeader = response?.allHeaderFields
-                self.currentProject = responseHeader!["Project-Number"] as! String
-                print("CREATED \(self.currentProject)")
+                let str = responseHeader!["Project-Number"] as! NSString
+                self.currentProject = Int(str.intValue)
                 return
             }
             .tryCatch { error -> AnyPublisher<Void, MoyaError> in
                 let networkError = NetworkError(error)
                 if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
-                    return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
+                    return self.provider.requestVoidPublisher(.createProject(name: name, imageData: data))
                 }
                 return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
             }
@@ -227,7 +227,7 @@ final public class ProjectRepositoryImpl: ProjectRepository {
                 if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
                     
-                    return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: jpegData))
+                    return self.provider.requestVoidPublisher(.createProject(name: name, imageData: data))
                 }
                 return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
             }

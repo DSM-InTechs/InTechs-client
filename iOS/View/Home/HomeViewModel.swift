@@ -12,6 +12,7 @@ class HomeViewModel: ObservableObject {
     @Published var isLogin: Bool = true
     
     private let myActiveRepository: MyActiveRepository
+    private let mypageRepository: MypageRepository
     private var bag = Set<AnyCancellable>()
     
     public enum Event {
@@ -31,8 +32,10 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    init(myActiveRepository: MyActiveRepository = MyActiveRepositoryImpl()) {
+    init(myActiveRepository: MyActiveRepository = MyActiveRepositoryImpl(),
+         mypageRepository: MypageRepository = MypageRepositoryImpl()) {
         self.myActiveRepository = myActiveRepository
+        self.mypageRepository = mypageRepository
         
         input.changeActive
             .flatMap {
@@ -44,6 +47,11 @@ class HomeViewModel: ObservableObject {
             .sink(receiveValue: { _ in })
             .store(in: &bag)
         
+    }
+    
+    public func logout() {
+        self.mypageRepository.logout()
+        self.isLogin = false
     }
     
     private func getErrorMessage(error: NetworkError) -> String {

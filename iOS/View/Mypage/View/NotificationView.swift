@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct NotificationView: View {
     var body: some View {
@@ -33,6 +34,8 @@ struct NotificationView: View {
 }
 
 struct MyProjectListView: View {
+    @EnvironmentObject private var mypageVM: MypageViewModel
+    
     var body: some View {
         ZStack {
             Color(UIColor.secondarySystemBackground)
@@ -40,28 +43,29 @@ struct MyProjectListView: View {
             
             GeometryReader { _ in
                 ScrollView {
-                    VStack(spacing: 10) {
-                        HStack(spacing: 15) {
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.gray)
-                                .frame(width: 40, height: 40)
-                            Text("프로젝트 1")
-                            Spacer()
-                            Image(system: .checkmark)
-                        }.padding()
-                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
-                        
-                        HStack(spacing: 15) {
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(.gray)
-                                .frame(width: 40, height: 40)
-                            Text("프로젝트 2")
-                            Spacer()
-                        }.padding()
-                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
+                    LazyVStack {
+                        ForEach(mypageVM.myProjects, id: \.self) { project in
+                            HStack(spacing: 15) {
+                                KFImage(URL(string: project.image))
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                                Text(project.name)
+                                Spacer()
+                                if project.id == mypageVM.currentProject {
+                                    Image(system: .checkmark)
+                                }
+                                
+                            }.padding()
+                                .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
+                                .onTapGesture {
+                                    mypageVM.currentProject = project.id
+                                }
+                        }
                     }
                 }
             }.padding()
+        }.onAppear {
+            self.mypageVM.apply(.getProjects)
         }
     }
 }
@@ -69,6 +73,6 @@ struct MyProjectListView: View {
 struct NotificationView_Previews: PreviewProvider {
     static var previews: some View {
         NotificationView()
-        MyProjectListView()
+        MyProjectListView().environmentObject(MypageViewModel())
     }
 }

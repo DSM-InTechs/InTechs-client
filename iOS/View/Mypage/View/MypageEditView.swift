@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MypageEditView: View {
+    @EnvironmentObject private var mypageVM: MypageViewModel
+    
     @State var uiTabarController: UITabBarController?
-    @State var pickedImage: Image?
     @State private var isImage = false
     
     var body: some View {
@@ -23,11 +25,12 @@ struct MypageEditView: View {
                         Spacer()
                         VStack {
                             // 기본 이미지
-                            if pickedImage == nil {
-                                Circle().frame(width: UIFrame.width / 4, height: UIFrame.width / 4)
-                                    .foregroundColor(.gray.opacity(0.5))
+                            if mypageVM.updatedImage == nil {
+                                KFImage(URL(string: mypageVM.profile.image))
+                                    .resizable()
+                                    .frame(width: UIFrame.width / 4, height: UIFrame.width / 4)
                             } else {
-                                pickedImage!
+                                Image(uiImage: mypageVM.updatedImage!)
                                     .resizable()
                                     .frame(width: UIFrame.width / 4, height: UIFrame.width / 4)
                                     .aspectRatio(contentMode: .fill)
@@ -42,7 +45,7 @@ struct MypageEditView: View {
                         Spacer()
                     }.sheet(isPresented: $isImage) {
                         ImagePicker(sourceType: .photoLibrary, imagePicked: { image in
-                            self.pickedImage = Image(uiImage: image)
+                            mypageVM.updatedImage = image
                         })
                     }
                     
@@ -54,13 +57,13 @@ struct MypageEditView: View {
                             .padding(.bottom, 5)
                         
                         VStack {
-                            TextField("유저 이름", text: .constant(""))
+                            TextField("유저 이름", text: $mypageVM.updatedName)
                                 .padding(.all, 10)
                         }.background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
                     }
                     
                     VStack(alignment: .leading) {
-                        Text("연락처") // 또는 멤버 없음 표시
+                        Text("연락처")
                             .foregroundColor(.gray)
                             .font(.title3)
                             .fontWeight(.bold)
@@ -69,7 +72,7 @@ struct MypageEditView: View {
                         HStack(spacing: 20) {
                             Text("메일")
                                 .foregroundColor(.gray)
-                            Text("gogo8272@gmail.com")
+                            Text(mypageVM.profile.email)
                             Spacer()
                         }.padding()
                         .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
@@ -77,7 +80,7 @@ struct MypageEditView: View {
                 }.padding()
                 .navigationBarTitle("프로필 편집")
                 .navigationBarItems(trailing: Text("완료").foregroundColor(.blue).onTapGesture {
-                    //
+                    self.mypageVM.apply(.change)
                 })
             }
         }

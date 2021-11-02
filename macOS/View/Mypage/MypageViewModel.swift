@@ -56,16 +56,6 @@ class MypageViewModel: ObservableObject {
         self.mypageRepository = mypageRepository
         self.projectRepository = projectRepository
         
-//        input.mypage
-//            .flatMap {
-//                self.mypageRepository.mypage()
-//                    .catch { _ -> Empty<Mypage, Never> in
-//                        return .init()
-//                    }
-//            }
-//            .assign(to: \.profile, on: self)
-//            .store(in: &bag)
-        
         input.mypage
             .flatMap {
                 self.mypageRepository.mypage()

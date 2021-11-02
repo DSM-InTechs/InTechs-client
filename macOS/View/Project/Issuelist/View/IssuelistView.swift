@@ -13,6 +13,10 @@ struct IssuelistView: View {
     @ObservedObject var viewModel = IssuelistViewModel()
     @State private var currentIssue: Issue?
     
+    @State private var assigneePop: Bool = false
+    @State private var statePop: Bool = false
+    @State private var tagPop: Bool = false
+    
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: .leading) {
@@ -35,6 +39,7 @@ struct IssuelistView: View {
                                     self.viewModel.selectedTab = nil
                                 } else {
                                     self.viewModel.selectedTab = .unresolved
+                                    self.viewModel.state = IssueState.progress
                                 }
                             }
                         
@@ -55,6 +60,7 @@ struct IssuelistView: View {
                                     self.viewModel.selectedTab = nil
                                 } else {
                                     self.viewModel.selectedTab = .forMe
+//                                    self.viewModel.users = [
                                 }
                             }
                         
@@ -75,6 +81,7 @@ struct IssuelistView: View {
                                     self.viewModel.selectedTab = nil
                                 } else {
                                     self.viewModel.selectedTab = .forMeAndUnresolved
+                                    // self.viewModel.users = [
                                 }
                             }
                         
@@ -95,6 +102,7 @@ struct IssuelistView: View {
                                     self.viewModel.selectedTab = nil
                                 } else {
                                     self.viewModel.selectedTab = .resolved
+                                    self.viewModel.state = IssueState.done
                                 }
                             }
                         
@@ -113,21 +121,39 @@ struct IssuelistView: View {
                     
                     HStack(spacing: 20) {
                         HStack(spacing: 3) {
-                            Text("대상자")
+                            Text("상태")
                             Image(system: .downArrow)
                                 .font(.caption)
+                        }.onTapGesture {
+                            self.statePop.toggle()
+                        }.popover(isPresented: self.$statePop) {
+                            IssueFilterStateView(state: $viewModel.state,
+                                                 execute: { viewModel.apply(.reloadlist) })
+                                .padding()
                         }
                         
                         HStack(spacing: 3) {
-                            Text("마감기한")
+                            Text("대상자")
                             Image(system: .downArrow)
                                 .font(.caption)
+                        }.onTapGesture {
+                            self.assigneePop.toggle()
+                        }.popover(isPresented: self.$assigneePop) {
+                            IssueFilterUserView(users: $viewModel.users,
+                                                execute: { viewModel.apply(.reloadlist) })
+                                .frame(width: 200)
                         }
                         
                         HStack(spacing: 3) {
                             Text("태그")
                             Image(system: .downArrow)
                                 .font(.caption)
+                        }.onTapGesture {
+                            self.tagPop.toggle()
+                        }.popover(isPresented: self.$tagPop) {
+                            IssueFilterTagView(tags: $viewModel.tags,
+                                               execute: { viewModel.apply(.reloadlist) })
+                                .frame(width: 200)
                         }
                         
                         HStack(spacing: 3) {
@@ -189,6 +215,9 @@ struct IssuelistView: View {
 struct IssuelistView_Previews: PreviewProvider {
     static var previews: some View {
         IssuelistView()
+        IssueFilterUserView(users: .constant([SelectIssueUser(user: IssueUser(name: "asdf", email: "asdf", imageURL: ""))])).frame(width: 200)
+        IssueFilterTagView(tags: .constant([SelectIssueTag(tag: IssueTag(tag: "태그 예시"))])).frame(width: 200)
+        IssueFilterStateView(state: .constant(IssueState.progress))
     }
 }
 
@@ -253,5 +282,111 @@ struct IssuelistRow: View {
                     self.currentIssue = issue
                 }
             }
+    }
+}
+
+struct IssueFilterUserView: View {
+    @Binding var users: [SelectIssueUser]
+    var execute: () -> Void = {}
+    
+    var body: some View {
+        ScrollView {
+            LazyVStack(alignment: .leading) {
+                ForEach(0...users.count - 1, id: \.self) { index in
+                    IssueUserRow(user: users[index])
+                        .onTapGesture {
+                            users[index].isSelected.toggle()
+                            self.execute()
+                        }
+                }
+            }
+        }.padding()
+    }
+}
+
+struct IssueUserRow: View {
+    let user: SelectIssueUser
+    
+    var body: some View {
+        HStack {
+            KFImage(URL(string: user.imageURL))
+                .resizable()
+                .frame(width: 25, height: 25)
+            Text(user.name)
+            Spacer()
+            if user.isSelected {
+                Image(system: .checkmark)
+            }
+        }
+    }
+}
+
+struct IssueFilterTagView: View {
+    @Binding var tags: [SelectIssueTag]
+    var execute: () -> Void = {}
+    
+    var body: some View {
+        ScrollView {
+            LazyVStack(alignment: .leading) {
+                ForEach(0...tags.count - 1, id: \.self) { index in
+                    HStack {
+                        Text("# \(tags[index].tag)")
+                            .padding(.all, 10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10).foregroundColor(.clear).border(Color.gray.opacity(0.5))
+                            )
+                        Spacer()
+                        if tags[index].isSelected {
+                            Image(system: .checkmark)
+                        }
+                    }.onTapGesture {
+                        tags[index].isSelected.toggle()
+                        self.execute()
+                    }
+                }
+            }
+        }.padding()
+    }
+}
+
+struct IssueFilterStateView: View {
+    @Binding var state: IssueState?
+    var execute: () -> Void = {}
+    
+    var body: some View {
+        ScrollView {
+            HStack {
+                HStack {
+                    Circle().frame(width: 10, height: 10)
+                    Text("Ready")
+                }.foregroundColor(.blue)
+                    .opacity(self.state == .ready ? 1.0 : 0.5)
+                    .onTapGesture {
+                        self.state = .ready
+                        self.execute()
+                    }
+                
+                HStack {
+                    Circle().frame(width: 10, height: 10)
+                    Text("In Progress")
+                } .foregroundColor(.gray)
+                    .opacity(self.state == .progress ? 1.0 : 0.5)
+                    .onTapGesture {
+                        self.state = .progress
+                        self.execute()
+                    }
+                
+                HStack {
+                    Circle().frame(width: 10, height: 10)
+                    Text("Done")
+                } .foregroundColor(.green)
+                    .opacity(self.state == .done ? 1.0 : 0.5)
+                    .onTapGesture {
+                        self.state = .done
+                        self.execute()
+                    }
+            }
+            
+        }
     }
 }
