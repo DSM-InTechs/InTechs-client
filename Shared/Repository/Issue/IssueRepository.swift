@@ -15,6 +15,7 @@ public protocol IssueReporitory {
     func getTaglist() -> AnyPublisher<[IssueTag], NetworkError>
     func createIssue(title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?) -> AnyPublisher<Void, NetworkError>
     func modifyIssue(id: String, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?) -> AnyPublisher<Void, NetworkError>
+    func modifyIssueVoid(id: String, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?)
     func deleteIssue(id: String) -> AnyPublisher<Void, NetworkError>
     func getDetailIssue(id: String) -> AnyPublisher<Issue, NetworkError>
     func addComment(id: String, content: String) -> AnyPublisher<Void, NetworkError>
@@ -135,6 +136,10 @@ final public class IssueReporitoryImpl: IssueReporitory {
             }
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
+    }
+    
+    public func modifyIssueVoid(id: String, title: String, body: String?, date: String?, progress: Int?, state: String?, users: [String]?, tags: [String]?) {
+        provider.request(.updateIssue(projectId: currentProject, issueId: id, title: title, body: body, date: date, progress: progress, state: state, users: users, tags: tags), completion: { _ in })
     }
     
     public func deleteIssue(id: String) -> AnyPublisher<Void, NetworkError> {

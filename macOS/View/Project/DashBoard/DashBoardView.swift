@@ -10,10 +10,10 @@ import GECalendar
 import Kingfisher
 
 struct DashBoardView: View {
-    @ObservedObject var viewModel = DasboardViewModel()
+    @EnvironmentObject var viewModel: DashboardViewModel
     @State private var date: Date?
-    private let appearance = Appearance(eventType: .circle,
-                                        multipleEvents: [Event(date: Date(), title: "이슈1", color: .green), Event(date: Date(), title: "이슈2", color: .green)],
+    @State private var appearance = Appearance(eventType: .circle,
+                                        multipleEvents: [],
                                         isTodayButton: false,
                                         isMultipleEvents: true,
                                         headerFont: .title2, headerType: .leading)
@@ -65,7 +65,7 @@ struct DashBoardView: View {
                     }
                     
                     // 주간 캘린더
-                    GEWeekView(selectedDate: $date, appearance: appearance)
+                    GEWeekView(selectedDate: $date, appearance: $appearance)
                     
                     Spacer(minLength: 0)
                 }

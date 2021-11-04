@@ -17,7 +17,7 @@ class IssueBoardViewModel: ObservableObject {
     
     @Published var users = [SelectIssueUser]()
     @Published var tags = [SelectIssueTag]()
-    @Published var state: IssueState?
+//    @Published var state: IssueState?
     
     private let issueReporitory: IssueReporitory
     
@@ -94,7 +94,7 @@ class IssueBoardViewModel: ObservableObject {
             .flatMap { _ in
                 self.issueReporitory.getIssues(tags: self.tags.filter { $0.isSelected == true }.map { $0.tag },
                                                users: self.users.filter { $0.isSelected == true }.map { $0.email },
-                                               states: (self.state != nil) ? [self.state!.rawValue] : nil)
+                                               states: nil)
                     .catch { _ -> Empty<[Issue], Never> in
                         return .init()
                     }

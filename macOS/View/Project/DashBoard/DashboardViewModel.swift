@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-class DasboardViewModel: ObservableObject {
+class DashboardViewModel: ObservableObject {
     @Published var dashboard: ProjectDashboard = ProjectDashboard(userCount: 0, issuesCount: DashboardIssueCount(forMe: 0, resolved: 0, unresolved: 0, forMeAndUnresolved: 0))
     @Published var projectInfo: ProjectInfo = ProjectInfo(name: "", image: ProjectInfoImage(imageUrl: "", oriName: ""))
     
