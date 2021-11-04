@@ -10,30 +10,17 @@ import Foundation
 import Kingfisher
 
 struct IssueBoardView: View {
-    @State var currrentIssue: Issue?
+    @State var issueIndex: (Int, Int) = (0, 0)
     let columns = Array(repeating: GridItem(.flexible(), spacing: 20), count: 3)
     @ObservedObject var viewModel = IssueBoardViewModel()
     
     @State private var assigneePop: Bool = false
-    @State private var statePop: Bool = false
     @State private var tagPop: Bool = false
     
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
                 HStack(spacing: 20) {
-                    HStack(spacing: 3) {
-                        Text("상태")
-                        Image(system: .downArrow)
-                            .font(.caption)
-                    }.onTapGesture {
-                        self.statePop.toggle()
-                    }.popover(isPresented: self.$statePop) {
-                        IssueFilterStateView(state: $viewModel.state,
-                                             execute: { viewModel.apply(.reloadlist) })
-                            .padding()
-                    }
-                    
                     HStack(spacing: 3) {
                         Text("대상자")
                         Image(system: .downArrow)
@@ -83,16 +70,7 @@ struct IssueBoardView: View {
                                             .foregroundColor(.gray)
                                         Spacer()
                                     }) {
-                                        ForEach(viewModel.allIssues[index], id: \.self) { issue in
-                                            IssueBoardIssueRow(title: issue.title, assignee: issue.users)
-                                                .onDrag({
-                                                    self.currrentIssue = issue
-                                                    return NSItemProvider(contentsOf: URL(string: issue.id)!)! // arr.id로 변경 필요
-                                                })
-                                                                                        .onDrop(of: [.url], delegate: IssueBoardDropDelegate(issue: issue, current: currrentIssue, allIssues: viewModel.allIssues[index]))
-                                            
-                                            Spacer(minLength: 0)
-                                        }
+                                        IssueBoardRow(allIssues: $viewModel.allIssues, issueIndex: self.$issueIndex, index: index)
                                     }
                                 }
                                 
@@ -110,6 +88,25 @@ struct IssueBoardView: View {
         .ignoresSafeArea(.all, edges: .all)
         .onAppear {
             self.viewModel.apply(.onAppear)
+        }
+    }
+}
+
+struct IssueBoardRow: View {
+    @Binding var allIssues: [[Issue]]
+    @Binding var issueIndex: (Int, Int)
+    let index: Int
+    
+    var body: some View {
+        if !allIssues[index].isEmpty {
+            ForEach(0...allIssues[index].count - 1, id: \.self) { issue in
+                IssueBoardIssueRow(title: allIssues[index][issue].title, assignee: allIssues[index][issue].users)
+                    .onDrag {
+                        self.issueIndex = (index, issue)
+                        return NSItemProvider(object: allIssues[index][issue].id as NSString)
+                    }
+                Spacer(minLength: 0)
+            }.onDrop(of: ["public.text"], delegate: IssueBoardDropDelegate(issueIndex: self.issueIndex, toChange: index, allIssues: $allIssues))
         }
     }
 }
@@ -137,7 +134,7 @@ struct IssueBoardIssueRow: View {
             }
             Spacer()
         }
-        .padding(.all, 5)
+        .padding(.all, 10)
         .background(
             RoundedRectangle(cornerRadius: 5).fill(Color.gray.opacity(0.1))
         )

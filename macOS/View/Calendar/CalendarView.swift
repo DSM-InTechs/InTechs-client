@@ -19,7 +19,7 @@ struct CalendarView: View {
     var body: some View {
         GeometryReader { _ in
             ZStack {
-                VStack {
+                VStack(spacing: -10) {
                     HStack(spacing: 20) {
                         HStack(spacing: 3) {
                             Text("상태")
@@ -64,7 +64,7 @@ struct CalendarView: View {
                         }
                         
                         Spacer()
-                    }
+                    }.padding()
                     
                     GECalendar(selectedDate: $viewModel.selectedDate,
                                appearance: $viewModel.appearance,

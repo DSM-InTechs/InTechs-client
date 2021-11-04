@@ -227,7 +227,7 @@ final public class ProjectRepositoryImpl: ProjectRepository {
                 if networkError == .unauthorized || networkError == .notMatch {
                     self.refreshRepository.refresh()
                     
-                    return self.provider.requestVoidPublisher(.createProject(name: name, imageData: data))
+                    return self.provider.requestVoidPublisher(.createProject(name: name, imageData: jpegData))
                 }
                 return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
             }

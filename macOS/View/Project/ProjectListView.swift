@@ -10,6 +10,7 @@ import Kingfisher
 
 struct ProjectListView: View {
     @StateObject var viewModel = ProjectViewModel()
+    @StateObject var dashboardVM = DashboardViewModel()
     @Namespace private var animation
     
     var body: some View {
@@ -18,14 +19,15 @@ struct ProjectListView: View {
                 Group {
                     switch viewModel.selectedTab {
                     case .dashBoard: DashBoardView()
-                        .frame(width: geo.size.width / 1.35)
+                            .environmentObject(dashboardVM)
+                            .frame(width: geo.size.width / 1.35)
                     case .issues: IssuelistView()
-                        .frame(width: geo.size.width / 1.35)
+                            .frame(width: geo.size.width / 1.35)
                     case .issueBoards: IssueBoardView()
-                        .frame(width: geo.size.width / 1.35)
+                            .frame(width: geo.size.width / 1.35)
                     case .settings: SettingView()
                             .environmentObject(viewModel)
-                        .frame(width: geo.size.width / 1.35)
+                            .frame(width: geo.size.width / 1.35)
                     }
                 }.offset(x: geo.size.width / 4)
                 
@@ -39,7 +41,7 @@ struct ProjectListView: View {
                             
                             Spacer()
                         }.padding(.horizontal)
-                        .padding(.top, 10)
+                            .padding(.top, 10)
                         
                         Divider()
                             .padding(.vertical)
@@ -87,7 +89,7 @@ struct ProjectListView: View {
                         Color.black.frame(width: 1)
                     }
                 }.background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
-                .frame(width: geo.size.width / 4)
+                    .frame(width: geo.size.width / 4)
             }
             .onAppear {
                 self.viewModel.apply(.onAppear)
