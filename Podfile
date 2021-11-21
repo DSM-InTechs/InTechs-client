@@ -6,6 +6,7 @@ def shared
     pod 'Kingfisher'
     pod 'GEmojiPicker', :git => 'https://github.com/Goeun1001/GEmojiPicker.git', :branch => 'master'
     pod 'GECalendar', :git => 'https://github.com/Goeun1001/GECalendar.git', :branch => 'master'
+    pod 'Socket.IO-Client-Swift', '~> 15.2.0'
 end
 
 target 'InTechs (iOS)' do

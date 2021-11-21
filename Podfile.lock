@@ -8,6 +8,9 @@ PODS:
     - Moya/Core (= 15.0.0)
   - Moya/Core (15.0.0):
     - Alamofire (~> 5.0)
+  - Socket.IO-Client-Swift (15.2.0):
+    - Starscream (~> 3.1)
+  - Starscream (3.1.1)
 
 DEPENDENCIES:
   - GECalendar (from `https://github.com/Goeun1001/GECalendar.git`, branch `master`)
@@ -15,6 +18,7 @@ DEPENDENCIES:
   - Introspect
   - Kingfisher
   - Moya
+  - Socket.IO-Client-Swift (~> 15.2.0)
 
 SPEC REPOS:
   trunk:
@@ -22,6 +26,8 @@ SPEC REPOS:
     - Introspect
     - Kingfisher
     - Moya
+    - Socket.IO-Client-Swift
+    - Starscream
 
 EXTERNAL SOURCES:
   GECalendar:
@@ -46,7 +52,9 @@ SPEC CHECKSUMS:
   Introspect: 2be020f30f084ada52bb4387fff83fa52c5c400e
   Kingfisher: f738f9c4a3415823b8e2985d10aa2d6a9f37bc4d
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
+  Socket.IO-Client-Swift: 1e3e3a1f09f3312a167f0d781eb2f383d477357c
+  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
 
-PODFILE CHECKSUM: d81eac8502fc4104cc72d396f3bc7a101b191fe7
+PODFILE CHECKSUM: a0ae65e581aa17e5c95b0d95bddb83378786ec61
 
 COCOAPODS: 1.10.1
