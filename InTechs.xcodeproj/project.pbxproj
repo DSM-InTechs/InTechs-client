@@ -54,6 +54,7 @@
 		D91CB57E270EF7E4003DCB63 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB57B270EF7DC003DCB63 /* SettingViewModel.swift */; };
 		D91CB583270EF833003DCB63 /* MemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB553270D7748003DCB63 /* MemberViewModel.swift */; };
 		D91CB586270EF855003DCB63 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB584270EF851003DCB63 /* CalendarViewModel.swift */; };
+		D92083F9274CB2DB00EA8F8E /* ThreadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92083F8274CB2DB00EA8F8E /* ThreadViewModel.swift */; };
 		D936650426E1EB8000E1F57F /* TheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650326E1EB8000E1F57F /* TheadView.swift */; };
 		D936650626E1EC3600E1F57F /* ChatDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */; };
 		D936650826E23D6200E1F57F /* CalendarIssuesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650726E23D6200E1F57F /* CalendarIssuesView.swift */; };
@@ -115,7 +116,7 @@
 		D950A35026D2181B003D4907 /* Assets+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A34F26D2181B003D4907 /* Assets+init.swift */; };
 		D950A35326D21ECD003D4907 /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A35226D21ECD003D4907 /* Frame.swift */; };
 		D950A35426D21F1F003D4907 /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A35226D21ECD003D4907 /* Frame.swift */; };
-		D950A35726D22AA6003D4907 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A35526D225BB003D4907 /* ChatViewModel.swift */; };
+		D950A35726D22AA6003D4907 /* ChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A35526D225BB003D4907 /* ChatListViewModel.swift */; };
 		D950A35D26D23141003D4907 /* MemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A35B26D23123003D4907 /* MemberView.swift */; };
 		D950A36126D231D1003D4907 /* DashBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A35F26D231CA003D4907 /* DashBoardView.swift */; };
 		D950A36526D231FC003D4907 /* IssuelistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A36326D231E7003D4907 /* IssuelistView.swift */; };
@@ -259,6 +260,7 @@
 		D91CB579270EF7BE003DCB63 /* IssueBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueBoardViewModel.swift; sourceTree = "<group>"; };
 		D91CB57B270EF7DC003DCB63 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		D91CB584270EF851003DCB63 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		D92083F8274CB2DB00EA8F8E /* ThreadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadViewModel.swift; sourceTree = "<group>"; };
 		D936650326E1EB8000E1F57F /* TheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheadView.swift; sourceTree = "<group>"; };
 		D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewModel.swift; sourceTree = "<group>"; };
 		D936650726E23D6200E1F57F /* CalendarIssuesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarIssuesView.swift; sourceTree = "<group>"; };
@@ -319,7 +321,7 @@
 		D950A34C26D217D8003D4907 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		D950A34F26D2181B003D4907 /* Assets+init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assets+init.swift"; sourceTree = "<group>"; };
 		D950A35226D21ECD003D4907 /* Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
-		D950A35526D225BB003D4907 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		D950A35526D225BB003D4907 /* ChatListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewModel.swift; sourceTree = "<group>"; };
 		D950A35B26D23123003D4907 /* MemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberView.swift; sourceTree = "<group>"; };
 		D950A35F26D231CA003D4907 /* DashBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardView.swift; sourceTree = "<group>"; };
 		D950A36326D231E7003D4907 /* IssuelistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuelistView.swift; sourceTree = "<group>"; };
@@ -762,7 +764,6 @@
 		D950A33426D20E60003D4907 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				D950A37526D3367C003D4907 /* ViewModel */,
 				D950A37426D33650003D4907 /* detail */,
 				D950A37326D3364B003D4907 /* list */,
 			);
@@ -893,6 +894,7 @@
 			children = (
 				D950A33726D20E76003D4907 /* ChatTab.swift */,
 				D950A33526D20E67003D4907 /* ChatListView.swift */,
+				D950A35526D225BB003D4907 /* ChatListViewModel.swift */,
 			);
 			path = list;
 			sourceTree = "<group>";
@@ -903,20 +905,13 @@
 				D950A33B26D20E8F003D4907 /* ChatDetailView.swift */,
 				D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */,
 				D936650326E1EB8000E1F57F /* TheadView.swift */,
+				D92083F8274CB2DB00EA8F8E /* ThreadViewModel.swift */,
 				D950A37826D336AD003D4907 /* ChannelInfoView.swift */,
 				D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */,
 				D94C99A226DF31BB00CB2F07 /* ChannelRenameView.swift */,
 				D94C99BC26DF45B200CB2F07 /* NewChannelView.swift */,
 			);
 			path = detail;
-			sourceTree = "<group>";
-		};
-		D950A37526D3367C003D4907 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				D950A35526D225BB003D4907 /* ChatViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		D9558D7727228F9B004FEEBB /* Date */ = {
@@ -1513,8 +1508,9 @@
 				D9D132B82720F4AB00919BEF /* ProjectDashboard.swift in Sources */,
 				D91CB540270AD0CB003DCB63 /* AnyPublisher+Response.swift in Sources */,
 				D9D132B52720F37C00919BEF /* ProjectInfo.swift in Sources */,
+				D92083F9274CB2DB00EA8F8E /* ThreadViewModel.swift in Sources */,
 				D950A35D26D23141003D4907 /* MemberView.swift in Sources */,
-				D950A35726D22AA6003D4907 /* ChatViewModel.swift in Sources */,
+				D950A35726D22AA6003D4907 /* ChatListViewModel.swift in Sources */,
 				D94C99C126DF4A7700CB2F07 /* IssueDetailView.swift in Sources */,
 				D91CB572270EF4AD003DCB63 /* Project.swift in Sources */,
 				D9FD9FB526D7077000664757 /* CalendarView.swift in Sources */,

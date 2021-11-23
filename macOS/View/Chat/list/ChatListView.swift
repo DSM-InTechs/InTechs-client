@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ChatListView: View {
-    @EnvironmentObject var homeVM: HomeViewModel
-    @ObservedObject var viewModel = ChatViewModel()
+    @ObservedObject var viewModel = ChatListViewModel()
     
     @Namespace private var animation
     
@@ -25,17 +25,6 @@ struct ChatListView: View {
                         .font(.title)
                     
                     Spacer()
-                    
-                    Button(action: {
-                        self.mentionsPop.toggle()
-                    }, label: {
-                        Image(system: .mention)
-                            .foregroundColor(.white)
-                    }).frame(width: 25, height: 25)
-                    .popover(isPresented: $mentionsPop) {
-                        MentionsPopView()
-                            .frame(width: 200)
-                    }
                     
                     Button(action: {
                         self.editPop.toggle()
@@ -78,10 +67,31 @@ struct ChatListView: View {
                     Divider()
                 }
                 
-                List(selection: $homeVM.selectedRecentMsg) {
-                    ForEach(homeVM.msgs) { message in
-                        NavigationLink(destination: ChatDetailView(user: message)) {
-                            ChatRow(recentMsg: message)
+                ZStack {
+                    switch viewModel.selectedTab {
+                    case .home:
+                        List(selection: $viewModel.selectedHome) {
+                            ForEach(viewModel.homes) { channel in
+                                NavigationLink(destination: ChatDetailView(channel: channel).environmentObject(viewModel)) {
+                                    ChatRow(channel: channel)
+                                }
+                            }
+                        }
+                    case .channels:
+                        List(selection: $viewModel.selectedChannel) {
+                            ForEach(viewModel.channels) { channel in
+                                NavigationLink(destination: ChatDetailView(channel: channel).environmentObject(viewModel)) {
+                                    ChatRow(channel: channel)
+                                }
+                            }
+                        }
+                    case .DMs:
+                        List(selection: $viewModel.selectedDM) {
+                            ForEach(viewModel.DMs) { channel in
+                                NavigationLink(destination: ChatDetailView(channel: channel).environmentObject(viewModel)) {
+                                    ChatRow(channel: channel)
+                                }
+                            }
                         }
                     }
                 }
@@ -97,34 +107,49 @@ struct ChatListView: View {
 }
 
 struct ChatRow: View {
-    var recentMsg: RecentMessage
+    var channel: Channel
     
     var body: some View {
         HStack {
-            Image(recentMsg.userImage)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
+            if channel.imageUrl == "placeholder" {
+                ZStack {
+                    Image(channel.imageUrl)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                    
+                    Text("#")
+                        .foregroundColor(.gray)
+                        .font(.title2)
+                }
+            } else {
+                    KFImage(URL(string: channel.imageUrl))
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+            }
+            
             
             VStack(spacing: 4) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(recentMsg.userName)
+                        Text(channel.name)
                             .fontWeight(.bold)
                         
-                        Text(recentMsg.lastMsg)
+                        Text(channel.lastMsg)
                             .font(.caption)
                     }
                     
                     Spacer(minLength: 10)
                     
-                    VStack {
-                        Text(recentMsg.lastMsgTime)
+                    VStack(alignment: .trailing) {
+                        Text(channel.lastMsgTime)
                             .font(.caption)
                         
-                        if recentMsg.pendingMsgs != "0" {
-                            Text(recentMsg.pendingMsgs)
+                        if channel.pendingMsgs != "0" {
+                            Text(channel.pendingMsgs)
                                 .font(.caption2)
                                 .padding(5)
                                 .background(Color.blue)
@@ -144,16 +169,8 @@ struct AllChatView_Previews: PreviewProvider {
     static var previews: some View {
         ChatListView()
             .environmentObject(HomeViewModel())
-        MentionsPopView()
         EditPopView()
             .frame(width: 200)
-    }
-}
-
-struct MentionsPopView: View {
-    var body: some View {
-        Text("No Mentions")
-            .padding([.top, .bottom], 20)
     }
 }
 
