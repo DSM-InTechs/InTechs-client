@@ -100,6 +100,7 @@ struct ChannelDeleteView: View {
 }
 
 struct MessagelDeleteView: View {
+    let execute: () -> Void
     @EnvironmentObject var homeVM: HomeViewModel
     
     var body: some View {
@@ -133,6 +134,7 @@ struct MessagelDeleteView: View {
                     .onTapGesture {
                         withAnimation {
                             self.homeVM.toast = nil
+                            self.execute()
                         }
                     }
             }

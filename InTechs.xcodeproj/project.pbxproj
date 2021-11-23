@@ -55,6 +55,8 @@
 		D91CB583270EF833003DCB63 /* MemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB553270D7748003DCB63 /* MemberViewModel.swift */; };
 		D91CB586270EF855003DCB63 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB584270EF851003DCB63 /* CalendarViewModel.swift */; };
 		D92083F9274CB2DB00EA8F8E /* ThreadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92083F8274CB2DB00EA8F8E /* ThreadViewModel.swift */; };
+		D92083FB274CD97D00EA8F8E /* NSSavePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92083FA274CD97D00EA8F8E /* NSSavePanel.swift */; };
+		D92083FD274D257200EA8F8E /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92083FC274D257200EA8F8E /* MessageView.swift */; };
 		D936650426E1EB8000E1F57F /* TheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650326E1EB8000E1F57F /* TheadView.swift */; };
 		D936650626E1EC3600E1F57F /* ChatDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */; };
 		D936650826E23D6200E1F57F /* CalendarIssuesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650726E23D6200E1F57F /* CalendarIssuesView.swift */; };
@@ -261,6 +263,8 @@
 		D91CB57B270EF7DC003DCB63 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		D91CB584270EF851003DCB63 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		D92083F8274CB2DB00EA8F8E /* ThreadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadViewModel.swift; sourceTree = "<group>"; };
+		D92083FA274CD97D00EA8F8E /* NSSavePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSSavePanel.swift; sourceTree = "<group>"; };
+		D92083FC274D257200EA8F8E /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		D936650326E1EB8000E1F57F /* TheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheadView.swift; sourceTree = "<group>"; };
 		D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewModel.swift; sourceTree = "<group>"; };
 		D936650726E23D6200E1F57F /* CalendarIssuesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarIssuesView.swift; sourceTree = "<group>"; };
@@ -904,6 +908,7 @@
 			children = (
 				D950A33B26D20E8F003D4907 /* ChatDetailView.swift */,
 				D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */,
+				D92083FC274D257200EA8F8E /* MessageView.swift */,
 				D936650326E1EB8000E1F57F /* TheadView.swift */,
 				D92083F8274CB2DB00EA8F8E /* ThreadViewModel.swift */,
 				D950A37826D336AD003D4907 /* ChannelInfoView.swift */,
@@ -1056,6 +1061,7 @@
 			isa = PBXGroup;
 			children = (
 				D9FC988426DC812200735222 /* NSOpenPanel.swift */,
+				D92083FA274CD97D00EA8F8E /* NSSavePanel.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1502,6 +1508,7 @@
 				D9D132BB2721004E00919BEF /* DashboardViewModel.swift in Sources */,
 				D91CB547270ADD31003DCB63 /* RefreshRepository.swift in Sources */,
 				D90BB8C426DD15A50002E210 /* SettingView.swift in Sources */,
+				D92083FD274D257200EA8F8E /* MessageView.swift in Sources */,
 				D9558D7A27228FAA004FEEBB /* Date+Compare.swift in Sources */,
 				D91CB53F270AD0C8003DCB63 /* MoyaProvider+Combine.swift in Sources */,
 				D91CB574270EF4B2003DCB63 /* Mypage.swift in Sources */,
@@ -1535,6 +1542,7 @@
 				D94C99A426DF322C00CB2F07 /* ChannelRenameView.swift in Sources */,
 				D91CB57E270EF7E4003DCB63 /* SettingViewModel.swift in Sources */,
 				D98C8CFB2728CB95007A5802 /* Date+month.swift in Sources */,
+				D92083FB274CD97D00EA8F8E /* NSSavePanel.swift in Sources */,
 				D936650A26E34EAA00E1F57F /* NewIssueView.swift in Sources */,
 				D9D132B22720F0A600919BEF /* CalendarRepository.swift in Sources */,
 				D91CB57D270EF7E0003DCB63 /* IssueBoardViewModel.swift in Sources */,

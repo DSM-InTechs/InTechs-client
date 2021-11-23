@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct ChatListView: View {
-    @ObservedObject var viewModel = ChatListViewModel()
+    @StateObject var viewModel = ChatListViewModel()
     
     @Namespace private var animation
     
@@ -32,10 +32,10 @@ struct ChatListView: View {
                         Image(system: .edit)
                             .foregroundColor(.white)
                     }).frame(width: 25, height: 25)
-                    .popover(isPresented: $editPop) {
-                        EditPopView()
-                            .frame(width: 200)
-                    }
+                        .popover(isPresented: $editPop) {
+                            EditPopView()
+                                .frame(width: 200)
+                        }
                 }.padding()
                 
                 // Tab
@@ -71,25 +71,25 @@ struct ChatListView: View {
                     switch viewModel.selectedTab {
                     case .home:
                         List(selection: $viewModel.selectedHome) {
-                            ForEach(viewModel.homes) { channel in
-                                NavigationLink(destination: ChatDetailView(channel: channel).environmentObject(viewModel)) {
-                                    ChatRow(channel: channel)
+                            ForEach(0..<viewModel.homes.count) { index in
+                                NavigationLink(destination: ChatDetailView(channel: $viewModel.homes[index]).environmentObject(viewModel)) {
+                                    ChatRow(channel: viewModel.homes[index])
                                 }
                             }
                         }
                     case .channels:
                         List(selection: $viewModel.selectedChannel) {
-                            ForEach(viewModel.channels) { channel in
-                                NavigationLink(destination: ChatDetailView(channel: channel).environmentObject(viewModel)) {
-                                    ChatRow(channel: channel)
+                            ForEach(0..<viewModel.channels.count) { index in
+                                NavigationLink(destination: ChatDetailView(channel: $viewModel.channels[index]).environmentObject(viewModel)) {
+                                    ChatRow(channel: viewModel.channels[index])
                                 }
                             }
                         }
                     case .DMs:
                         List(selection: $viewModel.selectedDM) {
-                            ForEach(viewModel.DMs) { channel in
-                                NavigationLink(destination: ChatDetailView(channel: channel).environmentObject(viewModel)) {
-                                    ChatRow(channel: channel)
+                            ForEach(0..<viewModel.DMs.count) { index in
+                                NavigationLink(destination: ChatDetailView(channel: $viewModel.DMs[index]).environmentObject(viewModel)) {
+                                    ChatRow(channel: viewModel.DMs[index])
                                 }
                             }
                         }
@@ -124,11 +124,11 @@ struct ChatRow: View {
                         .font(.title2)
                 }
             } else {
-                    KFImage(URL(string: channel.imageUrl))
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
+                KFImage(URL(string: channel.imageUrl))
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
             }
             
             
@@ -216,7 +216,7 @@ struct EditPopView: View {
                     }).buttonStyle(PlainButtonStyle())
                 }
             }.padding([.top, .bottom], 10)
-            .padding(.bottom, 10)
+                .padding(.bottom, 10)
             
             Spacer(minLength: 0)
         }.padding(.leading)

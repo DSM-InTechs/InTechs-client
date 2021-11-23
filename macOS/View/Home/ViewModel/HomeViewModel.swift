@@ -15,7 +15,7 @@ enum Toast {
     case channelRename
     case channelDelete
     case channelCreate
-    case messageDelete
+    case messageDelete(execute: () -> Void)
     case issueDelete(execute: () -> Void)
     case issueCreate(execute: () -> Void)
     case projectCreate

@@ -36,4 +36,29 @@ extension NSOpenPanel {
             completion(.success(image))
         }
     }
+    
+    
+    static func openFile(completion: @escaping (_ result: Result<NSImage, Error>) -> Void) {
+        let panel = NSOpenPanel()
+        // 다중 선택가능?
+        panel.allowsMultipleSelection = false
+        // 파일 선택가능?
+        panel.canChooseFiles = true
+        // 폴더 선택가능?
+        panel.canChooseDirectories = false
+        // 가져올 수 있는 파일형식
+//        panel.allowedFileTypes = ["jpg", "jpeg", "png"]
+        // 열기 눌렀을 때
+        panel.begin { result in
+            guard
+                result == .OK,
+                let url = panel.urls.first,
+                let image = NSImage(contentsOf: url)
+            else {
+                completion(.failure(ImageError.selectionFailed))
+                return
+            }
+            completion(.success(image))
+        }
+    }
 }

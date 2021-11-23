@@ -12,9 +12,11 @@ import Kingfisher
 struct ChatDetailView: View {
     @EnvironmentObject var homeVM: HomeViewModel
     @EnvironmentObject var chatListVM: ChatListViewModel
-    @ObservedObject var viewModel = ChatDetailViewModel()
+    @StateObject var viewModel = ChatDetailViewModel()
     
-    var channel: Channel
+    @State var isThread: Bool = false
+    @State var selectedMessageIndex: Int = 0
+    @Binding var channel: Channel
     
     @State private var emojiPop = false
     @State private var filePop = false
@@ -91,7 +93,7 @@ struct ChatDetailView: View {
                             self.notificationPop.toggle()
                         }, label: {
                             HStack(spacing: 3) {
-                                Image(system: .bell)
+                                Image(system: .setting)
                                     .font(.title2)
                                 Image(system: .filledDownArrow)
                                     .font(.caption)
@@ -100,7 +102,7 @@ struct ChatDetailView: View {
                             .padding(.all, 5)
                             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color.green.opacity(0.2)))
                             .popover(isPresented: $notificationPop) {
-                                NotificationPopView(isOn: .constant(false))
+                                NotificationPopView(isOn: $channel.isNotification)
                                     .environmentObject(chatListVM)
                                     .frame(width: 200)
                             }
@@ -110,8 +112,14 @@ struct ChatDetailView: View {
                     
                     Divider()
                     
-                    MessageView(channel: channel)
-                        .environmentObject(viewModel)
+                    ZStack(alignment: .top) {
+                        MessageView(isThread: $isThread, channel: $channel, selectedMessageIndex: $selectedMessageIndex)
+                            .environmentObject(viewModel)
+                        
+                        if !channel.notices.isEmpty {
+                            NoticeMessageView(notices: channel.notices)
+                        }
+                    }
                     
                     HStack(spacing: 15) {
                         Button(action: {
@@ -121,17 +129,44 @@ struct ChatDetailView: View {
                                 .font(.title2)
                         }).buttonStyle(PlainButtonStyle())
                             .popover(isPresented: $filePop) {
-                                FileTypeSelectView()
+                                FileTypeSelectView(selectedImage: $viewModel.selectedNSImages)
                                     .padding()
                             }
                         
-                        TextField("메세지를 입력하세요", text: $viewModel.text, onCommit: {
-//                            self.channel.allMsgs.append(Message(message: viewModel.text, isMine: true, sender: User(name: "", email: "", imageURL: "", isActive: true), time: ""))
-                        })
-                            .textFieldStyle(PlainTextFieldStyle())
-                            .padding(.vertical, 8)
-                            .padding(.horizontal)
-                            .background(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.white))
+                        VStack(alignment: .leading) {
+                            if !viewModel.selectedNSImages.isEmpty {
+                                LazyHStack {
+                                    ForEach(0..<viewModel.selectedNSImages.count, id: \.self) { index in
+                                        ZStack(alignment: .topTrailing) {
+                                            Image(nsImage: viewModel.selectedNSImages[index])
+                                                .resizable()
+                                                .frame(width: 75, height: 75)
+                                            
+                                            Image(system: .xmarkCircle)
+                                                .foregroundColor(.gray)
+                                                .onTapGesture {
+                                                    self.viewModel.selectedNSImages.remove(at: index)
+                                                }
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                            
+                            TextField("메세지를 입력하세요", text: $viewModel.text, onCommit: {
+                                if !viewModel.selectedNSImages.isEmpty {
+                                    self.channel.allMsgs.append(Message(message: "http://www.thedroidsonroids.com/wp-content/uploads/2016/02/Rx_Logo_M-390x390.png", type: "IMAGE", isMine: true, sender: user1, time: "오후 11:10"))
+                                }
+                                
+                                self.channel.allMsgs.append(Message(message: viewModel.text, type: "TALK", isMine: true, sender: user1, time: "오후 11:10"))
+                                
+                                self.viewModel.text = ""
+                                self.viewModel.selectedNSImages = []
+                            })
+                                .textFieldStyle(PlainTextFieldStyle())
+                                .padding(.vertical, 8)
+                                .padding(.horizontal)
+                        }.background(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.white))
                         
                         Button(action: {
                             self.emojiPop.toggle()
@@ -140,14 +175,21 @@ struct ChatDetailView: View {
                                 .font(.title2)
                         }).buttonStyle(PlainButtonStyle())
                             .popover(isPresented: $emojiPop) {
-                                EmojiPicker(emojiStore: EmojiStore(), selectionHandler: { _ in })
+                                EmojiPicker(emojiStore: EmojiStore(), selectionHandler: { self.viewModel.text.append($0.string) })
                                     .environmentObject(SharedState())
                                     .frame(width: 400, height: 300)
                             }
-                        
                     }
                     .padding([.horizontal, .bottom])
                     
+                }
+                
+                if isThread {
+                    TheadView(isThread: $isThread,
+                              message: channel.allMsgs[selectedMessageIndex])
+                        .frame(width: geo.size.width / 3)
+                        .ignoresSafeArea(.all)
+                        .background(Color(NSColor.systemGray).opacity(0.1))
                 }
             }.padding(.trailing, 70)
         }
@@ -161,204 +203,6 @@ struct DetailView_Previews: PreviewProvider {
         Home().environmentObject(HomeViewModel())
         ChannelDotPopView(isShow: .constant(false))
         //        NotificationPopView(isOn: .constant(false))
-    }
-}
-
-struct MessageView: View {
-    @EnvironmentObject var homeVM: HomeViewModel
-    @EnvironmentObject var viewModel: ChatDetailViewModel
-    @State var isThread: Bool = false
-    var channel: Channel
-    
-    var body: some View {
-        GeometryReader { _ in
-            ScrollView {
-                ScrollViewReader { proxy in
-                    VStack(spacing: 18) {
-                        ForEach(channel.allMsgs) { message in
-                            MessageRow(message: message, channel: channel, hasThread: false, isThread: $isThread)
-                                .environmentObject(homeVM)
-                                .environmentObject(viewModel)
-                                .tag(message.id)
-                                .padding(.leading)
-                        }
-                        .onAppear {
-                            let lastId = channel.allMsgs.last!.id
-                            
-                            proxy.scrollTo(lastId, anchor: .bottom)
-                        }
-                        .onChange(of: channel.allMsgs, perform: { _ in
-                            let lastId = channel.allMsgs.last!.id
-                            
-                            proxy.scrollTo(lastId, anchor: .bottom)
-                        })
-                    }
-                    .padding(.bottom, 30)
-                }
-            }
-        }
-    }
-}
-
-struct MessageRow: View {
-    var message: Message
-    var channel: Channel
-    var hasThread: Bool
-    @State private var hover: Bool = false
-    @State private var isEditing: Bool = false
-    @State private var profileHover: Bool = false
-    @State private var emojiPop = false
-    
-    @Binding var isThread: Bool
-    @EnvironmentObject var viewModel: ChatDetailViewModel
-    @EnvironmentObject var homeVM: HomeViewModel
-    
-    var body: some View {
-        ZStack {
-            VStack {
-                HStack(alignment: .top, spacing: 10) {
-                    VStack {
-                        KFImage(URL(string: message.sender.imageURL))
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 35, height: 35)
-                            .clipShape(Circle())
-                            .onHover(perform: { hovering in
-                                self.profileHover = hovering
-                            })
-                    }
-                    
-                    VStack(alignment: .leading, spacing: 3) {
-                        HStack {
-                            Text(message.sender.name)
-                            Spacer()
-                            Text(message.time)
-                        }
-                        
-                        if isEditing {
-                            VStack(spacing: 10) {
-                                HStack {
-                                    Image(system: .clip)
-                                    
-                                    TextField("", text: $viewModel.editingText, onCommit: {
-//                                        homeVM.sendMessage(channel: channel)
-                                    })
-                                        .textFieldStyle(PlainTextFieldStyle())
-                                        .padding(.vertical, 8)
-                                        .padding(.horizontal)
-                                        .background(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.white))
-                                }
-                                
-                                HStack {
-                                    Text("취소")
-                                        .padding(.all, 5)
-                                        .padding(.horizontal, 10)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color(Asset.black), lineWidth: 1)
-                                        )
-                                        .onTapGesture {
-                                            withAnimation {
-                                                self.isEditing = false
-                                            }
-                                        }
-                                    Spacer()
-                                    Text("확인")
-                                        .padding(.all, 5)
-                                        .padding(.horizontal, 10)
-                                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
-                                        .onTapGesture {
-                                            withAnimation {
-                                                self.isEditing = false
-                                            }
-                                        }
-                                }
-                                .padding(.bottom)
-                            }
-                        } else {
-                            HStack {
-                                Text(message.message)
-                                    .foregroundColor(.white)
-                                Spacer()
-                            }
-                        }
-                        
-                        if hasThread && !isEditing {
-                            HStack {
-                                Rectangle().frame(width: 15, height: 15)
-                                Text("2개의 답글")
-                                    .foregroundColor(.white)
-                                
-                                Text("8월 18일")
-                                    .foregroundColor(.gray)
-                                Spacer()
-                            }
-                            .padding(.vertical, 5)
-                            .padding(.leading)
-                            .background(Color.gray.opacity(0.1).cornerRadius(10))
-                        }
-                    }.padding(.trailing)
-                        .onHover(perform: { hovering in
-                            if !self.emojiPop { // 이모티콘 판업 중일 경우에는 XX
-                                self.hover = hovering
-                            }
-                            
-                            if isEditing {
-                                self.hover = false
-                            }
-                        })
-                }
-                
-                if message.isThread {
-                    TheadView(isThread: $isThread, messages: message.threadMessages!)
-//                        .frame(width: geo.size.width / 3)
-                        .ignoresSafeArea(.all)
-                        .background(Color(NSColor.systemGray).opacity(0.1))
-                }
-            }
-            
-            Spacer()
-            
-            if self.hover {
-                HStack {
-                    Spacer(minLength: 0)
-                    HStack(spacing: 0) {
-                        if message.isMine {
-                            HoverImage(system: .trash)
-                                .onTapGesture {
-                                    withAnimation {
-                                        self.homeVM.toast = .messageDelete
-                                    }
-                                }
-                            HoverImage(system: .pencil)
-                                .onTapGesture {
-                                    withAnimation {
-                                        self.isEditing = true
-                                    }
-                                }
-                        }
-                        
-                        HoverImage(system: .pin)
-                        HoverImage(system: .threadPlus)
-                            .onTapGesture {
-                                withAnimation {
-                                    self.isThread = true
-                                }
-                            }
-                        HoverImage(system: .smileFace)
-                            .onTapGesture {
-                                self.emojiPop.toggle()
-                            }
-                            .popover(isPresented: $emojiPop) {
-                                EmojiPicker(emojiStore: EmojiStore(), selectionHandler: { _ in })
-                                    .environmentObject(SharedState())
-                                    .frame(width: 400, height: 300)
-                            }
-                    }
-                }.offset(y: -10)
-                    .padding(.trailing)
-            }
-        }
     }
 }
 
@@ -377,10 +221,14 @@ struct HoverImage: View {
 }
 
 struct FileTypeSelectView: View {
+    @Binding var selectedImage: [NSImage]
+    
     var body: some View {
         VStack(spacing: 20) {
             Button(action: {
-                
+                NSOpenPanel.openImage(completion: { _ in
+                    
+                })
             }, label: {
                 HStack {
                     Image(systemName: "doc.text")
@@ -390,8 +238,12 @@ struct FileTypeSelectView: View {
             }).buttonStyle(PlainButtonStyle())
             
             Button(action: {
-                NSOpenPanel.openImage(completion: { _ in
-                    
+                NSOpenPanel.openImage(completion: { result in
+                    switch result {
+                    case .success(let image):
+                        self.selectedImage.append(image)
+                    default: break
+                    }
                 })
             }, label: {
                 HStack {
@@ -456,33 +308,10 @@ struct NotificationPopView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             HStack {
-                Text("알림")
+                Text("푸시 알림 받기")
                     .font(.title3)
                 Spacer()
                 Toggle("", isOn: $isOn).toggleStyle(SwitchToggleStyle())
-            }
-            
-            Divider()
-            
-            VStack(alignment: .leading, spacing: 20) {
-                HStack {
-                    Image(system: .circleFill)
-                        .foregroundColor(.blue)
-                    Text("모든 메세지")
-                }
-                
-                HStack {
-                    Image(system: .circle)
-                    Text("언급만")
-                }
-            }
-            
-            Divider()
-            
-            HStack {
-                Image(system: .checklist)
-                    .foregroundColor(.blue)
-                Text("푸시 알람 받기")
             }
             
             Divider()
@@ -495,5 +324,54 @@ struct NotificationPopView: View {
             }
             
         }.padding()
+    }
+}
+
+struct NoticeMessageView: View {
+    @State private var isExtend: Bool = false
+    let notices: [Message]
+    
+    var body: some View {
+        Group {
+            if isExtend {
+                Group {
+                    VStack(alignment: .leading) {
+                        HStack(spacing: 20) {
+                            Image(system: .speaker)
+                            Text(notices.first!.message)
+                            Spacer()
+                            
+                            Image(system: .downArrow)
+                                .onTapGesture {
+                                    self.isExtend.toggle()
+                                }
+                        }
+                        
+                        HStack {
+                            Text(notices.first!.sender.name)
+                            Text("등록")
+                        }.foregroundColor(.gray)
+                    }.padding()
+                        .background(Color.background)
+                   
+                }.padding(.horizontal, 10)
+            } else {
+                Group {
+                    HStack(spacing: 20) {
+                        Image(system: .speaker)
+                        Text(notices.first!.message)
+                        Spacer()
+                        
+                        Image(system: .downArrow)
+                            .onTapGesture {
+                                self.isExtend.toggle()
+                            }
+                    }.padding()
+                        .background(Color.background)
+                }.padding(.horizontal, 10)
+            }
+            
+        }
+        
     }
 }

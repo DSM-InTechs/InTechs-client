@@ -11,7 +11,11 @@ import Kingfisher
 
 struct TheadView: View {
     @Binding var isThread: Bool
-    var messages: [Message]
+    var message: Message
+    
+    @State var selectedNSImages: [NSImage] = []
+    @State var selectedFile: [NSImage] = []
+    
     @State private var emojiPop = false
     @State private var filePop = false
     
@@ -35,7 +39,7 @@ struct TheadView: View {
             Divider()
             
             VStack(spacing: 5) {
-                ThreadRow(message: messages.first!)
+                ThreadRow(message: message)
                     .padding(.all, 10)
                 
                 HStack(spacing: 10) {
@@ -45,10 +49,12 @@ struct TheadView: View {
             }
             
             ScrollView {
-                LazyVStack(spacing: 0) {
-                    ForEach(messages, id: \.self) { message in
-                        ThreadRow(message: message)
-                            .padding(.all, 10)
+                if message.threadMessages != nil {
+                    LazyVStack(spacing: 0) {
+                        ForEach(message.threadMessages!, id: \.id) { message in
+                            ThreadRow(message: message)
+                                .padding(.all, 10)
+                        }
                     }
                 }
                 
@@ -60,9 +66,17 @@ struct TheadView: View {
                             .font(.title2)
                     }).buttonStyle(PlainButtonStyle())
                         .popover(isPresented: $filePop) {
-                            FileTypeSelectView()
+                            FileTypeSelectView(selectedImage: $selectedNSImages)
                                 .padding()
                         }
+                    
+                    LazyHStack {
+                        ForEach(selectedNSImages, id: \.self) { image in
+                            Image(nsImage: image)
+                                .resizable()
+                                .frame(width: 100, height: 100)
+                        }
+                    }
                     
                     TextField("Enter Message", text: .constant(""), onCommit: {
                         //                        homeVM.sendMessage(user: user)
@@ -177,13 +191,16 @@ struct ThreadRow: View {
         }
         
         Spacer()
+        
         if self.hover {
             HStack {
                 Spacer(minLength: 0)
                 HStack(spacing: 0) {
                     HoverImage(system: .trash)
                         .onTapGesture {
-                            self.homeVM.toast = .messageDelete
+//                            self.homeVM.toast = .messageDelete(execute: {
+//                                self.message.message = "이 메세지는 삭제되었습니다."
+//                            })
                         }
                     HoverImage(system: .pencil)
                         .onTapGesture {
@@ -206,9 +223,8 @@ struct ThreadRow: View {
     }
 }
 
-
 struct TheadView_Previews: PreviewProvider {
     static var previews: some View {
-        TheadView(isThread: .constant(false), messages: [Message(message: "스레드", isMine: true, sender: User(name: "정고은", email: "", imageURL: "", isActive: true), time: "오후 0000")])
+        TheadView(isThread: .constant(false), message: Message(message: "스레드", type: "TALK", isMine: true, sender: User(name: "정고은", email: "", imageURL: "", isActive: true), time: "오후 0000"))
     }
 }

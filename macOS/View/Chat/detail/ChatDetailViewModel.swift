@@ -10,4 +10,7 @@ import SwiftUI
 class ChatDetailViewModel: ObservableObject {
     @Published var text: String = ""
     @Published var editingText: String = ""
+    
+    @Published var selectedNSImages: [NSImage] = []
+    @Published var selectedFile: [NSImage] = []
 }
