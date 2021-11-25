@@ -70,6 +70,9 @@ struct Home: View {
                                     print(project.id == homeVM.currentProject )
                                     print(homeVM.currentProject)
                                 }
+                                .onTapGesture {
+                                    homeVM.currentProject = project.id
+                                }
                         }
                     }
                     

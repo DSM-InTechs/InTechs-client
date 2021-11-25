@@ -12,5 +12,5 @@ class ChatDetailViewModel: ObservableObject {
     @Published var editingText: String = ""
     
     @Published var selectedNSImages: [NSImage] = []
-    @Published var selectedFile: [NSImage] = []
+    @Published var selectedFile: [(String, Data)] = []
 }

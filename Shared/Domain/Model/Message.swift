@@ -31,10 +31,10 @@ struct Message: Identifiable, Equatable {
     var sender: User
     var time: String
     var isThread: Bool
-    var threadMessages: [Message]?
+    var threadMessages: [Message]
     var emoticons: [String: Int]
     
-    init(message: String, type: String, isMine: Bool, sender: User, time: String, isThread: Bool = false, threadMessages: [Message]? = nil, emoticons: [String: Int] = [:]) {
+    init(message: String, type: String, isMine: Bool, sender: User, time: String, isThread: Bool = false, threadMessages: [Message] = [], emoticons: [String: Int] = [:]) {
         self.message = message
         self.type = type
         self.isMine = isMine
@@ -50,12 +50,14 @@ var user1 = User(name: "정고은", email: "gogo8272@gmail.com", imageURL: "http
 var user2 = User(name: "이종은", email: "jongeun@gmail.com", imageURL: "https://avatars.githubusercontent.com/u/66874658?v=4", isActive: true)
 var user3 = User(name: "임서영", email: "dlatjdud@gmail.com", imageURL: "https://avatars.githubusercontent.com/u/66578746?v=4", isActive: false)
 
+var thread1 = Message(message: "네 좋아용", type: "TALK", isMine: false, sender: user2, time: "오후 09:20")
+
 var InTechs1 = [
     Message(message: "", type: "ENTER", isMine: false, sender: user1, time: "오후 09:20"),
     Message(message: "", type: "ENTER", isMine: false, sender: user3, time: "오후 09:20"),
     Message(message: "", type: "ENTER", isMine: false, sender: user2, time: "오후 09:20"),
     Message(message: "InTechs 최종 보고서.hwp", type: "FILE", isMine: true, sender: user1, time: "오후 09:20"),
-    Message(message: "이걸로 보고서 최종 제출했습니다!", type: "TALK", isMine: true, sender: user1, time: "오후 09:20"),
+    Message(message: "이걸로 보고서 최종 제출했습니다!", type: "TALK", isMine: true, sender: user1, time: "오후 09:20", isThread: true, threadMessages: [thread1]),
     Message(message: "인텍스 수고하셨습니당!!!!", type: "TALK", isMine: false, sender: user3, time: "오후 09:20"),
     Message(message: "인텍스 짱", type: "TALK", isMine: false, sender: user2, time: "오후 09:29")
 ]

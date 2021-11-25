@@ -10,7 +10,7 @@ import GECalendar
 
 struct CalendarView: View {
     @EnvironmentObject private var homeVM: HomeViewModel
-    @ObservedObject var viewModel = CalendarViewModel()
+    @StateObject var viewModel = CalendarViewModel()
     
     @State private var assigneePop: Bool = false
     @State private var statePop: Bool = false
@@ -55,12 +55,6 @@ struct CalendarView: View {
                             IssueFilterTagView(tags: $viewModel.tags,
                                                execute: { viewModel.apply(.reloadlist) })
                                 .frame(width: 200)
-                        }
-                        
-                        HStack(spacing: 3) {
-                            Image(system: .search)
-                            TextField("검색", text: .constant(""))
-                                .textFieldStyle(PlainTextFieldStyle())
                         }
                         
                         Spacer()

@@ -14,7 +14,8 @@ struct MessageView: View {
     @EnvironmentObject var viewModel: ChatDetailViewModel
     @Binding var isThread: Bool
     @Binding var channel: Channel
-    @Binding var selectedMessageIndex: Int
+    @Binding var selectedThreadIndex: Int
+    @Binding var selectedNoticeIndex: Int
     
     var body: some View {
         GeometryReader { _ in
@@ -28,8 +29,12 @@ struct MessageView: View {
                                 .padding(.horizontal)
                         }
                         
-                        ForEach(0..<channel.allMsgs.count) { index in
-                            MessageRow(message: $channel.allMsgs[index], channel: $channel, messagePinSelected: { self.selectedMessageIndex = index }, isThread: $isThread)
+                        ForEach(0..<channel.allMsgs.count, id: \.self) { index in
+                            MessageRow(message: $channel.allMsgs[index],
+                                       channel: $channel,
+                                       messagePinSelected: { self.selectedNoticeIndex = index },
+                                       threadSelected: { self.selectedThreadIndex = index },
+                                       isThread: $isThread)
                                 .environmentObject(homeVM)
                                 .environmentObject(viewModel)
                                 .tag(channel.allMsgs[index].id)
@@ -56,7 +61,8 @@ struct MessageView: View {
 struct MessageRow: View {
     @Binding var message: Message
     @Binding var channel: Channel
-    let messagePinSelected: () -> ()
+    let messagePinSelected: () -> Void
+    let threadSelected: () -> Void
     
     @State private var hover: Bool = false
     @State private var isEditing: Bool = false
@@ -140,6 +146,7 @@ struct MessageRow: View {
                                     } else {
                                         Text(message.message)
                                             .foregroundColor(.white)
+                                            .fixedSize(horizontal: false, vertical: true)
                                         Spacer()
                                     }
                                 }
@@ -154,21 +161,31 @@ struct MessageRow: View {
                                     .padding(.all, 5)
                                     .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
                                 }.padding(.top, 7)
-                        }
+                            }
                             
                             if message.isThread && !isEditing {
                                 HStack {
-                                    Rectangle().frame(width: 15, height: 15)
-                                    Text("2개의 답글")
+                                    KFImage(URL(string: message.threadMessages.last!.sender.imageURL))
+                                        .resizable()
+                                        .clipShape(Circle())
+                                        .frame(width: 15, height: 15)
+                                    
+                                    Text("\(message.threadMessages.count)개의 답글")
                                         .foregroundColor(.white)
                                     
-                                    Text("8월 18일")
+                                    Text(message.threadMessages.last!.time)
                                         .foregroundColor(.gray)
                                     Spacer()
                                 }
                                 .padding(.vertical, 5)
                                 .padding(.leading)
                                 .background(Color.gray.opacity(0.1).cornerRadius(10))
+                                .onTapGesture {
+                                    withAnimation {
+                                        self.isThread = true
+                                        threadSelected()
+                                    }
+                                }
                             }
                         }.padding(.trailing)
                             .onHover(perform: { hovering in
@@ -223,6 +240,7 @@ struct MessageRow: View {
                             .onTapGesture {
                                 withAnimation {
                                     self.isThread = true
+                                    threadSelected()
                                 }
                             }
                         HoverImage(system: .smileFace)
@@ -246,7 +264,7 @@ struct MessageRow: View {
 
 struct MessageView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageView(isThread: .constant(false), channel: .constant(Channel(lastMsg: "", lastMsgTime: "", pendingMsgs: "", name: "", imageUrl: "", allMsgs: [])), selectedMessageIndex: .constant(0))
+        MessageView(isThread: .constant(false), channel: .constant(Channel(lastMsg: "", lastMsgTime: "", pendingMsgs: "", name: "", imageUrl: "", allMsgs: [])), selectedThreadIndex: .constant(0), selectedNoticeIndex: .constant(0))
     }
 }
 
@@ -311,7 +329,15 @@ struct FileMessageView: View {
                     Spacer()
                     Image(system: .download)
                         .onTapGesture {
-                            NSSavePanel.saveFile(fileName: message.message, completion: { _ in })
+                            NSSavePanel.saveFile(fileName: message.message,
+                                                 fileUrl: "https://dsmhs.djsch.kr/boardCnts/fileDown.do?m=0202&s=dsmhs&fileSeq=166c48ee3999d2137c5aa9a08557aeb9",
+                                                 completion: { result in
+                                switch result {
+                                case .success(_): break
+                                case .failure(let error):
+                                    print(error)
+                                }
+                            })
                         }
                 }
                 .padding()
@@ -349,6 +375,21 @@ struct ImageMessageView: View {
                 }
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
+                .contextMenu {
+                    Button {
+                        NSSavePanel.saveImage(fileName: "RxSwift.png",
+                                              image: NSImage(byReferencing: URL(string: message.message)!),
+                                              completion: { result in
+                            switch result {
+                            case .success(_): break
+                            case .failure(let error):
+                                print(error)
+                            }
+                        })
+                    } label: {
+                        Text("저장")
+                    }
+                }
             }.padding(.horizontal)
         }
     }

@@ -20,6 +20,7 @@ struct ProjectListView: View {
                     switch viewModel.selectedTab {
                     case .dashBoard: DashBoardView()
                             .environmentObject(dashboardVM)
+                            .environmentObject(viewModel)
                             .frame(width: geo.size.width / 1.35)
                     case .issues: IssuelistView()
                             .frame(width: geo.size.width / 1.35)

@@ -11,50 +11,48 @@ import Kingfisher
 
 struct TheadView: View {
     @Binding var isThread: Bool
-    var message: Message
+    @Binding var message: Message
+    
+    @ObservedObject var viewModel = ThreadViewModel()
     
     @State var selectedNSImages: [NSImage] = []
-    @State var selectedFile: [NSImage] = []
+    @State var selectedFile: [(String, Data)] = []
     
     @State private var emojiPop = false
     @State private var filePop = false
     
     var body: some View {
         VStack(spacing: 0) {
-            VStack(alignment: .center, spacing: 10) {
-                HStack {
-                    Text("스레드")
-                    Spacer()
-                    Button(action: {
-                        withAnimation {
-                            self.isThread = false
-                        }
-                    }, label: {
-                        Image(system: .xmark)
-                    })
-                }
-                
+            HStack {
+                Text("스레드")
+                Spacer()
+                Button(action: {
+                    withAnimation {
+                        self.isThread = false
+                    }
+                }, label: {
+                    Image(system: .xmark)
+                })
             }.padding()
             
             Divider()
             
-            VStack(spacing: 5) {
+            ScrollView {
                 ThreadRow(message: message)
                     .padding(.all, 10)
                 
                 HStack(spacing: 10) {
-                    Text("1개의 답글")
+                    if message.threadMessages.count > 0 {
+                        Text("\(message.threadMessages.count)개의 답글")
+                    }
+                    
                     Color.gray.opacity(0.5).frame(height: 1)
                 }.padding(.horizontal)
-            }
-            
-            ScrollView {
-                if message.threadMessages != nil {
-                    LazyVStack(spacing: 0) {
-                        ForEach(message.threadMessages!, id: \.id) { message in
-                            ThreadRow(message: message)
-                                .padding(.all, 10)
-                        }
+                
+                LazyVStack(spacing: 0) {
+                    ForEach(message.threadMessages, id: \.id) { message in
+                        ThreadRow(message: message)
+                            .padding(.all, 10)
                     }
                 }
                 
@@ -66,7 +64,7 @@ struct TheadView: View {
                             .font(.title2)
                     }).buttonStyle(PlainButtonStyle())
                         .popover(isPresented: $filePop) {
-                            FileTypeSelectView(selectedImage: $selectedNSImages)
+                            FileTypeSelectView(selectedImage: $selectedNSImages, selectedFile: $selectedFile)
                                 .padding()
                         }
                     
@@ -78,8 +76,9 @@ struct TheadView: View {
                         }
                     }
                     
-                    TextField("Enter Message", text: .constant(""), onCommit: {
-                        //                        homeVM.sendMessage(user: user)
+                    TextField("메세지를 입력하세요", text: $viewModel.text, onCommit: {
+                        self.message.threadMessages.append(Message(message: viewModel.text, type: "TALK", isMine: true, sender: user1, time: "오후 11:11"))
+                        self.message.isThread = true
                     })
                         .textFieldStyle(PlainTextFieldStyle())
                         .padding(.vertical, 8)
@@ -100,7 +99,6 @@ struct TheadView: View {
                 }.padding(.horizontal)
                     .padding(.top, 10)
             }
-            Spacer()
         }
     }
 }
@@ -134,7 +132,7 @@ struct ThreadRow: View {
                     HStack {
                         Text(message.sender.name)
                         Spacer()
-                        Text("10: 10")
+                        Text(message.time)
                     }
                     
                     if isEditing {
@@ -177,6 +175,7 @@ struct ThreadRow: View {
                         HStack {
                             Text(message.message)
                                 .foregroundColor(.white)
+                                .fixedSize(horizontal: false, vertical: true)
                             Spacer()
                         }
                     }
@@ -188,43 +187,43 @@ struct ThreadRow: View {
                         }
                     })
             }
-        }
-        
-        Spacer()
-        
-        if self.hover {
-            HStack {
-                Spacer(minLength: 0)
-                HStack(spacing: 0) {
-                    HoverImage(system: .trash)
-                        .onTapGesture {
-//                            self.homeVM.toast = .messageDelete(execute: {
-//                                self.message.message = "이 메세지는 삭제되었습니다."
-//                            })
-                        }
-                    HoverImage(system: .pencil)
-                        .onTapGesture {
-                            self.isEditing = true
-                        }
-                    HoverImage(system: .pin)
-                    HoverImage(system: .smileFace)
-                        .onTapGesture {
-                            self.emojiPop.toggle()
-                        }
-                        .popover(isPresented: $emojiPop) {
-                            EmojiPicker(emojiStore: EmojiStore(), selectionHandler: { _ in })
-                                .environmentObject(SharedState())
-                                .frame(width: 400, height: 300)
-                        }
-                }
-            }.offset(y: -10)
-                .padding(.trailing)
+            
+            Spacer()
+            
+            if self.hover {
+                HStack {
+                    Spacer(minLength: 0)
+                    HStack(spacing: 0) {
+                        HoverImage(system: .trash)
+                            .onTapGesture {
+                                //                            self.homeVM.toast = .messageDelete(execute: {
+                                //                                self.message.message = "이 메세지는 삭제되었습니다."
+                                //                            })
+                            }
+                        HoverImage(system: .pencil)
+                            .onTapGesture {
+                                self.isEditing = true
+                            }
+                        HoverImage(system: .pin)
+                        HoverImage(system: .smileFace)
+                            .onTapGesture {
+                                self.emojiPop.toggle()
+                            }
+                            .popover(isPresented: $emojiPop) {
+                                EmojiPicker(emojiStore: EmojiStore(), selectionHandler: { _ in })
+                                    .environmentObject(SharedState())
+                                    .frame(width: 400, height: 300)
+                            }
+                    }
+                }.offset(y: -10)
+                    .padding(.trailing)
+            }
         }
     }
 }
 
 struct TheadView_Previews: PreviewProvider {
     static var previews: some View {
-        TheadView(isThread: .constant(false), message: Message(message: "스레드", type: "TALK", isMine: true, sender: User(name: "정고은", email: "", imageURL: "", isActive: true), time: "오후 0000"))
+        TheadView(isThread: .constant(false), message: .constant(Message(message: "스레드", type: "TALK", isMine: true, sender: User(name: "정고은", email: "", imageURL: "", isActive: true), time: "오후 0000")))
     }
 }

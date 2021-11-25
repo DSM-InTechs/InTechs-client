@@ -10,7 +10,6 @@ import Combine
 import GECalendar
 
 class CalendarViewModel: ObservableObject {
-    //    @Published var issues: [ProjectMember] = [ProjectMember]()
     @Published var selectedDate: Date?
     @Published var appearance = Appearance(eventType: .line, multipleEvents: [], isTodayButton: false, isMultipleEvents: true, headerType: .leading)
     
@@ -59,8 +58,12 @@ class CalendarViewModel: ObservableObject {
         self.dateFormatter.dateFormat = "yyyy-MM-dd"
         
         input.onAppear
-            .flatMap {
-                self.calendarRepository.getCalendar(year: self.currentDate.year, month: self.currentDate.month)
+            .flatMap { _ in
+                self.calendarRepository.getCalendar(year: self.currentDate.year,
+                                                    month: self.currentDate.month,
+                                                    tags: self.tags.filter { $0.isSelected == true }.map { $0.tag },
+                                                    users: self.users.filter { $0.isSelected == true }.map { $0.email },
+                                                    states: (self.state != nil) ? [self.state!.rawValue] : nil)
                     .catch { _ -> Empty<[CalendarIssue], Never> in
                         return .init()
                     }
@@ -114,6 +117,7 @@ class CalendarViewModel: ObservableObject {
                 issues
                     .filter { $0.endDate != nil }
                     .map {
+                        self.multipleEventsSet = Set<Event>() // 초기화
                         self.multipleEventsSet.insert(Event(date: self.dateFormatter.date(from: $0.endDate!)!, title: $0.title, color: self.stateToColor($0.state)))
                         self.appearance.multipleEvents = Array(self.multipleEventsSet)
                     }

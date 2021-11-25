@@ -15,7 +15,8 @@ struct ChatDetailView: View {
     @StateObject var viewModel = ChatDetailViewModel()
     
     @State var isThread: Bool = false
-    @State var selectedMessageIndex: Int = 0
+    @State var selectedNoticeIndex: Int = 0
+    @State var selectedThreadIndex: Int = 0
     @Binding var channel: Channel
     
     @State private var emojiPop = false
@@ -113,7 +114,7 @@ struct ChatDetailView: View {
                     Divider()
                     
                     ZStack(alignment: .top) {
-                        MessageView(isThread: $isThread, channel: $channel, selectedMessageIndex: $selectedMessageIndex)
+                        MessageView(isThread: $isThread, channel: $channel, selectedThreadIndex: $selectedThreadIndex, selectedNoticeIndex: $selectedNoticeIndex)
                             .environmentObject(viewModel)
                         
                         if !channel.notices.isEmpty {
@@ -129,11 +130,34 @@ struct ChatDetailView: View {
                                 .font(.title2)
                         }).buttonStyle(PlainButtonStyle())
                             .popover(isPresented: $filePop) {
-                                FileTypeSelectView(selectedImage: $viewModel.selectedNSImages)
+                                FileTypeSelectView(selectedImage: $viewModel.selectedNSImages, selectedFile: $viewModel.selectedFile)
                                     .padding()
                             }
                         
                         VStack(alignment: .leading) {
+                            if !viewModel.selectedFile.isEmpty {
+                                LazyHStack {
+                                    ForEach(0..<viewModel.selectedFile.count, id: \.self) { index in
+                                        ZStack(alignment: .topTrailing) {
+                                            HStack(spacing: 20) {
+                                                Image(system: .clip)
+                                                Text(viewModel.selectedFile[index].0)
+                                                Spacer()
+                                            }
+                                            .padding()
+                                            .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
+
+                                            Image(system: .xmarkCircle)
+                                                .foregroundColor(.gray)
+                                                .onTapGesture {
+                                                    self.viewModel.selectedFile.remove(at: index)
+                                                }
+                                        }
+                                    }
+                                }.padding(.horizontal, 10)
+                                .frame(height: 70)
+                            }
+                            
                             if !viewModel.selectedNSImages.isEmpty {
                                 LazyHStack {
                                     ForEach(0..<viewModel.selectedNSImages.count, id: \.self) { index in
@@ -150,7 +174,8 @@ struct ChatDetailView: View {
                                         }
                                         
                                     }
-                                }
+                                }.padding(.horizontal, 10)
+                                .frame(height: 80)
                             }
                             
                             TextField("메세지를 입력하세요", text: $viewModel.text, onCommit: {
@@ -158,10 +183,19 @@ struct ChatDetailView: View {
                                     self.channel.allMsgs.append(Message(message: "http://www.thedroidsonroids.com/wp-content/uploads/2016/02/Rx_Logo_M-390x390.png", type: "IMAGE", isMine: true, sender: user1, time: "오후 11:10"))
                                 }
                                 
-                                self.channel.allMsgs.append(Message(message: viewModel.text, type: "TALK", isMine: true, sender: user1, time: "오후 11:10"))
+                                if !viewModel.selectedFile.isEmpty {
+                                    for file in viewModel.selectedFile {
+                                        self.channel.allMsgs.append(Message(message: file.0, type: "FILE", isMine: true, sender: user1, time: "오후 11:10"))
+                                    }
+                                }
+                                
+                                if viewModel.text != "" {
+                                    self.channel.allMsgs.append(Message(message: viewModel.text, type: "TALK", isMine: true, sender: user1, time: "오후 11:10"))
+                                }
                                 
                                 self.viewModel.text = ""
                                 self.viewModel.selectedNSImages = []
+                                self.viewModel.selectedFile = []
                             })
                                 .textFieldStyle(PlainTextFieldStyle())
                                 .padding(.vertical, 8)
@@ -186,7 +220,7 @@ struct ChatDetailView: View {
                 
                 if isThread {
                     TheadView(isThread: $isThread,
-                              message: channel.allMsgs[selectedMessageIndex])
+                              message: $channel.allMsgs[selectedThreadIndex])
                         .frame(width: geo.size.width / 3)
                         .ignoresSafeArea(.all)
                         .background(Color(NSColor.systemGray).opacity(0.1))
@@ -222,17 +256,23 @@ struct HoverImage: View {
 
 struct FileTypeSelectView: View {
     @Binding var selectedImage: [NSImage]
+    @Binding var selectedFile: [(String, Data)]
     
     var body: some View {
         VStack(spacing: 20) {
             Button(action: {
-                NSOpenPanel.openImage(completion: { _ in
-                    
+                NSOpenPanel.openFile(completion: { result in
+                    switch result {
+                    case .success(let tuple):
+                        self.selectedFile.append(tuple)
+                    case .failure(_):
+                        break
+                    }
                 })
             }, label: {
                 HStack {
                     Image(systemName: "doc.text")
-                    Text("File")
+                    Text("파일")
                     Spacer()
                 }.font(.title3)
             }).buttonStyle(PlainButtonStyle())
@@ -248,7 +288,7 @@ struct FileTypeSelectView: View {
             }, label: {
                 HStack {
                     Image(system: .photo)
-                    Text("Image or Video")
+                    Text("이미지")
                     Spacer()
                 }.font(.title3)
             })
@@ -353,7 +393,7 @@ struct NoticeMessageView: View {
                         }.foregroundColor(.gray)
                     }.padding()
                         .background(Color.background)
-                   
+                    
                 }.padding(.horizontal, 10)
             } else {
                 Group {
@@ -370,8 +410,6 @@ struct NoticeMessageView: View {
                         .background(Color.background)
                 }.padding(.horizontal, 10)
             }
-            
         }
-        
     }
 }
