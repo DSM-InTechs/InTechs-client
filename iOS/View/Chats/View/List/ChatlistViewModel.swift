@@ -8,5 +8,9 @@
 import SwiftUI
 
 class ChatlistViewModel: ObservableObject {
+    @Published var homes: [Channel] = allHomes
     
+    @Published var DMs: [Channel] = allDMs
+    
+    @Published var channels: [Channel] = allChannels
 }

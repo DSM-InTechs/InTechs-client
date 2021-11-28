@@ -24,6 +24,9 @@ class IssuelistViewModel: ObservableObject {
     @Published var tags = [SelectIssueTag]()
     @Published var state: IssueState?
     
+    @UserDefault(key: "userEmail", defaultValue: "")
+    private var userEmail: String
+    
     private let issueReporitory: IssueReporitory
     private let projectRepository: ProjectRepository
     
@@ -32,12 +35,14 @@ class IssuelistViewModel: ObservableObject {
     public enum Event {
         case onAppear
         case reloadlist
+        case getForMe
     }
     
     public struct Input {
         let onAppear = PassthroughSubject<Void, Never>()
         let getFilteringList = PassthroughSubject<Void, Never>()
         let reloadlist = PassthroughSubject<Void, Never>()
+        let getForMe = PassthroughSubject<Void, Never>()
     }
     
     public let input = Input()
@@ -51,6 +56,8 @@ class IssuelistViewModel: ObservableObject {
             })
         case .reloadlist:
             self.input.reloadlist.send(())
+        case .getForMe:
+            self.input.getForMe.send(())
         }
     }
     
@@ -58,6 +65,19 @@ class IssuelistViewModel: ObservableObject {
          projectRepository: ProjectRepository = ProjectRepositoryImpl()) {
         self.issueReporitory = issueReporitory
         self.projectRepository = projectRepository
+        
+        self.$selectedTab
+            .sink(receiveValue: { tab in
+                switch tab {
+                case .forMeAndUnresolved, .unresolved:
+                    self.state = .progress
+                case .resolved:
+                    self.state = .done
+                case .none:
+                    self.state = nil
+                default: break
+                }
+            }).store(in: &bag)
         
         input.onAppear
             .flatMap {
@@ -106,6 +126,19 @@ class IssuelistViewModel: ObservableObject {
             .flatMap { _ in
                 self.issueReporitory.getIssues(tags: self.tags.filter { $0.isSelected == true }.map { $0.tag },
                                                users: self.users.filter { $0.isSelected == true }.map { $0.email },
+                                               states: (self.state != nil) ? [self.state!.rawValue] : nil)
+                    .catch { _ -> Empty<[Issue], Never> in
+                        return .init()
+                    }
+            }
+            .assign(to: \.issues, on: self)
+            .store(in: &bag)
+        
+        input.getForMe
+            .collect(.byTime(DispatchQueue.main, .seconds(1)))
+            .flatMap { _ in
+                self.issueReporitory.getIssues(tags: self.tags.filter { $0.isSelected == true }.map { $0.tag },
+                                               users: [self.userEmail],
                                                states: (self.state != nil) ? [self.state!.rawValue] : nil)
                     .catch { _ -> Empty<[Issue], Never> in
                         return .init()

@@ -40,6 +40,7 @@ struct IssuelistView: View {
                                 } else {
                                     self.viewModel.selectedTab = .unresolved
                                     self.viewModel.state = IssueState.progress
+                                    self.viewModel.apply(.reloadlist)
                                 }
                             }
                         
@@ -60,7 +61,7 @@ struct IssuelistView: View {
                                     self.viewModel.selectedTab = nil
                                 } else {
                                     self.viewModel.selectedTab = .forMe
-//                                    self.viewModel.users = [
+                                    self.viewModel.apply(.getForMe)
                                 }
                             }
                         
@@ -81,7 +82,7 @@ struct IssuelistView: View {
                                     self.viewModel.selectedTab = nil
                                 } else {
                                     self.viewModel.selectedTab = .forMeAndUnresolved
-                                    // self.viewModel.users = [
+                                    self.viewModel.apply(.reloadlist)
                                 }
                             }
                         

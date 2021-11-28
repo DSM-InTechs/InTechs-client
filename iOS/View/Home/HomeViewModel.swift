@@ -9,7 +9,10 @@ import SwiftUI
 import Combine
 
 class HomeViewModel: ObservableObject {
-    @Published var isLogin: Bool = true
+    @UserDefault(key: "isLogin", defaultValue: false)
+    public var isLoginUserDefaults: Bool
+    
+    @Published var isLogin: Bool = UserDefaults.standard.bool(forKey: "isLogin")
     
     private let myActiveRepository: MyActiveRepository
     private let mypageRepository: MypageRepository
@@ -36,6 +39,12 @@ class HomeViewModel: ObservableObject {
          mypageRepository: MypageRepository = MypageRepositoryImpl()) {
         self.myActiveRepository = myActiveRepository
         self.mypageRepository = mypageRepository
+        
+        self.$isLogin
+            .dropFirst()
+            .sink(receiveValue: {
+                self.isLoginUserDefaults = $0
+            }).store(in: &bag)
         
         input.changeActive
             .flatMap {

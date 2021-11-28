@@ -8,18 +8,20 @@
 import SwiftUI
 import Introspect
 import GEmojiPicker
+import Kingfisher
 
 struct ChatDetailView: View {
-    @ObservedObject var chatVM = ChatDetailViewModel()
+    @ObservedObject var viewModel = ChatDetailViewModel()
+    @Binding var channel: Channel
     
     @State var uiTabarController: UITabBarController?
     @State private var showInfoView = false
     @State private var showThread = false
-    @State var fileSheet = false
-    @State var isFile = false
-    @State var isImage = false
-    @State var isSearch = false
-    @State var isEditing = false
+    @State private var fileSheet = false
+    @State private var isFile = false
+    @State private var isImage = false
+    @State private var isSearch = false
+    @State private var isEditing = false
     @State private var document: InputDoument = InputDoument(input: "")
     
     @State private var isEmoji = false
@@ -31,12 +33,13 @@ struct ChatDetailView: View {
         ZStack {
             ScrollView {
                 LazyVStack {
-                    ForEach(0...10, id: \.self) { _ in
-                        ChatDetailRow()
-                            .padding(.all, 10)
-                            .contextMenu {
+                    ForEach(channel.allMsgs, id: \.id) { message in
+                        if message.type == MessageType.talk.rawValue {
+                            MessageRow(message: message)
+                                .padding(.all, 10)
+                                .contextMenu {
                                     Button(action: {
-                                        chatVM.text = "asdf"
+                                        viewModel.text = "asdf"
                                         self.isEditing = true
                                     }, label: {
                                         HStack {
@@ -45,7 +48,7 @@ struct ChatDetailView: View {
                                             Image(system: .edit)
                                         }
                                     })
-                                   
+                                    
                                     Button(action: {
                                         self.isMessageDelete.toggle()
                                     }, label: {
@@ -65,7 +68,7 @@ struct ChatDetailView: View {
                                             Image(system: .pin)
                                         }
                                     })
-                                   
+                                    
                                     Button(action: {
                                         self.showThread.toggle()
                                     }, label: {
@@ -85,8 +88,12 @@ struct ChatDetailView: View {
                                             Image(system: .smileFace)
                                         }
                                     })
-                            }
-                        
+                                }
+                        } else if message.type == MessageType.image.rawValue {
+                            ImageMessageRow(message: message)
+                        } else if message.type == MessageType.file.rawValue {
+                            FileMessageRow(message: message)
+                        }
                     }
                 }
             }
@@ -100,27 +107,27 @@ struct ChatDetailView: View {
             
             NavigationLink(destination: ChannelInfoView(),
                            isActive: self.$showInfoView) { EmptyView() }
-                .hidden()
+                           .hidden()
             
             NavigationLink(destination: ThreadView(),
                            isActive: self.$showThread) { EmptyView() }
-                .hidden()
+                           .hidden()
             
-            if isSearch {
-                VStack {
-                    SearchBar(text: .constant(""))
-                    ScrollView {
-                        LazyVStack {
-                            ForEach(0...10, id: \.self) { _ in
-                                // 스레드 있으면 스레드뷰 이동
-                                ChatDetailRow()
-                                    .padding(.all, 10)
-                                
-                            }
-                        }
-                    }
-                }.background(Color(Asset.white))
-            }
+            //            if isSearch {
+            //                VStack {
+            //                    SearchBar(text: .constant(""))
+            //                    ScrollView {
+            //                        LazyVStack {
+            //                            ForEach(0...10, id: \.self) { message in
+            //                                // 스레드 있으면 스레드뷰 이동
+            //                                ChatDetailRow(message: message)
+            //                                    .padding(.all, 10)
+            //
+            //                            }
+            //                        }
+            //                    }
+            //                }.background(Color(Asset.white))
+            //            }
             
             VStack(spacing: 20) {
                 Spacer()
@@ -148,24 +155,24 @@ struct ChatDetailView: View {
                                                 .foregroundColor(.gray)
                                                 .font(.caption)
                                         }
-                                       Spacer()
+                                        Spacer()
                                     }.padding(.all, 10)
-                                    .background(Color.gray.opacity(0.5))
-                                    .frame(height: UIFrame.height / 14)
+                                        .background(Color.gray.opacity(0.5))
+                                        .frame(height: UIFrame.height / 14)
                                     
                                     HStack {
                                         Image(system: .clip)
                                             .onTapGesture {
                                                 self.fileSheet = true
                                             }
-                                        TextField("메세지를 입력하세요", text: $chatVM.text)
+                                        TextField("메세지를 입력하세요", text: $viewModel.text)
                                         //                            Text(document.input)
                                         Image(system: .checkmarkCircleFill)
                                             .onTapGesture {
                                                 self.isEditing.toggle()
                                             }
                                     }.padding(.bottom, 10)
-                                    .frame(height: UIFrame.height / 12)
+                                        .frame(height: UIFrame.height / 12)
                                 }
                                 .padding(.horizontal)
                                 
@@ -175,16 +182,20 @@ struct ChatDetailView: View {
                                         .onTapGesture {
                                             self.fileSheet = true
                                         }
-                                    TextField("메세지를 입력하세요", text: $chatVM.text)
-                                    //                            Text(document.input)
-                                    if chatVM.text == "" {
+                                    TextField("메세지를 입력하세요", text: $viewModel.text)
+                                    if viewModel.text == "" {
                                         Image(system: .paperplane)
                                     } else {
                                         Image(system: .paperplaneFill)
+                                            .onTapGesture {
+                                                if viewModel.text != "" {
+                                                    self.channel.allMsgs.append(Message(message: viewModel.text, type: "TALK", isMine: true, sender: user1, time: "오후 11:15"))
+                                                }
+                                            }
                                     }
                                 }.padding(.bottom, 10)
-                                .padding(.horizontal)
-                                .frame(height: UIFrame.height / 12)
+                                    .padding(.horizontal)
+                                    .frame(height: UIFrame.height / 12)
                             }
                         }
                         .actionSheet(isPresented: $fileSheet) {
@@ -225,66 +236,122 @@ struct ChatDetailView: View {
                 
             }.ignoresSafeArea()
             
-            .navigationBarTitle(title)
-            .navigationBarItems(trailing: HStack(spacing: 15) {
-                SystemImage(system: .search)
-                    .font(.title3)
-                    .foregroundColor(.blue)
-                    .onTapGesture {
-                        withAnimation {
-                            self.isSearch = true
+                .navigationBarTitle(title)
+                .navigationBarItems(trailing: HStack(spacing: 15) {
+                    SystemImage(system: .search)
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(.blue)
+                        .onTapGesture {
+                            withAnimation {
+                                self.isSearch = true
+                            }
                         }
-                    }
-                
-                SystemImage(system: .info)
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(.blue)
-                    .onTapGesture {
-                        self.showInfoView.toggle()
-                    }
-            })
-            .introspectTabBarController { (UITabBarController) in
-                UITabBarController.tabBar.isHidden = true
-                uiTabarController = UITabBarController
-            }
+                    
+                    SystemImage(system: .info)
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(.blue)
+                        .onTapGesture {
+                            self.showInfoView.toggle()
+                        }
+                })
+                .introspectTabBarController { (UITabBarController) in
+                    UITabBarController.tabBar.isHidden = true
+                    uiTabarController = UITabBarController
+                }
         }
     }
 }
 
-struct ChatDetailRow: View {
-    let name: String = "유저 이름"
-    let _body: String = "채팅 메세지"
-    let time: String = "09:04"
-    let date: String = "8월 28일"
+struct MessageRow: View {
+    let message: Message
     
     var body: some View {
         VStack {
-            if date != "" {
-                Text(date)
-                    .foregroundColor(.gray)
-            }
-            HStack(spacing: 10) {
-                Circle().frame(width: 40, height: 40)
+            HStack(alignment: .top, spacing: 10) {
+                KFImage(URL(string: message.sender.imageURL))
+                    .resizable()
+                    .clipShape(Circle())
+                    .frame(width: 40, height: 40)
+                
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Text(name)
+                        Text(message.sender.name)
                             .fontWeight(.bold)
                         Spacer()
-                        Text(time)
+                        Text(message.time)
                             .foregroundColor(.gray)
                     }
                     
-                    Text(_body)
+                    Text(message.message)
                 }
             }
         }.background(Color(Asset.white))
-        
+    }
+}
+
+struct FileMessageRow: View {
+    let message: Message
+    
+    var body: some View {
+        VStack {
+            HStack(alignment: .top, spacing: 10) {
+                KFImage(URL(string: message.sender.imageURL))
+                    .resizable()
+                    .clipShape(Circle())
+                    .frame(width: 40, height: 40)
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Text(message.sender.name)
+                            .fontWeight(.bold)
+                        Spacer()
+                        Text(message.time)
+                            .foregroundColor(.gray)
+                    }
+                    
+                    HStack(spacing: 20) {
+                        Image(system: .clip)
+                        Text(message.message)
+                        Spacer()
+                        Image(system: .download)
+                    }.padding()
+                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
+                }
+            }
+        }.padding(.all, 10)
+        .background(Color(Asset.white))
+    }
+}
+
+struct ImageMessageRow: View {
+    let message: Message
+    
+    var body: some View {
+        VStack {
+            HStack(alignment: .top, spacing: 10) {
+                KFImage(URL(string: message.sender.imageURL))
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Text(message.sender.name)
+                            .fontWeight(.bold)
+                        Spacer()
+                        Text(message.time)
+                            .foregroundColor(.gray)
+                    }
+                    
+                    KFImage(URL(string: message.message))
+                }
+            }
+        }.background(Color(Asset.white))
     }
 }
 
 struct ChatDetailView_Previews: PreviewProvider {
     static var previews: some View {
         ChatListView()
-        ChatDetailView(title: "채널 이름")
+        ChatDetailView(channel: .constant(Channel(lastMsg: "", lastMsgTime: "", pendingMsgs: "", name: "", imageUrl: "", allMsgs: [Message]())), title: "채널 이름")
     }
 }

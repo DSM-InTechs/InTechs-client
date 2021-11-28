@@ -73,7 +73,7 @@ struct ChatListView: View {
                         List(selection: $viewModel.selectedHome) {
                             ForEach(0..<viewModel.homes.count) { index in
                                 NavigationLink(destination: ChatDetailView(channel: $viewModel.homes[index]).environmentObject(viewModel)) {
-                                    ChatRow(channel: viewModel.homes[index])
+                                    ChannelRow(channel: viewModel.homes[index])
                                 }
                             }
                         }
@@ -81,7 +81,7 @@ struct ChatListView: View {
                         List(selection: $viewModel.selectedChannel) {
                             ForEach(0..<viewModel.channels.count) { index in
                                 NavigationLink(destination: ChatDetailView(channel: $viewModel.channels[index]).environmentObject(viewModel)) {
-                                    ChatRow(channel: viewModel.channels[index])
+                                    ChannelRow(channel: viewModel.channels[index])
                                 }
                             }
                         }
@@ -89,7 +89,7 @@ struct ChatListView: View {
                         List(selection: $viewModel.selectedDM) {
                             ForEach(0..<viewModel.DMs.count) { index in
                                 NavigationLink(destination: ChatDetailView(channel: $viewModel.DMs[index]).environmentObject(viewModel)) {
-                                    ChatRow(channel: viewModel.DMs[index])
+                                    ChannelRow(channel: viewModel.DMs[index])
                                 }
                             }
                         }
@@ -106,7 +106,7 @@ struct ChatListView: View {
     }
 }
 
-struct ChatRow: View {
+struct ChannelRow: View {
     var channel: Channel
     
     var body: some View {

@@ -135,6 +135,8 @@
 		D9740331274F0E01006E4606 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9740330274F0E01006E4606 /* Notification.swift */; };
 		D9740333274F4C5F006E4606 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9740332274F4C5F006E4606 /* Downloader.swift */; };
 		D9740335274F5022006E4606 /* String+lastPathComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9740334274F5022006E4606 /* String+lastPathComponent.swift */; };
+		D9740337274F7D1C006E4606 /* Publishers+RetryWhen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9740336274F7D1C006E4606 /* Publishers+RetryWhen.swift */; };
+		D9740338274F8AD9006E4606 /* Publishers+RetryWhen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9740336274F7D1C006E4606 /* Publishers+RetryWhen.swift */; };
 		D97759BF2716CAC100BC9577 /* MypageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97759BE2716CAC100BC9577 /* MypageViewModel.swift */; };
 		D97E0F752707F60F00CC8B74 /* InTechsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */; };
 		D97E0F762707F87D00CC8B74 /* InTechsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */; };
@@ -343,6 +345,7 @@
 		D9740330274F0E01006E4606 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		D9740332274F4C5F006E4606 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		D9740334274F5022006E4606 /* String+lastPathComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+lastPathComponent.swift"; sourceTree = "<group>"; };
+		D9740336274F7D1C006E4606 /* Publishers+RetryWhen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+RetryWhen.swift"; sourceTree = "<group>"; };
 		D97759BE2716CAC100BC9577 /* MypageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewModel.swift; sourceTree = "<group>"; };
 		D97E0F742707F60F00CC8B74 /* InTechsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsAPI.swift; sourceTree = "<group>"; };
 		D98C8CF42726484B007A5802 /* IssueDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailViewModel.swift; sourceTree = "<group>"; };
@@ -608,6 +611,7 @@
 			children = (
 				D94C99AC26DF37DF00CB2F07 /* ChannelInfoView.swift */,
 				D94C99AD26DF37DF00CB2F07 /* ChatDetailView.swift */,
+				D9FC987326DC459200735222 /* ChatDetailViewModel.swift */,
 				D94C99AE26DF37DF00CB2F07 /* ThreadView.swift */,
 				D94C99AF26DF37DF00CB2F07 /* ChannelEditView.swift */,
 			);
@@ -618,6 +622,7 @@
 			isa = PBXGroup;
 			children = (
 				D94C99B126DF37DF00CB2F07 /* ChatListView.swift */,
+				D9FC987126DC458800735222 /* ChatlistViewModel.swift */,
 				D94C99B226DF37DF00CB2F07 /* ChatBar.swift */,
 				D94C99B326DF37DF00CB2F07 /* NewChatView.swift */,
 			);
@@ -799,7 +804,6 @@
 			isa = PBXGroup;
 			children = (
 				D94C99AA26DF37DF00CB2F07 /* View */,
-				D9FC987626DC459700735222 /* ViewModel */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -953,6 +957,7 @@
 				D91CB560270EE2B0003DCB63 /* Mypage */,
 				D91CB527270AC891003DCB63 /* Auth */,
 				D97E0F732707F5EA00CC8B74 /* API */,
+				D9740336274F7D1C006E4606 /* Publishers+RetryWhen.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -1041,15 +1046,6 @@
 				D950A33F26D2103B003D4907 /* Home.swift */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		D9FC987626DC459700735222 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				D9FC987126DC458800735222 /* ChatlistViewModel.swift */,
-				D9FC987326DC459200735222 /* ChatDetailViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		D9FC987D26DC58B500735222 /* View */ = {
@@ -1455,6 +1451,7 @@
 				D9A025F2272A36BA004568B6 /* CalendarIssue.swift in Sources */,
 				D91CB56E270EF1FF003DCB63 /* Project.swift in Sources */,
 				D91CB544270AD8AB003DCB63 /* RefreshRepository.swift in Sources */,
+				D9740338274F8AD9006E4606 /* Publishers+RetryWhen.swift in Sources */,
 				D91CB56B270EE4CF003DCB63 /* Image+resize.swift in Sources */,
 				D9FC986126DBC7B500735222 /* ImagePicker.swift in Sources */,
 				D91CB52B270AC8A2003DCB63 /* LoginRepository.swift in Sources */,
@@ -1507,6 +1504,7 @@
 			files = (
 				D950A33626D20E67003D4907 /* ChatListView.swift in Sources */,
 				D950A31326D20C49003D4907 /* Image+SFImage.swift in Sources */,
+				D9740337274F7D1C006E4606 /* Publishers+RetryWhen.swift in Sources */,
 				D950A32126D20CCA003D4907 /* BlurView.swift in Sources */,
 				D9A025F3272A36BA004568B6 /* CalendarIssue.swift in Sources */,
 				D950A36E26D30843003D4907 /* IsActiveView.swift in Sources */,

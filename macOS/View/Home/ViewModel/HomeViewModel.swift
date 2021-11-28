@@ -18,6 +18,7 @@ enum Toast {
     case messageDelete(execute: () -> Void)
     case issueDelete(execute: () -> Void)
     case issueCreate(execute: () -> Void)
+    case projectCreateOrJoin
     case projectCreate
     case projectJoin
     case projectExit(execute: () -> Void)
@@ -25,7 +26,10 @@ enum Toast {
 }
 
 class HomeViewModel: ObservableObject {
-    @Published var isLogin: Bool = true
+    @UserDefault(key: "isLogin", defaultValue: false)
+    private var isLoginUserDefaults: Bool
+    
+    @Published var isLogin: Bool = UserDefaults.standard.bool(forKey: "isLogin")
     
     @Published var selectedTab: HomeTab = HomeTab.chats
     @Published var toast: Toast?
@@ -69,6 +73,12 @@ class HomeViewModel: ObservableObject {
         self.myActiveRepository = myActiveRepository
         self.projectRepository = projectRepository
         self.mypageRepository = mypageRepository
+        
+        self.$isLogin
+            .dropFirst()
+            .sink(receiveValue: {
+                self.isLoginUserDefaults = $0
+            }).store(in: &bag)
         
         input.changeActive
             .flatMap {

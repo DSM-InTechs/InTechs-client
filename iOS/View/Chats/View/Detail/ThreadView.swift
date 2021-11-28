@@ -10,7 +10,7 @@ import SwiftUI
 struct ThreadView: View {
     var body: some View {
         VStack {
-            ChatRow()
+//            ChatRow(channel: <#Channel#>)
             
             HStack(spacing: 10) {
                 Color.gray.frame(height: 1)
@@ -23,7 +23,7 @@ struct ThreadView: View {
             ScrollView {
                 LazyVStack {
                     ForEach(0...3, id: \.self) { _ in
-                        ChatRow()
+//                        ChatRow(channel: <#Channel#>)
                     }
                 }
             }

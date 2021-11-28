@@ -37,6 +37,7 @@ struct HomeTabButton: View {
                                 .resizable()
                                 .clipShape(Circle())
                                 .frame(width: 30, height: 30)
+                                .shadow(radius: 5)
                             
                             ActiveView()
                         }
