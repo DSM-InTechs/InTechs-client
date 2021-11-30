@@ -73,10 +73,10 @@ struct NewIssueView: View {
                             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
                             .onTapGesture {
                                 self.viewModel.apply(.create)
-                                execute()
                                 withAnimation {
                                     self.homeVM.toast = nil
                                 }
+                                execute()
                             }
                     }
                 }
@@ -243,6 +243,9 @@ struct NewIssueView: View {
                                         ForEach(0...viewModel.users.count - 1, id: \.self) { index in
                                             HStack {
                                                 KFImage(URL(string: viewModel.users[index].imageURL))
+                                                    .resizable()
+                                                    .frame(width: 20, height: 20)
+                                                
                                                 Text(viewModel.users[index].name)
                                                 Spacer()
                                                 if viewModel.users[index].isSelected {

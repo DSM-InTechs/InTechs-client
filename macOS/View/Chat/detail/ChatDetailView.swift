@@ -180,7 +180,7 @@ struct ChatDetailView: View {
                             
                             TextField("메세지를 입력하세요", text: $viewModel.text, onCommit: {
                                 if !viewModel.selectedNSImages.isEmpty {
-                                    self.channel.allMsgs.append(Message(message: "http://www.thedroidsonroids.com/wp-content/uploads/2016/02/Rx_Logo_M-390x390.png", type: "IMAGE", isMine: true, sender: user1, time: "오후 11:10"))
+                                    self.channel.allMsgs.append(Message(message: "https://jjalbang.today/files/jjalbox/2019/01/20190117_5c3f5750db29c.jpg", type: "IMAGE", isMine: true, sender: user1, time: "오후 11:10"))
                                 }
                                 
                                 if !viewModel.selectedFile.isEmpty {

@@ -132,6 +132,8 @@
 		D9558D7927228FAA004FEEBB /* Date+Compare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7827228FAA004FEEBB /* Date+Compare.swift */; };
 		D9558D7A27228FAA004FEEBB /* Date+Compare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7827228FAA004FEEBB /* Date+Compare.swift */; };
 		D9558D7C2725991E004FEEBB /* NewIssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7B2725991D004FEEBB /* NewIssueViewModel.swift */; };
+		D96725BC27548A9B00402AF1 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A31526D20C67003D4907 /* Message.swift */; };
+		D96725BD27548ABF00402AF1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB564270EE316003DCB63 /* User.swift */; };
 		D9740331274F0E01006E4606 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9740330274F0E01006E4606 /* Notification.swift */; };
 		D9740333274F4C5F006E4606 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9740332274F4C5F006E4606 /* Downloader.swift */; };
 		D9740335274F5022006E4606 /* String+lastPathComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9740334274F5022006E4606 /* String+lastPathComponent.swift */; };
@@ -1610,6 +1612,8 @@
 				D94C99FF26E0660F00CB2F07 /* NotificationView.swift in Sources */,
 				D94C99F326DF822C00CB2F07 /* ChatDetailView.swift in Sources */,
 				D94C99DB26DF685200CB2F07 /* ComplicationController.swift in Sources */,
+				D96725BD27548ABF00402AF1 /* User.swift in Sources */,
+				D96725BC27548A9B00402AF1 /* Message.swift in Sources */,
 				D94C99D326DF685200CB2F07 /* InTechsApp.swift in Sources */,
 				D94C99F126DF6B0200CB2F07 /* ChatlistView.swift in Sources */,
 			);
@@ -1756,7 +1760,7 @@
 				DEVELOPMENT_TEAM = C2JSJLJ4FN;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1779,7 +1783,7 @@
 				DEVELOPMENT_TEAM = C2JSJLJ4FN;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1863,7 +1867,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
 			};
 			name = Debug;
 		};
@@ -1888,7 +1892,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
 			};
 			name = Release;
 		};
@@ -1908,7 +1912,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
 			};
 			name = Debug;
 		};
@@ -1929,7 +1933,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
 			};
 			name = Release;
 		};

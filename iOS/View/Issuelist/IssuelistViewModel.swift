@@ -67,7 +67,6 @@ class IssuelistViewModel: ObservableObject {
             .store(in: &bag)
         
         input.reloadlist
-            .collect(.byTime(DispatchQueue.main, .seconds(1)))
             .flatMap { _ in
                 self.issueReporitory.getIssues(tags: nil,
                                                users: (self.users != nil) ? self.users : nil,

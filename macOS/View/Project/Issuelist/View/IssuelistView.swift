@@ -115,7 +115,9 @@ struct IssuelistView: View {
                                             .foregroundColor(.blue))
                             .onTapGesture {
                                 self.homeVM.toast = .issueCreate(execute: {
-                                    self.viewModel.reload(.onAppear)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        self.viewModel.reload(.onAppear)
+                                    })
                                 })
                             }
                     }
@@ -246,12 +248,12 @@ struct IssuelistRow: View {
             Spacer()
             
             if issue.users.isEmpty == false {
-                HStack {
+                HStack(spacing: -10) {
                     ForEach(issue.users.prefix(3), id: \.self) { user in
                         KFImage(URL(string: user.imageURL))
                             .resizable()
+                            .clipShape(Circle())
                             .frame(width: 20, height: 20)
-                        Text(user.name)
                     }
                     if issue.users.count > 3 {
                         Text(String(issue.users.count - 3))
