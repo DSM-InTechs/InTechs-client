@@ -115,6 +115,8 @@ class IssueDetailViewModel: ObservableObject {
         if issue == nil { return }
         if preIssue == issue { return }
         
+        self.title = issue!.title
+        
         if issue!.content != nil {
             self.isBody = true
             self.body = issue!.content!
@@ -122,6 +124,9 @@ class IssueDetailViewModel: ObservableObject {
         if issue!.endDate != nil {
             self.isDate = true
             self.date = dateFormatter.date(from: issue!.endDate!)!
+        }
+        if issue!.state != nil {
+            self.state = state
         }
         if issue!.progress != nil {
             self.isProgress = true

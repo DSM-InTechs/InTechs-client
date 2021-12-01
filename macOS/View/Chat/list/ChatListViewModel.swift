@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 class ChatListViewModel: ObservableObject {
     @Published var selectedTab: ChatTab = .home
@@ -18,6 +19,47 @@ class ChatListViewModel: ObservableObject {
     
     @Published var selectedChannel: Int? = 0
     @Published var channels: [Channel] = allChannels
+    
+    private let chatRepository: ChatRepository
+    
+    private var bag = Set<AnyCancellable>()
+    
+    public enum Event {
+        case onAppear
+    }
+    
+    public struct Input {
+        let onAppear = PassthroughSubject<Void, Never>()
+    }
+    
+    public let input = Input()
+    
+    public func apply(_ input: Event) {
+        switch input {
+        case .onAppear:
+            self.input.onAppear.send(())
+        }
+    }
+    
+    init(chatRepository: ChatRepository = ChatRepositoryImpl()) {
+        self.chatRepository = chatRepository
+        
+//        input.onAppear
+//            .flatMap {
+//                self.chatRepository.getChatlist()
+//                    .catch { _ -> Empty<[ChatRoom], Never> in
+//                        return .init()
+//                    }
+//            }
+//            .assign(to: \.homes, on: self)
+//            .store(in: &bag)
+        
+        NotificationCenter.default
+            .publisher(for: Notification.Name("Home"))
+            .sink(receiveValue: { _ in
+                self.apply(.onAppear)
+            }).store(in: &bag)
+    }
     
     func sendMessage(channel: Channel, message: String) {
         let index = channels.firstIndex { currentChannel -> Bool in

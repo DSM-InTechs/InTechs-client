@@ -22,9 +22,8 @@ struct IssueDetailView: View {
         VStack(alignment: .leading, spacing: 20) {
             if isEditing {
                 ScrollView {
-                    VStack(spacing: 20) {
+                    VStack(spacing: 30) {
                         HStack {
-                            Text(title)
                             Spacer()
                             Image(system: .edit)
                                 .onTapGesture {
@@ -38,36 +37,34 @@ struct IssueDetailView: View {
                                 }
                         }
                         
-                        VStack(spacing: 10) {
-                            TextField("제목", text: $viewModel.title)
-                                .font(.title)
+                        TextField("제목", text: $viewModel.title)
+                            .font(.title2)
+                            .textFieldStyle(PlainTextFieldStyle())
+                        
+                        HStack {
+                            Text("이슈 설명")
+                            Spacer()
+                            if self.viewModel.isBody {
+                                Image(system: .xmark)
+                                    .onTapGesture {
+                                        self.viewModel.isBody = false
+                                    }
+                            } else {
+                                Image(system: .plus)
+                                    .onTapGesture {
+                                        self.viewModel.isBody = true
+                                    }
+                            }
+                        }
+                        
+                        if viewModel.isBody {
+                            TextField("설명", text: $viewModel.body)
                                 .textFieldStyle(PlainTextFieldStyle())
-                            
-                            HStack {
-                                Text("이슈 설명")
-                                Spacer()
-                                if self.viewModel.isBody {
-                                    Image(system: .xmark)
-                                        .onTapGesture {
-                                            self.viewModel.isBody = false
-                                        }
-                                } else {
-                                    Image(system: .plus)
-                                        .onTapGesture {
-                                            self.viewModel.isBody = true
-                                        }
-                                }
-                            }
-                            
-                            if viewModel.isBody {
-                                TextField("설명", text: $viewModel.body)
-                                    .textFieldStyle(PlainTextFieldStyle())
-                                    .padding(.all, 5)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color(Asset.black), lineWidth: 1)
-                                    )
-                            }
+                                .padding(.all, 5)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color(Asset.black), lineWidth: 1)
+                                )
                         }
                         
                         VStack(alignment: .leading, spacing: 3) {
@@ -144,7 +141,7 @@ struct IssueDetailView: View {
                                         }
                                     }, label: {
                                         Image(system: .minus)
-                                            .padding()
+                                            .padding(.horizontal)
                                     }).buttonStyle(PlainButtonStyle())
                                     
                                     ProgressView(value: viewModel.progress, total: 100)
@@ -155,14 +152,14 @@ struct IssueDetailView: View {
                                         }
                                     }, label: {
                                         Image(system: .plus)
-                                            .padding()
+                                            .padding(.horizontal)
                                     }).buttonStyle(PlainButtonStyle())
                                 }
                             }
                             
                         }
                         
-                        VStack(alignment: .leading, spacing: 5) {
+                        VStack(alignment: .leading, spacing: 10) {
                             HStack {
                                 Text("이슈 대상자")
                                 Spacer()
@@ -188,12 +185,12 @@ struct IssueDetailView: View {
                                                     viewModel.users[index].isSelected.toggle()
                                                 }
                                         }
-                                    }
+                                    }.padding(.leading, 10)
                                 }
                             }
                         }
                         
-                        VStack(alignment: .leading, spacing: 5) {
+                        VStack(alignment: .leading, spacing: 10) {
                             HStack {
                                 Text("태그")
                                 Spacer()
@@ -242,12 +239,13 @@ struct IssueDetailView: View {
                                                 viewModel.tags[index].isSelected.toggle()
                                             }
                                         }
-                                    }
+                                    }.padding(.leading, 10)
                                 }
                             }
                         }
                     }
                 }
+                
                 Spacer(minLength: 0)
                 
                 HStack {
@@ -412,48 +410,48 @@ struct IssueDetailView: View {
                                 }
                             }
                         }
-                    }
-                    
-                    if currentIssue?.comments?.isEmpty != nil {
-                        HStack {
-                            Text("댓글")
-                            Group {
-                                if self.isShowComments {
-                                    Image(system: .upArrow)
-                                } else {
-                                    Image(system: .downArrow)
-                                }
-                            }.onTapGesture {
-                                self.isShowComments.toggle()
-                            }
-                        }
                         
-                        if self.isShowComments {
-                            LazyVStack(alignment: .leading) {
-                                ForEach(currentIssue!.comments!, id: \.self) { comment in
-                                    HStack {
-                                        VStack {
-                                            KFImage(URL(string: comment.user.imageURL))
-                                                .resizable()
-                                                .frame(width: 20, height: 20)
-                                            Text(comment.user.name)
-                                        }
-                                        
-                                        Text(comment.content)
+                        if currentIssue?.comments != nil && !currentIssue!.comments!.isEmpty {
+                            HStack {
+                                Text("댓글")
+                                Group {
+                                    if self.isShowComments {
+                                        Image(system: .upArrow)
+                                    } else {
+                                        Image(system: .downArrow)
                                     }
+                                }.onTapGesture {
+                                    self.isShowComments.toggle()
                                 }
                             }
-                            HStack(spacing: 20) {
-                                TextField("댓글 작성", text: $viewModel.newComment)
-                                
-                                Text("확인")
-                                    .foregroundColor(Color(Asset.black))
-                                    .padding(.all, 5)
-                                    .padding(.horizontal, 10)
-                                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
-                                    .onTapGesture {
-                                        viewModel.apply(.addComment(id: currentIssue!.id))
+                            
+                            if self.isShowComments {
+                                LazyVStack(alignment: .leading) {
+                                    ForEach(currentIssue!.comments!, id: \.self) { comment in
+                                        HStack {
+                                            VStack {
+                                                KFImage(URL(string: comment.user.imageURL))
+                                                    .resizable()
+                                                    .frame(width: 20, height: 20)
+                                                Text(comment.user.name)
+                                            }
+                                            
+                                            Text(comment.content)
+                                        }
                                     }
+                                }
+                                HStack(spacing: 20) {
+                                    TextField("댓글 작성", text: $viewModel.newComment)
+                                    
+                                    Text("확인")
+                                        .foregroundColor(Color(Asset.black))
+                                        .padding(.all, 5)
+                                        .padding(.horizontal, 10)
+                                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
+                                        .onTapGesture {
+                                            viewModel.apply(.addComment(id: currentIssue!.id))
+                                        }
+                                }
                             }
                         }
                     }

@@ -48,6 +48,17 @@ public enum InTechsAPI {
     // MARK: - Other User
     case getUser(email: String)
     
+    // MARK: - Chat
+    case getChatList(projectId: Int)
+    case getMessageList(channelId: Int, page: Int)
+    case getChannelUsers(channelId: Int)
+    case addChannelUser(channelId: Int, email: String)
+    
+    case createChannel(projectId: Int, name: String)
+    case updateChannel(channelId: Int, name: String)
+    case deleteChannel(channelId: Int)
+    case exitChannel(channelId: Int)
+    
 }
 
 extension InTechsAPI: TargetType {
@@ -121,6 +132,24 @@ extension InTechsAPI: TargetType {
         case .getUser(let email):
             return "/\(email)"
             
+            // MARK: - Chat
+        case .getChatList(_):
+            return "channel/channels"
+        case .getMessageList(let id, _):
+            return "/channel/\(id)/chat"
+        case .getChannelUsers(let channelId):
+            return "/channel/\(channelId)/users"
+        case let .addChannelUser(channelId, email):
+            return "/channel/\(channelId)/\(email)"
+            
+        case .createChannel(let projectId, _):
+            return "/channel/\(projectId)"
+        case .updateChannel(let channelId, _):
+            return "/channel/\(channelId)"
+        case .deleteChannel(let channelId):
+            return "/channel/\(channelId)"
+        case .exitChannel(let channelId):
+            return "/channel/\(channelId)"
         }
     }
     
@@ -206,6 +235,8 @@ extension InTechsAPI: TargetType {
             return .requestParameters(parameters: paras, encoding: URLEncoding.default)
         case .addComment(_, let content):
             return .requestParameters(parameters: ["content": content], encoding: JSONEncoding.default)
+        case .getMessageList(_, let page):
+            return .requestParameters(parameters: ["page": page, "size": 20], encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
@@ -222,8 +253,6 @@ extension InTechsAPI: TargetType {
             var accessToken: String
             
             return ["Authorization": "Bearer \(accessToken)"]
-            //            let token = StorageManager.shared.readUser() == nil ? "" : StorageManager.shared.readUser()!.token
-            //            return ["Authorization": "Bearer " + token]
         }
     }
     

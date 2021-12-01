@@ -23,6 +23,9 @@ struct NewIssueView: View {
                     
                     HStack {
                         Text("이슈 설명")
+                            .onTapGesture {
+                                self.viewModel.isBody.toggle()
+                            }
                         Spacer()
                         if  self.viewModel.isBody {
                             Image(system: .xmark)
@@ -82,7 +85,7 @@ struct NewIssueView: View {
                 }
                 
                 // Issue Detail View
-                VStack(spacing: 20) {
+                VStack(spacing: 30) {
                     Group {
                         HStack {
                             Spacer()
@@ -95,16 +98,13 @@ struct NewIssueView: View {
                                         self.homeVM.toast = nil
                                     }
                                 }
-                        }
+                        }.padding(.bottom, 5)
                         
                         VStack(alignment: .leading, spacing: 3) {
                             HStack {
                                 Text("이슈 상태")
+                                
                                 Spacer()
-                                Image(system: .xmark)
-                                    .onTapGesture {
-                                        self.viewModel.state = nil
-                                    }
                             }
                             
                             ScrollView(.horizontal) {
@@ -115,7 +115,7 @@ struct NewIssueView: View {
                                     } .foregroundColor(.blue)
                                         .opacity(  self.viewModel.state == .ready ? 1.0 : 0.5)
                                         .onTapGesture {
-                                            self.viewModel.state = .ready
+                                            self.viewModel.changeIssueState(.ready)
                                         }
                                     
                                     HStack {
@@ -124,7 +124,7 @@ struct NewIssueView: View {
                                     } .foregroundColor(.gray)
                                         .opacity(  self.viewModel.state == .progress ? 1.0 : 0.5)
                                         .onTapGesture {
-                                            self.viewModel.state = .progress
+                                            self.viewModel.changeIssueState(.progress)
                                         }
                                     
                                     HStack {
@@ -133,7 +133,7 @@ struct NewIssueView: View {
                                     } .foregroundColor(.green)
                                         .opacity(  self.viewModel.state == .done ? 1.0 : 0.5)
                                         .onTapGesture {
-                                            self.viewModel.state = .done
+                                            self.viewModel.changeIssueState(.done)
                                         }
                                 }
                                 
@@ -244,6 +244,7 @@ struct NewIssueView: View {
                                             HStack {
                                                 KFImage(URL(string: viewModel.users[index].imageURL))
                                                     .resizable()
+                                                    .clipShape(Circle())
                                                     .frame(width: 20, height: 20)
                                                 
                                                 Text(viewModel.users[index].name)
@@ -256,7 +257,7 @@ struct NewIssueView: View {
                                                 viewModel.users[index].isSelected.toggle()
                                             }
                                         }
-                                    }
+                                    }.padding(.leading, 10)
                                 }
                             }
                         }
@@ -297,7 +298,11 @@ struct NewIssueView: View {
                                     LazyVStack(alignment: .leading) {
                                         ForEach(0...viewModel.tags.count - 1, id: \.self) { index in
                                             HStack {
-                                                Text(viewModel.tags[index].tag)
+                                                Text("# \(viewModel.tags[index].tag)")
+                                                    .padding(.all, 10)
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius: 10).foregroundColor(.clear).border(Color.gray.opacity(0.5))
+                                                    )
                                                 Spacer()
                                                 if viewModel.tags[index].isSelected {
                                                     Image(system: .checkmark)
@@ -306,7 +311,7 @@ struct NewIssueView: View {
                                                 viewModel.tags[index].isSelected.toggle()
                                             }
                                         }
-                                    }
+                                    }.padding(.leading, 10)
                                 }
                             }
                         }

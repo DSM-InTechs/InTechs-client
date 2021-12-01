@@ -35,10 +35,14 @@ class HomeViewModel: ObservableObject {
     @Published var toast: Toast?
     
     @UserDefault(key: "currentProject", defaultValue: 0)
-    public var currentProject: Int
+    public var currentProjectUserDefaults: Int
+    
+    @Published var currentProject: Int = UserDefaults.standard.integer(forKey: "currentProject")
     
     @Published var profile: Mypage = Mypage(name: "", email: "", image: "")
     @Published var myProjects: [Project] = [Project]()
+    
+    private let center = NotificationCenter.default
     
     private let myActiveRepository: MyActiveRepository
     private let projectRepository: ProjectRepository
@@ -57,6 +61,14 @@ class HomeViewModel: ObservableObject {
     }
     
     public let input = Input()
+    
+    public func changeCurrentProject(projectId: Int) {
+        self.currentProject = projectId
+        
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+            self.center.post(name: Notification.Name("Home"), object: nil)
+        })
+    }
     
     public func apply(_ input: Event) {
         switch input {
@@ -78,6 +90,12 @@ class HomeViewModel: ObservableObject {
             .dropFirst()
             .sink(receiveValue: {
                 self.isLoginUserDefaults = $0
+            }).store(in: &bag)
+        
+        self.$currentProject
+            .dropFirst()
+            .sink(receiveValue: {
+                self.currentProjectUserDefaults = $0
             }).store(in: &bag)
         
         input.changeActive

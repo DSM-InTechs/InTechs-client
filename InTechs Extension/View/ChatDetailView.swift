@@ -20,7 +20,7 @@ struct ChatDetailView: View {
                 
             }
         }.listStyle(CarouselListStyle())
-        .navigationTitle("채팅")
+            .navigationTitle(channel.name)
     }
 }
 

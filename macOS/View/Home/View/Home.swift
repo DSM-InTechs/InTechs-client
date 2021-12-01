@@ -66,12 +66,8 @@ struct Home: View {
                                     }
                                 )
                                 .padding(.bottom, 5)
-                                .onAppear {
-                                    print(project.id == homeVM.currentProject )
-                                    print(homeVM.currentProject)
-                                }
                                 .onTapGesture {
-                                    homeVM.currentProject = project.id
+                                    homeVM.changeCurrentProject(projectId: project.id)
                                 }
                         }
                     }
@@ -203,9 +199,7 @@ struct QuickActionPopView: View {
             }.onTapGesture {
                 withAnimation {
                     self.isPop = false
-                    self.homeVM.toast = .issueCreate(execute: {
-                        fatalError()
-                    })
+                    self.homeVM.toast = .issueCreate(execute: { })
                 }
             }
             

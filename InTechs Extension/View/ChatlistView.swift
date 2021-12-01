@@ -9,16 +9,14 @@ import SwiftUI
 
 struct ChatlistView: View {
     var body: some View {
-//        NavigationView {
-            List {
-                ForEach(allHomes, id: \.id) { channel in
-                    NavigationLink(destination: ChatDetailView(channel: channel)) {
-                        ChatRow(channel: channel)
-                            .padding(.all, 10)
-                    }
+        List {
+            ForEach(allHomes, id: \.id) { channel in
+                NavigationLink(destination: ChatDetailView(channel: channel)) {
+                    ChatRow(channel: channel)
+                        .padding(.all, 10)
                 }
-            }.listStyle(CarouselListStyle())
-//        }
+            }
+        }.listStyle(CarouselListStyle())
     }
 }
 
@@ -54,13 +52,6 @@ struct ChatRow: View {
                         .lineLimit(1)
                     Spacer()
                 }
-            }
-            
-            if channel.pendingMsgs != "0" {
-                Text(channel.pendingMsgs)
-                    .font(.caption2)
-                    .padding(.all, 3)
-                    .background(Circle().foregroundColor(.blue))
             }
         }
     }

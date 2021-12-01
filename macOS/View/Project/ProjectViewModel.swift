@@ -45,6 +45,12 @@ class ProjectViewModel: ObservableObject {
             }
             .assign(to: \.projectInfo, on: self)
             .store(in: &bag)
+        
+        NotificationCenter.default
+            .publisher(for: Notification.Name("Home"))
+            .sink(receiveValue: { _ in
+                self.apply(.onAppear)
+            }).store(in: &bag)
     }
     
     private func getErrorMessage(error: NetworkError) -> String {

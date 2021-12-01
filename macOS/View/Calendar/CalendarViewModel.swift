@@ -124,6 +124,12 @@ class CalendarViewModel: ObservableObject {
                 print(self.appearance.multipleEvents)
             })
             .store(in: &bag)
+        
+        NotificationCenter.default
+            .publisher(for: Notification.Name("Home"))
+            .sink(receiveValue: { _ in
+                self.apply(.onAppear)
+            })
     }
     
     public func onChanged(_ date: Date) {

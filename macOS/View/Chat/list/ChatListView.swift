@@ -131,7 +131,6 @@ struct ChannelRow: View {
                     .clipShape(Circle())
             }
             
-            
             VStack(spacing: 4) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
@@ -147,17 +146,6 @@ struct ChannelRow: View {
                     VStack(alignment: .trailing) {
                         Text(channel.lastMsgTime)
                             .font(.caption)
-                        
-                        if channel.pendingMsgs != "0" {
-                            Text(channel.pendingMsgs)
-                                .font(.caption2)
-                                .padding(5)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .clipShape(Circle())
-                        } else {
-                            Spacer()
-                        }
                     }
                 }
             }
