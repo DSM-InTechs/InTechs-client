@@ -13,7 +13,7 @@ struct MessageView: View {
     @EnvironmentObject var homeVM: HomeViewModel
     @EnvironmentObject var viewModel: ChatDetailViewModel
     @Binding var isThread: Bool
-    @Binding var channel: Channel
+    @Binding var messages: MessageList
     @Binding var selectedThreadIndex: Int
     @Binding var selectedNoticeIndex: Int
     
@@ -24,29 +24,28 @@ struct MessageView: View {
             ScrollView {
                 ScrollViewReader { proxy in
                     VStack(spacing: 18) {
-                        Group {
-                            DateMessageView(date: "2021년 11월 30일")
-                                .padding(.horizontal)
-                        }
+                        //                        Group {
+                        //                            DateMessageView(date: "2021년 11월 30일")
+                        //                                .padding(.horizontal)
+                        //                        }
                         
-                        ForEach(0..<channel.allMsgs.count, id: \.self) { index in
-                            MessageRow(message: $channel.allMsgs[index],
-                                       channel: $channel,
+                        ForEach(0..<messages.chats.count, id: \.self) { index in
+                            MessageRow(message: $messages.chats[index],
                                        messagePinSelected: { self.selectedNoticeIndex = index },
                                        threadSelected: { self.selectedThreadIndex = index },
                                        isThread: $isThread)
                                 .environmentObject(homeVM)
                                 .environmentObject(viewModel)
-                                .tag(channel.allMsgs[index].id)
+                                .tag(messages.chats[index].id)
                                 .padding(.leading)
                         }
                         .onAppear {
-                            let lastId = channel.allMsgs.last!.id
+                            let lastId = messages.chats.last!.id
                             
                             proxy.scrollTo(lastId, anchor: .bottom)
                         }
-                        .onChange(of: channel.allMsgs, perform: { _ in
-                            let lastId = channel.allMsgs.last!.id
+                        .onChange(of: messages.chats, perform: { _ in
+                            let lastId = messages.chats.last!.id
                             
                             proxy.scrollTo(lastId, anchor: .bottom)
                         })
@@ -59,8 +58,8 @@ struct MessageView: View {
 }
 
 struct MessageRow: View {
-    @Binding var message: Message
-    @Binding var channel: Channel
+    @Binding var message: ChatMessage
+    //    @Binding var channel: Channel
     let messagePinSelected: () -> Void
     let threadSelected: () -> Void
     
@@ -75,7 +74,7 @@ struct MessageRow: View {
     
     var body: some View {
         ZStack {
-            if message.type == MessageType.talk.rawValue {
+            if message.chatType == MessageType.talk.rawValue {
                 VStack {
                     HStack(alignment: .top, spacing: 10) {
                         VStack {
@@ -139,7 +138,8 @@ struct MessageRow: View {
                                 }
                             } else {
                                 HStack {
-                                    if message.message == "(이 메세지는 삭제되었습니다.)" {
+                                    if message.delete == true {
+                                        // "(이 메세지는 삭제되었습니다.)"
                                         Text(message.message)
                                             .foregroundColor(.gray)
                                         Spacer()
@@ -152,41 +152,41 @@ struct MessageRow: View {
                                 }
                             }
                             
-                            LazyHStack {
-                                ForEach(message.emoticons.keys.sorted(), id: \.self) { key in
-                                    HStack(spacing: 10) {
-                                        Text(key)
-                                        Text(String(message.emoticons[key] ?? 1))
-                                    }
-                                    .padding(.all, 5)
-                                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
-                                }.padding(.top, 7)
-                            }
+//                            LazyHStack {
+//                                ForEach(message.emoticons.keys.sorted(), id: \.self) { key in
+//                                    HStack(spacing: 10) {
+//                                        Text(key)
+//                                        Text(String(message.emoticons[key] ?? 1))
+//                                    }
+//                                    .padding(.all, 5)
+//                                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
+//                                }.padding(.top, 7)
+//                            }
                             
-                            if message.isThread && !isEditing {
-                                HStack {
-                                    KFImage(URL(string: message.threadMessages.last!.sender.imageURL))
-                                        .resizable()
-                                        .clipShape(Circle())
-                                        .frame(width: 15, height: 15)
-                                    
-                                    Text("\(message.threadMessages.count)개의 답글")
-                                        .foregroundColor(.white)
-                                    
-                                    Text(message.threadMessages.last!.time)
-                                        .foregroundColor(.gray)
-                                    Spacer()
-                                }
-                                .padding(.vertical, 5)
-                                .padding(.leading)
-                                .background(Color.gray.opacity(0.1).cornerRadius(10))
-                                .onTapGesture {
-                                    withAnimation {
-                                        self.isThread = true
-                                        threadSelected()
-                                    }
-                                }
-                            }
+//                            if message.isThread && !isEditing {
+//                                HStack {
+//                                    KFImage(URL(string: message.threadMessages.last!.sender.imageURL))
+//                                        .resizable()
+//                                        .clipShape(Circle())
+//                                        .frame(width: 15, height: 15)
+//
+//                                    Text("\(message.threadMessages.count)개의 답글")
+//                                        .foregroundColor(.white)
+//
+//                                    Text(message.threadMessages.last!.time)
+//                                        .foregroundColor(.gray)
+//                                    Spacer()
+//                                }
+//                                .padding(.vertical, 5)
+//                                .padding(.leading)
+//                                .background(Color.gray.opacity(0.1).cornerRadius(10))
+//                                .onTapGesture {
+//                                    withAnimation {
+//                                        self.isThread = true
+//                                        threadSelected()
+//                                    }
+//                                }
+//                            }
                         }.padding(.trailing)
                             .onHover(perform: { hovering in
                                 if !self.emojiPop { // 이모티콘 판업 중일 경우에는 XX
@@ -199,11 +199,11 @@ struct MessageRow: View {
                             })
                     }
                 }
-            } else if message.type == MessageType.enter.rawValue {
-                EnterExitMessageView(name: message.sender.name)
-            } else if message.type == MessageType.file.rawValue {
+            } else if message.chatType == MessageType.info.rawValue {
+                EnterExitMessageView(message: message)
+            } else if message.chatType == MessageType.file.rawValue {
                 FileMessageView(message: message)
-            } else if message.type == MessageType.image.rawValue {
+            } else if message.chatType == MessageType.image.rawValue {
                 ImageMessageView(message: message)
             }
             
@@ -213,7 +213,7 @@ struct MessageRow: View {
                 HStack {
                     Spacer(minLength: 0)
                     HStack(spacing: 0) {
-                        if message.isMine {
+                        if message.sender.email == viewModel.userEmail {
                             HoverImage(system: .trash)
                                 .onTapGesture {
                                     withAnimation {
@@ -232,7 +232,7 @@ struct MessageRow: View {
                         
                         HoverImage(system: .pin)
                             .onTapGesture {
-                                channel.notices.insert(message, at: 0)
+                                //                                channel.notices.insert(message, at: 0)
                                 messagePinSelected()
                             }
                         
@@ -248,8 +248,8 @@ struct MessageRow: View {
                                 self.emojiPop.toggle()
                             }
                             .popover(isPresented: $emojiPop) {
-                                EmojiPicker(emojiStore: EmojiStore(), selectionHandler: {
-                                    self.message.emoticons[$0.string] = 1
+                                EmojiPicker(emojiStore: EmojiStore(), selectionHandler: { _ in
+//                                    self.message.emoticons[$0.string] = 1
                                 })
                                     .environmentObject(SharedState())
                                     .frame(width: 400, height: 300)
@@ -262,29 +262,20 @@ struct MessageRow: View {
     }
 }
 
-struct MessageView_Previews: PreviewProvider {
-    static var previews: some View {
-        MessageView(isThread: .constant(false), channel: .constant(Channel(lastMsg: "", lastMsgTime: "", pendingMsgs: "", name: "", imageUrl: "", allMsgs: [])), selectedThreadIndex: .constant(0), selectedNoticeIndex: .constant(0))
-    }
-}
+//struct MessageView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MessageView(isThread: .constant(false), selectedThreadIndex: .constant(0), selectedNoticeIndex: .constant(0), messages: .constant(mess))
+//    }
+//}
 
 struct EnterExitMessageView: View {
-    let isEnter: Bool = true
-    let name: String
+    var message: ChatMessage
     
     var body: some View {
-        Group {
-            if isEnter {
-                Text("\(name)님이 입장하셨습니다.")
-                    .font(.caption)
-                    .padding(.all, 5)
-                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
-            } else {
-                Text("\(name)님이 퇴장하셨습니다.")
-                    .font(.caption)
-                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
-            }
-        }
+        Text(message.message)
+            .font(.caption)
+            .padding(.all, 5)
+            .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
     }
 }
 
@@ -302,7 +293,7 @@ struct DateMessageView: View {
 }
 
 struct FileMessageView: View {
-    let message: Message
+    let message: ChatMessage
     
     var body: some View {
         HStack(alignment: .top, spacing: -5) {
@@ -348,7 +339,7 @@ struct FileMessageView: View {
 }
 
 struct ImageMessageView: View {
-    let message: Message
+    let message: ChatMessage
     
     var body: some View {
         HStack(alignment: .top) {

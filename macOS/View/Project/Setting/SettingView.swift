@@ -12,7 +12,7 @@ struct SettingView: View {
     @State var text: String = ""
     @EnvironmentObject var homeVM: HomeViewModel
     @EnvironmentObject var projectlistVM: ProjectViewModel
-    @ObservedObject var viewModel = SettingViewModel()
+    @StateObject var viewModel = SettingViewModel()
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {

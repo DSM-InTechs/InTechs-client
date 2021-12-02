@@ -10,7 +10,7 @@ import Kingfisher
 
 struct IssuelistView: View {
     @EnvironmentObject var homeVM: HomeViewModel
-    @ObservedObject var viewModel = IssuelistViewModel()
+    @StateObject var viewModel = IssuelistViewModel()
     @State private var currentIssue: Issue?
     
     @State private var assigneePop: Bool = false
@@ -35,13 +35,7 @@ struct IssuelistView: View {
                                     }
                                 }
                             ).onTapGesture {
-                                if self.viewModel.selectedTab == .unresolved {
-                                    self.viewModel.selectedTab = nil
-                                } else {
-                                    self.viewModel.selectedTab = .unresolved
-                                    self.viewModel.state = IssueState.progress
-                                    self.viewModel.apply(.reloadlist)
-                                }
+                                self.viewModel.changeSelectedTab(.unresolved)
                             }
                         
                         Text("For me \(viewModel.dashboard.issuesCount.forMe)")
@@ -57,12 +51,7 @@ struct IssuelistView: View {
                                     }
                                 }
                             ).onTapGesture {
-                                if self.viewModel.selectedTab == .forMe {
-                                    self.viewModel.selectedTab = nil
-                                } else {
-                                    self.viewModel.selectedTab = .forMe
-                                    self.viewModel.apply(.getForMe)
-                                }
+                                self.viewModel.changeSelectedTab(.forMe)
                             }
                         
                         Text("For me & Unresolved \(viewModel.dashboard.issuesCount.forMeAndUnresolved)")
@@ -78,12 +67,7 @@ struct IssuelistView: View {
                                     }
                                 }
                             ).onTapGesture {
-                                if self.viewModel.selectedTab == .forMeAndUnresolved {
-                                    self.viewModel.selectedTab = nil
-                                } else {
-                                    self.viewModel.selectedTab = .forMeAndUnresolved
-                                    self.viewModel.apply(.reloadlist)
-                                }
+                                self.viewModel.changeSelectedTab(.forMeAndUnresolved)
                             }
                         
                         Text("Resolved \(viewModel.dashboard.issuesCount.resolved)")
@@ -99,12 +83,7 @@ struct IssuelistView: View {
                                     }
                                 }
                             ).onTapGesture {
-                                if self.viewModel.selectedTab == .resolved {
-                                    self.viewModel.selectedTab = nil
-                                } else {
-                                    self.viewModel.selectedTab = .resolved
-                                    self.viewModel.state = IssueState.done
-                                }
+                                self.viewModel.changeSelectedTab(.resolved)
                             }
                         
                         Spacer()
@@ -157,12 +136,6 @@ struct IssuelistView: View {
                             IssueFilterTagView(tags: $viewModel.tags,
                                                execute: { viewModel.apply(.reloadlist) })
                                 .frame(width: 200)
-                        }
-                        
-                        HStack(spacing: 3) {
-                            Image(system: .search)
-                            TextField("검색", text: .constant(""))
-                                .textFieldStyle(PlainTextFieldStyle())
                         }
                         
                         Spacer()

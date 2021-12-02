@@ -14,10 +14,11 @@ struct ChatDetailView: View {
     @EnvironmentObject var chatListVM: ChatListViewModel
     @StateObject var viewModel = ChatDetailViewModel()
     
+    let channelId: String
+    
     @State var isThread: Bool = false
     @State var selectedNoticeIndex: Int = 0
     @State var selectedThreadIndex: Int = 0
-    @Binding var channel: Channel
     
     @State private var emojiPop = false
     @State private var filePop = false
@@ -30,27 +31,13 @@ struct ChatDetailView: View {
             HStack {
                 VStack {
                     HStack(spacing: 10) {
-                        if channel.imageUrl == "placeholder" {
-                            ZStack {
-                                Image(channel.imageUrl)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 40, height: 40)
-                                    .clipShape(Circle())
-                                
-                                Text("#")
-                                    .foregroundColor(.gray)
-                                    .font(.title2)
-                            }
-                        } else {
-                            KFImage(URL(string: channel.imageUrl))
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 40, height: 40)
-                                .clipShape(Circle())
-                        }
+                        KFImage(URL(string: viewModel.channel.image))
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
                         
-                        Text(channel.name)
+                        Text(viewModel.channel.name)
                             .font(.title2)
                         
                         Spacer()
@@ -68,6 +55,8 @@ struct ChatDetailView: View {
                                 ChannelDotPopView(isShow: $channelDotPop)
                                     .frame(width: 150)
                                     .environmentObject(homeVM)
+                                    .environmentObject(viewModel)
+                                    .environmentObject(chatListVM)
                             }
                         
                         Button(action: {
@@ -103,8 +92,9 @@ struct ChatDetailView: View {
                             .padding(.all, 5)
                             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color.green.opacity(0.2)))
                             .popover(isPresented: $notificationPop) {
-                                NotificationPopView(isOn: $channel.isNotification)
+                                NotificationPopView()
                                     .environmentObject(chatListVM)
+                                    .environmentObject(viewModel)
                                     .frame(width: 200)
                             }
                     }
@@ -114,11 +104,15 @@ struct ChatDetailView: View {
                     Divider()
                     
                     ZStack(alignment: .top) {
-                        MessageView(isThread: $isThread, channel: $channel, selectedThreadIndex: $selectedThreadIndex, selectedNoticeIndex: $selectedNoticeIndex)
-                            .environmentObject(viewModel)
+                        VStack {
+                            Spacer(minLength: 0)
+                            
+                            MessageView(isThread: $isThread, messages: $viewModel.messageList, selectedThreadIndex: $selectedThreadIndex, selectedNoticeIndex: $selectedNoticeIndex)
+                                .environmentObject(viewModel)
+                        }
                         
-                        if !channel.notices.isEmpty {
-                            NoticeMessageView(notices: channel.notices)
+                        if viewModel.messageList.notice != nil {
+                            NoticeMessageView(notice: viewModel.messageList.notice!)
                         }
                     }
                     
@@ -146,7 +140,7 @@ struct ChatDetailView: View {
                                             }
                                             .padding()
                                             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
-
+                                            
                                             Image(system: .xmarkCircle)
                                                 .foregroundColor(.gray)
                                                 .onTapGesture {
@@ -155,7 +149,7 @@ struct ChatDetailView: View {
                                         }
                                     }
                                 }.padding(.horizontal, 10)
-                                .frame(height: 70)
+                                    .frame(height: 70)
                             }
                             
                             if !viewModel.selectedNSImages.isEmpty {
@@ -175,27 +169,24 @@ struct ChatDetailView: View {
                                         
                                     }
                                 }.padding(.horizontal, 10)
-                                .frame(height: 80)
+                                    .frame(height: 80)
                             }
                             
                             TextField("메세지를 입력하세요", text: $viewModel.text, onCommit: {
-                                if !viewModel.selectedNSImages.isEmpty {
-                                    self.channel.allMsgs.append(Message(message: "https://jjalbang.today/files/jjalbox/2019/01/20190117_5c3f5750db29c.jpg", type: "IMAGE", isMine: true, sender: user1, time: "오후 11:10"))
-                                }
-                                
-                                if !viewModel.selectedFile.isEmpty {
-                                    for file in viewModel.selectedFile {
-                                        self.channel.allMsgs.append(Message(message: file.0, type: "FILE", isMine: true, sender: user1, time: "오후 11:10"))
-                                    }
-                                }
-                                
-                                if viewModel.text != "" {
-                                    self.channel.allMsgs.append(Message(message: viewModel.text, type: "TALK", isMine: true, sender: user1, time: "오후 11:10"))
-                                }
-                                
-                                self.viewModel.text = ""
-                                self.viewModel.selectedNSImages = []
-                                self.viewModel.selectedFile = []
+                                self.viewModel.apply(.sendMessage)
+                                //                                if !viewModel.selectedNSImages.isEmpty {
+                                //                                    self.channel.allMsgs.append(Message(message: "https://jjalbang.today/files/jjalbox/2019/01/20190117_5c3f5750db29c.jpg", type: "IMAGE", isMine: true, sender: user1, time: "오후 11:10"))
+                                //                                }
+                                //
+                                //                                if !viewModel.selectedFile.isEmpty {
+                                //                                    for file in viewModel.selectedFile {
+                                //                                        self.channel.allMsgs.append(Message(message: file.0, type: "FILE", isMine: true, sender: user1, time: "오후 11:10"))
+                                //                                    }
+                                //                                }
+                                //
+                                //                                if viewModel.text != "" {
+                                //                                    self.channel.allMsgs.append(Message(message: viewModel.text, type: "TALK", isMine: true, sender: user1, time: "오후 11:10"))
+                                //                                }
                             })
                                 .textFieldStyle(PlainTextFieldStyle())
                                 .padding(.vertical, 8)
@@ -218,17 +209,20 @@ struct ChatDetailView: View {
                     
                 }
                 
-                if isThread {
-                    TheadView(isThread: $isThread,
-                              message: $channel.allMsgs[selectedThreadIndex])
-                        .frame(width: geo.size.width / 3)
-                        .ignoresSafeArea(.all)
-                        .background(Color(NSColor.systemGray).opacity(0.1))
-                }
+                //                if isThread {
+                //                    TheadView(isThread: $isThread,
+                //                              message: $channel.allMsgs[selectedThreadIndex])
+                //                        .frame(width: geo.size.width / 3)
+                //                        .ignoresSafeArea(.all)
+                //                        .background(Color(NSColor.systemGray).opacity(0.1))
+                //                }
             }.padding(.trailing, 70)
         }
         .background(Color(NSColor.textBackgroundColor))
         .ignoresSafeArea(.all, edges: .all)
+        .onAppear {
+            self.viewModel.apply(.onAppear(channelId: channelId))
+        }
     }
 }
 
@@ -299,6 +293,8 @@ struct FileTypeSelectView: View {
 
 struct ChannelDotPopView: View {
     @EnvironmentObject var homeVM: HomeViewModel
+    @EnvironmentObject var chatListVM: ChatListViewModel
+    @EnvironmentObject var viewModel: ChatDetailViewModel
     @Binding var isShow: Bool
     
     var body: some View {
@@ -322,9 +318,29 @@ struct ChannelDotPopView: View {
                 }.onTapGesture {
                     self.isShow = false
                     withAnimation {
-                        homeVM.toast = .channelRename
+                        homeVM.toast = .channelRename(channel: viewModel.channel, execute: {
+                            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+                                chatListVM.apply(.onAppear)
+                                viewModel.apply(.getChatInfo)
+                            })
+                        })
                     }
                 }
+                
+                HStack {
+                    Image(system: .trash)
+                    Text("채널 탈퇴")
+                }.foregroundColor(.red)
+                    .onTapGesture {
+                        self.isShow = false
+                        withAnimation {
+                            homeVM.toast = .channelExit(channel: viewModel.channel, execute: {
+                                DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+                                    chatListVM.apply(.onAppear)
+                                })
+                            })
+                        }
+                    }
                 
                 HStack {
                     Image(system: .trash)
@@ -333,7 +349,11 @@ struct ChannelDotPopView: View {
                     .onTapGesture {
                         self.isShow = false
                         withAnimation {
-                            homeVM.toast = .channelDelete
+                            homeVM.toast = .channelDelete(channel: viewModel.channel, execute: {
+                                DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+                                    chatListVM.apply(.onAppear)
+                                })
+                            })
                         }
                     }
             }
@@ -342,8 +362,9 @@ struct ChannelDotPopView: View {
 }
 
 struct NotificationPopView: View {
-    @Binding var isOn: Bool
+    //    @Binding var isOn: Bool
     @EnvironmentObject var chatListVM: ChatListViewModel
+    @EnvironmentObject var viewModel: ChatDetailViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
@@ -351,7 +372,11 @@ struct NotificationPopView: View {
                 Text("푸시 알림 받기")
                     .font(.title3)
                 Spacer()
-                Toggle("", isOn: $isOn).toggleStyle(SwitchToggleStyle())
+                Toggle("", isOn: $viewModel.channel.notification)
+                    .toggleStyle(SwitchToggleStyle())
+                    .onChange(of: viewModel.channel.notification) {
+                        viewModel.apply(.changeNotification(isOn: $0))
+                    }
             }
             
             Divider()
@@ -360,7 +385,7 @@ struct NotificationPopView: View {
                 Text("나가기")
                     .foregroundColor(.red)
             }.onTapGesture {
-                self.chatListVM.exitChannel()
+                //                self.chatListVM.exitChannel()
             }
             
         }.padding()
@@ -369,7 +394,7 @@ struct NotificationPopView: View {
 
 struct NoticeMessageView: View {
     @State private var isExtend: Bool = false
-    let notices: [Message]
+    let notice: ChatMessage
     
     var body: some View {
         Group {
@@ -378,7 +403,7 @@ struct NoticeMessageView: View {
                     VStack(alignment: .leading) {
                         HStack(spacing: 20) {
                             Image(system: .speaker)
-                            Text(notices.first!.message)
+                            Text(notice.message)
                             Spacer()
                             
                             Image(system: .downArrow)
@@ -388,7 +413,7 @@ struct NoticeMessageView: View {
                         }
                         
                         HStack {
-                            Text(notices.first!.sender.name)
+                            Text(notice.sender.name)
                             Text("등록")
                         }.foregroundColor(.gray)
                     }.padding()
@@ -399,7 +424,7 @@ struct NoticeMessageView: View {
                 Group {
                     HStack(spacing: 20) {
                         Image(system: .speaker)
-                        Text(notices.first!.message)
+                        Text(notice.message)
                         Spacer()
                         
                         Image(system: .downArrow)

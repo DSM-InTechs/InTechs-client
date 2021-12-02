@@ -7,7 +7,6 @@
 
 import Combine
 import Moya
-import Foundation
 
 class IssueDetailViewModel: ObservableObject {
     private var preIssue: Issue? = nil

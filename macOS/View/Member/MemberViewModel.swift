@@ -17,6 +17,9 @@ class MemberViewModel: ObservableObject {
     
     private var bag = Set<AnyCancellable>()
     
+    @UserDefault(key: "userEmail", defaultValue: "")
+    public var userEmail: String
+    
     public enum Event {
         case onAppear
     }

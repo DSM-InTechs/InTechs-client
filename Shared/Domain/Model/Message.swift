@@ -8,9 +8,8 @@
 import Foundation
 
 enum MessageType: String {
-    case enter = "ENTER"
-    case talk = "TALK"
-    case exit = "EXIT"
+    case info = "INFO"
+    case talk = "TEXT"
     case file = "FILE"
     case image = "IMAGE"
 }

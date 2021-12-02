@@ -70,12 +70,11 @@ struct CalendarView: View {
                     Color.black.frame(width: 1)
                     Spacer()
                 }
+            }.onAppear {
+                self.viewModel.apply(.onAppear)
             }
         }.background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
         .padding(.trailing, 70)
-        .onAppear {
-            self.viewModel.apply(.onAppear)
-        }
     }
 }
 

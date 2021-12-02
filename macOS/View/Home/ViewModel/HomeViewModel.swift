@@ -12,9 +12,10 @@ enum Toast {
     case userDelete(execute: () -> Void)
     case channelSearch
     case channelInfo
-    case channelRename
-    case channelDelete
-    case channelCreate
+    case channelRename(channel: RoomInfo, execute: () -> Void)
+    case channelExit(channel: RoomInfo, execute: () -> Void)
+    case channelDelete(channel: RoomInfo, execute: () -> Void)
+    case channelCreate(execute: () -> Void)
     case messageDelete(execute: () -> Void)
     case issueDelete(execute: () -> Void)
     case issueCreate(execute: () -> Void)

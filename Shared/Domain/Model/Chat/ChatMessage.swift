@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct MessageList: Codable, Hashable, Equatable  {
+public struct MessageList: Codable, Hashable, Equatable {
     public var channelId: String
-    public var notice: ChatMessage
+    public var notice: ChatMessage?
     public var chats: [ChatMessage]
 }
 
@@ -18,7 +18,8 @@ public struct ChatMessage: Codable, Hashable, Equatable {
     public var message: String
     public var time: String
     public var sender: MessageSender
-    public var isMine: Bool
+    public var isMine: Bool?
+    public var chatType: String
     public var delete: Bool
 }
 

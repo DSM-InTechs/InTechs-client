@@ -37,7 +37,9 @@ struct ProjectListView: View {
                         HStack {
                             KFImage(URL(string: viewModel.projectInfo.image.imageUrl))
                                 .resizable()
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .frame(width: 30, height: 30)
+                            
                             Text(viewModel.projectInfo.name)
                             
                             Spacer()

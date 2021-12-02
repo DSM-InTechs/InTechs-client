@@ -27,6 +27,7 @@ struct DashBoardView: View {
                     HStack {
                         KFImage(URL(string: viewModel.projectInfo.image.imageUrl))
                             .resizable()
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                             .frame(width: 40, height: 40)
                         Text(viewModel.projectInfo.name)
                     }

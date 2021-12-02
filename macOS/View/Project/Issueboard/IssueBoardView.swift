@@ -12,7 +12,7 @@ import Kingfisher
 struct IssueBoardView: View {
     @State var issueIndex: (Int, Int) = (0, 0)
     let columns = Array(repeating: GridItem(.flexible(), spacing: 20), count: 3)
-    @ObservedObject var viewModel = IssueBoardViewModel()
+    @StateObject var viewModel = IssueBoardViewModel()
     
     @State private var assigneePop: Bool = false
     @State private var tagPop: Bool = false
@@ -123,6 +123,7 @@ struct IssueBoardIssueRow: View {
                     HStack {
                         KFImage(URL(string: assignee!.first!.imageURL))
                             .resizable()
+                            .clipShape(Circle())
                             .frame(width: 20, height: 20)
                         Text(assignee!.first!.name)
                         if assignee!.count != 1 {

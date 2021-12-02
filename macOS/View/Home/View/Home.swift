@@ -11,6 +11,7 @@ import Kingfisher
 struct Home: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var homeVM: HomeViewModel
+    
     @State private var quickActionPop: Bool = false
     @State private var questionPop: Bool = false
     @State private var mypagePop: Bool = false
@@ -188,7 +189,9 @@ struct QuickActionPopView: View {
             }.onTapGesture {
                 withAnimation {
                     self.isPop = false
-                    self.homeVM.toast = .channelCreate
+                    self.homeVM.toast = .channelCreate(execute: {
+                        
+                    })
                 }
             }
             

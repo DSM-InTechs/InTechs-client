@@ -10,6 +10,7 @@ import Kingfisher
 
 struct ChatListView: View {
     @StateObject var viewModel = ChatListViewModel()
+    @EnvironmentObject private var homeVM: HomeViewModel
     
     @Namespace private var animation
     
@@ -34,6 +35,7 @@ struct ChatListView: View {
                     }).frame(width: 25, height: 25)
                         .popover(isPresented: $editPop) {
                             EditPopView()
+                                .environmentObject(viewModel)
                                 .frame(width: 200)
                         }
                 }.padding()
@@ -71,24 +73,24 @@ struct ChatListView: View {
                     switch viewModel.selectedTab {
                     case .home:
                         List(selection: $viewModel.selectedHome) {
-                            ForEach(0..<viewModel.homes.count) { index in
-                                NavigationLink(destination: ChatDetailView(channel: $viewModel.homes[index]).environmentObject(viewModel)) {
+                            ForEach(0..<viewModel.homes.count, id: \.self) { index in
+                                NavigationLink(destination: ChatDetailView(channelId: viewModel.homes[index].id).environmentObject(viewModel)) {
                                     ChannelRow(channel: viewModel.homes[index])
                                 }
                             }
                         }
                     case .channels:
                         List(selection: $viewModel.selectedChannel) {
-                            ForEach(0..<viewModel.channels.count) { index in
-                                NavigationLink(destination: ChatDetailView(channel: $viewModel.channels[index]).environmentObject(viewModel)) {
+                            ForEach(0..<viewModel.channels.count, id: \.self) { index in
+                                NavigationLink(destination: ChatDetailView(channelId: viewModel.channels[index].id).environmentObject(viewModel)) {
                                     ChannelRow(channel: viewModel.channels[index])
                                 }
                             }
                         }
                     case .DMs:
                         List(selection: $viewModel.selectedDM) {
-                            ForEach(0..<viewModel.DMs.count) { index in
-                                NavigationLink(destination: ChatDetailView(channel: $viewModel.DMs[index]).environmentObject(viewModel)) {
+                            ForEach(0..<viewModel.DMs.count, id: \.self) { index in
+                                NavigationLink(destination: ChatDetailView(channelId: viewModel.DMs[index].id).environmentObject(viewModel)) {
                                     ChannelRow(channel: viewModel.DMs[index])
                                 }
                             }
@@ -101,35 +103,23 @@ struct ChatListView: View {
                 Color.black.frame(width: 1)
                 Spacer()
             }
+        }.onAppear {
+            self.viewModel.apply(.onAppear)
         }
         .ignoresSafeArea(.all, edges: .all)
     }
 }
 
 struct ChannelRow: View {
-    var channel: Channel
+    var channel: ChatRoom
     
     var body: some View {
         HStack {
-            if channel.imageUrl == "placeholder" {
-                ZStack {
-                    Image(channel.imageUrl)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                    
-                    Text("#")
-                        .foregroundColor(.gray)
-                        .font(.title2)
-                }
-            } else {
-                KFImage(URL(string: channel.imageUrl))
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 40, height: 40)
-                    .clipShape(Circle())
-            }
+            KFImage(URL(string: channel.imageURL))
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 40, height: 40)
+                .clipShape(Circle())
             
             VStack(spacing: 4) {
                 HStack {
@@ -137,14 +127,14 @@ struct ChannelRow: View {
                         Text(channel.name)
                             .fontWeight(.bold)
                         
-                        Text(channel.lastMsg)
+                        Text(channel.message)
                             .font(.caption)
                     }
                     
                     Spacer(minLength: 10)
                     
                     VStack(alignment: .trailing) {
-                        Text(channel.lastMsgTime)
+                        Text(channel.time.prefix(10).suffix(5))
                             .font(.caption)
                     }
                 }
@@ -163,21 +153,12 @@ struct AllChatView_Previews: PreviewProvider {
 }
 
 struct EditPopView: View {
+    @EnvironmentObject var viewModel: ChatListViewModel
+    @EnvironmentObject private var homeVM: HomeViewModel
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 10) {
-                VStack(alignment: .leading, spacing: 15) {
-                    Text("Read")
-                        .foregroundColor(.gray)
-                    
-                    Button(action: {}, label: {
-                        HStack {
-                            Image(system: .checklist)
-                            Text("전부 읽음처리")
-                        }
-                    }).buttonStyle(PlainButtonStyle())
-                }
-                
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Browse")
                         .foregroundColor(.gray)
@@ -196,7 +177,13 @@ struct EditPopView: View {
                         .foregroundColor(.gray)
                         .padding(.top, 10)
                     
-                    Button(action: {}, label: {
+                    Button(action: {
+                        homeVM.toast = .channelCreate(execute: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                viewModel.apply(.onAppear)
+                            })
+                        })
+                    }, label: {
                         HStack {
                             Text("#")
                             Text("새 채널")

@@ -61,10 +61,18 @@
 		D92515432757628E003A1002 /* ChatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D925154127576286003A1002 /* ChatRepository.swift */; };
 		D9251546275763F1003A1002 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9251545275763F1003A1002 /* ChatRoom.swift */; };
 		D925154827576455003A1002 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D925154727576455003A1002 /* ChatMessage.swift */; };
-		D925154A275764E6003A1002 /* SocketRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9251549275764E5003A1002 /* SocketRepository.swift */; };
 		D925154B27576504003A1002 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D925154727576455003A1002 /* ChatMessage.swift */; };
 		D925154C27576506003A1002 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9251545275763F1003A1002 /* ChatRoom.swift */; };
-		D925154D27576593003A1002 /* SocketRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9251549275764E5003A1002 /* SocketRepository.swift */; };
+		D925155327578EFD003A1002 /* NewChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D925154E27578CAE003A1002 /* NewChannelViewModel.swift */; };
+		D925155527578F00003A1002 /* ChannelRenameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D925155027578CB6003A1002 /* ChannelRenameViewModel.swift */; };
+		D925155A2758C15C003A1002 /* ChatNotice.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92515592758C15C003A1002 /* ChatNotice.swift */; };
+		D925155B2758C15C003A1002 /* ChatNotice.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92515592758C15C003A1002 /* ChatNotice.swift */; };
+		D92515622758FA1B003A1002 /* MessageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92515612758FA1B003A1002 /* MessageRequest.swift */; };
+		D92515632758FA1B003A1002 /* MessageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92515612758FA1B003A1002 /* MessageRequest.swift */; };
+		D9251565275905C6003A1002 /* RoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9251564275905C6003A1002 /* RoomInfo.swift */; };
+		D9251566275905C6003A1002 /* RoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9251564275905C6003A1002 /* RoomInfo.swift */; };
+		D925156827598B1A003A1002 /* ChannelExitDeleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D925156727598B19003A1002 /* ChannelExitDeleteViewModel.swift */; };
+		D925156927598B1A003A1002 /* ChannelExitDeleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D925156727598B19003A1002 /* ChannelExitDeleteViewModel.swift */; };
 		D936650426E1EB8000E1F57F /* TheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650326E1EB8000E1F57F /* TheadView.swift */; };
 		D936650626E1EC3600E1F57F /* ChatDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */; };
 		D936650826E23D6200E1F57F /* CalendarIssuesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936650726E23D6200E1F57F /* CalendarIssuesView.swift */; };
@@ -283,7 +291,12 @@
 		D925154127576286003A1002 /* ChatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepository.swift; sourceTree = "<group>"; };
 		D9251545275763F1003A1002 /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
 		D925154727576455003A1002 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
-		D9251549275764E5003A1002 /* SocketRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketRepository.swift; sourceTree = "<group>"; };
+		D925154E27578CAE003A1002 /* NewChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChannelViewModel.swift; sourceTree = "<group>"; };
+		D925155027578CB6003A1002 /* ChannelRenameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRenameViewModel.swift; sourceTree = "<group>"; };
+		D92515592758C15C003A1002 /* ChatNotice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNotice.swift; sourceTree = "<group>"; };
+		D92515612758FA1B003A1002 /* MessageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRequest.swift; sourceTree = "<group>"; };
+		D9251564275905C6003A1002 /* RoomInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomInfo.swift; sourceTree = "<group>"; };
+		D925156727598B19003A1002 /* ChannelExitDeleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelExitDeleteViewModel.swift; sourceTree = "<group>"; };
 		D936650326E1EB8000E1F57F /* TheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheadView.swift; sourceTree = "<group>"; };
 		D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewModel.swift; sourceTree = "<group>"; };
 		D936650726E23D6200E1F57F /* CalendarIssuesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarIssuesView.swift; sourceTree = "<group>"; };
@@ -558,7 +571,6 @@
 			isa = PBXGroup;
 			children = (
 				D925154127576286003A1002 /* ChatRepository.swift */,
-				D9251549275764E5003A1002 /* SocketRepository.swift */,
 			);
 			path = Chatting;
 			sourceTree = "<group>";
@@ -566,10 +578,33 @@
 		D9251544275763E6003A1002 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				D92515602758FA11003A1002 /* Request */,
 				D9251545275763F1003A1002 /* ChatRoom.swift */,
+				D9251564275905C6003A1002 /* RoomInfo.swift */,
+				D92515592758C15C003A1002 /* ChatNotice.swift */,
 				D925154727576455003A1002 /* ChatMessage.swift */,
 			);
 			path = Chat;
+			sourceTree = "<group>";
+		};
+		D925155227578CBB003A1002 /* channel */ = {
+			isa = PBXGroup;
+			children = (
+				D94C99A226DF31BB00CB2F07 /* ChannelRenameView.swift */,
+				D925155027578CB6003A1002 /* ChannelRenameViewModel.swift */,
+				D925156727598B19003A1002 /* ChannelExitDeleteViewModel.swift */,
+				D94C99BC26DF45B200CB2F07 /* NewChannelView.swift */,
+				D925154E27578CAE003A1002 /* NewChannelViewModel.swift */,
+			);
+			path = channel;
+			sourceTree = "<group>";
+		};
+		D92515602758FA11003A1002 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				D92515612758FA1B003A1002 /* MessageRequest.swift */,
+			);
+			path = Request;
 			sourceTree = "<group>";
 		};
 		D93BAD0C26D148FD0094ADD9 = {
@@ -813,6 +848,7 @@
 		D950A33426D20E60003D4907 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				D925155227578CBB003A1002 /* channel */,
 				D950A37426D33650003D4907 /* detail */,
 				D950A37326D3364B003D4907 /* list */,
 			);
@@ -957,8 +993,6 @@
 				D92083F8274CB2DB00EA8F8E /* ThreadViewModel.swift */,
 				D950A37826D336AD003D4907 /* ChannelInfoView.swift */,
 				D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */,
-				D94C99A226DF31BB00CB2F07 /* ChannelRenameView.swift */,
-				D94C99BC26DF45B200CB2F07 /* NewChannelView.swift */,
 			);
 			path = detail;
 			sourceTree = "<group>";
@@ -1466,6 +1500,7 @@
 				D950A31126D20C3D003D4907 /* Image+SFImage.swift in Sources */,
 				D9FC986C26DBD16E00735222 /* KeyboardObserver.swift in Sources */,
 				D9FD9FE526D897B200664757 /* RegisterView.swift in Sources */,
+				D925156827598B1A003A1002 /* ChannelExitDeleteViewModel.swift in Sources */,
 				D9FC986826DBCCF800735222 /* InTechsViewModel.swift in Sources */,
 				D91CB55C270EA768003DCB63 /* ErrorView.swift in Sources */,
 				D950A30E26D20C1C003D4907 /* SFImage.swift in Sources */,
@@ -1484,13 +1519,13 @@
 				D950A31626D20C67003D4907 /* Message.swift in Sources */,
 				D9FD9FE126D897A500664757 /* InTechsView.swift in Sources */,
 				D90BB8C626DDA3EB0002E210 /* InputDocument.swift in Sources */,
-				D925154A275764E6003A1002 /* SocketRepository.swift in Sources */,
 				D9A025F2272A36BA004568B6 /* CalendarIssue.swift in Sources */,
 				D91CB56E270EF1FF003DCB63 /* Project.swift in Sources */,
 				D91CB544270AD8AB003DCB63 /* RefreshRepository.swift in Sources */,
 				D9740338274F8AD9006E4606 /* Publishers+RetryWhen.swift in Sources */,
 				D91CB56B270EE4CF003DCB63 /* Image+resize.swift in Sources */,
 				D9FC986126DBC7B500735222 /* ImagePicker.swift in Sources */,
+				D92515622758FA1B003A1002 /* MessageRequest.swift in Sources */,
 				D91CB52B270AC8A2003DCB63 /* LoginRepository.swift in Sources */,
 				D925154227576286003A1002 /* ChatRepository.swift in Sources */,
 				D91CB53B270AD090003DCB63 /* MoyaPublisher.swift in Sources */,
@@ -1505,8 +1540,10 @@
 				D9FC986E26DBD41200735222 /* MypageVIewModel.swift in Sources */,
 				D9D132AB2720510800919BEF /* Issue.swift in Sources */,
 				D93BAD2726D149030094ADD9 /* ContentView.swift in Sources */,
+				D9251565275905C6003A1002 /* RoomInfo.swift in Sources */,
 				D98C8CF72728CB83007A5802 /* Date+year.swift in Sources */,
 				D950A34026D2103B003D4907 /* Home.swift in Sources */,
+				D925155A2758C15C003A1002 /* ChatNotice.swift in Sources */,
 				D9FC987426DC459200735222 /* ChatDetailViewModel.swift in Sources */,
 				D9D132B72720F47000919BEF /* ProjectDashboard.swift in Sources */,
 				D9FD9FD726D7CDF500664757 /* MypageView.swift in Sources */,
@@ -1544,17 +1581,21 @@
 				D950A31326D20C49003D4907 /* Image+SFImage.swift in Sources */,
 				D9740337274F7D1C006E4606 /* Publishers+RetryWhen.swift in Sources */,
 				D950A32126D20CCA003D4907 /* BlurView.swift in Sources */,
+				D9251566275905C6003A1002 /* RoomInfo.swift in Sources */,
 				D9A025F3272A36BA004568B6 /* CalendarIssue.swift in Sources */,
 				D950A36E26D30843003D4907 /* IsActiveView.swift in Sources */,
 				D950A32C26D20E00003D4907 /* ProjectListView.swift in Sources */,
 				D925154B27576504003A1002 /* ChatMessage.swift in Sources */,
+				D925155527578F00003A1002 /* ChannelRenameViewModel.swift in Sources */,
 				D91CB575270EF5ED003DCB63 /* Image+resize.swift in Sources */,
 				D950A31E26D20CAD003D4907 /* HomeViewModel.swift in Sources */,
 				D9558D7C2725991E004FEEBB /* NewIssueViewModel.swift in Sources */,
 				D950A31226D20C44003D4907 /* SFImage.swift in Sources */,
 				D90C61D527100CA0006F0A55 /* ProjectJoinView.swift in Sources */,
 				D97E0F762707F87D00CC8B74 /* InTechsAPI.swift in Sources */,
+				D925155B2758C15C003A1002 /* ChatNotice.swift in Sources */,
 				D94C99A826DF33CE00CB2F07 /* HomeToastModifier.swift in Sources */,
+				D925155327578EFD003A1002 /* NewChannelViewModel.swift in Sources */,
 				D91CB578270EF7AD003DCB63 /* IssuelistViewModel.swift in Sources */,
 				D98C8CF52726484B007A5802 /* IssueDetailViewModel.swift in Sources */,
 				D91CB54B270ADD48003DCB63 /* NetworkError.swift in Sources */,
@@ -1566,11 +1607,11 @@
 				D9558D7A27228FAA004FEEBB /* Date+Compare.swift in Sources */,
 				D91CB53F270AD0C8003DCB63 /* MoyaProvider+Combine.swift in Sources */,
 				D91CB574270EF4B2003DCB63 /* Mypage.swift in Sources */,
+				D925156927598B1A003A1002 /* ChannelExitDeleteViewModel.swift in Sources */,
 				D9D132B82720F4AB00919BEF /* ProjectDashboard.swift in Sources */,
 				D91CB540270AD0CB003DCB63 /* AnyPublisher+Response.swift in Sources */,
 				D9D132B52720F37C00919BEF /* ProjectInfo.swift in Sources */,
 				D92083F9274CB2DB00EA8F8E /* ThreadViewModel.swift in Sources */,
-				D925154D27576593003A1002 /* SocketRepository.swift in Sources */,
 				D950A35D26D23141003D4907 /* MemberView.swift in Sources */,
 				D9740331274F0E01006E4606 /* Notification.swift in Sources */,
 				D950A35726D22AA6003D4907 /* ChatListViewModel.swift in Sources */,
@@ -1636,6 +1677,7 @@
 				D91CB541270AD165003DCB63 /* UserDefaults.swift in Sources */,
 				D92515432757628E003A1002 /* ChatRepository.swift in Sources */,
 				D9D132AE27205B0D00919BEF /* Issue.swift in Sources */,
+				D92515632758FA1B003A1002 /* MessageRequest.swift in Sources */,
 				D90C61D9271010C8006F0A55 /* ProjectJoinViewModel.swift in Sources */,
 				D950A36526D231FC003D4907 /* IssuelistView.swift in Sources */,
 				D94C99BE26DF45B400CB2F07 /* NewChannelView.swift in Sources */,
