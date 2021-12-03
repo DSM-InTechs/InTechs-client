@@ -48,6 +48,22 @@ public enum InTechsAPI {
     // MARK: - Other User
     case getUser(email: String)
     
+    // MARK: - Chat
+    case getChatList(projectId: Int)
+    case getChatInfo(channelId: String)
+    case getMessageList(channelId: String, page: Int)
+    case getChannelUsers(channelId: String)
+    case getNotices(channelId: String)
+    
+    case addChannelUser(channelId: String, email: String)
+    
+    case createChannel(projectId: Int, name: String)
+    case updateChannel(projectId: Int, channelId: String, name: String, imageData: Data)
+    case deleteChannel(projectId: Int, channelId: String)
+    case exitChannel(projectId: Int, channelId: String)
+    
+    case updateNotification(channelId: String)
+    
 }
 
 extension InTechsAPI: TargetType {
@@ -121,16 +137,42 @@ extension InTechsAPI: TargetType {
         case .getUser(let email):
             return "/\(email)"
             
+            // MARK: - Chat
+        case .getChatList(let projectId):
+            return "/\(projectId)/channels"
+        case .getChatInfo(let id):
+            return "/channel/\(id)"
+        case .getMessageList(let id, _):
+            return "/channel/\(id)/chat"
+        case .getChannelUsers(let channelId):
+            return "/channel/\(channelId)/users"
+        case .getNotices(let channelId):
+            return "/channel/\(channelId)/notices"
+            
+        case let .addChannelUser(channelId, email):
+            return "/channel/\(channelId)/\(email)"
+            
+        case .createChannel(let projectId, _):
+            return "\(projectId)"
+        case .updateChannel(let projectId, let channelId, _, _):
+            return "/\(projectId)/\(channelId)"
+        case .deleteChannel(let projectId, let channelId):
+            return "/\(projectId)/\(channelId)"
+        case .exitChannel(let projectId, let channelId):
+            return "/\(projectId)/\(channelId)"
+            
+        case .updateNotification(let channelId):
+            return "/channel/\(channelId)/notification"
         }
     }
     
     public var method: Moya.Method {
         switch self {
-        case .register, .login, .refresh, .createProject, .joinProject, .createIssue, .getIssues, .addComment:
+        case .register, .login, .refresh, .createProject, .joinProject, .createIssue, .getIssues, .addComment, .createChannel:
             return .post
-        case .updateMypage, .updateMyActive, .updateProject, .updateIssue:
+        case .updateMypage, .updateMyActive, .updateProject, .updateIssue, .updateChannel, .exitChannel, .updateNotification:
             return .patch
-        case .deleteUser, .deleteProject, .exitProject, .deleteIssue:
+        case .deleteUser, .deleteProject, .exitProject, .deleteIssue, .deleteChannel:
             return .delete
         default:
             return .get
@@ -206,6 +248,15 @@ extension InTechsAPI: TargetType {
             return .requestParameters(parameters: paras, encoding: URLEncoding.default)
         case .addComment(_, let content):
             return .requestParameters(parameters: ["content": content], encoding: JSONEncoding.default)
+        case .getMessageList(_, let page):
+            return .requestParameters(parameters: ["page": page, "size": 20], encoding: URLEncoding.queryString)
+        case .createChannel(_, let name):
+            return .requestParameters(parameters: ["name": name], encoding: JSONEncoding.default)
+        case let .updateChannel(_, _, name, imageData):
+            let data = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(name).jpeg", mimeType: "image/jpeg")
+            let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
+            let multipartData = [data, nameData]
+            return .uploadMultipart(multipartData)
         default:
             return .requestPlain
         }
@@ -222,8 +273,6 @@ extension InTechsAPI: TargetType {
             var accessToken: String
             
             return ["Authorization": "Bearer \(accessToken)"]
-            //            let token = StorageManager.shared.readUser() == nil ? "" : StorageManager.shared.readUser()!.token
-            //            return ["Authorization": "Bearer " + token]
         }
     }
     

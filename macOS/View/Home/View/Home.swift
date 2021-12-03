@@ -11,6 +11,7 @@ import Kingfisher
 struct Home: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var homeVM: HomeViewModel
+    
     @State private var quickActionPop: Bool = false
     @State private var questionPop: Bool = false
     @State private var mypagePop: Bool = false
@@ -66,9 +67,8 @@ struct Home: View {
                                     }
                                 )
                                 .padding(.bottom, 5)
-                                .onAppear {
-                                    print(project.id == homeVM.currentProject )
-                                    print(homeVM.currentProject)
+                                .onTapGesture {
+                                    homeVM.changeCurrentProject(projectId: project.id)
                                 }
                         }
                     }
@@ -81,16 +81,6 @@ struct Home: View {
                             self.quickActionPop.toggle()
                         }.popover(isPresented: $quickActionPop) {
                             QuickActionPopView(isPop: $quickActionPop).frame(width: 200)
-                        }
-                    
-                    Image(system: .question)
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(.gray)
-                        .frame(height: 40)
-                        .onTapGesture {
-                            self.questionPop.toggle()
-                        }.popover(isPresented: $questionPop) {
-                            HelpPopView()             .frame(width: 300)
                         }
                     
                     HomeTabButton(tab: HomeTab.mypage,
@@ -178,9 +168,6 @@ struct Home_Previews: PreviewProvider {
             QuickActionPopView(isPop: .constant(false))
                 .frame(width: 200)
             
-            HelpPopView()
-                .frame(width: 300)
-            
             MypagePopView(imageURL: "asdf", name: "asdf")
                 .frame(width: 300)
         }
@@ -202,7 +189,9 @@ struct QuickActionPopView: View {
             }.onTapGesture {
                 withAnimation {
                     self.isPop = false
-                    self.homeVM.toast = .channelCreate
+                    self.homeVM.toast = .channelCreate(execute: {
+                        
+                    })
                 }
             }
             
@@ -213,9 +202,7 @@ struct QuickActionPopView: View {
             }.onTapGesture {
                 withAnimation {
                     self.isPop = false
-                    self.homeVM.toast = .issueCreate(execute: {
-                        fatalError()
-                    })
+                    self.homeVM.toast = .issueCreate(execute: { })
                 }
             }
             
@@ -226,22 +213,8 @@ struct QuickActionPopView: View {
             }.onTapGesture {
                 withAnimation {
                     self.isPop = false
-                    self.homeVM.toast = .projectCreate
+                    self.homeVM.toast = .projectCreateOrJoin
                 }
-            }
-        }.padding()
-    }
-}
-
-struct HelpPopView: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Text("피드백 보내기")
-            Text("키보드 단축키 보기")
-            Text("다운로드")
-            HStack {
-                Image(Asset.appstore)
-                Image(Asset.macAppstore)
             }
         }.padding()
     }
@@ -277,5 +250,40 @@ struct MypagePopView: View {
                 }
             }
         }.padding()
+    }
+}
+
+struct ProjectCreateJoinView: View {
+    @EnvironmentObject var homeVM: HomeViewModel
+    
+    var body: some View {
+        GeometryReader { _ in
+            VStack {
+                Spacer()
+                HStack(alignment: .bottom, spacing: 20) {
+                    Spacer()
+                    Text("프로젝트 생성")
+                        .padding(.all, 10)
+                        .foregroundColor(.black)
+                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.white)).onTapGesture {
+                            withAnimation {
+                                self.homeVM.toast = .projectCreate
+                            }
+                        }
+                    
+                    Text("프로젝트 가입")
+                        .padding(.all, 10)
+                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.black)).onTapGesture {
+                            withAnimation {
+                                self.homeVM.toast = .projectJoin
+                            }
+                        }
+                    Spacer()
+                }.padding()
+                    .padding(.all, 5)
+                
+                Spacer()
+            }
+        }
     }
 }

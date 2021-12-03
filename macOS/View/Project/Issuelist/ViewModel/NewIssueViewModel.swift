@@ -132,6 +132,21 @@ class NewIssueViewModel: ObservableObject {
             .store(in: &bag)
     }
     
+    public func changeIssueState(_ state: IssueState) {
+        if self.state != nil {
+            self.state = nil
+            return
+        }
+        switch state {
+        case .ready:
+            self.state = .ready
+        case .progress:
+            self.state = .progress
+        case .done:
+            self.state = .done
+        }
+    }
+    
     private func getErrorMessage(error: NetworkError) -> String {
         switch error {
         case .notFound:

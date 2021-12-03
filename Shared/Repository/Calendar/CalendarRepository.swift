@@ -29,17 +29,7 @@ final public class CalendarRepositoryImpl: CalendarRepository {
     public func getCalendar(year: String, month: String) -> AnyPublisher<[CalendarIssue], NetworkError> {
         provider.requestPublisher(.getCalendar(projectId: currentProject, year: year, month: month, tags: nil, states: nil, users: nil))
             .map([CalendarIssue].self)
-            .tryCatch { error -> AnyPublisher<[CalendarIssue], MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    print("TOKEN ERROR")
-                    self.refreshRepository.refresh()
-
-                    return self.provider.requestPublisher(.getCalendar(projectId: self.currentProject, year: year, month: month, tags: nil, states: nil, users: nil))
-                        .map([CalendarIssue].self)
-                }
-                return Fail<[CalendarIssue], MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
@@ -47,17 +37,7 @@ final public class CalendarRepositoryImpl: CalendarRepository {
     public func getCalendar(year: String, month: String, tags: [String]?, users: [String]?, states: [String]?) -> AnyPublisher<[CalendarIssue], NetworkError> {
         provider.requestPublisher(.getCalendar(projectId: currentProject, year: year, month: month, tags: tags, states: users, users: states))
             .map([CalendarIssue].self)
-            .tryCatch { error -> AnyPublisher<[CalendarIssue], MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    print("TOKEN ERROR")
-                    self.refreshRepository.refresh()
-
-                    return self.provider.requestPublisher(.getCalendar(projectId: self.currentProject, year: year, month: month, tags: nil, states: nil, users: nil))
-                        .map([CalendarIssue].self)
-                }
-                return Fail<[CalendarIssue], MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }

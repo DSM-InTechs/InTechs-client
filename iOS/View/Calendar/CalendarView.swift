@@ -75,7 +75,7 @@ struct CalendarIssueRow: View {
             switch state {
             case IssueState.ready.rawValue:
                 Circle()
-                    .foregroundColor(.green)
+                    .foregroundColor(.blue)
                     .frame(width: 10, height: 10)
             case IssueState.progress.rawValue:
                 Circle()
@@ -83,7 +83,7 @@ struct CalendarIssueRow: View {
                     .frame(width: 10, height: 10)
             case IssueState.done.rawValue:
                 Circle()
-                    .foregroundColor(.blue)
+                    .foregroundColor(.green)
                     .frame(width: 10, height: 10)
             default:
                 Text("").hidden()

@@ -6,51 +6,55 @@
 //
 
 import SwiftUI
+//import Kingfisher
 
 struct ChatDetailView: View {
+    let channel: Channel
+    
     var body: some View {
         List {
-            ForEach(0...10, id: \.self) { _ in
+            ForEach(channel.allMsgs, id: \.id) { message in
                 // 스레드 있으면 스레드뷰 이동
-                ChatDetailRow()
+                ChatDetailRow(message: message)
                     .padding(.all, 10)
                 
             }
         }.listStyle(CarouselListStyle())
-        .navigationTitle("채팅")
+            .navigationTitle(channel.name)
     }
 }
 
 struct ChatDetailRow: View {
-    let name: String = "유저 이름"
-    let _body: String = "채팅 메세지"
-    let time: String = "09:04"
-    let date: String = "8월 28일"
+    let message: Message
     
     var body: some View {
-        VStack {
-            if date != "" {
-                Text(date)
-                    .foregroundColor(.gray)
-                    .font(.caption2)
-            }
-            HStack(spacing: 5) {
-                VStack(alignment: .leading) {
-                    HStack {
-                        Circle()
-                            .frame(width: 20, height: 20)
-                        Text(name)
-                            .fontWeight(.bold)
-                            .lineLimit(1)
-                        Spacer(minLength: 0)
-                        Text(time)
-                            .font(.caption2)
-                            .foregroundColor(.gray)
+        Group {
+            if message.type == MessageType.talk.rawValue {
+                VStack {
+                    HStack(spacing: 5) {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                //                        KFImage(URL(string: message.sneder.imageURL))
+                                //                            .resizable()
+                                //                            .frame(width: 20, height: 20)
+                                Text(message.sender.name)
+                                    .fontWeight(.bold)
+                                    .lineLimit(1)
+                                Spacer(minLength: 0)
+                                Text(message.time)
+                                    .font(.caption2)
+                                    .foregroundColor(.gray)
+                            }
+                            
+                            Text(message.message)
+                                .font(.caption2)
+                        }
                     }
-                    
-                    Text(_body)
-                        .font(.caption2)
                 }
+            } else if message.type == MessageType.enter.rawValue {
+                EnterExitMessageView(name: message.sender.name)
+            } else if message.type == MessageType.file.rawValue {
+                FileMessageView(message: message)
             }
         }
     }
@@ -58,6 +62,52 @@ struct ChatDetailRow: View {
 
 struct ChatDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatDetailView()
+        ChatDetailView(channel: Channel(lastMsg: "", lastMsgTime: "", pendingMsgs: "", name: "", imageUrl: "", allMsgs: [Message]()))
     }
 }
+
+struct EnterExitMessageView: View {
+    let isEnter: Bool = true
+    let name: String
+    
+    var body: some View {
+        Group {
+            if isEnter {
+                Text("\(name)님이 입장하셨습니다.")
+                    .font(.caption2)
+                    .padding(.all, 5)
+                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
+            } else {
+                Text("\(name)님이 퇴장하셨습니다.")
+                    .font(.caption2)
+                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
+            }
+        }
+    }
+}
+
+struct FileMessageView: View {
+    let message: Message
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                //                        KFImage(URL(string: message.sneder.imageURL))
+                //                            .resizable()
+                //                            .frame(width: 20, height: 20)
+                Text(message.sender.name)
+                    .fontWeight(.bold)
+                    .lineLimit(1)
+                Spacer(minLength: 0)
+                Text(message.time)
+                    .font(.caption2)
+                    .foregroundColor(.gray)
+            }
+            
+            Text(message.message)
+                .font(.caption)
+                .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
+        }
+    }
+}
+

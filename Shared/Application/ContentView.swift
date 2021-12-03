@@ -49,23 +49,28 @@ struct ContentView: View {
                             ChannelSearchView()
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.3)
-                        case .channelRename:
-                            ChannelRenameView()
+                        case let .channelRename(channel, execute):
+                            ChannelRenameView(channel: channel, execute: execute)
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 3)
                                 .environmentObject(homeViewModel)
-                        case .channelDelete:
-                            ChannelDeleteView()
+                        case let .channelExit(channel, execute):
+                            ChannelExitView(channel: channel, execute: execute)
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
                                 .environmentObject(homeViewModel)
-                        case .channelCreate:
-                            NewChannelView()
+                        case let .channelDelete(channel, execute):
+                            ChannelDeleteView(channel: channel, execute: execute)
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
+                                .environmentObject(homeViewModel)
+                        case .channelCreate(let execute):
+                            NewChannelView(execute: execute)
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
                                 .environmentObject(homeViewModel)
-                        case .messageDelete:
-                            MessagelDeleteView()
+                        case .messageDelete(let execute):
+                            MessagelDeleteView(execute: execute)
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
                                 .environmentObject(homeViewModel)
@@ -76,6 +81,11 @@ struct ContentView: View {
                                 .environmentObject(homeViewModel)
                         case .issueCreate(let execute):
                             NewIssueView(execute: execute)
+                                .modifier(ToastModiier())
+                                .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
+                                .environmentObject(homeViewModel)
+                        case .projectCreateOrJoin:
+                            ProjectCreateJoinView()
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
                                 .environmentObject(homeViewModel)

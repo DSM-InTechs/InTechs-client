@@ -17,6 +17,9 @@ class MemberViewModel: ObservableObject {
     
     private var bag = Set<AnyCancellable>()
     
+    @UserDefault(key: "userEmail", defaultValue: "")
+    public var userEmail: String
+    
     public enum Event {
         case onAppear
     }
@@ -46,6 +49,12 @@ class MemberViewModel: ObservableObject {
             }
             .assign(to: \.members, on: self)
             .store(in: &bag)
+        
+        NotificationCenter.default
+            .publisher(for: Notification.Name("Home"))
+            .sink(receiveValue: { _ in
+                self.apply(.onAppear)
+            }).store(in: &bag)
     }
     
     private func getErrorMessage(error: NetworkError) -> String {

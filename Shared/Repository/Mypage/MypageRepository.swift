@@ -41,16 +41,7 @@ final public class MypageRepositoryImpl: MypageRepository {
     public func mypage() -> AnyPublisher<Mypage, NetworkError> {
         provider.requestPublisher(.mypage)
             .map(Mypage.self)
-            .tryCatch { error -> AnyPublisher<Mypage, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    self.refreshRepository.refresh()
-                    
-                    return self.provider.requestPublisher(.mypage)
-                        .map(Mypage.self)
-                }
-                return Fail<Mypage, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
@@ -63,14 +54,7 @@ final public class MypageRepositoryImpl: MypageRepository {
     
     public func deleteUser() -> AnyPublisher<Void, NetworkError> {
         provider.requestVoidPublisher(.deleteUser)
-            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                if NetworkError(error) == .unauthorized || NetworkError(error) == .notMatch {
-                    self.refreshRepository.refresh()
-                    
-                    return self.provider.requestVoidPublisher(.deleteUser)
-                }
-                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
@@ -81,19 +65,13 @@ final public class MypageRepositoryImpl: MypageRepository {
         let data = image.jpegData(compressionQuality: 1)!
         
         return provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
-            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    self.refreshRepository.refresh()
-                    return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: data))
-                        .eraseToAnyPublisher()
-                }
-                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
+    
     #elseif os(macOS)
+    
     public func updateMypage(name: String, image: NSImage) -> AnyPublisher<Void, NetworkError> {
         let image = image.resize(width: 400, height: 400)!
         let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)!
@@ -101,15 +79,7 @@ final public class MypageRepositoryImpl: MypageRepository {
         let jpegData = bitmapRep.representation(using: NSBitmapImageRep.FileType.jpeg, properties: [:])!
         
         return provider.requestVoidPublisher(.updateMypage(name: name, imageData: jpegData))
-            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    self.refreshRepository.refresh()
-                    return self.provider.requestVoidPublisher(.updateMypage(name: name, imageData: jpegData))
-                        .eraseToAnyPublisher()
-                }
-                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }

@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ChatListView: View {
-    @EnvironmentObject var homeVM: HomeViewModel
-    @ObservedObject var viewModel = ChatViewModel()
+    @StateObject var viewModel = ChatListViewModel()
+    @EnvironmentObject private var homeVM: HomeViewModel
     
     @Namespace private var animation
     
@@ -27,26 +28,16 @@ struct ChatListView: View {
                     Spacer()
                     
                     Button(action: {
-                        self.mentionsPop.toggle()
-                    }, label: {
-                        Image(system: .mention)
-                            .foregroundColor(.white)
-                    }).frame(width: 25, height: 25)
-                    .popover(isPresented: $mentionsPop) {
-                        MentionsPopView()
-                            .frame(width: 200)
-                    }
-                    
-                    Button(action: {
                         self.editPop.toggle()
                     }, label: {
                         Image(system: .edit)
                             .foregroundColor(.white)
                     }).frame(width: 25, height: 25)
-                    .popover(isPresented: $editPop) {
-                        EditPopView()
-                            .frame(width: 200)
-                    }
+                        .popover(isPresented: $editPop) {
+                            EditPopView()
+                                .environmentObject(viewModel)
+                                .frame(width: 200)
+                        }
                 }.padding()
                 
                 // Tab
@@ -78,10 +69,31 @@ struct ChatListView: View {
                     Divider()
                 }
                 
-                List(selection: $homeVM.selectedRecentMsg) {
-                    ForEach(homeVM.msgs) { message in
-                        NavigationLink(destination: ChatDetailView(user: message)) {
-                            ChatRow(recentMsg: message)
+                ZStack {
+                    switch viewModel.selectedTab {
+                    case .home:
+                        List(selection: $viewModel.selectedHome) {
+                            ForEach(0..<viewModel.homes.count, id: \.self) { index in
+                                NavigationLink(destination: ChatDetailView(channelId: viewModel.homes[index].id).environmentObject(viewModel)) {
+                                    ChannelRow(channel: viewModel.homes[index])
+                                }
+                            }
+                        }
+                    case .channels:
+                        List(selection: $viewModel.selectedChannel) {
+                            ForEach(0..<viewModel.channels.count, id: \.self) { index in
+                                NavigationLink(destination: ChatDetailView(channelId: viewModel.channels[index].id).environmentObject(viewModel)) {
+                                    ChannelRow(channel: viewModel.channels[index])
+                                }
+                            }
+                        }
+                    case .DMs:
+                        List(selection: $viewModel.selectedDM) {
+                            ForEach(0..<viewModel.DMs.count, id: \.self) { index in
+                                NavigationLink(destination: ChatDetailView(channelId: viewModel.DMs[index].id).environmentObject(viewModel)) {
+                                    ChannelRow(channel: viewModel.DMs[index])
+                                }
+                            }
                         }
                     }
                 }
@@ -91,17 +103,19 @@ struct ChatListView: View {
                 Color.black.frame(width: 1)
                 Spacer()
             }
+        }.onAppear {
+            self.viewModel.apply(.onAppear)
         }
         .ignoresSafeArea(.all, edges: .all)
     }
 }
 
-struct ChatRow: View {
-    var recentMsg: RecentMessage
+struct ChannelRow: View {
+    var channel: ChatRoom
     
     var body: some View {
         HStack {
-            Image(recentMsg.userImage)
+            KFImage(URL(string: channel.imageURL))
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 40, height: 40)
@@ -110,29 +124,18 @@ struct ChatRow: View {
             VStack(spacing: 4) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(recentMsg.userName)
+                        Text(channel.name)
                             .fontWeight(.bold)
                         
-                        Text(recentMsg.lastMsg)
+                        Text(channel.message)
                             .font(.caption)
                     }
                     
                     Spacer(minLength: 10)
                     
-                    VStack {
-                        Text(recentMsg.lastMsgTime)
+                    VStack(alignment: .trailing) {
+                        Text(channel.time.prefix(10).suffix(5))
                             .font(.caption)
-                        
-                        if recentMsg.pendingMsgs != "0" {
-                            Text(recentMsg.pendingMsgs)
-                                .font(.caption2)
-                                .padding(5)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .clipShape(Circle())
-                        } else {
-                            Spacer()
-                        }
                     }
                 }
             }
@@ -144,35 +147,18 @@ struct AllChatView_Previews: PreviewProvider {
     static var previews: some View {
         ChatListView()
             .environmentObject(HomeViewModel())
-        MentionsPopView()
         EditPopView()
             .frame(width: 200)
     }
 }
 
-struct MentionsPopView: View {
-    var body: some View {
-        Text("No Mentions")
-            .padding([.top, .bottom], 20)
-    }
-}
-
 struct EditPopView: View {
+    @EnvironmentObject var viewModel: ChatListViewModel
+    @EnvironmentObject private var homeVM: HomeViewModel
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 10) {
-                VStack(alignment: .leading, spacing: 15) {
-                    Text("Read")
-                        .foregroundColor(.gray)
-                    
-                    Button(action: {}, label: {
-                        HStack {
-                            Image(system: .checklist)
-                            Text("전부 읽음처리")
-                        }
-                    }).buttonStyle(PlainButtonStyle())
-                }
-                
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Browse")
                         .foregroundColor(.gray)
@@ -191,7 +177,13 @@ struct EditPopView: View {
                         .foregroundColor(.gray)
                         .padding(.top, 10)
                     
-                    Button(action: {}, label: {
+                    Button(action: {
+                        homeVM.toast = .channelCreate(execute: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                viewModel.apply(.onAppear)
+                            })
+                        })
+                    }, label: {
                         HStack {
                             Text("#")
                             Text("새 채널")
@@ -199,7 +191,7 @@ struct EditPopView: View {
                     }).buttonStyle(PlainButtonStyle())
                 }
             }.padding([.top, .bottom], 10)
-            .padding(.bottom, 10)
+                .padding(.bottom, 10)
             
             Spacer(minLength: 0)
         }.padding(.leading)

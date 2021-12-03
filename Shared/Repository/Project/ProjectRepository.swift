@@ -47,17 +47,7 @@ final public class ProjectRepositoryImpl: ProjectRepository {
                 }
                 return $0
             }
-            .tryCatch { error -> AnyPublisher<[Project], MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    print("TOKEN ERROR")
-                    self.refreshRepository.refresh()
-                    
-                    return self.provider.requestPublisher(.getMyProjects)
-                        .map([Project].self)
-                }
-                return Fail<[Project], MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
@@ -67,15 +57,7 @@ final public class ProjectRepositoryImpl: ProjectRepository {
             .map {
                 self.currentProject = number
             }
-            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    self.refreshRepository.refresh()
-                    
-                    return self.provider.requestVoidPublisher(.joinProject(id: number))
-                }
-                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
@@ -83,17 +65,7 @@ final public class ProjectRepositoryImpl: ProjectRepository {
     public func getProjectInfo() -> AnyPublisher<ProjectInfo, NetworkError> {
         provider.requestPublisher(.getProjectInfo(id: currentProject))
             .map(ProjectInfo.self)
-            .tryCatch { error -> AnyPublisher<ProjectInfo, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    print("TOKEN ERROR")
-                    self.refreshRepository.refresh()
-                    
-                    return self.provider.requestPublisher(.getProjectInfo(id: self.currentProject))
-                        .map(ProjectInfo.self)
-                }
-                return Fail<ProjectInfo, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
@@ -101,17 +73,7 @@ final public class ProjectRepositoryImpl: ProjectRepository {
     public func getProjectDashBoard() -> AnyPublisher<ProjectDashboard, NetworkError> {
         provider.requestPublisher(.dashboard(id: currentProject))
             .map(ProjectDashboard.self)
-            .tryCatch { error -> AnyPublisher<ProjectDashboard, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    print("TOKEN ERROR")
-                    self.refreshRepository.refresh()
-                    
-                    return self.provider.requestPublisher(.dashboard(id: self.currentProject))
-                        .map(ProjectDashboard.self)
-                }
-                return Fail<ProjectDashboard, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
@@ -119,47 +81,21 @@ final public class ProjectRepositoryImpl: ProjectRepository {
     public func getProjectMembers() -> AnyPublisher<[ProjectMember], NetworkError> {
         provider.requestPublisher(.getProjectMembers(id: currentProject))
             .map([ProjectMember].self)
-            .tryCatch { error -> AnyPublisher<[ProjectMember], MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    print("TOKEN ERROR")
-                    self.refreshRepository.refresh()
-                    
-                    return self.provider.requestPublisher(.getProjectMembers(id: self.currentProject))
-                        .map([ProjectMember].self)
-                }
-                return Fail<[ProjectMember], MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
     
     public func exitProject() -> AnyPublisher<Void, NetworkError> {
         provider.requestVoidPublisher(.exitProject(id: currentProject))
-            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    self.refreshRepository.refresh()
-                    
-                    return self.provider.requestVoidPublisher(.deleteProject(id: self.currentProject))
-                }
-                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
     
     public func deleteProject() -> AnyPublisher<Void, NetworkError> {
         provider.requestVoidPublisher(.deleteProject(id: currentProject))
-            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    self.refreshRepository.refresh()
-                    
-                    return self.provider.requestVoidPublisher(.deleteProject(id: self.currentProject))
-                }
-                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
@@ -177,14 +113,7 @@ final public class ProjectRepositoryImpl: ProjectRepository {
                 self.currentProject = Int(str.intValue)
                 return
             }
-            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    self.refreshRepository.refresh()
-                    return self.provider.requestVoidPublisher(.createProject(name: name, imageData: data))
-                }
-                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
@@ -194,14 +123,7 @@ final public class ProjectRepositoryImpl: ProjectRepository {
         let data = image.jpegData(compressionQuality: 1)!
         
         return provider.requestVoidPublisher(.updateProject(id: currentProject, name: name, imageData: data))
-            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    self.refreshRepository.refresh()
-                    return self.provider.requestVoidPublisher(.updateProject(id: self.currentProject, name: name, imageData: data))
-                }
-                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
@@ -222,15 +144,7 @@ final public class ProjectRepositoryImpl: ProjectRepository {
                 self.currentProject = Int(str.intValue)
                 return
             }
-            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    self.refreshRepository.refresh()
-                    
-                    return self.provider.requestVoidPublisher(.createProject(name: name, imageData: jpegData))
-                }
-                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
@@ -242,15 +156,7 @@ final public class ProjectRepositoryImpl: ProjectRepository {
         let jpegData = bitmapRep.representation(using: NSBitmapImageRep.FileType.jpeg, properties: [:])!
         
         return provider.requestVoidPublisher(.updateProject(id: currentProject, name: name, imageData: jpegData))
-            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    self.refreshRepository.refresh()
-                    
-                    return self.provider.requestVoidPublisher(.updateProject(id: self.currentProject, name: name, imageData: jpegData))
-                }
-                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }

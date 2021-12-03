@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D94C99C326DF684D00CB2F07"
+               BlueprintIdentifier = "D93BAD1826D149030094ADD9"
                BuildableName = "InTechs.app"
-               BlueprintName = "InTechs"
+               BlueprintName = "InTechs (iOS)"
                ReferencedContainer = "container:InTechs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D93BAD1826D149030094ADD9"
+               BlueprintIdentifier = "D94C99C326DF684D00CB2F07"
                BuildableName = "InTechs.app"
-               BlueprintName = "InTechs (iOS)"
+               BlueprintName = "InTechs"
                ReferencedContainer = "container:InTechs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

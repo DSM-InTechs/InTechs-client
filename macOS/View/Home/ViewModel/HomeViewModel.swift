@@ -12,12 +12,14 @@ enum Toast {
     case userDelete(execute: () -> Void)
     case channelSearch
     case channelInfo
-    case channelRename
-    case channelDelete
-    case channelCreate
-    case messageDelete
+    case channelRename(channel: RoomInfo, execute: () -> Void)
+    case channelExit(channel: RoomInfo, execute: () -> Void)
+    case channelDelete(channel: RoomInfo, execute: () -> Void)
+    case channelCreate(execute: () -> Void)
+    case messageDelete(execute: () -> Void)
     case issueDelete(execute: () -> Void)
     case issueCreate(execute: () -> Void)
+    case projectCreateOrJoin
     case projectCreate
     case projectJoin
     case projectExit(execute: () -> Void)
@@ -25,31 +27,23 @@ enum Toast {
 }
 
 class HomeViewModel: ObservableObject {
-    @Published var isLogin: Bool = true
+    @UserDefault(key: "isLogin", defaultValue: false)
+    private var isLoginUserDefaults: Bool
+    
+    @Published var isLogin: Bool = UserDefaults.standard.bool(forKey: "isLogin")
     
     @Published var selectedTab: HomeTab = HomeTab.chats
     @Published var toast: Toast?
     
-    @Published var selectedRecentMsg: String? = recentMsgs.first?.id
-    @Published var msgs: [RecentMessage] = recentMsgs
-    
-    @Published var message = ""
-    
-    func sendMessage(user: RecentMessage) {
-        let index = msgs.firstIndex { currentUser -> Bool in
-            return currentUser.id == user.id
-        } ?? -1
-        if index != -1 {
-            msgs[index].allMsgs.append(Message(message: message, myMessage: true))
-            message = ""
-        }
-    }
-    
     @UserDefault(key: "currentProject", defaultValue: 0)
-    public var currentProject: Int
+    public var currentProjectUserDefaults: Int
+    
+    @Published var currentProject: Int = UserDefaults.standard.integer(forKey: "currentProject")
     
     @Published var profile: Mypage = Mypage(name: "", email: "", image: "")
     @Published var myProjects: [Project] = [Project]()
+    
+    private let center = NotificationCenter.default
     
     private let myActiveRepository: MyActiveRepository
     private let projectRepository: ProjectRepository
@@ -69,6 +63,14 @@ class HomeViewModel: ObservableObject {
     
     public let input = Input()
     
+    public func changeCurrentProject(projectId: Int) {
+        self.currentProject = projectId
+        
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+            self.center.post(name: Notification.Name("Home"), object: nil)
+        })
+    }
+    
     public func apply(_ input: Event) {
         switch input {
         case .changeActive(let isActive):
@@ -84,6 +86,18 @@ class HomeViewModel: ObservableObject {
         self.myActiveRepository = myActiveRepository
         self.projectRepository = projectRepository
         self.mypageRepository = mypageRepository
+        
+        self.$isLogin
+            .dropFirst()
+            .sink(receiveValue: {
+                self.isLoginUserDefaults = $0
+            }).store(in: &bag)
+        
+        self.$currentProject
+            .dropFirst()
+            .sink(receiveValue: {
+                self.currentProjectUserDefaults = $0
+            }).store(in: &bag)
         
         input.changeActive
             .flatMap {

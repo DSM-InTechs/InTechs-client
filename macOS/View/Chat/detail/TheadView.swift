@@ -7,45 +7,51 @@
 
 import SwiftUI
 import GEmojiPicker
+import Kingfisher
 
 struct TheadView: View {
     @Binding var isThread: Bool
+    @Binding var message: Message
+    
+    @ObservedObject var viewModel = ThreadViewModel()
+    
+    @State var selectedNSImages: [NSImage] = []
+    @State var selectedFile: [(String, Data)] = []
+    
     @State private var emojiPop = false
     @State private var filePop = false
     
     var body: some View {
         VStack(spacing: 0) {
-            VStack(alignment: .center, spacing: 10) {
-                HStack {
-                    Text("스레드")
-                    Spacer()
-                    Button(action: {
-                        withAnimation {
-                            self.isThread = false
-                        }
-                    }, label: {
-                        Image(system: .xmark)
-                    })
-                }
-                
+            HStack {
+                Text("스레드")
+                Spacer()
+                Button(action: {
+                    withAnimation {
+                        self.isThread = false
+                    }
+                }, label: {
+                    Image(system: .xmark)
+                })
             }.padding()
             
             Divider()
             
-            VStack(spacing: 5) {
-                ThreadRow(message: Message(id: "", message: "스레드시작", myMessage: false), user: RecentMessage(lastMsg: "마지막 메세지", lastMsgTime: "15:00", pendingMsgs: "0", userName: "유저", userImage: "placeholder", allMsgs: eachmsg.shuffled()))
+            ScrollView {
+                ThreadRow(message: message)
                     .padding(.all, 10)
                 
                 HStack(spacing: 10) {
-                    Text("1개의 답글")
+                    if message.threadMessages.count > 0 {
+                        Text("\(message.threadMessages.count)개의 답글")
+                    }
+                    
                     Color.gray.opacity(0.5).frame(height: 1)
                 }.padding(.horizontal)
-            }
-           
-            ScrollView {
+                
                 LazyVStack(spacing: 0) {
-                    ForEach(0...3, id: \.self) { _ in
-                        ThreadRow(message: Message(id: "", message: "댓글입니당", myMessage: false), user: RecentMessage(lastMsg: "마지막 메세지", lastMsgTime: "15:00", pendingMsgs: "0", userName: "유저", userImage: "placeholder", allMsgs: eachmsg.shuffled()))
+                    ForEach(message.threadMessages, id: \.id) { message in
+                        ThreadRow(message: message)
                             .padding(.all, 10)
                     }
                 }
@@ -57,18 +63,27 @@ struct TheadView: View {
                         Image(system: .clip)
                             .font(.title2)
                     }).buttonStyle(PlainButtonStyle())
-                    .popover(isPresented: $filePop) {
-                        FileTypeSelectView()
-                            .padding()
+                        .popover(isPresented: $filePop) {
+                            FileTypeSelectView(selectedImage: $selectedNSImages, selectedFile: $selectedFile)
+                                .padding()
+                        }
+                    
+                    LazyHStack {
+                        ForEach(selectedNSImages, id: \.self) { image in
+                            Image(nsImage: image)
+                                .resizable()
+                                .frame(width: 100, height: 100)
+                        }
                     }
                     
-                    TextField("Enter Message", text: .constant(""), onCommit: {
-//                        homeVM.sendMessage(user: user)
+                    TextField("메세지를 입력하세요", text: $viewModel.text, onCommit: {
+                        self.message.threadMessages.append(Message(message: viewModel.text, type: "TALK", isMine: true, sender: user1, time: "오후 11:11"))
+                        self.message.isThread = true
                     })
-                    .textFieldStyle(PlainTextFieldStyle())
-                    .padding(.vertical, 8)
-                    .padding(.horizontal)
-                    .background(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.white))
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .padding(.vertical, 8)
+                        .padding(.horizontal)
+                        .background(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.white))
                     
                     Button(action: {
                         self.emojiPop.toggle()
@@ -76,34 +91,33 @@ struct TheadView: View {
                         Image(system: .smileFace)
                             .font(.title2)
                     }).buttonStyle(PlainButtonStyle())
-                    .popover(isPresented: $emojiPop) {
-                        EmojiPicker(emojiStore: EmojiStore(), selectionHandler: { _ in })
-                            .environmentObject(SharedState())
-                            .frame(width: 400, height: 300)
-                    }
+                        .popover(isPresented: $emojiPop) {
+                            EmojiPicker(emojiStore: EmojiStore(), selectionHandler: { _ in })
+                                .environmentObject(SharedState())
+                                .frame(width: 400, height: 300)
+                        }
                 }.padding(.horizontal)
-                .padding(.top, 10)
+                    .padding(.top, 10)
             }
-            Spacer()
         }
     }
 }
 
 struct ThreadRow: View {
     var message: Message
-    var user: RecentMessage
     @State private var hover: Bool = false
     @State private var isEditing: Bool = false
     @State private var profileHover: Bool = false
     @State private var emojiPop = false
     
+    @ObservedObject var viewModel = ThreadViewModel()
     @EnvironmentObject var homeVM: HomeViewModel
     
     var body: some View {
         ZStack {
             HStack(alignment: .top, spacing: 10) {
                 VStack {
-                    Image(user.userImage)
+                    KFImage(URL(string: message.sender.imageURL))
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 35, height: 35)
@@ -116,9 +130,9 @@ struct ThreadRow: View {
                 
                 VStack(alignment: .leading, spacing: 3) {
                     HStack {
-                        Text(user.userName)
+                        Text(message.sender.name)
                         Spacer()
-                        Text("10: 10")
+                        Text(message.time)
                     }
                     
                     if isEditing {
@@ -126,13 +140,13 @@ struct ThreadRow: View {
                             HStack {
                                 Image(system: .clip)
                                 
-                                TextField("", text: $homeVM.message, onCommit: {
-                                    homeVM.sendMessage(user: user)
+                                TextField("", text: $viewModel.text, onCommit: {
+                                    //                                        self.messages.append(Message(message: homeVM.message, isMine: true, sender: User(name: "정고은", email: "gogo8272@gmail.com", imageURL: "", isActive: true), time: "오후 10:10"))
                                 })
-                                .textFieldStyle(PlainTextFieldStyle())
-                                .padding(.vertical, 8)
-                                .padding(.horizontal)
-                                .background(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.white))
+                                    .textFieldStyle(PlainTextFieldStyle())
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal)
+                                    .background(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.white))
                             }
                             
                             HStack {
@@ -161,26 +175,30 @@ struct ThreadRow: View {
                         HStack {
                             Text(message.message)
                                 .foregroundColor(.white)
+                                .fixedSize(horizontal: false, vertical: true)
                             Spacer()
                         }
                     }
                 }.padding(.trailing)
-                .onHover(perform: { hovering in
-                    self.hover = hovering
-                    if isEditing {
-                        self.hover = false
-                    }
-                })
+                    .onHover(perform: { hovering in
+                        self.hover = hovering
+                        if isEditing {
+                            self.hover = false
+                        }
+                    })
             }
             
             Spacer()
+            
             if self.hover {
                 HStack {
                     Spacer(minLength: 0)
                     HStack(spacing: 0) {
                         HoverImage(system: .trash)
                             .onTapGesture {
-                                self.homeVM.toast = .messageDelete
+                                //                            self.homeVM.toast = .messageDelete(execute: {
+                                //                                self.message.message = "이 메세지는 삭제되었습니다."
+                                //                            })
                             }
                         HoverImage(system: .pencil)
                             .onTapGesture {
@@ -198,7 +216,7 @@ struct ThreadRow: View {
                             }
                     }
                 }.offset(y: -10)
-                .padding(.trailing)
+                    .padding(.trailing)
             }
         }
     }
@@ -206,6 +224,6 @@ struct ThreadRow: View {
 
 struct TheadView_Previews: PreviewProvider {
     static var previews: some View {
-        TheadView(isThread: .constant(false))
+        TheadView(isThread: .constant(false), message: .constant(Message(message: "스레드", type: "TALK", isMine: true, sender: User(name: "정고은", email: "", imageURL: "", isActive: true), time: "오후 0000")))
     }
 }

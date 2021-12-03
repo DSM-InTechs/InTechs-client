@@ -28,6 +28,7 @@ final public class MyActiveRepositoryImpl: MyActiveRepository {
 #if os(iOS)
     public func updateMyActiveAsync(isActive: Bool) async -> AnyPublisher<Void, NetworkError> {
         provider.requestVoidPublisher(.updateMyActive(isActive: isActive))
+            .retryWithAuthIfNeeded()
             .mapError {  NetworkError($0) }
             .eraseToAnyPublisher()
     }
@@ -35,16 +36,7 @@ final public class MyActiveRepositoryImpl: MyActiveRepository {
     
     public func updateMyActive(isActive: Bool) -> AnyPublisher<Void, NetworkError> {
         provider.requestVoidPublisher(.updateMyActive(isActive: isActive))
-            .tryCatch { error -> AnyPublisher<Void, MoyaError> in
-                let networkError = NetworkError(error)
-                if networkError == .unauthorized || networkError == .notMatch {
-                    print("MYACTIVE TOKEN ERROR")
-                    self.refreshRepository.refresh()
-                    return self.provider.requestVoidPublisher(.updateMyActive(isActive: isActive))
-                        .eraseToAnyPublisher()
-                }
-                return Fail<Void, MoyaError>(error: error).eraseToAnyPublisher()
-            }
+            .retryWithAuthIfNeeded()
             .mapError { NetworkError($0) }
             .eraseToAnyPublisher()
     }

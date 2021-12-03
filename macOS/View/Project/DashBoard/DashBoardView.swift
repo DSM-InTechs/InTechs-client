@@ -10,13 +10,14 @@ import GECalendar
 import Kingfisher
 
 struct DashBoardView: View {
+    @EnvironmentObject var projectVM: ProjectViewModel
     @EnvironmentObject var viewModel: DashboardViewModel
     @State private var date: Date?
     @State private var appearance = Appearance(eventType: .circle,
-                                        multipleEvents: [],
-                                        isTodayButton: false,
-                                        isMultipleEvents: true,
-                                        headerFont: .title2, headerType: .leading)
+                                               multipleEvents: [],
+                                               isTodayButton: false,
+                                               isMultipleEvents: true,
+                                               headerFont: .title2, headerType: .leading)
     
     var body: some View {
         GeometryReader { geo in
@@ -26,6 +27,7 @@ struct DashBoardView: View {
                     HStack {
                         KFImage(URL(string: viewModel.projectInfo.image.imageUrl))
                             .resizable()
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                             .frame(width: 40, height: 40)
                         Text(viewModel.projectInfo.name)
                     }
@@ -47,12 +49,24 @@ struct DashBoardView: View {
                     HStack {
                         VStack {
                             IssueRow(text: "For Me", count: viewModel.dashboard.issuesCount.forMe)
+                                .onTapGesture {
+                                    self.projectVM.selectedTab = .issues
+                                }
                             IssueRow(text: "Unresolved", count: viewModel.dashboard.issuesCount.unresolved)
+                                .onTapGesture {
+                                    self.projectVM.selectedTab = .issues
+                                }
                         }
                         
                         VStack {
                             IssueRow(text: "Resolved", count: viewModel.dashboard.issuesCount.resolved)
+                                .onTapGesture {
+                                    self.projectVM.selectedTab = .issues
+                                }
                             IssueRow(text: "For me & Unresolved", count: viewModel.dashboard.issuesCount.forMeAndUnresolved)
+                                .onTapGesture {
+                                    self.projectVM.selectedTab = .issues
+                                }
                         }
                     }
                 }
@@ -70,10 +84,10 @@ struct DashBoardView: View {
                     Spacer(minLength: 0)
                 }
             }.padding()
-            .padding(.trailing, 70)
-            .onAppear {
-                self.viewModel.apply(.onAppear)
-            }
+                .padding(.trailing, 70)
+                .onAppear {
+                    self.viewModel.apply(.onAppear)
+                }
         }.ignoresSafeArea(.all, edges: .all)
     }
 }
@@ -89,12 +103,12 @@ struct IssueRow: View {
             Spacer()
             Text(String(count))
         }.foregroundColor(hover ? .white : .secondary)
-        .padding(.all, 10)
-        .background(RoundedRectangle(cornerRadius: 5).foregroundColor(.gray.opacity(0.1)))
-        .border(Color.gray.opacity(0.3), width: 1)
-        .onHover(perform: { hovering in
-            self.hover = hovering
-        })
+            .padding(.all, 10)
+            .background(RoundedRectangle(cornerRadius: 5).foregroundColor(.gray.opacity(0.1)))
+            .border(Color.gray.opacity(0.3), width: 1)
+            .onHover(perform: { hovering in
+                self.hover = hovering
+            })
     }
 }
 
@@ -107,12 +121,12 @@ struct ChecklistRow: View {
             Text(text)
             Spacer()
         }.foregroundColor(hover ? .white : .secondary)
-        .padding(.all, 10)
-        .background(RoundedRectangle(cornerRadius: 5).foregroundColor(.gray.opacity(0.1)))
-        .border(Color.gray.opacity(0.3), width: 1)
-        .onHover(perform: { hovering in
-            self.hover = hovering
-        })
+            .padding(.all, 10)
+            .background(RoundedRectangle(cornerRadius: 5).foregroundColor(.gray.opacity(0.1)))
+            .border(Color.gray.opacity(0.3), width: 1)
+            .onHover(perform: { hovering in
+                self.hover = hovering
+            })
     }
 }
 

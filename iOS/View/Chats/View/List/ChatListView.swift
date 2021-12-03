@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ChatListView: View {
     @State private var index = 1
@@ -14,7 +15,7 @@ struct ChatListView: View {
     @State private var showNewChat = false
     
     @State var uiTabarController: UITabBarController?
-    @ObservedObject var chatVM = ChatlistViewModel()
+    @ObservedObject var viewModel = ChatlistViewModel()
     
     init() {
         UINavigationBar.appearance().barTintColor = Asset.white.color
@@ -39,9 +40,9 @@ struct ChatListView: View {
                         // First View
                         ScrollView {
                             LazyVStack {
-                                ForEach(0...6, id: \.self) { _ in
-                                    NavigationLink(destination: ChatDetailView(title: "채널 이름")) {
-                                        ChatRow()
+                                ForEach(0..<viewModel.homes.count, id: \.self) { index in
+                                    NavigationLink(destination: ChatDetailView(channel: $viewModel.homes[index], title: viewModel.homes[index].name)) {
+                                        ChannelRow(channel: viewModel.homes[index])
                                             .padding(.all, 10)
                                     }
                                     
@@ -53,8 +54,8 @@ struct ChatListView: View {
                         // Second View
                         VStack {
                             LazyVStack {
-                                ForEach(0...6, id: \.self) { _ in
-                                    ChatRow()
+                                ForEach(viewModel.channels, id: \.id) { channel in
+                                    ChannelRow(channel: channel)
                                         .padding(.all, 10)
                                 }
                             }
@@ -65,8 +66,8 @@ struct ChatListView: View {
                         // Third View
                         VStack {
                             LazyVStack {
-                                ForEach(0...6, id: \.self) { _ in
-                                    ChatRow()
+                                ForEach(viewModel.DMs, id: \.id) { channel in
+                                    ChannelRow(channel: channel)
                                         .padding(.all, 10)
                                 }
                             }
@@ -94,14 +95,6 @@ struct ChatListView: View {
             .padding(.vertical)
             .ignoresSafeArea(edges: .bottom)
             .navigationBarTitle("채팅", displayMode: .inline)
-//            .navigationBarItems(trailing:
-//                                    Button(action: {
-//                                        self.showNewChat = true
-//                                    }, label: {
-//                                        SystemImage(system: .plus)
-//                                            .font(.title3)
-//                                            .foregroundColor(.blue)
-//                                    }))
             .introspectTabBarController { (UITabBarController) in
                 UITabBarController.tabBar.isHidden = false
                 uiTabarController = UITabBarController
@@ -132,27 +125,38 @@ struct ChatListView: View {
     
 }
 
-struct ChatRow: View {
-    let title: String = "채널 이름"
-    let image: String = ""
-    let lastMsg: String = "마지막 메세지"
-    let time: String = "8월 26일"
+struct ChannelRow: View {
+    let channel: Channel
     
     var body: some View {
-        HStack(spacing: 12) {
-            Circle().foregroundColor(.gray).frame(width: UIFrame.width / 8, height: UIFrame.width / 8)
+        HStack(spacing: 7) {
+            if channel.imageUrl == "placeholder" {
+                ZStack {
+                    Image("placeholder")
+                        .frame(width: UIFrame.width / 8, height: UIFrame.width / 8)
+                        .clipShape(Circle())
+                    
+                    Text("#").font(.title2)
+                }
+            } else {
+                KFImage(URL(string: channel.imageUrl))
+                    .resizable()
+                    .clipShape(Circle())
+                    .frame(width: UIFrame.width / 8, height: UIFrame.width / 8)
+            }
             
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: 7) {
                 HStack {
-                    Text(title)
+                    Text(channel.name)
                         .fontWeight(.bold)
                         .foregroundColor(Color(Asset.black))
                     Spacer()
-                    Text(time)
+                    Text(channel.lastMsgTime)
                         .foregroundColor(.gray)
                 }
-                Text(lastMsg)
+                Text(channel.lastMsg)
                     .foregroundColor(.gray)
+                    .padding(.bottom, 5)
                 
                 Divider()
             }

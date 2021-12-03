@@ -20,6 +20,7 @@ struct ProjectListView: View {
                     switch viewModel.selectedTab {
                     case .dashBoard: DashBoardView()
                             .environmentObject(dashboardVM)
+                            .environmentObject(viewModel)
                             .frame(width: geo.size.width / 1.35)
                     case .issues: IssuelistView()
                             .frame(width: geo.size.width / 1.35)
@@ -36,7 +37,9 @@ struct ProjectListView: View {
                         HStack {
                             KFImage(URL(string: viewModel.projectInfo.image.imageUrl))
                                 .resizable()
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .frame(width: 30, height: 30)
+                            
                             Text(viewModel.projectInfo.name)
                             
                             Spacer()

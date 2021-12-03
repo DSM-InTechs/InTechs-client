@@ -61,4 +61,7 @@ enum SFImage: String {
     case threadPlus = "plus.message"
     case checkmarkCircleFill = "checkmark.circle.fill"
     case logout = "clear.fill"
+    case setting = "gearshape"
+    case download = "square.and.arrow.down"
+    case speaker = "speaker.wave.2"
 }

@@ -10,7 +10,7 @@ import GECalendar
 
 struct CalendarView: View {
     @EnvironmentObject private var homeVM: HomeViewModel
-    @ObservedObject var viewModel = CalendarViewModel()
+    @StateObject var viewModel = CalendarViewModel()
     
     @State private var assigneePop: Bool = false
     @State private var statePop: Bool = false
@@ -57,12 +57,6 @@ struct CalendarView: View {
                                 .frame(width: 200)
                         }
                         
-                        HStack(spacing: 3) {
-                            Image(system: .search)
-                            TextField("검색", text: .constant(""))
-                                .textFieldStyle(PlainTextFieldStyle())
-                        }
-                        
                         Spacer()
                     }.padding()
                     
@@ -76,12 +70,11 @@ struct CalendarView: View {
                     Color.black.frame(width: 1)
                     Spacer()
                 }
+            }.onAppear {
+                self.viewModel.apply(.onAppear)
             }
         }.background(Color(NSColor.textBackgroundColor)).ignoresSafeArea()
         .padding(.trailing, 70)
-        .onAppear {
-            self.viewModel.apply(.onAppear)
-        }
     }
 }
 

@@ -108,11 +108,11 @@ class CalendarViewModel: ObservableObject {
     private func stateToColor(_ state: String?) -> Color {
         switch state {
         case IssueState.ready.rawValue:
-            return Color.green
+            return Color.blue
         case IssueState.progress.rawValue:
             return Color.gray
         case IssueState.done.rawValue:
-            return Color.blue
+            return Color.green
         default:
             return Color.clear
         }

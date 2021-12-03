@@ -10,7 +10,7 @@ import Kingfisher
 
 struct IssuelistView: View {
     @EnvironmentObject var homeVM: HomeViewModel
-    @ObservedObject var viewModel = IssuelistViewModel()
+    @StateObject var viewModel = IssuelistViewModel()
     @State private var currentIssue: Issue?
     
     @State private var assigneePop: Bool = false
@@ -35,12 +35,7 @@ struct IssuelistView: View {
                                     }
                                 }
                             ).onTapGesture {
-                                if self.viewModel.selectedTab == .unresolved {
-                                    self.viewModel.selectedTab = nil
-                                } else {
-                                    self.viewModel.selectedTab = .unresolved
-                                    self.viewModel.state = IssueState.progress
-                                }
+                                self.viewModel.changeSelectedTab(.unresolved)
                             }
                         
                         Text("For me \(viewModel.dashboard.issuesCount.forMe)")
@@ -56,12 +51,7 @@ struct IssuelistView: View {
                                     }
                                 }
                             ).onTapGesture {
-                                if self.viewModel.selectedTab == .forMe {
-                                    self.viewModel.selectedTab = nil
-                                } else {
-                                    self.viewModel.selectedTab = .forMe
-//                                    self.viewModel.users = [
-                                }
+                                self.viewModel.changeSelectedTab(.forMe)
                             }
                         
                         Text("For me & Unresolved \(viewModel.dashboard.issuesCount.forMeAndUnresolved)")
@@ -77,12 +67,7 @@ struct IssuelistView: View {
                                     }
                                 }
                             ).onTapGesture {
-                                if self.viewModel.selectedTab == .forMeAndUnresolved {
-                                    self.viewModel.selectedTab = nil
-                                } else {
-                                    self.viewModel.selectedTab = .forMeAndUnresolved
-                                    // self.viewModel.users = [
-                                }
+                                self.viewModel.changeSelectedTab(.forMeAndUnresolved)
                             }
                         
                         Text("Resolved \(viewModel.dashboard.issuesCount.resolved)")
@@ -98,12 +83,7 @@ struct IssuelistView: View {
                                     }
                                 }
                             ).onTapGesture {
-                                if self.viewModel.selectedTab == .resolved {
-                                    self.viewModel.selectedTab = nil
-                                } else {
-                                    self.viewModel.selectedTab = .resolved
-                                    self.viewModel.state = IssueState.done
-                                }
+                                self.viewModel.changeSelectedTab(.resolved)
                             }
                         
                         Spacer()
@@ -114,7 +94,9 @@ struct IssuelistView: View {
                                             .foregroundColor(.blue))
                             .onTapGesture {
                                 self.homeVM.toast = .issueCreate(execute: {
-                                    self.viewModel.reload(.onAppear)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        self.viewModel.reload(.onAppear)
+                                    })
                                 })
                             }
                     }
@@ -154,12 +136,6 @@ struct IssuelistView: View {
                             IssueFilterTagView(tags: $viewModel.tags,
                                                execute: { viewModel.apply(.reloadlist) })
                                 .frame(width: 200)
-                        }
-                        
-                        HStack(spacing: 3) {
-                            Image(system: .search)
-                            TextField("검색", text: .constant(""))
-                                .textFieldStyle(PlainTextFieldStyle())
                         }
                         
                         Spacer()
@@ -245,12 +221,12 @@ struct IssuelistRow: View {
             Spacer()
             
             if issue.users.isEmpty == false {
-                HStack {
+                HStack(spacing: -10) {
                     ForEach(issue.users.prefix(3), id: \.self) { user in
                         KFImage(URL(string: user.imageURL))
                             .resizable()
+                            .clipShape(Circle())
                             .frame(width: 20, height: 20)
-                        Text(user.name)
                     }
                     if issue.users.count > 3 {
                         Text(String(issue.users.count - 3))

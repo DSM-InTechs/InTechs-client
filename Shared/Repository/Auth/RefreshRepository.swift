@@ -32,6 +32,7 @@ final public class RefreshRepositoryImpl: RefreshRepository {
     }
     
     public func refresh() {
+        print("refresh")
         provider.request(.login(email: userEmail, password: userPassword), completion: { result in
             switch result {
             case .success(let response):

@@ -40,7 +40,12 @@ struct MemberView: View {
                 ScrollView {
                     LazyVStack(alignment: .leading) {
                         ForEach(viewModel.members, id: \.self) { member in
-                            MemberRow(member: member)
+                            if member.email != viewModel.userEmail {
+                                MemberRow(member: member)
+                            } else {
+                                MemberRow(member: member, isMe: true)
+                            }
+                            
                         }.padding(.vertical, 5)
                     }
                 }
@@ -62,6 +67,8 @@ struct MemberView: View {
 
 struct MemberRow: View {
     let member: ProjectMember
+    var isMe: Bool = false
+    
     var body: some View {
         HStack(spacing: 20) {
             ZStack(alignment: .bottomTrailing) {
@@ -82,8 +89,9 @@ struct MemberRow: View {
                 
                 Spacer()
                 
-                // 멤버가 자신인지 분기처리
-                Text("DM 시작하기")
+                if !isMe {
+                    Text("DM 시작하기")
+                }
             }
             
             Spacer()

@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct NewChannelView: View {
+    let execute: () -> Void
     @EnvironmentObject var homeVM: HomeViewModel
+    @ObservedObject var viewModel = NewChannelViewModel()
     
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
@@ -21,7 +23,7 @@ struct NewChannelView: View {
             VStack(alignment: .leading) {
                 Text("이름")
                 
-                TextField("", text: .constant(""))
+                TextField("", text: $viewModel.name)
                     .textFieldStyle(PlainTextFieldStyle())
                     .padding(.all, 10)
                     .overlay(
@@ -30,22 +32,22 @@ struct NewChannelView: View {
                     )
             }
             
-            VStack(alignment: .leading) {
-                Text("멤버")
-                
-                HStack {
-                    TextField("이름을 입력하세요.", text: .constant(""))
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .padding(.all, 10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color(Asset.black), lineWidth: 1)
-                        )
-                }
-                
-                // ScrollView...
-                
-            }
+//            VStack(alignment: .leading) {
+//                Text("멤버")
+//
+//                HStack {
+//                    TextField("이름을 입력하세요.", text: .constant(""))
+//                        .textFieldStyle(PlainTextFieldStyle())
+//                        .padding(.all, 10)
+//                        .overlay(
+//                            RoundedRectangle(cornerRadius: 10)
+//                                .stroke(Color(Asset.black), lineWidth: 1)
+//                        )
+//                }
+//
+//                // ScrollView...
+//
+//            }
             
             Spacer(minLength: 0)
             
@@ -72,9 +74,11 @@ struct NewChannelView: View {
                     .font(.title3)
                     .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
                     .onTapGesture {
+                        self.viewModel.apply(.create)
                         withAnimation {
                             self.homeVM.toast = nil
                         }
+                        self.execute()
                     }
             }
         }.padding()
@@ -84,6 +88,6 @@ struct NewChannelView: View {
 
 struct NewChannelView_Previews: PreviewProvider {
     static var previews: some View {
-        NewChannelView()
+        NewChannelView(execute: {})
     }
 }
