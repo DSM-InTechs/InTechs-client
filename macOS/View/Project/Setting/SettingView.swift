@@ -23,7 +23,7 @@ struct SettingView: View {
                         NSOpenPanel.openImage(completion: { result in
                             switch result {
                             case .success(let image):
-                                viewModel.updatedImage = image
+                                viewModel.updatedImage = image.1
                             case .failure(_):
                                 break
                             }

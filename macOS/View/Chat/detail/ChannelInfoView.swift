@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 enum ChannelInfoTab: String {
     case subscribers = "멤버"
@@ -14,7 +15,9 @@ enum ChannelInfoTab: String {
 }
 
 struct ChannelInfoView: View {
-    @State var selectedTab: ChannelInfoTab = .subscribers
+    let id: String
+    
+    @ObservedObject var viewModel = ChannelInfoViewModel()
     @State private var hover = false
     
     var body: some View {
@@ -31,7 +34,7 @@ struct ChannelInfoView: View {
                         } else {
                             Circle().frame(width: geo.size.width / 8, height: geo.size.width / 8)
                         }
-                        Text("채널 이름")
+                        Text(viewModel.channel.name)
                     }.onHover(perform: { hovering in
                         self.hover = hovering
                     })
@@ -40,13 +43,13 @@ struct ChannelInfoView: View {
                 }
                 VStack(spacing: -1) {
                     HStack(spacing: 0) {
-                        ChannelInfoTabButton(tab: .subscribers, number: .constant(4), selectedTab: $selectedTab)
+                        ChannelInfoTabButton(tab: .subscribers, number: viewModel.channel.users.count, selectedTab: $viewModel.selectedTab)
                             .frame(width: geo.size.width / 4)
                         
-                        ChannelInfoTabButton(tab: .pinned, number: .constant(1), selectedTab: $selectedTab)
+                        ChannelInfoTabButton(tab: .pinned, number: viewModel.notices.count, selectedTab: $viewModel.selectedTab)
                             .frame(width: geo.size.width / 4)
                         
-                        ChannelInfoTabButton(tab: .media, number: .constant(nil), selectedTab: $selectedTab)
+                        ChannelInfoTabButton(tab: .media, number: 0, selectedTab: $viewModel.selectedTab)
                             .frame(width: geo.size.width / 4)
                         
                         Spacer()
@@ -54,23 +57,27 @@ struct ChannelInfoView: View {
                     Divider()
                 }
                 
-                switch selectedTab {
+                switch viewModel.selectedTab {
                 case .subscribers:
-                    ChannelSubscribersView(text: .constant(""))
+                    ChannelSubscribersView(members: viewModel.channel.users, text: $viewModel.userEmail)
+                        .environmentObject(viewModel)
                 case .pinned:
-                    ChannelPinnedView()
+                    ChannelPinnedView(notices: viewModel.notices)
                 case .media:
                     ChannelMediaView()
                 }
             }.padding()
-            .padding(.all, 10)
+                .padding(.all, 10)
+                .onAppear {
+                    self.viewModel.apply(.onAppear(channelId: id))
+                }
         }
     }
 }
 
 struct ChannelInfoTabButton: View {
     var tab: ChannelInfoTab
-    @Binding var number: Int?
+    var number: Int
     @Binding var selectedTab: ChannelInfoTab
     
     var body: some View {
@@ -83,9 +90,7 @@ struct ChannelInfoTabButton: View {
                 VStack(spacing: 7) {
                     HStack {
                         Text(tab.rawValue)
-                        if number != nil {
-                            Text(String(number!))
-                        }
+                        Text(String(number))
                     }
                     
                     if selectedTab == tab {
@@ -95,16 +100,22 @@ struct ChannelInfoTabButton: View {
                     }
                 }
             })
-            .buttonStyle(PlainButtonStyle())
+                .buttonStyle(PlainButtonStyle())
         }
     }
 }
 
 struct ChannelSubscribersView: View {
+    let members: [RoomUser]
     @Binding var text: String
+    
+    @EnvironmentObject var viewModel: ChannelInfoViewModel
+    
     var body: some View {
         VStack {
-            TextField("멤버 추가하기", text: $text)
+            TextField("멤버 추가하기", text: $text, onCommit: {
+                viewModel.apply(.addUser)
+            })
                 .textFieldStyle(PlainTextFieldStyle())
                 .padding()
                 .overlay(
@@ -114,10 +125,15 @@ struct ChannelSubscribersView: View {
             
             ScrollView {
                 LazyVStack {
-                    ForEach(0...3, id: \.self) { _ in
+                    ForEach(members, id: \.self) { member in
                         HStack(spacing: 10) {
-                            Circle().frame(width: 30, height: 30)
-                            Text("이름")
+                            KFImage(URL(string: member.imageURL))
+                                .resizable()
+                                .clipShape(Circle())
+                                .frame(width: 30, height: 30)
+                            
+                            Text(member.name)
+                            
                             Spacer()
                         }.padding(.all, 10)
                     }
@@ -128,21 +144,23 @@ struct ChannelSubscribersView: View {
 }
 
 struct ChannelPinnedView: View {
+    let notices: [ChatNotice]
+    
     var body: some View {
         ScrollView {
             LazyVStack {
-                ForEach(0...0, id: \.self) { _ in
+                ForEach(notices, id: \.self) { notice in
                     HStack(spacing: 10) {
                         Circle().frame(width: 30, height: 30)
                         VStack(alignment: .leading, spacing: 10) {
                             HStack {
-                                Text("이름")
+                                Text(notice.name)
                                     .fontWeight(.bold)
-                                Text("9월 29일 03:13")
+                                Text(notice.time)
                                     .foregroundColor(.gray)
                             }
                             
-                            Text("채팅 내용")
+                            Text(notice.message)
                         }
                         
                         Spacer()
@@ -204,10 +222,10 @@ struct ChannelMediaView: View {
     }
 }
 
-struct ChannelInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChannelInfoView()
-        ChannelSubscribersView(text: .constant(""))
-        ChannelPinnedView()
-    }
-}
+//struct ChannelInfoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChannelInfoView()
+//        ChannelSubscribersView(text: .constant(""))
+//        ChannelPinnedView()
+//    }
+//}

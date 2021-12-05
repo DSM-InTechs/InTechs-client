@@ -189,9 +189,7 @@ struct QuickActionPopView: View {
             }.onTapGesture {
                 withAnimation {
                     self.isPop = false
-                    self.homeVM.toast = .channelCreate(execute: {
-                        
-                    })
+                    self.homeVM.toast = .channelCreate(execute: {}, isDM: true)
                 }
             }
             
@@ -202,7 +200,7 @@ struct QuickActionPopView: View {
             }.onTapGesture {
                 withAnimation {
                     self.isPop = false
-                    self.homeVM.toast = .issueCreate(execute: { })
+                    self.homeVM.toast = .issueCreate(execute: {})
                 }
             }
             

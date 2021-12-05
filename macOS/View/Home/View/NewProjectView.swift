@@ -27,7 +27,7 @@ struct NewProjectView: View {
                             NSOpenPanel.openImage(completion: { result in
                                 switch result {
                                 case .success(let image):
-                                    self.viewModel.image = image
+                                    self.viewModel.image = image.1
                                 case .failure(_):
                                     break
                                 }
@@ -41,7 +41,7 @@ struct NewProjectView: View {
                             NSOpenPanel.openImage(completion: { result in
                                 switch result {
                                 case .success(let image):
-                                    self.viewModel.image = image
+                                    self.viewModel.image = image.1
                                 case .failure(_):
                                     break
                                 }

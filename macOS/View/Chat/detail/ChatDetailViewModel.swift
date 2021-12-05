@@ -13,7 +13,7 @@ class ChatDetailViewModel: ObservableObject {
     @Published var text: String = ""
     @Published var editingText: String = ""
     
-    @Published var selectedNSImages: [NSImage] = []
+    @Published var selectedNSImages: [(String, NSImage)] = []
     @Published var selectedFile: [(String, Data)] = []
     
     @Published var channel = RoomInfo(id: "", name: "", image: "", users: [RoomUser](), notification: false, dm: false)
@@ -38,8 +38,13 @@ class ChatDetailViewModel: ObservableObject {
         case onAppear(channelId: String)
         case getChatInfo
         case setMypage(profile: Mypage)
+        case editText(preText: String)
+        
         case sendMessage
         case changeNotification(isOn: Bool)
+        
+        case updateChat(messageId: String)
+        case deleteChat(messageId: String)
     }
     
     public struct Input {
@@ -47,6 +52,9 @@ class ChatDetailViewModel: ObservableObject {
         let getChatInfo = PassthroughSubject<String, Never>()
         let setMypage = PassthroughSubject<Mypage, Never>()
         let changeNotification = PassthroughSubject<Bool, Never>()
+        
+        let sendImage = PassthroughSubject<(String, NSImage), Never>()
+        let sendFile = PassthroughSubject<(String, Data), Never>()
     }
     
     public let input = Input()
@@ -60,26 +68,39 @@ class ChatDetailViewModel: ObservableObject {
         case .getChatInfo:
             self.input.getChatInfo.send(self.channelId)
         case .sendMessage:
+            if !selectedNSImages.isEmpty {
+                for image in selectedNSImages {
+                    self.input.sendImage.send(image)
+                }
+            }
+            if !selectedFile.isEmpty {
+                for file in selectedFile {
+                    self.input.sendFile.send(file)
+                }
+            }
             self.pushMessage()
         case .setMypage(let profile):
             self.input.setMypage.send(profile)
         case .changeNotification(let isOn):
             self.input.changeNotification.send(isOn)
+        case .editText(let preText):
+            self.editingText = preText
+        case .updateChat(let messageId):
+            self.updateMessage(messageId: messageId)
+        case .deleteChat(let messageId):
+            self.deleteMessage(messageId: messageId)
         }
     }
     
     init(chatRepository: ChatRepository = ChatRepositoryImpl()) {
         self.chatRepository = chatRepository
         
-        self.manager.config = SocketIOClientConfiguration(
-            arrayLiteral: .connectParams(["token": accessToken]))
+        self.manager.config = SocketIOClientConfiguration(arrayLiteral: .connectParams(["token": accessToken]))
+        self.socket = self.manager.defaultSocket
         
         input.onAppear
             .sink(receiveValue: { _ in
-                print(self.channelId)
-                self.socket = self.manager.defaultSocket
                 self.joinChannel()
-                
                 self.getMessage()
             }).store(in: &bag)
         
@@ -115,6 +136,24 @@ class ChatDetailViewModel: ObservableObject {
                     }
             }.sink(receiveValue: { _ in })
             .store(in: &bag)
+        
+        input.sendImage
+            .flatMap {
+                self.chatRepository.sendImageMessage(channelId: self.channelId, name: $0.0, image: $0.1)
+                    .catch { _ -> Empty<Void, Never> in
+                        return .init()
+                    }
+            }.sink(receiveValue: { _ in })
+            .store(in: &bag)
+        
+        input.sendFile
+            .flatMap {
+                self.chatRepository.sendFileMessage(channelId: self.channelId, name: $0.0, file: $0.1)
+                    .catch { _ -> Empty<Void, Never> in
+                        return .init()
+                    }
+            }.sink(receiveValue: { _ in })
+            .store(in: &bag)
     }
     
     deinit {
@@ -123,46 +162,94 @@ class ChatDetailViewModel: ObservableObject {
     
     private func joinChannel() {
         socket.connect()
-        
-        self.socket.emit("joinChannel", channelId)
     }
     
     private func getMessage() {
         socket.on(clientEvent: .connect) { _, _ in
-               print("socket connected")
-           }
+            self.socket.emit("joinChannel", self.channelId)
+        }
         
-        self.socket.on(self.channelId) { dataArray, _ in
-            //            var newMessage = ChatMessage(message: self.text, sender: MessageSender(name: "", email: "", imageURL: ""))
+        self.socket.on("send") { datas, _ in // 메세지 받음
+            if let datas = datas as? [[String: Any]] {
+                for data in datas {
+                    let newMessage = ChatMessage(dict: data)
+                    self.messageList.chats.append(newMessage)
+                }
+            } else {
+                print("----------- CASTING ERROR -------------")
+                print(datas)
+            }
+        }
+        
+        self.socket.on("send-file") { datas, _ in // 파일 메세지 받음
+            if let datas = datas as? [[String: Any]] {
+                for data in datas {
+                    let newMessage = ChatMessage(dict: data)
+                    self.messageList.chats.append(newMessage)
+                }
+            } else {
+                print("----------- CASTING ERROR2 -------------")
+                print(datas)
+            }
+        }
+        
+        self.socket.on("update") { datas, _ in // 메세지가 수정됨!
+            print(datas)
             
-            print(type(of: dataArray))
-            print(dataArray)
-            
-            //            {sender: "userName", message: "message", isMine: true, time: 2021-10-28T02:59:17.652+00:00}
-            
-            //            let data = dataArray[0] as! NSDictionary
-            //            chat.type = data["type"] as! Int
-            //            chat.message = data["message"] as! String
-            //
-            //            print(chat)
-            //
-            //            self.messageList.append(newMessage)
-            
-            //            self.updateChat(count: self.myChat.count) {
-            //                print("Get Message")
-            //            }
+            if let datas = datas as? [[String: Any]] {
+                for data in datas {
+                    print(data)
+                    if let editedMessage = self.messageList.chats.filter({ $0.id == data["id"] as! String }).first {
+                        let index = self.messageList.chats.firstIndex(of: editedMessage)
+                        self.messageList.chats[index!].message = data["message"] as! String
+                    }
+                }
+            } else {
+                print("----------- CASTING ERROR2 -------------")
+                print(datas)
+            }
+        }
+        
+        self.socket.on("delete") { datas, _ in // 메세지가 삭제됨!
+            if let datas = datas as? [String] {
+                for data in datas {
+                    if let editedMessage = self.messageList.chats.filter({ $0.id == data as! String }).first {
+                        let index = self.messageList.chats.firstIndex(of: editedMessage)
+                        self.messageList.chats[index!].delete = true
+                    }
+                }
+            } else {
+                print("----------- CASTING ERROR2 -------------")
+                print(datas)
+            }
         }
     }
     
     private func pushMessage() {
+        if !self.selectedNSImages.isEmpty {
+            for image in self.selectedNSImages {
+                self.input.sendImage.send(image)
+            }
+        }
+        if !self.selectedFile.isEmpty {
+            for file in self.selectedFile {
+                self.input.sendFile.send(file)
+            }
+        }
+        
         if self.text.replacingOccurrences(of: " ", with: "") != "" {
-//            self.socket.emit("send", with: ["channelId": channelId, "message": self.text])
-            self.socket.emit("send", MessageRequest(channelId: channelId, message: text))
-//            self.socket.emit(self.channelId, self.text)
-            self.messageList.chats.append(ChatMessage(id: "", message: self.text, time: "", sender: MessageSender(name: profile.name, email: profile.email, imageURL: profile.image), chatType: MessageType.talk.rawValue, delete: false))
+            self.socket.emit("send", ["channelId": channelId, "message": text])
         }
         self.text = ""
         self.selectedNSImages = []
         self.selectedFile = []
+    }
+    
+    private func deleteMessage(messageId: String) {
+        self.socket.emit("delete", ["channelId": channelId, "messageId": messageId])
+    }
+    
+    private func updateMessage(messageId: String) {
+        self.socket.emit("update", ["channelId": channelId, "chatId": messageId, "message": editingText])
     }
 }

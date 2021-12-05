@@ -55,15 +55,18 @@ public enum InTechsAPI {
     case getChannelUsers(channelId: String)
     case getNotices(channelId: String)
     
-    case addChannelUser(channelId: String, email: String)
+    case addChannelUser(projectId: Int, channelId: String, email: String)
     
-    case createChannel(projectId: Int, name: String)
+    case createNotice(messageId: String)
+    
+    case createChannel(projectId: Int, name: String, isDM: Bool)
     case updateChannel(projectId: Int, channelId: String, name: String, imageData: Data)
     case deleteChannel(projectId: Int, channelId: String)
     case exitChannel(projectId: Int, channelId: String)
     
     case updateNotification(channelId: String)
     
+    case sendFileMessage(channelId: String, name: String, fileData: Data)
 }
 
 extension InTechsAPI: TargetType {
@@ -149,28 +152,34 @@ extension InTechsAPI: TargetType {
         case .getNotices(let channelId):
             return "/channel/\(channelId)/notices"
             
-        case let .addChannelUser(channelId, email):
-            return "/channel/\(channelId)/\(email)"
+        case let .addChannelUser(projectId, channelId, email):
+            return "/\(projectId)/\(channelId)/\(email)"
             
-        case .createChannel(let projectId, _):
+        case let .createNotice(messageId):
+            return "/channel/\(messageId)/notice"
+            
+        case .createChannel(let projectId, _, _):
             return "\(projectId)"
         case .updateChannel(let projectId, let channelId, _, _):
             return "/\(projectId)/\(channelId)"
         case .deleteChannel(let projectId, let channelId):
             return "/\(projectId)/\(channelId)"
         case .exitChannel(let projectId, let channelId):
-            return "/\(projectId)/\(channelId)"
+            return "/\(projectId)/\(channelId)/user"
             
         case .updateNotification(let channelId):
             return "/channel/\(channelId)/notification"
+            
+        case let .sendFileMessage(channelId, _, _):
+            return "/channel/\(channelId)/chat/file"
         }
     }
     
     public var method: Moya.Method {
         switch self {
-        case .register, .login, .refresh, .createProject, .joinProject, .createIssue, .getIssues, .addComment, .createChannel:
+        case .register, .login, .refresh, .createProject, .joinProject, .createIssue, .getIssues, .addComment, .createChannel, .addChannelUser, .sendFileMessage:
             return .post
-        case .updateMypage, .updateMyActive, .updateProject, .updateIssue, .updateChannel, .exitChannel, .updateNotification:
+        case .updateMypage, .updateMyActive, .updateProject, .updateIssue, .updateChannel, .exitChannel, .updateNotification, .createNotice:
             return .patch
         case .deleteUser, .deleteProject, .exitProject, .deleteIssue, .deleteChannel:
             return .delete
@@ -250,13 +259,32 @@ extension InTechsAPI: TargetType {
             return .requestParameters(parameters: ["content": content], encoding: JSONEncoding.default)
         case .getMessageList(_, let page):
             return .requestParameters(parameters: ["page": page, "size": 20], encoding: URLEncoding.queryString)
-        case .createChannel(_, let name):
-            return .requestParameters(parameters: ["name": name], encoding: JSONEncoding.default)
+        case .createChannel(_, let name, let isDM):
+            return .requestParameters(parameters: ["name": name, "isDM": isDM], encoding: JSONEncoding.default)
         case let .updateChannel(_, _, name, imageData):
             let data = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(name).jpeg", mimeType: "image/jpeg")
             let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
             let multipartData = [data, nameData]
             return .uploadMultipart(multipartData)
+        case let .sendFileMessage(_, name, fileData):
+            if name.contains(".jpg") || name.contains(".png") || name.contains(".jpeg") {
+                let data = MultipartFormData(provider: .data(fileData), name: "image", fileName: "\(name)", mimeType: "image/jpeg")
+                let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
+                let chatType = MultipartFormData(provider: .data("IMAGE".data(using: .utf8)!), name: "chatType")
+                let multipartData = [data, nameData, chatType]
+                
+                return .uploadMultipart(multipartData)
+            } else {
+                // 추후 수정 예ㅖ쩡
+                let data = MultipartFormData(provider: .data(fileData), name: "image", fileName: "\(name)", mimeType: "image/jpeg")
+                let nameData = MultipartFormData(provider: .data(name.data(using: .utf8)!), name: "name")
+                let chatType = MultipartFormData(provider: .data("FILE".data(using: .utf8)!), name: "chatType")
+                let multipartData = [data, nameData, chatType]
+                
+                return .uploadMultipart(multipartData)
+            }
+        case .createNotice(_):
+            return .requestParameters(parameters: ["notice": true], encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

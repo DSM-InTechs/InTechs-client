@@ -15,7 +15,7 @@ struct TheadView: View {
     
     @ObservedObject var viewModel = ThreadViewModel()
     
-    @State var selectedNSImages: [NSImage] = []
+    @State var selectedNSImages: [(String, NSImage)] = []
     @State var selectedFile: [(String, Data)] = []
     
     @State private var emojiPop = false
@@ -69,8 +69,8 @@ struct TheadView: View {
                         }
                     
                     LazyHStack {
-                        ForEach(selectedNSImages, id: \.self) { image in
-                            Image(nsImage: image)
+                        ForEach(0..<selectedNSImages.count, id: \.self) { index in
+                            Image(nsImage: selectedNSImages[index].1)
                                 .resizable()
                                 .frame(width: 100, height: 100)
                         }

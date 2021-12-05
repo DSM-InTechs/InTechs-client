@@ -17,7 +17,9 @@ public protocol ChatRepository {
     
     func addUser(channelId: String, email: String) -> AnyPublisher<Void, NetworkError>
     
-    func createChannel(name: String) -> AnyPublisher<Void, NetworkError>
+    func createNotice(messageId: String) -> AnyPublisher<Void, NetworkError>
+    
+    func createChannel(name: String, isDM: Bool) -> AnyPublisher<NewChannelResponse, NetworkError>
     func deleteChannel(channelId: String) -> AnyPublisher<Void, NetworkError>
     func exitChannel(channelId: String) -> AnyPublisher<Void, NetworkError>
 #if os(iOS)
@@ -27,6 +29,9 @@ public protocol ChatRepository {
 #endif
     
     func updateNotification(channelId: String) -> AnyPublisher<Void, NetworkError>
+    
+    func sendImageMessage(channelId: String, name: String, image: NSImage) -> AnyPublisher<Void, NetworkError>
+    func sendFileMessage(channelId: String, name: String, file: Data) -> AnyPublisher<Void, NetworkError>
 }
 
 final public class ChatRepositoryImpl: ChatRepository {
@@ -83,14 +88,22 @@ final public class ChatRepositoryImpl: ChatRepository {
     }
     
     public func addUser(channelId: String, email: String) -> AnyPublisher<Void, NetworkError> {
-        provider.requestVoidPublisher(.addChannelUser(channelId: channelId, email: email))
+        provider.requestVoidPublisher(.addChannelUser(projectId: self.currentProject, channelId: channelId, email: email))
             .retryWithAuthIfNeeded()
             .mapError { NetworkError($0) }
             .eraseToAnyPublisher()
     }
     
-    public func createChannel(name: String) -> AnyPublisher<Void, NetworkError> {
-        provider.requestVoidPublisher(.createChannel(projectId: self.currentProject, name: name))
+    public func createNotice(messageId: String) -> AnyPublisher<Void, NetworkError> {
+        provider.requestVoidPublisher(.createNotice(messageId: messageId))
+            .retryWithAuthIfNeeded()
+            .mapError { NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    public func createChannel(name: String, isDM: Bool) -> AnyPublisher<NewChannelResponse, NetworkError> {
+        provider.requestPublisher(.createChannel(projectId: self.currentProject, name: name, isDM: isDM))
+            .map(NewChannelResponse.self)
             .retryWithAuthIfNeeded()
             .mapError { NetworkError($0) }
             .eraseToAnyPublisher()
@@ -138,6 +151,25 @@ final public class ChatRepositoryImpl: ChatRepository {
     
     public func updateNotification(channelId: String) -> AnyPublisher<Void, NetworkError> {
         return provider.requestVoidPublisher(.updateNotification(channelId: channelId))
+            .retryWithAuthIfNeeded()
+            .mapError { NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    public func sendImageMessage(channelId: String, name: String, image: NSImage) -> AnyPublisher<Void, NetworkError> {
+        let image = image.resize(width: 500, height: 500)!
+        let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)!
+        let bitmapRep = NSBitmapImageRep(cgImage: cgImage)
+        let jpegData = bitmapRep.representation(using: NSBitmapImageRep.FileType.jpeg, properties: [:])!
+        
+        return provider.requestVoidPublisher(.sendFileMessage(channelId: channelId, name: name, fileData: jpegData))
+            .retryWithAuthIfNeeded()
+            .mapError { NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    public func sendFileMessage(channelId: String, name: String, file: Data) -> AnyPublisher<Void, NetworkError> {
+        return provider.requestVoidPublisher(.sendFileMessage(channelId: channelId, name: name, fileData: file))
             .retryWithAuthIfNeeded()
             .mapError { NetworkError($0) }
             .eraseToAnyPublisher()

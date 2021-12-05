@@ -41,8 +41,8 @@ struct ContentView: View {
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
                                 .environmentObject(homeViewModel)
-                        case .channelInfo:
-                            ChannelInfoView()
+                        case .channelInfo(let channelId):
+                            ChannelInfoView(id: channelId)
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.3)
                         case .channelSearch:
@@ -64,8 +64,8 @@ struct ContentView: View {
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.5, height: geo.size.height / 3)
                                 .environmentObject(homeViewModel)
-                        case .channelCreate(let execute):
-                            NewChannelView(execute: execute)
+                        case .channelCreate(let execute, let isDM):
+                            NewChannelView(isDM: isDM, execute: execute)
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.2)
                                 .environmentObject(homeViewModel)

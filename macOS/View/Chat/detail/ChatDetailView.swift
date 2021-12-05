@@ -71,7 +71,7 @@ struct ChatDetailView: View {
                         
                         Button(action: {
                             withAnimation {
-                                homeVM.toast = .channelInfo
+                                homeVM.toast = .channelInfo(channelId: channelId)
                             }
                         }, label: {
                             Image(system: .info)
@@ -104,12 +104,12 @@ struct ChatDetailView: View {
                     Divider()
                     
                     ZStack(alignment: .top) {
-                        VStack {
-                            Spacer(minLength: 0)
+//                        VStack {
+//                            Spacer(minLength: 0)
                             
                             MessageView(isThread: $isThread, messages: $viewModel.messageList, selectedThreadIndex: $selectedThreadIndex, selectedNoticeIndex: $selectedNoticeIndex)
                                 .environmentObject(viewModel)
-                        }
+//                        }
                         
                         if viewModel.messageList.notice != nil {
                             NoticeMessageView(notice: viewModel.messageList.notice!)
@@ -156,7 +156,7 @@ struct ChatDetailView: View {
                                 LazyHStack {
                                     ForEach(0..<viewModel.selectedNSImages.count, id: \.self) { index in
                                         ZStack(alignment: .topTrailing) {
-                                            Image(nsImage: viewModel.selectedNSImages[index])
+                                            Image(nsImage: viewModel.selectedNSImages[index].1)
                                                 .resizable()
                                                 .frame(width: 75, height: 75)
                                             
@@ -222,6 +222,7 @@ struct ChatDetailView: View {
         .ignoresSafeArea(.all, edges: .all)
         .onAppear {
             self.viewModel.apply(.onAppear(channelId: channelId))
+            self.viewModel.apply(.setMypage(profile: homeVM.profile))
         }
     }
 }
@@ -249,7 +250,7 @@ struct HoverImage: View {
 }
 
 struct FileTypeSelectView: View {
-    @Binding var selectedImage: [NSImage]
+    @Binding var selectedImage: [(String, NSImage)]
     @Binding var selectedFile: [(String, Data)]
     
     var body: some View {
@@ -274,8 +275,8 @@ struct FileTypeSelectView: View {
             Button(action: {
                 NSOpenPanel.openImage(completion: { result in
                     switch result {
-                    case .success(let image):
-                        self.selectedImage.append(image)
+                    case .success(let tuple):
+                        self.selectedImage.append(tuple)
                     default: break
                     }
                 })
@@ -305,7 +306,7 @@ struct ChannelDotPopView: View {
             }.onTapGesture {
                 self.isShow = false
                 withAnimation {
-                    homeVM.toast = .channelInfo
+                    homeVM.toast = .channelInfo(channelId: viewModel.channel.id)
                 }
             }
             

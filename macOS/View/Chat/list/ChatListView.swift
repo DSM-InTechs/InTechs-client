@@ -164,7 +164,13 @@ struct EditPopView: View {
                         .foregroundColor(.gray)
                         .padding(.top, 10)
                     
-                    Button(action: {}, label: {
+                    Button(action: {
+                        homeVM.toast = .channelCreate(execute: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                viewModel.apply(.onAppear)
+                            })
+                        }, isDM: true)
+                    }, label: {
                         HStack {
                             Image(system: .person)
                             Text("DM 시작하기")
@@ -182,7 +188,7 @@ struct EditPopView: View {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                                 viewModel.apply(.onAppear)
                             })
-                        })
+                        }, isDM: false)
                     }, label: {
                         HStack {
                             Text("#")
