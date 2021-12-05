@@ -61,7 +61,7 @@ struct ChatDetailView: View {
                         
                         Button(action: {
                             withAnimation {
-                                homeVM.toast = .channelSearch
+                                homeVM.toast = .channelSearch(channelId: channelId)
                             }
                         }, label: {
                             Image(system: .search)
@@ -104,12 +104,12 @@ struct ChatDetailView: View {
                     Divider()
                     
                     ZStack(alignment: .top) {
-//                        VStack {
-//                            Spacer(minLength: 0)
-                            
-                            MessageView(isThread: $isThread, messages: $viewModel.messageList, selectedThreadIndex: $selectedThreadIndex, selectedNoticeIndex: $selectedNoticeIndex)
-                                .environmentObject(viewModel)
-//                        }
+                        //                        VStack {
+                        //                            Spacer(minLength: 0)
+                        
+                        MessageView(isThread: $isThread, messages: $viewModel.messageList, selectedThreadIndex: $selectedThreadIndex, selectedNoticeIndex: $selectedNoticeIndex)
+                            .environmentObject(viewModel)
+                        //                        }
                         
                         if viewModel.messageList.notice != nil {
                             NoticeMessageView(notice: viewModel.messageList.notice!)
@@ -209,13 +209,13 @@ struct ChatDetailView: View {
                     
                 }
                 
-                //                if isThread {
-                //                    TheadView(isThread: $isThread,
-                //                              message: $channel.allMsgs[selectedThreadIndex])
-                //                        .frame(width: geo.size.width / 3)
-                //                        .ignoresSafeArea(.all)
-                //                        .background(Color(NSColor.systemGray).opacity(0.1))
-                //                }
+                if isThread {
+                    TheadView(channelId: self.channelId, isThread: $isThread,
+                              message: $viewModel.messageList.chats[selectedThreadIndex])
+                        .frame(width: geo.size.width / 3)
+                        .ignoresSafeArea(.all)
+                        .background(Color(NSColor.systemGray).opacity(0.1))
+                }
             }.padding(.trailing, 70)
         }
         .background(Color(NSColor.textBackgroundColor))

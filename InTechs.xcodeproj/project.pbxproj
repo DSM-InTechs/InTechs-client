@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		493E3BC2588BF0810323CB0E /* Pods_InTechs__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B3C0C73C324DE488CC21F81 /* Pods_InTechs__iOS_.framework */; };
+		D9002A74275C88640084268F /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9002A73275C88640084268F /* SocketIOManager.swift */; };
+		D9002A75275C88640084268F /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9002A73275C88640084268F /* SocketIOManager.swift */; };
+		D9002A77275C8F590084268F /* InTechsSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9002A76275C8F590084268F /* InTechsSocket.swift */; };
+		D9002A78275C8F590084268F /* InTechsSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9002A76275C8F590084268F /* InTechsSocket.swift */; };
+		D9002A7B275CAFE70084268F /* ChannelSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9002A7A275CAFE70084268F /* ChannelSearchViewModel.swift */; };
+		D9002A7C275CAFE70084268F /* ChannelSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9002A7A275CAFE70084268F /* ChannelSearchViewModel.swift */; };
+		D9002A7E275CB04B0084268F /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9002A7D275CB04B0084268F /* MessageType.swift */; };
+		D9002A7F275CB04B0084268F /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9002A7D275CB04B0084268F /* MessageType.swift */; };
 		D90BB8C426DD15A50002E210 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90BB8C226DD10F50002E210 /* SettingView.swift */; };
 		D90BB8C626DDA3EB0002E210 /* InputDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90BB8C526DDA3EA0002E210 /* InputDocument.swift */; };
 		D90C61D527100CA0006F0A55 /* ProjectJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C61D427100C9F006F0A55 /* ProjectJoinView.swift */; };
@@ -111,7 +119,6 @@
 		D950A31126D20C3D003D4907 /* Image+SFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A31026D20C3D003D4907 /* Image+SFImage.swift */; };
 		D950A31226D20C44003D4907 /* SFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A30D26D20C1C003D4907 /* SFImage.swift */; };
 		D950A31326D20C49003D4907 /* Image+SFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A31026D20C3D003D4907 /* Image+SFImage.swift */; };
-		D950A31626D20C67003D4907 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A31526D20C67003D4907 /* Message.swift */; };
 		D950A31B26D20C94003D4907 /* HomeTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A31926D20C8E003D4907 /* HomeTab.swift */; };
 		D950A31E26D20CAD003D4907 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A31C26D20CA6003D4907 /* HomeViewModel.swift */; };
 		D950A32126D20CCA003D4907 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A32026D20CCA003D4907 /* BlurView.swift */; };
@@ -126,7 +133,6 @@
 		D950A33626D20E67003D4907 /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A33526D20E67003D4907 /* ChatListView.swift */; };
 		D950A33826D20E76003D4907 /* ChatTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A33726D20E76003D4907 /* ChatTab.swift */; };
 		D950A33C26D20E8F003D4907 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A33B26D20E8F003D4907 /* ChatDetailView.swift */; };
-		D950A33D26D20E94003D4907 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A31526D20C67003D4907 /* Message.swift */; };
 		D950A34026D2103B003D4907 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A33F26D2103B003D4907 /* Home.swift */; };
 		D950A34726D213E0003D4907 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A34626D213E0003D4907 /* CalendarView.swift */; };
 		D950A34D26D217D8003D4907 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A34C26D217D8003D4907 /* Assets.swift */; };
@@ -148,7 +154,6 @@
 		D9558D7927228FAA004FEEBB /* Date+Compare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7827228FAA004FEEBB /* Date+Compare.swift */; };
 		D9558D7A27228FAA004FEEBB /* Date+Compare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7827228FAA004FEEBB /* Date+Compare.swift */; };
 		D9558D7C2725991E004FEEBB /* NewIssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9558D7B2725991D004FEEBB /* NewIssueViewModel.swift */; };
-		D96725BC27548A9B00402AF1 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = D950A31526D20C67003D4907 /* Message.swift */; };
 		D96725BD27548ABF00402AF1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91CB564270EE316003DCB63 /* User.swift */; };
 		D9740331274F0E01006E4606 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9740330274F0E01006E4606 /* Notification.swift */; };
 		D9740333274F4C5F006E4606 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9740332274F4C5F006E4606 /* Downloader.swift */; };
@@ -259,6 +264,10 @@
 		891CD94DFAB4741DE14F53EB /* Pods-InTechs (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTechs (iOS).release.xcconfig"; path = "Target Support Files/Pods-InTechs (iOS)/Pods-InTechs (iOS).release.xcconfig"; sourceTree = "<group>"; };
 		8B3C0C73C324DE488CC21F81 /* Pods_InTechs__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InTechs__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D7AB31164BDDCC9AF0965E /* Pods-InTechs (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InTechs (iOS).debug.xcconfig"; path = "Target Support Files/Pods-InTechs (iOS)/Pods-InTechs (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		D9002A73275C88640084268F /* SocketIOManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
+		D9002A76275C8F590084268F /* InTechsSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InTechsSocket.swift; sourceTree = "<group>"; };
+		D9002A7A275CAFE70084268F /* ChannelSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSearchViewModel.swift; sourceTree = "<group>"; };
+		D9002A7D275CB04B0084268F /* MessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
 		D90BB8C226DD10F50002E210 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		D90BB8C526DDA3EA0002E210 /* InputDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDocument.swift; sourceTree = "<group>"; };
 		D90C61D427100C9F006F0A55 /* ProjectJoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectJoinView.swift; sourceTree = "<group>"; };
@@ -340,7 +349,6 @@
 		D94C99FE26E0660F00CB2F07 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		D950A30D26D20C1C003D4907 /* SFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFImage.swift; sourceTree = "<group>"; };
 		D950A31026D20C3D003D4907 /* Image+SFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+SFImage.swift"; sourceTree = "<group>"; };
-		D950A31526D20C67003D4907 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		D950A31926D20C8E003D4907 /* HomeTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTab.swift; sourceTree = "<group>"; };
 		D950A31C26D20CA6003D4907 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		D950A32026D20CCA003D4907 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
@@ -475,6 +483,17 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		D9002A79275CAFD00084268F /* toast */ = {
+			isa = PBXGroup;
+			children = (
+				D950A37826D336AD003D4907 /* ChannelInfoView.swift */,
+				D925156A27599527003A1002 /* ChannelInfoViewModel.swift */,
+				D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */,
+				D9002A7A275CAFE70084268F /* ChannelSearchViewModel.swift */,
+			);
+			path = toast;
+			sourceTree = "<group>";
+		};
 		D90BB8C126DD10EC0002E210 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -576,6 +595,8 @@
 			isa = PBXGroup;
 			children = (
 				D925154127576286003A1002 /* ChatRepository.swift */,
+				D9002A73275C88640084268F /* SocketIOManager.swift */,
+				D9002A76275C8F590084268F /* InTechsSocket.swift */,
 			);
 			path = Chatting;
 			sourceTree = "<group>";
@@ -588,6 +609,7 @@
 				D9D367892759CC5400B69777 /* NewChannelResponse.swift */,
 				D92515592758C15C003A1002 /* ChatNotice.swift */,
 				D925154727576455003A1002 /* ChatMessage.swift */,
+				D9002A7D275CB04B0084268F /* MessageType.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -776,7 +798,6 @@
 				D91CB56F270EF203003DCB63 /* Project */,
 				D91CB563270EE30B003DCB63 /* User */,
 				D91CB532270ACC1C003DCB63 /* Auth */,
-				D950A31526D20C67003D4907 /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -983,15 +1004,13 @@
 		D950A37426D33650003D4907 /* detail */ = {
 			isa = PBXGroup;
 			children = (
+				D9002A79275CAFD00084268F /* toast */,
 				D950A33B26D20E8F003D4907 /* ChatDetailView.swift */,
 				D936650526E1EC3600E1F57F /* ChatDetailViewModel.swift */,
 				D92083FC274D257200EA8F8E /* MessageView.swift */,
 				D9D3678C275A540E00B69777 /* MessageViewModel.swift */,
 				D936650326E1EB8000E1F57F /* TheadView.swift */,
 				D92083F8274CB2DB00EA8F8E /* ThreadViewModel.swift */,
-				D950A37826D336AD003D4907 /* ChannelInfoView.swift */,
-				D925156A27599527003A1002 /* ChannelInfoViewModel.swift */,
-				D950A37A26D33A9E003D4907 /* ChannelSearchView.swift */,
 			);
 			path = detail;
 			sourceTree = "<group>";
@@ -1495,8 +1514,11 @@
 			files = (
 				D91CB562270EE2C3003DCB63 /* MypageRepository.swift in Sources */,
 				D94C99B826DF37DF00CB2F07 /* ChatListView.swift in Sources */,
+				D9002A7B275CAFE70084268F /* ChannelSearchViewModel.swift in Sources */,
+				D9002A7E275CB04B0084268F /* MessageType.swift in Sources */,
 				D94C99BA26DF37DF00CB2F07 /* NewChatView.swift in Sources */,
 				D925156B27599527003A1002 /* ChannelInfoViewModel.swift in Sources */,
+				D9002A77275C8F590084268F /* InTechsSocket.swift in Sources */,
 				D950A31126D20C3D003D4907 /* Image+SFImage.swift in Sources */,
 				D9FC986C26DBD16E00735222 /* KeyboardObserver.swift in Sources */,
 				D9FD9FE526D897B200664757 /* RegisterView.swift in Sources */,
@@ -1515,9 +1537,9 @@
 				D9D132B42720F1F900919BEF /* ProjectInfo.swift in Sources */,
 				D9251546275763F1003A1002 /* ChatRoom.swift in Sources */,
 				D9FC988C26DC828D00735222 /* Shake.swift in Sources */,
+				D9002A74275C88640084268F /* SocketIOManager.swift in Sources */,
 				D950A35026D2181B003D4907 /* Assets+init.swift in Sources */,
 				D9FC986426DBC9B100735222 /* HomeViewModel.swift in Sources */,
-				D950A31626D20C67003D4907 /* Message.swift in Sources */,
 				D9FD9FE126D897A500664757 /* InTechsView.swift in Sources */,
 				D90BB8C626DDA3EB0002E210 /* InputDocument.swift in Sources */,
 				D9A025F2272A36BA004568B6 /* CalendarIssue.swift in Sources */,
@@ -1617,6 +1639,7 @@
 				D950A35726D22AA6003D4907 /* ChatListViewModel.swift in Sources */,
 				D94C99C126DF4A7700CB2F07 /* IssueDetailView.swift in Sources */,
 				D91CB572270EF4AD003DCB63 /* Project.swift in Sources */,
+				D9002A75275C88640084268F /* SocketIOManager.swift in Sources */,
 				D9FD9FB526D7077000664757 /* CalendarView.swift in Sources */,
 				D91CB586270EF855003DCB63 /* CalendarViewModel.swift in Sources */,
 				D950A37126D31354003D4907 /* MypageView.swift in Sources */,
@@ -1649,6 +1672,7 @@
 				D91CB583270EF833003DCB63 /* MemberViewModel.swift in Sources */,
 				D91CB559270DBAFF003DCB63 /* ErrorView.swift in Sources */,
 				D9740335274F5022006E4606 /* String+lastPathComponent.swift in Sources */,
+				D9002A7F275CB04B0084268F /* MessageType.swift in Sources */,
 				D93BAD2826D149030094ADD9 /* ContentView.swift in Sources */,
 				D950A32926D20DDB003D4907 /* HomeTabbutton.swift in Sources */,
 				D91CB570270EF225003DCB63 /* ProjectRepository.swift in Sources */,
@@ -1658,6 +1682,7 @@
 				D950A36726D232D0003D4907 /* ProjectViewModel.swift in Sources */,
 				D98C8CF82728CB84007A5802 /* Date+year.swift in Sources */,
 				D90C61D7271010BC006F0A55 /* NewProjectViewModel.swift in Sources */,
+				D9002A7C275CAFE70084268F /* ChannelSearchViewModel.swift in Sources */,
 				D91CB55A270DBDC9003DCB63 /* NSLock+lock.swift in Sources */,
 				D9FC988E26DC82B700735222 /* InTechsViewModel.swift in Sources */,
 				D950A33C26D20E8F003D4907 /* ChatDetailView.swift in Sources */,
@@ -1665,7 +1690,7 @@
 				D950A37926D336AD003D4907 /* ChannelInfoView.swift in Sources */,
 				D91CB542270AD1F8003DCB63 /* LoginRepository.swift in Sources */,
 				D9FC988D26DC828F00735222 /* Shake.swift in Sources */,
-				D950A33D26D20E94003D4907 /* Message.swift in Sources */,
+				D9002A78275C8F590084268F /* InTechsSocket.swift in Sources */,
 				D950A31B26D20C94003D4907 /* HomeTab.swift in Sources */,
 				D9740333274F4C5F006E4606 /* Downloader.swift in Sources */,
 				D950A37B26D33A9E003D4907 /* ChannelSearchView.swift in Sources */,
@@ -1697,7 +1722,6 @@
 				D94C99F326DF822C00CB2F07 /* ChatDetailView.swift in Sources */,
 				D94C99DB26DF685200CB2F07 /* ComplicationController.swift in Sources */,
 				D96725BD27548ABF00402AF1 /* User.swift in Sources */,
-				D96725BC27548A9B00402AF1 /* Message.swift in Sources */,
 				D94C99D326DF685200CB2F07 /* InTechsApp.swift in Sources */,
 				D94C99F126DF6B0200CB2F07 /* ChatlistView.swift in Sources */,
 			);

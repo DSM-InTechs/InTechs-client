@@ -88,7 +88,7 @@ struct MessageRow: View {
                         VStack(alignment: .leading, spacing: 3) {
                             HStack(spacing: 10) {
                                 Text(message.sender.name)
-                                Text(message.time)
+                                Text(message.time.replacingOccurrences(of: "T", with: "  ").prefix(20).suffix(15))
                                     .foregroundColor(.gray)
                                 Spacer()
                             }
@@ -160,30 +160,30 @@ struct MessageRow: View {
                             //                                }.padding(.top, 7)
                             //                            }
                             
-                            //                            if message.isThread && !isEditing {
-                            //                                HStack {
-                            //                                    KFImage(URL(string: message.threadMessages.last!.sender.imageURL))
-                            //                                        .resizable()
-                            //                                        .clipShape(Circle())
-                            //                                        .frame(width: 15, height: 15)
-                            //
-                            //                                    Text("\(message.threadMessages.count)개의 답글")
-                            //                                        .foregroundColor(.white)
-                            //
-                            //                                    Text(message.threadMessages.last!.time)
-                            //                                        .foregroundColor(.gray)
-                            //                                    Spacer()
-                            //                                }
-                            //                                .padding(.vertical, 5)
-                            //                                .padding(.leading)
-                            //                                .background(Color.gray.opacity(0.1).cornerRadius(10))
-                            //                                .onTapGesture {
-                            //                                    withAnimation {
-                            //                                        self.isThread = true
-                            //                                        threadSelected()
-                            //                                    }
-                            //                                }
-                            //                            }
+                            if !message.threads.isEmpty && !isEditing {
+                                HStack {
+                                    KFImage(URL(string: message.threads.last!.sender.imageURL))
+                                        .resizable()
+                                        .clipShape(Circle())
+                                        .frame(width: 15, height: 15)
+                                    
+                                    Text("\(message.threads.count)개의 답글")
+                                        .foregroundColor(.white)
+                                    
+                                    Text(message.time.replacingOccurrences(of: "T", with: "  ").prefix(20).suffix(15))
+                                        .foregroundColor(.gray)
+                                    Spacer()
+                                }
+                                .padding(.vertical, 5)
+                                .padding(.leading)
+                                .background(Color.gray.opacity(0.1).cornerRadius(10))
+                                .onTapGesture {
+                                    withAnimation {
+                                        self.isThread = true
+                                        threadSelected()
+                                    }
+                                }
+                            }
                         }.padding(.trailing)
                             .onHover(perform: { hovering in
                                 if !self.emojiPop { // 이모티콘 판업 중일 경우에는 XX
@@ -312,7 +312,7 @@ struct FileMessageView: View {
             VStack(alignment: .leading, spacing: 3) {
                 HStack {
                     Text(message.sender.name)
-                    Text(message.time)
+                    Text(message.time.replacingOccurrences(of: "T", with: "  ").prefix(20).suffix(15))
                         .foregroundColor(.gray)
                     Spacer()
                 }
@@ -358,7 +358,7 @@ struct ImageMessageView: View {
             VStack(alignment: .leading, spacing: 3) {
                 HStack {
                     Text(message.sender.name)
-                    Text(message.time)
+                    Text(message.time.replacingOccurrences(of: "T", with: "  ").prefix(20).suffix(15))
                         .foregroundColor(.gray)
                     Spacer()
                 }

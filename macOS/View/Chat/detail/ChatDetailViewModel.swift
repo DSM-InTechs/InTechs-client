@@ -26,8 +26,7 @@ class ChatDetailViewModel: ObservableObject {
     @UserDefault(key: "accessToken", defaultValue: "")
     private var accessToken: String
     
-    private var manager = SocketManager(socketURL: URL(string: "http://localhost:8010")!, config: [.log(true), .compress])
-    private var socket: SocketIOClient!
+    private var socketManager = SocketIOManager.shared
     private var channelId = ""
     
     private let chatRepository: ChatRepository
@@ -95,12 +94,9 @@ class ChatDetailViewModel: ObservableObject {
     init(chatRepository: ChatRepository = ChatRepositoryImpl()) {
         self.chatRepository = chatRepository
         
-        self.manager.config = SocketIOClientConfiguration(arrayLiteral: .connectParams(["token": accessToken]))
-        self.socket = self.manager.defaultSocket
-        
         input.onAppear
             .sink(receiveValue: { _ in
-                self.joinChannel()
+                self.socketManager.connectChannel(channelId: self.channelId)
                 self.getMessage()
             }).store(in: &bag)
         
@@ -156,20 +152,8 @@ class ChatDetailViewModel: ObservableObject {
             .store(in: &bag)
     }
     
-    deinit {
-        socket.disconnect()
-    }
-    
-    private func joinChannel() {
-        socket.connect()
-    }
-    
     private func getMessage() {
-        socket.on(clientEvent: .connect) { _, _ in
-            self.socket.emit("joinChannel", self.channelId)
-        }
-        
-        self.socket.on("send") { datas, _ in // 메세지 받음
+        self.socketManager.on(.getMessage, callback: { datas, _ in
             if let datas = datas as? [[String: Any]] {
                 for data in datas {
                     let newMessage = ChatMessage(dict: data)
@@ -179,26 +163,23 @@ class ChatDetailViewModel: ObservableObject {
                 print("----------- CASTING ERROR -------------")
                 print(datas)
             }
-        }
+        })
         
-        self.socket.on("send-file") { datas, _ in // 파일 메세지 받음
+        self.socketManager.on(.getFileMessage, callback: { datas, _ in
             if let datas = datas as? [[String: Any]] {
                 for data in datas {
                     let newMessage = ChatMessage(dict: data)
                     self.messageList.chats.append(newMessage)
                 }
             } else {
-                print("----------- CASTING ERROR2 -------------")
+                print("----------- CASTING ERROR -------------")
                 print(datas)
             }
-        }
+        })
         
-        self.socket.on("update") { datas, _ in // 메세지가 수정됨!
-            print(datas)
-            
+        self.socketManager.on(.getUpdatedMessage, callback: { datas, _ in
             if let datas = datas as? [[String: Any]] {
                 for data in datas {
-                    print(data)
                     if let editedMessage = self.messageList.chats.filter({ $0.id == data["id"] as! String }).first {
                         let index = self.messageList.chats.firstIndex(of: editedMessage)
                         self.messageList.chats[index!].message = data["message"] as! String
@@ -208,9 +189,9 @@ class ChatDetailViewModel: ObservableObject {
                 print("----------- CASTING ERROR2 -------------")
                 print(datas)
             }
-        }
+        })
         
-        self.socket.on("delete") { datas, _ in // 메세지가 삭제됨!
+        self.socketManager.on(.getDeletedMessage, callback: { datas, _ in
             if let datas = datas as? [String] {
                 for data in datas {
                     if let editedMessage = self.messageList.chats.filter({ $0.id == data as! String }).first {
@@ -222,7 +203,23 @@ class ChatDetailViewModel: ObservableObject {
                 print("----------- CASTING ERROR2 -------------")
                 print(datas)
             }
-        }
+        })
+        
+        self.socketManager.on(.getThreadMessage, callback: { datas, _ in
+            if let datas = datas as? [[String: Any]] {
+                for data in datas {
+                    if let originalMessage = self.messageList.chats.filter({ $0.id == data["chatId"] as! String }).first {
+                        print(originalMessage)
+                        let index = self.messageList.chats.firstIndex(of: originalMessage)
+                        let newMessage = ThreadMessage(dict: data)
+                        self.messageList.chats[index!].threads.append(newMessage)
+                    }
+                }
+            } else {
+                print("----------- CASTING ERROR2 -------------")
+                print(datas)
+            }
+        })
     }
     
     private func pushMessage() {
@@ -238,7 +235,7 @@ class ChatDetailViewModel: ObservableObject {
         }
         
         if self.text.replacingOccurrences(of: " ", with: "") != "" {
-            self.socket.emit("send", ["channelId": channelId, "message": text])
+            self.socketManager.emit(.sendMessage(channelId: self.channelId, message: self.text))
         }
         self.text = ""
         self.selectedNSImages = []
@@ -246,10 +243,10 @@ class ChatDetailViewModel: ObservableObject {
     }
     
     private func deleteMessage(messageId: String) {
-        self.socket.emit("delete", ["channelId": channelId, "messageId": messageId])
+        self.socketManager.emit(.deleteMessage(channelId: self.channelId, messageId: messageId))
     }
     
     private func updateMessage(messageId: String) {
-        self.socket.emit("update", ["channelId": channelId, "chatId": messageId, "message": editingText])
+        self.socketManager.emit(.updateMessage(channelId: self.channelId, messageId: messageId, newMessage: self.editingText))
     }
 }

@@ -67,6 +67,8 @@ public enum InTechsAPI {
     case updateNotification(channelId: String)
     
     case sendFileMessage(channelId: String, name: String, fileData: Data)
+    
+    case searchMessage(channelId: String, text: String)
 }
 
 extension InTechsAPI: TargetType {
@@ -172,6 +174,9 @@ extension InTechsAPI: TargetType {
             
         case let .sendFileMessage(channelId, _, _):
             return "/channel/\(channelId)/chat/file"
+            
+        case let .searchMessage(channelId, text):
+            return "/channel/\(channelId)/chat/\(text)"
         }
     }
     

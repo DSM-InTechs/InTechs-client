@@ -10,8 +10,9 @@ import GEmojiPicker
 import Kingfisher
 
 struct TheadView: View {
+    let channelId: String
     @Binding var isThread: Bool
-    @Binding var message: Message
+    @Binding var message: ChatMessage
     
     @ObservedObject var viewModel = ThreadViewModel()
     
@@ -38,20 +39,21 @@ struct TheadView: View {
             Divider()
             
             ScrollView {
-                ThreadRow(message: message)
+                ThreadRow(message: ThreadMessage(message: message.message, sender: message.sender, time: message.time))
                     .padding(.all, 10)
                 
                 HStack(spacing: 10) {
-                    if message.threadMessages.count > 0 {
-                        Text("\(message.threadMessages.count)개의 답글")
+                    if message.threads.count > 0 {
+                        Text("\(message.threads.count)개의 답글")
                     }
                     
                     Color.gray.opacity(0.5).frame(height: 1)
                 }.padding(.horizontal)
                 
                 LazyVStack(spacing: 0) {
-                    ForEach(message.threadMessages, id: \.id) { message in
+                    ForEach(message.threads, id: \.self) { message in
                         ThreadRow(message: message)
+                            .environmentObject(self.viewModel)
                             .padding(.all, 10)
                     }
                 }
@@ -77,8 +79,7 @@ struct TheadView: View {
                     }
                     
                     TextField("메세지를 입력하세요", text: $viewModel.text, onCommit: {
-                        self.message.threadMessages.append(Message(message: viewModel.text, type: "TALK", isMine: true, sender: user1, time: "오후 11:11"))
-                        self.message.isThread = true
+                        self.viewModel.apply(.addThread(messageId: message.id))
                     })
                         .textFieldStyle(PlainTextFieldStyle())
                         .padding(.vertical, 8)
@@ -104,13 +105,11 @@ struct TheadView: View {
 }
 
 struct ThreadRow: View {
-    var message: Message
-    @State private var hover: Bool = false
-    @State private var isEditing: Bool = false
+    var message: ThreadMessage
     @State private var profileHover: Bool = false
-    @State private var emojiPop = false
+    //    @State private var emojiPop = false
     
-    @ObservedObject var viewModel = ThreadViewModel()
+    @EnvironmentObject var viewModel: ThreadViewModel
     @EnvironmentObject var homeVM: HomeViewModel
     
     var body: some View {
@@ -125,105 +124,33 @@ struct ThreadRow: View {
                         .onHover(perform: { hovering in
                             self.profileHover = hovering
                         })
-                    
                 }
                 
                 VStack(alignment: .leading, spacing: 3) {
-                    HStack {
+                    HStack(spacing: 10) {
                         Text(message.sender.name)
+                        Text(message.time.replacingOccurrences(of: "T", with: "  ").prefix(20).suffix(15))
+                            .foregroundColor(.gray)
                         Spacer()
-                        Text(message.time)
                     }
                     
-                    if isEditing {
-                        VStack(spacing: 10) {
-                            HStack {
-                                Image(system: .clip)
-                                
-                                TextField("", text: $viewModel.text, onCommit: {
-                                    //                                        self.messages.append(Message(message: homeVM.message, isMine: true, sender: User(name: "정고은", email: "gogo8272@gmail.com", imageURL: "", isActive: true), time: "오후 10:10"))
-                                })
-                                    .textFieldStyle(PlainTextFieldStyle())
-                                    .padding(.vertical, 8)
-                                    .padding(.horizontal)
-                                    .background(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.white))
-                            }
-                            
-                            HStack {
-                                Text("취소")
-                                    .padding(.all, 5)
-                                    .padding(.horizontal, 10)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(Color(Asset.black), lineWidth: 1)
-                                    )
-                                    .onTapGesture {
-                                        self.isEditing = false
-                                    }
-                                Spacer()
-                                Text("확인")
-                                    .padding(.all, 5)
-                                    .padding(.horizontal, 10)
-                                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.blue))
-                                    .onTapGesture {
-                                        self.isEditing = false
-                                    }
-                            }
-                            .padding(.bottom)
-                        }
-                    } else {
-                        HStack {
-                            Text(message.message)
-                                .foregroundColor(.white)
-                                .fixedSize(horizontal: false, vertical: true)
-                            Spacer()
-                        }
+                    HStack {
+                        Text(message.message)
+                            .foregroundColor(.white)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Spacer()
                     }
+                    
                 }.padding(.trailing)
-                    .onHover(perform: { hovering in
-                        self.hover = hovering
-                        if isEditing {
-                            self.hover = false
-                        }
-                    })
             }
             
             Spacer()
-            
-            if self.hover {
-                HStack {
-                    Spacer(minLength: 0)
-                    HStack(spacing: 0) {
-                        HoverImage(system: .trash)
-                            .onTapGesture {
-                                //                            self.homeVM.toast = .messageDelete(execute: {
-                                //                                self.message.message = "이 메세지는 삭제되었습니다."
-                                //                            })
-                            }
-                        HoverImage(system: .pencil)
-                            .onTapGesture {
-                                self.isEditing = true
-                            }
-                        HoverImage(system: .pin)
-                        HoverImage(system: .smileFace)
-                            .onTapGesture {
-                                self.emojiPop.toggle()
-                            }
-                            .popover(isPresented: $emojiPop) {
-                                EmojiPicker(emojiStore: EmojiStore(), selectionHandler: { _ in })
-                                    .environmentObject(SharedState())
-                                    .frame(width: 400, height: 300)
-                            }
-                    }
-                }.offset(y: -10)
-                    .padding(.trailing)
-            }
         }
     }
 }
 
-struct TheadView_Previews: PreviewProvider {
-    static var previews: some View {
-        TheadView(isThread: .constant(false), message: .constant(Message(message: "스레드", type: "TALK", isMine: true, sender: User(name: "정고은", email: "", imageURL: "", isActive: true), time: "오후 0000")))
-    }
-}
+//struct TheadView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TheadView(isThread: .constant(false), message: .constant(Message(message: "스레드", type: "TALK", isMine: true, sender: User(name: "정고은", email: "", imageURL: "", isActive: true), time: "오후 0000")))
+//    }
+//}

@@ -45,8 +45,8 @@ struct ContentView: View {
                             ChannelInfoView(id: channelId)
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.3)
-                        case .channelSearch:
-                            ChannelSearchView()
+                        case .channelSearch(let channelId):
+                            ChannelSearchView(id: channelId)
                                 .modifier(ToastModiier())
                                 .frame(width: geo.size.width / 1.3, height: geo.size.height / 1.3)
                         case let .channelRename(channel, execute):

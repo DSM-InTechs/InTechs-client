@@ -32,6 +32,8 @@ public protocol ChatRepository {
     
     func sendImageMessage(channelId: String, name: String, image: NSImage) -> AnyPublisher<Void, NetworkError>
     func sendFileMessage(channelId: String, name: String, file: Data) -> AnyPublisher<Void, NetworkError>
+    
+    func searchMessage(channelId: String, message: String) -> AnyPublisher<[ChatMessage], NetworkError>
 }
 
 final public class ChatRepositoryImpl: ChatRepository {
@@ -170,6 +172,14 @@ final public class ChatRepositoryImpl: ChatRepository {
     
     public func sendFileMessage(channelId: String, name: String, file: Data) -> AnyPublisher<Void, NetworkError> {
         return provider.requestVoidPublisher(.sendFileMessage(channelId: channelId, name: name, fileData: file))
+            .retryWithAuthIfNeeded()
+            .mapError { NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    public func searchMessage(channelId: String, message: String) -> AnyPublisher<[ChatMessage], NetworkError> {
+        return provider.requestPublisher(.searchMessage(channelId: channelId, text: message))
+            .map([ChatMessage].self)
             .retryWithAuthIfNeeded()
             .mapError { NetworkError($0) }
             .eraseToAnyPublisher()

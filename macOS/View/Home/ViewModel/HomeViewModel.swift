@@ -10,7 +10,7 @@ import Combine
 
 enum Toast {
     case userDelete(execute: () -> Void)
-    case channelSearch
+    case channelSearch(channelId: String)
     case channelInfo(channelId: String)
     case channelRename(channel: RoomInfo, execute: () -> Void)
     case channelExit(channel: RoomInfo, execute: () -> Void)
