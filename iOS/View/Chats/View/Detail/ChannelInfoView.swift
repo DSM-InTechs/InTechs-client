@@ -26,6 +26,7 @@ struct ChannelInfoView: View {
                         HStack {
                             KFImage(URL(string: channel.imageURL))
                                 .resizable()
+                                .clipShape(Circle())
                                 .frame(width: 50, height: 50)
                             
                             VStack(alignment: .leading, spacing: 5) {

@@ -316,7 +316,7 @@ struct ChannelDotPopView: View {
                 }
                 
                 HStack {
-                    Image(system: .trash)
+                    Image(system: .bellSlash)
                     Text("채널 탈퇴")
                 }.foregroundColor(.red)
                     .onTapGesture {
