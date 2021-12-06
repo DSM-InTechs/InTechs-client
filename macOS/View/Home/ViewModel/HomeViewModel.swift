@@ -10,12 +10,12 @@ import Combine
 
 enum Toast {
     case userDelete(execute: () -> Void)
-    case channelSearch
-    case channelInfo
+    case channelSearch(channelId: String)
+    case channelInfo(channelId: String)
     case channelRename(channel: RoomInfo, execute: () -> Void)
     case channelExit(channel: RoomInfo, execute: () -> Void)
     case channelDelete(channel: RoomInfo, execute: () -> Void)
-    case channelCreate(execute: () -> Void)
+    case channelCreate(execute: () -> Void, isDM: Bool)
     case messageDelete(execute: () -> Void)
     case issueDelete(execute: () -> Void)
     case issueCreate(execute: () -> Void)

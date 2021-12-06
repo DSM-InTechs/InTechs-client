@@ -9,11 +9,12 @@ import SwiftUI
 //import Kingfisher
 
 struct ChatDetailView: View {
-    let channel: Channel
+    let channel: ChatRoom
+    let messageList = MessageList(channelId: "", notice: nil, chats: [ChatMessage]())
     
     var body: some View {
         List {
-            ForEach(channel.allMsgs, id: \.id) { message in
+            ForEach(messageList.chats, id: \.self) { message in
                 // 스레드 있으면 스레드뷰 이동
                 ChatDetailRow(message: message)
                     .padding(.all, 10)
@@ -25,11 +26,11 @@ struct ChatDetailView: View {
 }
 
 struct ChatDetailRow: View {
-    let message: Message
+    let message: ChatMessage
     
     var body: some View {
-        Group {
-            if message.type == MessageType.talk.rawValue {
+        ZStack {
+            if message.chatType == MessageType.talk.rawValue {
                 VStack {
                     HStack(spacing: 5) {
                         VStack(alignment: .leading) {
@@ -51,20 +52,20 @@ struct ChatDetailRow: View {
                         }
                     }
                 }
-            } else if message.type == MessageType.enter.rawValue {
+            } else if message.chatType == MessageType.info.rawValue {
                 EnterExitMessageView(name: message.sender.name)
-            } else if message.type == MessageType.file.rawValue {
+            } else if message.chatType == MessageType.file.rawValue {
                 FileMessageView(message: message)
             }
         }
     }
 }
 
-struct ChatDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatDetailView(channel: Channel(lastMsg: "", lastMsgTime: "", pendingMsgs: "", name: "", imageUrl: "", allMsgs: [Message]()))
-    }
-}
+//struct ChatDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChatDetailView(channel: Channel(lastMsg: "", lastMsgTime: "", pendingMsgs: "", name: "", imageUrl: "", allMsgs: [Message]()))
+//    }
+//}
 
 struct EnterExitMessageView: View {
     let isEnter: Bool = true
@@ -87,7 +88,7 @@ struct EnterExitMessageView: View {
 }
 
 struct FileMessageView: View {
-    let message: Message
+    let message: ChatMessage
     
     var body: some View {
         VStack(alignment: .leading) {

@@ -7,6 +7,7 @@
 
 import Moya
 import Combine
+import UIKit
 
 public protocol ChatRepository {
     func getChatlist() -> AnyPublisher<[ChatRoom], NetworkError>
@@ -14,10 +15,13 @@ public protocol ChatRepository {
     func getMessagelist(channelId: String, page: Int) -> AnyPublisher<MessageList, NetworkError>
     func getChannelUsers(channelId: String) -> AnyPublisher<[MessageSender], NetworkError>
     func getChannelNotices(channelId: String) -> AnyPublisher<[ChatNotice], NetworkError>
+    func getChannelFiles(channelId: String) -> AnyPublisher<[ChatMessage], NetworkError>
     
     func addUser(channelId: String, email: String) -> AnyPublisher<Void, NetworkError>
     
-    func createChannel(name: String) -> AnyPublisher<Void, NetworkError>
+    func createNotice(messageId: String) -> AnyPublisher<Void, NetworkError>
+    
+    func createChannel(name: String, isDM: Bool) -> AnyPublisher<NewChannelResponse, NetworkError>
     func deleteChannel(channelId: String) -> AnyPublisher<Void, NetworkError>
     func exitChannel(channelId: String) -> AnyPublisher<Void, NetworkError>
 #if os(iOS)
@@ -27,6 +31,15 @@ public protocol ChatRepository {
 #endif
     
     func updateNotification(channelId: String) -> AnyPublisher<Void, NetworkError>
+    
+#if os(iOS)
+    func sendImageMessage(channelId: String, name: String, image: UIImage) -> AnyPublisher<Void, NetworkError>
+#elseif os(macOS)
+    func sendImageMessage(channelId: String, name: String, image: NSImage) -> AnyPublisher<Void, NetworkError>
+#endif
+    func sendFileMessage(channelId: String, name: String, file: Data) -> AnyPublisher<Void, NetworkError>
+    
+    func searchMessage(channelId: String, message: String) -> AnyPublisher<[ChatMessage], NetworkError>
 }
 
 final public class ChatRepositoryImpl: ChatRepository {
@@ -82,15 +95,31 @@ final public class ChatRepositoryImpl: ChatRepository {
             .eraseToAnyPublisher()
     }
     
-    public func addUser(channelId: String, email: String) -> AnyPublisher<Void, NetworkError> {
-        provider.requestVoidPublisher(.addChannelUser(channelId: channelId, email: email))
+    public func getChannelFiles(channelId: String) -> AnyPublisher<[ChatMessage], NetworkError> {
+        provider.requestPublisher(.getFileList(channelId: channelId))
+            .map([ChatMessage].self)
             .retryWithAuthIfNeeded()
             .mapError { NetworkError($0) }
             .eraseToAnyPublisher()
     }
     
-    public func createChannel(name: String) -> AnyPublisher<Void, NetworkError> {
-        provider.requestVoidPublisher(.createChannel(projectId: self.currentProject, name: name))
+    public func addUser(channelId: String, email: String) -> AnyPublisher<Void, NetworkError> {
+        provider.requestVoidPublisher(.addChannelUser(projectId: self.currentProject, channelId: channelId, email: email))
+            .retryWithAuthIfNeeded()
+            .mapError { NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    public func createNotice(messageId: String) -> AnyPublisher<Void, NetworkError> {
+        provider.requestVoidPublisher(.createNotice(messageId: messageId))
+            .retryWithAuthIfNeeded()
+            .mapError { NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    public func createChannel(name: String, isDM: Bool) -> AnyPublisher<NewChannelResponse, NetworkError> {
+        provider.requestPublisher(.createChannel(projectId: self.currentProject, name: name, isDM: isDM))
+            .map(NewChannelResponse.self)
             .retryWithAuthIfNeeded()
             .mapError { NetworkError($0) }
             .eraseToAnyPublisher()
@@ -115,7 +144,7 @@ final public class ChatRepositoryImpl: ChatRepository {
         let image = image.resize(width: 400, height: 400)
         let data = image.jpegData(compressionQuality: 1)!
         
-        return provider.requestVoidPublisher(.updateChannel(projectId: self.currentProject, channelId: channelId, name: name, imageData: jpegData))
+        return provider.requestVoidPublisher(.updateChannel(projectId: self.currentProject, channelId: channelId, name: name, imageData: data))
             .retryWithAuthIfNeeded()
             .mapError { NetworkError($0) }
             .eraseToAnyPublisher()
@@ -138,6 +167,49 @@ final public class ChatRepositoryImpl: ChatRepository {
     
     public func updateNotification(channelId: String) -> AnyPublisher<Void, NetworkError> {
         return provider.requestVoidPublisher(.updateNotification(channelId: channelId))
+            .retryWithAuthIfNeeded()
+            .mapError { NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+#if os(iOS)
+    
+    public func sendImageMessage(channelId: String, name: String, image: UIImage) -> AnyPublisher<Void, NetworkError> {
+        let image = image.resize(width: 400, height: 400)
+        let data = image.jpegData(compressionQuality: 1)!
+        
+        return provider.requestVoidPublisher(.sendFileMessage(channelId: channelId, name: name, fileData: data))
+            .retryWithAuthIfNeeded()
+            .mapError { NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    
+#elseif os(macOS)
+    
+    public func sendImageMessage(channelId: String, name: String, image: NSImage) -> AnyPublisher<Void, NetworkError> {
+        let image = image.resize(width: 500, height: 500)!
+        let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)!
+        let bitmapRep = NSBitmapImageRep(cgImage: cgImage)
+        let jpegData = bitmapRep.representation(using: NSBitmapImageRep.FileType.jpeg, properties: [:])!
+        
+        return provider.requestVoidPublisher(.sendFileMessage(channelId: channelId, name: name, fileData: jpegData))
+            .retryWithAuthIfNeeded()
+            .mapError { NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    #endif
+    
+    public func sendFileMessage(channelId: String, name: String, file: Data) -> AnyPublisher<Void, NetworkError> {
+        return provider.requestVoidPublisher(.sendFileMessage(channelId: channelId, name: name, fileData: file))
+            .retryWithAuthIfNeeded()
+            .mapError { NetworkError($0) }
+            .eraseToAnyPublisher()
+    }
+    
+    public func searchMessage(channelId: String, message: String) -> AnyPublisher<[ChatMessage], NetworkError> {
+        return provider.requestPublisher(.searchMessage(channelId: channelId, text: message))
+            .map([ChatMessage].self)
             .retryWithAuthIfNeeded()
             .mapError { NetworkError($0) }
             .eraseToAnyPublisher()

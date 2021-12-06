@@ -61,7 +61,7 @@ struct ChatDetailView: View {
                         
                         Button(action: {
                             withAnimation {
-                                homeVM.toast = .channelSearch
+                                homeVM.toast = .channelSearch(channelId: channelId)
                             }
                         }, label: {
                             Image(system: .search)
@@ -71,7 +71,7 @@ struct ChatDetailView: View {
                         
                         Button(action: {
                             withAnimation {
-                                homeVM.toast = .channelInfo
+                                homeVM.toast = .channelInfo(channelId: channelId)
                             }
                         }, label: {
                             Image(system: .info)
@@ -104,12 +104,12 @@ struct ChatDetailView: View {
                     Divider()
                     
                     ZStack(alignment: .top) {
-                        VStack {
-                            Spacer(minLength: 0)
-                            
-                            MessageView(isThread: $isThread, messages: $viewModel.messageList, selectedThreadIndex: $selectedThreadIndex, selectedNoticeIndex: $selectedNoticeIndex)
-                                .environmentObject(viewModel)
-                        }
+                        //                        VStack {
+                        //                            Spacer(minLength: 0)
+                        
+                        MessageView(isThread: $isThread, messages: $viewModel.messageList, selectedThreadIndex: $selectedThreadIndex, selectedNoticeIndex: $selectedNoticeIndex)
+                            .environmentObject(viewModel)
+                        //                        }
                         
                         if viewModel.messageList.notice != nil {
                             NoticeMessageView(notice: viewModel.messageList.notice!)
@@ -156,7 +156,7 @@ struct ChatDetailView: View {
                                 LazyHStack {
                                     ForEach(0..<viewModel.selectedNSImages.count, id: \.self) { index in
                                         ZStack(alignment: .topTrailing) {
-                                            Image(nsImage: viewModel.selectedNSImages[index])
+                                            Image(nsImage: viewModel.selectedNSImages[index].1)
                                                 .resizable()
                                                 .frame(width: 75, height: 75)
                                             
@@ -174,19 +174,6 @@ struct ChatDetailView: View {
                             
                             TextField("메세지를 입력하세요", text: $viewModel.text, onCommit: {
                                 self.viewModel.apply(.sendMessage)
-                                //                                if !viewModel.selectedNSImages.isEmpty {
-                                //                                    self.channel.allMsgs.append(Message(message: "https://jjalbang.today/files/jjalbox/2019/01/20190117_5c3f5750db29c.jpg", type: "IMAGE", isMine: true, sender: user1, time: "오후 11:10"))
-                                //                                }
-                                //
-                                //                                if !viewModel.selectedFile.isEmpty {
-                                //                                    for file in viewModel.selectedFile {
-                                //                                        self.channel.allMsgs.append(Message(message: file.0, type: "FILE", isMine: true, sender: user1, time: "오후 11:10"))
-                                //                                    }
-                                //                                }
-                                //
-                                //                                if viewModel.text != "" {
-                                //                                    self.channel.allMsgs.append(Message(message: viewModel.text, type: "TALK", isMine: true, sender: user1, time: "오후 11:10"))
-                                //                                }
                             })
                                 .textFieldStyle(PlainTextFieldStyle())
                                 .padding(.vertical, 8)
@@ -209,19 +196,20 @@ struct ChatDetailView: View {
                     
                 }
                 
-                //                if isThread {
-                //                    TheadView(isThread: $isThread,
-                //                              message: $channel.allMsgs[selectedThreadIndex])
-                //                        .frame(width: geo.size.width / 3)
-                //                        .ignoresSafeArea(.all)
-                //                        .background(Color(NSColor.systemGray).opacity(0.1))
-                //                }
+                if isThread {
+                    TheadView(channelId: self.channelId, isThread: $isThread,
+                              message: $viewModel.messageList.chats[selectedThreadIndex])
+                        .frame(width: geo.size.width / 3)
+                        .ignoresSafeArea(.all)
+                        .background(Color(NSColor.systemGray).opacity(0.1))
+                }
             }.padding(.trailing, 70)
         }
         .background(Color(NSColor.textBackgroundColor))
         .ignoresSafeArea(.all, edges: .all)
         .onAppear {
             self.viewModel.apply(.onAppear(channelId: channelId))
+            self.viewModel.apply(.setMypage(profile: homeVM.profile))
         }
     }
 }
@@ -249,7 +237,7 @@ struct HoverImage: View {
 }
 
 struct FileTypeSelectView: View {
-    @Binding var selectedImage: [NSImage]
+    @Binding var selectedImage: [(String, NSImage)]
     @Binding var selectedFile: [(String, Data)]
     
     var body: some View {
@@ -274,8 +262,8 @@ struct FileTypeSelectView: View {
             Button(action: {
                 NSOpenPanel.openImage(completion: { result in
                     switch result {
-                    case .success(let image):
-                        self.selectedImage.append(image)
+                    case .success(let tuple):
+                        self.selectedImage.append(tuple)
                     default: break
                     }
                 })
@@ -305,7 +293,7 @@ struct ChannelDotPopView: View {
             }.onTapGesture {
                 self.isShow = false
                 withAnimation {
-                    homeVM.toast = .channelInfo
+                    homeVM.toast = .channelInfo(channelId: viewModel.channel.id)
                 }
             }
             
@@ -328,7 +316,7 @@ struct ChannelDotPopView: View {
                 }
                 
                 HStack {
-                    Image(system: .trash)
+                    Image(system: .bellSlash)
                     Text("채널 탈퇴")
                 }.foregroundColor(.red)
                     .onTapGesture {

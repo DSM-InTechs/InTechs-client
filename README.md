@@ -4,6 +4,36 @@
 
 프로젝트 관리 어플리케이션입니다.
 
+
+
+**macOS**
+
+|                      채팅                       |                    프로젝트 관리                     |                      이슈리스트                      |                       이슈보드                        |                       캘린더                        |
+| :---------------------------------------------: | :--------------------------------------------------: | :--------------------------------------------------: | :---------------------------------------------------: | :-------------------------------------------------: |
+| <img src = "./images/OSX_Chat.png" width = 400> | <img src = "./images/OSX_Dashboard.png" width = 400> | <img src = "./images/OSX_Issuelist.png" width = 400> | <img src = "./images/OSX_Issueboard.png" width = 400> | <img src = "./images/OSX_Calendar.png" width = 400> |
+
+
+
+**iOS**
+
+|                      채팅                       |                      이슈리스트                      |                       캘린더                        |                    마이페이지                     |
+| :---------------------------------------------: | :--------------------------------------------------: | :-------------------------------------------------: | :-----------------------------------------------: |
+| <img src = "./images/iOS_Chat.png" width = 400> | <img src = "./images/iOS_Issuelist.png" width = 400> | <img src = "./images/iOS_Calendar.png" width = 400> | <img src = "./images/iOS_Mypage.png" width = 400> |
+
+
+
+**watchOS**
+
+|                        채팅                         |                       프로젝트 관리                       |
+| :-------------------------------------------------: | :-------------------------------------------------------: |
+| <img src = "./images/watchOS_Chat.png" width = 400> | <img src = "./images/watchOS_ChatDetail.png" width = 400> |
+
+
+
+
+
+
+
 ## Getting Started
 
 ```
@@ -12,12 +42,16 @@ $ cd InTechs-iOS
 $ pod install
 ```
 
+
+
 ## Requirements
 
-- iOS 14+
+- iOS 15+
 - macOS 11+
 - watchOS 6+
 - CocoaPods
+
+
 
 ## Contribution
 

@@ -13,7 +13,7 @@ extension NSOpenPanel {
         case selectionFailed
     }
     
-    static func openImage(completion: @escaping (_ result: Result<NSImage, Error>) -> Void) {
+    static func openImage(completion: @escaping (_ result: Result<(String, NSImage), Error>) -> Void) {
         let panel = NSOpenPanel()
         // 다중 선택가능?
         panel.allowsMultipleSelection = false
@@ -33,7 +33,7 @@ extension NSOpenPanel {
                 completion(.failure(ImageError.selectionFailed))
                 return
             }
-            completion(.success(image))
+            completion(.success((url.path.lastPathComponent, image)))
         }
     }
     

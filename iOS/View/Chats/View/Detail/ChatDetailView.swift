@@ -12,7 +12,7 @@ import Kingfisher
 
 struct ChatDetailView: View {
     @ObservedObject var viewModel = ChatDetailViewModel()
-    @Binding var channel: Channel
+    let channel: ChatRoom
     
     @State var uiTabarController: UITabBarController?
     @State private var showInfoView = false
@@ -33,66 +33,78 @@ struct ChatDetailView: View {
         ZStack {
             ScrollView {
                 LazyVStack {
-                    ForEach(channel.allMsgs, id: \.id) { message in
-                        if message.type == MessageType.talk.rawValue {
-                            MessageRow(message: message)
-                                .padding(.all, 10)
-                                .contextMenu {
-                                    Button(action: {
-                                        viewModel.text = "asdf"
-                                        self.isEditing = true
-                                    }, label: {
-                                        HStack {
-                                            Text("수정")
-                                            Spacer()
-                                            Image(system: .edit)
-                                        }
-                                    })
-                                    
-                                    Button(action: {
-                                        self.isMessageDelete.toggle()
-                                    }, label: {
-                                        HStack {
-                                            Text("삭제")
-                                            Spacer()
-                                            Image(system: .trash)
-                                        }
-                                    }).foregroundColor(.red)
-                                    
-                                    Button(action: {
+                    ForEach(viewModel.messageList.chats, id: \.self) { message in
+                        Group {
+                            if message.chatType == MessageType.talk.rawValue {
+                                MessageRow(message: message)
+                                    .padding(.all, 10)
+                                    .contextMenu {
+                                        Button(action: {
+                                            viewModel.editingText = message.message
+                                            self.isEditing = true
+                                        }, label: {
+                                            HStack {
+                                                Text("수정")
+                                                Spacer()
+                                                Image(system: .edit)
+                                            }
+                                        })
                                         
-                                    }, label: {
-                                        HStack {
-                                            Text("고정")
-                                            Spacer()
-                                            Image(system: .pin)
-                                        }
-                                    })
-                                    
-                                    Button(action: {
-                                        self.showThread.toggle()
-                                    }, label: {
-                                        HStack {
-                                            Text("스레드 만들기")
-                                            Spacer()
-                                            Image(system: .threadPlus)
-                                        }
-                                    })
-                                    
-                                    Button(action: {
-                                        self.isEmoji.toggle()
-                                    }, label: {
-                                        HStack {
-                                            Text("반응 달기")
-                                            Spacer()
-                                            Image(system: .smileFace)
-                                        }
-                                    })
+                                        Button(action: {
+                                            viewModel.apply(.deleteChat(messageId: message.id))
+                                        }, label: {
+                                            HStack {
+                                                Text("삭제")
+                                                Spacer()
+                                                Image(system: .trash)
+                                            }
+                                        }).foregroundColor(.red)
+                                        
+                                        Button(action: {
+                                            
+                                        }, label: {
+                                            HStack {
+                                                Text("고정")
+                                                Spacer()
+                                                Image(system: .pin)
+                                            }
+                                        })
+                                        
+                                        Button(action: {
+                                            self.showThread.toggle()
+                                        }, label: {
+                                            HStack {
+                                                Text("스레드 만들기")
+                                                Spacer()
+                                                Image(system: .threadPlus)
+                                            }
+                                        })
+                                        
+                                        Button(action: {
+                                            self.isEmoji.toggle()
+                                        }, label: {
+                                            HStack {
+                                                Text("반응 달기")
+                                                Spacer()
+                                                Image(system: .smileFace)
+                                            }
+                                        })
+                                    }
+                            } else if message.chatType == MessageType.image.rawValue {
+                                ImageMessageRow(message: message)
+                                    .padding(.all, 10)
+                            } else if message.chatType == MessageType.file.rawValue {
+                                FileMessageRow(message: message)
+                            } else if message.chatType == MessageType.info.rawValue {
+                                HStack {
+                                    Spacer()
+                                    Text(message.message)
+                                        .font(.caption)
+                                        .padding(.all, 5)
+                                        .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray).opacity(0.2))
+                                    Spacer()
                                 }
-                        } else if message.type == MessageType.image.rawValue {
-                            ImageMessageRow(message: message)
-                        } else if message.type == MessageType.file.rawValue {
-                            FileMessageRow(message: message)
+                            }
                         }
                     }
                 }
@@ -105,10 +117,10 @@ struct ChatDetailView: View {
             
             EmojiPicker(isOpen: $isEmoji, selectionHandler: { _ in })
             
-            NavigationLink(destination: ChannelInfoView(),
+            NavigationLink(destination: ChannelInfoView(channel: self.channel),
                            isActive: self.$showInfoView) { EmptyView() }
                            .hidden()
-            
+
             NavigationLink(destination: ThreadView(),
                            isActive: self.$showThread) { EmptyView() }
                            .hidden()
@@ -188,9 +200,7 @@ struct ChatDetailView: View {
                                     } else {
                                         Image(system: .paperplaneFill)
                                             .onTapGesture {
-                                                if viewModel.text != "" {
-                                                    self.channel.allMsgs.append(Message(message: viewModel.text, type: "TALK", isMine: true, sender: user1, time: "오후 11:15"))
-                                                }
+                                                self.viewModel.apply(.sendMessage)
                                             }
                                     }
                                 }.padding(.bottom, 10)
@@ -235,7 +245,6 @@ struct ChatDetailView: View {
                 }.background(Color(Asset.white))
                 
             }.ignoresSafeArea()
-            
                 .navigationBarTitle(title)
                 .navigationBarItems(trailing: HStack(spacing: 15) {
                     SystemImage(system: .search)
@@ -258,12 +267,14 @@ struct ChatDetailView: View {
                     UITabBarController.tabBar.isHidden = true
                     uiTabarController = UITabBarController
                 }
+        }.onAppear {
+            self.viewModel.apply(.onAppear(channelId: channel.id))
         }
     }
 }
 
 struct MessageRow: View {
-    let message: Message
+    let message: ChatMessage
     
     var body: some View {
         VStack {
@@ -290,7 +301,7 @@ struct MessageRow: View {
 }
 
 struct FileMessageRow: View {
-    let message: Message
+    let message: ChatMessage
     
     var body: some View {
         VStack {
@@ -319,18 +330,19 @@ struct FileMessageRow: View {
                 }
             }
         }.padding(.all, 10)
-        .background(Color(Asset.white))
+            .background(Color(Asset.white))
     }
 }
 
 struct ImageMessageRow: View {
-    let message: Message
+    let message: ChatMessage
     
     var body: some View {
         VStack {
             HStack(alignment: .top, spacing: 10) {
                 KFImage(URL(string: message.sender.imageURL))
                     .resizable()
+                    .clipShape(Circle())
                     .frame(width: 40, height: 40)
                 
                 VStack(alignment: .leading, spacing: 8) {
@@ -343,15 +355,17 @@ struct ImageMessageRow: View {
                     }
                     
                     KFImage(URL(string: message.message))
+                        .resizable()
+                        .frame(width: UIFrame.width / 4, height: UIFrame.width / 4)
                 }
             }
         }.background(Color(Asset.white))
     }
 }
 
-struct ChatDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatListView()
-        ChatDetailView(channel: .constant(Channel(lastMsg: "", lastMsgTime: "", pendingMsgs: "", name: "", imageUrl: "", allMsgs: [Message]())), title: "채널 이름")
-    }
-}
+//struct ChatDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChatListView()
+//        ChatDetailView(channel: .constant(Channel(lastMsg: "", lastMsgTime: "", pendingMsgs: "", name: "", imageUrl: "", allMsgs: [Message]())), title: "채널 이름")
+//    }
+//}
