@@ -12,14 +12,9 @@ struct ChatListView: View {
     @State private var index = 1
     @State private var offset: CGFloat = 0
     @Namespace private var animation
-    @State private var showNewChat = false
     
     @State var uiTabarController: UITabBarController?
-    @ObservedObject var viewModel = ChatlistViewModel()
-    
-    init() {
-        UINavigationBar.appearance().barTintColor = Asset.white.color
-    }
+    @EnvironmentObject var viewModel: ChatListViewModel
     
     var body: some View {
         NavigationView {
@@ -40,9 +35,9 @@ struct ChatListView: View {
                         // First View
                         ScrollView {
                             LazyVStack {
-                                ForEach(0..<viewModel.homes.count, id: \.self) { index in
-                                    NavigationLink(destination: ChatDetailView(channel: $viewModel.homes[index], title: viewModel.homes[index].name)) {
-                                        ChannelRow(channel: viewModel.homes[index])
+                                ForEach(viewModel.homes, id: \.self) { channel in
+                                    NavigationLink(destination: ChatDetailView(channel: channel, title: channel.name)) {
+                                        ChannelRow(channel: channel)
                                             .padding(.all, 10)
                                     }
                                     
@@ -54,7 +49,7 @@ struct ChatListView: View {
                         // Second View
                         VStack {
                             LazyVStack {
-                                ForEach(viewModel.channels, id: \.id) { channel in
+                                ForEach(viewModel.channels, id: \.self) { channel in
                                     ChannelRow(channel: channel)
                                         .padding(.all, 10)
                                 }
@@ -66,7 +61,7 @@ struct ChatListView: View {
                         // Third View
                         VStack {
                             LazyVStack {
-                                ForEach(viewModel.DMs, id: \.id) { channel in
+                                ForEach(viewModel.DMs, id: \.self) { channel in
                                     ChannelRow(channel: channel)
                                         .padding(.all, 10)
                                 }
@@ -75,21 +70,17 @@ struct ChatListView: View {
                         }
                         .frame(width: geo.frame(in: .global).width)
                     }.offset(x: -self.offset)
-                    .highPriorityGesture(DragGesture()
-                                            .onEnded({ value in
-                                                if value.translation.width > 50 {
-                                                    changeView(left: false)
-                                                }
-                                                if -value.translation.width > 50 {
-                                                    changeView(left: true)
-                                                }
-                                            }))
+                        .highPriorityGesture(DragGesture()
+                                                .onEnded({ value in
+                            if value.translation.width > 50 {
+                                changeView(left: false)
+                            }
+                            if -value.translation.width > 50 {
+                                changeView(left: true)
+                            }
+                        }))
                     
                 }
-                
-                NavigationLink(destination: NewChatView(),
-                               isActive: self.$showNewChat) { EmptyView() }
-                    .hidden()
             }
             .animation(.default)
             .padding(.vertical)
@@ -99,7 +90,9 @@ struct ChatListView: View {
                 UITabBarController.tabBar.isHidden = false
                 uiTabarController = UITabBarController
             }.onAppear {
+                UINavigationBar.appearance().barTintColor = Asset.white.color
                 uiTabarController?.tabBar.isHidden = false
+                self.viewModel.apply(.onAppear)
             }
         }
     }
@@ -126,24 +119,14 @@ struct ChatListView: View {
 }
 
 struct ChannelRow: View {
-    let channel: Channel
+    let channel: ChatRoom
     
     var body: some View {
         HStack(spacing: 7) {
-            if channel.imageUrl == "placeholder" {
-                ZStack {
-                    Image("placeholder")
-                        .frame(width: UIFrame.width / 8, height: UIFrame.width / 8)
-                        .clipShape(Circle())
-                    
-                    Text("#").font(.title2)
-                }
-            } else {
-                KFImage(URL(string: channel.imageUrl))
-                    .resizable()
-                    .clipShape(Circle())
-                    .frame(width: UIFrame.width / 8, height: UIFrame.width / 8)
-            }
+            KFImage(URL(string: channel.imageURL))
+                .resizable()
+                .clipShape(Circle())
+                .frame(width: UIFrame.width / 8, height: UIFrame.width / 8)
             
             VStack(alignment: .leading, spacing: 7) {
                 HStack {
@@ -151,10 +134,10 @@ struct ChannelRow: View {
                         .fontWeight(.bold)
                         .foregroundColor(Color(Asset.black))
                     Spacer()
-                    Text(channel.lastMsgTime)
+                    Text(channel.time.prefix(10).suffix(5))
                         .foregroundColor(.gray)
                 }
-                Text(channel.lastMsg)
+                Text(channel.message)
                     .foregroundColor(.gray)
                     .padding(.bottom, 5)
                 

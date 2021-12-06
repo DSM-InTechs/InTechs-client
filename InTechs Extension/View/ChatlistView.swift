@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ChatlistView: View {
+    let channels = [ChatRoom]()
+    
     var body: some View {
         List {
-            ForEach(allHomes, id: \.id) { channel in
+            ForEach(channels, id: \.self) { channel in
                 NavigationLink(destination: ChatDetailView(channel: channel)) {
                     ChatRow(channel: channel)
                         .padding(.all, 10)
@@ -21,13 +23,13 @@ struct ChatlistView: View {
 }
 
 struct ChatRow: View {
-    let channel: Channel
+    let channel: ChatRoom
     
     var body: some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 10) {
-                    if channel.imageUrl == "placeholder" {
+                    if channel.imageURL == "placeholder" {
                         ZStack {
                             Circle()
                                 .foregroundColor(.gray.opacity(0.5))
@@ -46,7 +48,7 @@ struct ChatRow: View {
                         .lineLimit(1)
                 }
                 HStack {
-                    Text(channel.lastMsg)
+                    Text(channel.message)
                         .foregroundColor(.gray)
                         .font(.caption2)
                         .lineLimit(1)

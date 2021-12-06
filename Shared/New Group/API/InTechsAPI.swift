@@ -54,6 +54,7 @@ public enum InTechsAPI {
     case getMessageList(channelId: String, page: Int)
     case getChannelUsers(channelId: String)
     case getNotices(channelId: String)
+    case getFileList(channelId: String)
     
     case addChannelUser(projectId: Int, channelId: String, email: String)
     
@@ -153,6 +154,8 @@ extension InTechsAPI: TargetType {
             return "/channel/\(channelId)/users"
         case .getNotices(let channelId):
             return "/channel/\(channelId)/notices"
+        case .getFileList(let channelId):
+            return "/channel/\(channelId)/chat/file"
             
         case let .addChannelUser(projectId, channelId, email):
             return "/\(projectId)/\(channelId)/\(email)"

@@ -1,33 +1,34 @@
 //
 //  ChannelInfoViewModel.swift
-//  InTechs
+//  InTechs (iOS)
 //
-//  Created by GoEun Jeong on 2021/12/03.
+//  Created by GoEun Jeong on 2021/12/06.
 //
 
 import SwiftUI
 import Combine
 
 class ChannelInfoViewModel: ObservableObject {
-    @Published var selectedTab: ChannelInfoTab = .subscribers
-    @Published var userEmail = ""
-    
     @Published var channel = RoomInfo(id: "", name: "", image: "", users: [RoomUser](), notification: false, dm: false)
     @Published var notices = [ChatNotice]()
     @Published var files = [ChatMessage]()
     
     private let chatRepository: ChatRepository
     
+    private var channelId = ""
+    
     private var bag = Set<AnyCancellable>()
     
     public enum Event {
         case onAppear(channelId: String)
-        case addUser
+        case getNotices
+        case getFiles
     }
     
     public struct Input {
         let onAppear = PassthroughSubject<String, Never>()
-        let addUser = PassthroughSubject<String, Never>()
+        let getNotices = PassthroughSubject<Void, Never>()
+        let getFiles = PassthroughSubject<Void, Never>()
     }
     
     public let input = Input()
@@ -35,11 +36,12 @@ class ChannelInfoViewModel: ObservableObject {
     public func apply(_ input: Event) {
         switch input {
         case .onAppear(let channelId):
+            self.channelId = channelId
             self.input.onAppear.send(channelId)
-        case .addUser:
-            if userEmail.replacingOccurrences(of: " ", with: "") != "" {
-                self.input.addUser.send(userEmail)
-            }
+        case .getNotices:
+            self.input.getNotices.send(())
+        case .getFiles:
+            self.input.getFiles.send(())
         }
     }
     
@@ -56,9 +58,9 @@ class ChannelInfoViewModel: ObservableObject {
             .assign(to: \.channel, on: self)
             .store(in: &bag)
         
-        input.onAppear
+        input.getNotices
             .flatMap {
-                self.chatRepository.getChannelNotices(channelId: $0)
+                self.chatRepository.getChannelNotices(channelId: self.channelId)
                     .catch { _ -> Empty<[ChatNotice], Never> in
                         return .init()
                     }
@@ -66,27 +68,14 @@ class ChannelInfoViewModel: ObservableObject {
             .assign(to: \.notices, on: self)
             .store(in: &bag)
         
-        input.onAppear
+        input.getFiles
             .flatMap {
-                self.chatRepository.getChannelFiles(channelId: $0)
+                self.chatRepository.getChannelFiles(channelId: self.channelId)
                     .catch { _ -> Empty<[ChatMessage], Never> in
                         return .init()
                     }
             }
             .assign(to: \.files, on: self)
-            .store(in: &bag)
-        
-        input.addUser
-            .flatMap {
-                self.chatRepository.addUser(channelId: self.channel.id,
-                                            email: $0)
-                    .catch { _ -> Empty<Void, Never> in
-                        return .init()
-                    }
-            }
-            .sink(receiveValue: { _ in
-                self.apply(.onAppear(channelId: self.channel.id))
-            })
             .store(in: &bag)
     }
 }

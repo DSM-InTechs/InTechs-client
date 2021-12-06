@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ChannelInfoView: View {
+    let channel: ChatRoom
+    @ObservedObject var viewModel = ChannelInfoViewModel()
+    
     @State private var isExit: Bool = false
     @State private var isDelete: Bool = false
     
@@ -20,9 +24,12 @@ struct ChannelInfoView: View {
                 VStack(spacing: UIFrame.width / 10) {
                     NavigationLink(destination: ChannelEditView()) {
                         HStack {
-                            Circle().frame(width: 50, height: 50)
+                            KFImage(URL(string: channel.imageURL))
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                            
                             VStack(alignment: .leading, spacing: 5) {
-                                Text("채널 이름")
+                                Text(channel.name)
                                     .font(.title3)
                                     .fontWeight(.bold)
                                     .foregroundColor(Color(Asset.black))
@@ -33,20 +40,26 @@ struct ChannelInfoView: View {
                         }
                     }.padding(.top)
                     
-                    NavigationLink(destination: ChannelNotificationView()) {
-                        MypageRow(title: "알림", _body: "끔", image: .bell)
+                    if viewModel.channel.notification == true {
+                        NavigationLink(destination: ChannelNotificationView().environmentObject(viewModel)) {
+                            MypageRow(title: "알림", _body: "OFF", image: .bell)
+                        }
+                    } else {
+                        NavigationLink(destination: ChannelNotificationView().environmentObject(viewModel)) {
+                            MypageRow(title: "알림", _body: "ON", image: .bell)
+                        }
                     }
                     
                     VStack(alignment: .leading, spacing: 3) {
-                        NavigationLink(destination: ChannelMemberView()) {
+                        NavigationLink(destination: ChannelMemberView().environmentObject(viewModel)) {
                             MypageRow(title: "멤버", _body: "", image: .person)
                         }
                         
-                        NavigationLink(destination: ChannelPinnedView()) {
+                        NavigationLink(destination: ChannelPinnedView().environmentObject(viewModel)) {
                             MypageRow(title: "공지사항", _body: "", image: .pin)
                         }
                         
-                        NavigationLink(destination: ChannelMediaView()) {
+                        NavigationLink(destination: ChannelMediaView().environmentObject(viewModel)) {
                             MypageRow(title: "공유함", _body: "", image: .camera)
                         }
                     }
@@ -84,11 +97,15 @@ struct ChannelInfoView: View {
                     // Some action
                 }), secondaryButton: .cancel())
             }
+        }.onAppear {
+            self.viewModel.apply(.onAppear(channelId: self.channel.id))
         }
     }
 }
 
 struct ChannelNotificationView: View {
+    @EnvironmentObject var viewModel: ChannelInfoViewModel
+    
     var body: some View {
         ZStack {
             Color(UIColor.secondarySystemBackground)
@@ -160,6 +177,7 @@ struct ChannelNotificationView: View {
 }
 
 struct ChannelMemberView: View {
+    @EnvironmentObject var viewModel: ChannelInfoViewModel
     @State private var isInvite: Bool = false
     
     var body: some View {
@@ -179,11 +197,15 @@ struct ChannelMemberView: View {
                             .background(Color.gray).opacity(0.2).cornerRadius(10)
                     }.padding(.vertical, 10)
                     
-                    LazyVStack(spacing: 0) {
-                        ForEach(0...1, id: \.self) { _ in
+                    LazyVStack {
+                        ForEach(viewModel.channel.users, id: \.self) { user in
                             HStack(spacing: 10) {
-                                Circle().frame(width: 50, height: 50)
-                                Text("사람 이름")
+                                KFImage(URL(string: user.imageURL))
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                
+                                Text(user.name)
+                                
                                 Spacer()
                             }.padding()
                             Divider()
@@ -236,6 +258,8 @@ struct ChannelInviteMemberView: View {
 }
 
 struct ChannelPinnedView: View {
+    @EnvironmentObject var viewModel: ChannelInfoViewModel
+    
     var body: some View {
         ZStack {
             Color(UIColor.secondarySystemBackground)
@@ -243,22 +267,24 @@ struct ChannelPinnedView: View {
             
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    ForEach(0...1, id: \.self) { _ in
-                        PinnedMessageView()
+                    ForEach(viewModel.notices, id: \.self) { notice in
+                        PinnedMessageView(name: notice.name, _body: notice.message, time: notice.time)
                             .padding(.all, 10)
                         Divider()
                     }.background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(Asset.white)))
                 }
                 .navigationBarTitle("공지사항")
             }
+        }.onAppear {
+            self.viewModel.apply(.getNotices)
         }
     }
 }
 
 struct PinnedMessageView: View {
-    let name: String = "유저 이름"
-    let _body: String = "채팅 메세지"
-    let time: String = "09:04"
+    let name: String
+    let _body: String
+    let time: String
     
     var body: some View {
         VStack {
@@ -282,6 +308,7 @@ struct PinnedMessageView: View {
 }
 
 struct ChannelMediaView: View {
+    @EnvironmentObject var viewModel: ChannelInfoViewModel
     @State var selectedTab: Int = 0 // 0 : 이미지, 1: 파일
     
     var body: some View {
@@ -310,7 +337,9 @@ struct ChannelMediaView: View {
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color(Asset.black), lineWidth: 2)
-                        )
+                        ).onTapGesture {
+                            self.selectedTab = 0
+                        }
                     
                     Text("파일")
                         .padding(.all, 5)
@@ -337,12 +366,15 @@ struct ChannelMediaView: View {
                 }.padding(.top, 10)
             }
         }.padding(.top, 10)
+            .onAppear {
+                self.viewModel.apply(.getFiles)
+            }
     }
 }
 
 struct ChannelInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        ChannelInfoView()
+//        ChannelInfoView()
 //        ChannelMemberView()
 //        ChannelInviteMemberView()
         ChannelNotificationView()

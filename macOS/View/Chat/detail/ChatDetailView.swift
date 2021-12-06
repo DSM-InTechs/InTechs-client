@@ -174,19 +174,6 @@ struct ChatDetailView: View {
                             
                             TextField("메세지를 입력하세요", text: $viewModel.text, onCommit: {
                                 self.viewModel.apply(.sendMessage)
-                                //                                if !viewModel.selectedNSImages.isEmpty {
-                                //                                    self.channel.allMsgs.append(Message(message: "https://jjalbang.today/files/jjalbox/2019/01/20190117_5c3f5750db29c.jpg", type: "IMAGE", isMine: true, sender: user1, time: "오후 11:10"))
-                                //                                }
-                                //
-                                //                                if !viewModel.selectedFile.isEmpty {
-                                //                                    for file in viewModel.selectedFile {
-                                //                                        self.channel.allMsgs.append(Message(message: file.0, type: "FILE", isMine: true, sender: user1, time: "오후 11:10"))
-                                //                                    }
-                                //                                }
-                                //
-                                //                                if viewModel.text != "" {
-                                //                                    self.channel.allMsgs.append(Message(message: viewModel.text, type: "TALK", isMine: true, sender: user1, time: "오후 11:10"))
-                                //                                }
                             })
                                 .textFieldStyle(PlainTextFieldStyle())
                                 .padding(.vertical, 8)

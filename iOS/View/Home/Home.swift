@@ -9,10 +9,12 @@ import SwiftUI
 
 struct Home: View {
     @StateObject private var homeVM = HomeViewModel()
+    @StateObject private var chatlistVM = ChatListViewModel()
     @Environment(\.scenePhase) var scenePhase
     
     init() {
-        UITabBar.appearance().barTintColor = UIColor.secondarySystemBackground
+//        UITabBar.appearance().barTintColor = UIColor.secondarySystemBackground
+        UINavigationBar.appearance().barTintColor = Asset.white.color
     }
     
     var body: some View {
@@ -20,6 +22,7 @@ struct Home: View {
             TabView {
                 ChatListView()
                     .environmentObject(homeVM)
+                    .environmentObject(chatlistVM)
                     .tabItem {
                         Image(system: .chat)
                         Text("채팅")

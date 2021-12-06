@@ -7,6 +7,8 @@
 
 import Foundation
 
+public typealias ChatEmojis = [String: MessageEmoji] // 이모지 이름: 이모지
+
 public struct MessageList: Codable, Hashable, Equatable {
     public var channelId: String
     public var notice: ChatMessage?
@@ -21,6 +23,7 @@ public struct ChatMessage: Codable, Hashable, Equatable {
     public var isMine: Bool?
     public var chatType: String
     public var threads: [ThreadMessage]
+//    public var emojis: [ChatEmojis]
     public var delete: Bool
     
     public init(id: String, message: String, time: String, sender: MessageSender, isMine: Bool?, chatType: String, threads: [ThreadMessage], delete: Bool) {
@@ -31,6 +34,7 @@ public struct ChatMessage: Codable, Hashable, Equatable {
         self.isMine = isMine
         self.chatType = chatType
         self.threads = threads
+//        self.emojis = emojis
         self.delete = delete
     }
     
@@ -42,6 +46,11 @@ public struct ChatMessage: Codable, Hashable, Equatable {
         self.isMine = dict["isMine"] as? Bool ?? false
         self.chatType = dict["chatType"] as? String ?? "오류"
         self.threads = dict["threads"] as? [ThreadMessage] ?? []
+//        self.emojis = []
+//        print("Emoji = \(dict["emojis"])")
+//        for emoji in dict["emojis"] as! [String: [String: Any]] {
+//            self.emojis.append([emoji.key: MessageEmoji(dict: emoji.value)])
+//        }
         self.delete = dict["isDelete"] as? Bool ?? false
     }
 }
@@ -95,5 +104,24 @@ public struct ThreadMessage: Codable, Hashable, Equatable {
         self.message = dict["message"] as? String ?? "오류"
         self.sender =  MessageSender(dict: dict["sender"] as! [String: Any])
         self.time = dict["time"] as? String ?? "오류"
+    }
+}
+
+public struct MessageEmoji: Codable, Hashable, Equatable {
+    public var count: Int
+    public var users: [MessageSender]
+    
+    public init(count: Int, users: [MessageSender]) {
+        self.count = count
+        self.users = users
+    }
+    
+    public init(dict: [String: Any]) {
+        self.count = dict["count"] as? Int ?? 0
+        self.users = []
+        
+        for user in dict["users"] as! [[String: Any]] {
+            self.users.append(MessageSender(dict: user))
+        }
     }
 }

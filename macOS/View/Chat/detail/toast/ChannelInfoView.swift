@@ -49,7 +49,7 @@ struct ChannelInfoView: View {
                         ChannelInfoTabButton(tab: .pinned, number: viewModel.notices.count, selectedTab: $viewModel.selectedTab)
                             .frame(width: geo.size.width / 4)
                         
-                        ChannelInfoTabButton(tab: .media, number: 0, selectedTab: $viewModel.selectedTab)
+                        ChannelInfoTabButton(tab: .media, number: viewModel.files.count, selectedTab: $viewModel.selectedTab)
                             .frame(width: geo.size.width / 4)
                         
                         Spacer()
@@ -64,7 +64,7 @@ struct ChannelInfoView: View {
                 case .pinned:
                     ChannelPinnedView(notices: viewModel.notices)
                 case .media:
-                    ChannelMediaView()
+                    ChannelMediaView(files: viewModel.files)
                 }
             }.padding()
                 .padding(.all, 10)
@@ -173,6 +173,7 @@ struct ChannelPinnedView: View {
 
 struct ChannelMediaView: View {
     @State var selectedTab: Int = 0
+    let files: [ChatMessage]
     
     var body: some View {
         GeometryReader { geo in
@@ -200,23 +201,28 @@ struct ChannelMediaView: View {
                             .padding(.all, 5)
                             .background(RoundedRectangle(cornerRadius: 10).foregroundColor(.gray.opacity(0.5)))
                             .onTapGesture {
-                                selectedTab = 1
+                                selectedTab = 0
                             }
                     }
                     
                     Spacer()
                 }
                 
-                VStack(alignment: .leading) {
-                    Text("2021 July")
-                        .foregroundColor(.gray)
-                    
-                    HStack(spacing: 10) {
-                        RoundedRectangle(cornerRadius: 10).frame(width: geo.size.height / 3, height: geo.size.height / 3)
-                        
-                        RoundedRectangle(cornerRadius: 10).frame(width: geo.size.height / 3, height: geo.size.height / 3)
+                LazyVStack {
+                    LazyHStack {
+                        ForEach(files, id: \.self) { file in
+                            KFImage(URL(string:  file.message))
+                                .resizable()
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .frame(width: geo.size.height / 3, height: geo.size.height / 3)
+                        }
                     }
                 }
+                
+                
+//                VStack(alignment: .leading) {
+////                    Text("2021 July")
+////                        .foregroundColor(.gray)
             }
         }
     }
